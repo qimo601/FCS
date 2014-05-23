@@ -1,0 +1,49 @@
+<RCC>
+    <qresource prefix="/MainWindow">
+        <file>Resources/Images/Big.jpg</file>
+        <file>Resources/Images/Small.jpg</file>
+        <file>Resources/Images/Test.png</file>
+        <file>Resources/Images/TestLeft.png</file>
+        <file>Resources/Images/TestRight.png</file>
+        <file>Resources/Images/sibet.png</file>
+        <file>Resources/Images/MainWindow/acq.png</file>
+        <file>Resources/Images/MainWindow/analy.png</file>
+        <file>Resources/Images/MainWindow/start.png</file>
+        <file>Resources/Images/MainWindow/settings.png</file>
+        <file>Resources/Images/MainWindow/analy_pressed.png</file>
+        <file>Resources/Images/MainWindow/analy_hover.png</file>
+        <file>Resources/Images/MainWindow/stop.png</file>
+        <file>Resources/Images/MainWindow/lock.png</file>
+        <file>Resources/Images/MainWindow/unlock.png</file>
+    </qresource>
+    <qresource prefix="/Qss">
+        <file>Resources/StyleSheet.qss</file>
+    </qresource>
+    <qresource prefix="/Qm">
+        <file>Resources/fcs_en.qm</file>
+    </qresource>
+    <qresource prefix="/sysButton">
+        <file>Resources/Images/SysButton/arrow_down.png</file>
+        <file>Resources/Images/SysButton/close.png</file>
+        <file>Resources/Images/SysButton/close_hover.png</file>
+        <file>Resources/Images/SysButton/close_pressed.png</file>
+        <file>Resources/Images/SysButton/feedback.png</file>
+        <file>Resources/Images/SysButton/feedback_hover.png</file>
+        <file>Resources/Images/SysButton/feedback_pressed.png</file>
+        <file>Resources/Images/SysButton/medal.png</file>
+        <file>Resources/Images/SysButton/medal_hover.png</file>
+        <file>Resources/Images/SysButton/medal_pressed.png</file>
+        <file>Resources/Images/SysButton/menu.png</file>
+        <file>Resources/Images/SysButton/menu_hover.png</file>
+        <file>Resources/Images/SysButton/menu_pressed.png</file>
+        <file>Resources/Images/SysButton/min.png</file>
+        <file>Resources/Images/SysButton/min_hover.png</file>
+        <file>Resources/Images/SysButton/min_pressed.png</file>
+        <file>Resources/Images/SysButton/skin.png</file>
+        <file>Resources/Images/SysButton/skin_hover.png</file>
+        <file>Resources/Images/SysButton/skin_pressed.png</file>
+        <file>Resources/Images/SysButton/max.png</file>
+        <file>Resources/Images/SysButton/max_hover.png</file>
+        <file>Resources/Images/SysButton/max_pressed.png</file>
+    </qresource>
+</RCC>
