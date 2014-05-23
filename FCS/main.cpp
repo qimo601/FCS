@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 // 	OscWidget oscWidget;
 // 	oscWidget.show();
 
+	//ceshi
 	TestWidget testWidget;
 	testWidget.show();
 	return a.exec();
