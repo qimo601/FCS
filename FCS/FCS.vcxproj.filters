@@ -502,6 +502,11 @@
     <Image Include="Resources\Images\TestRight.png" />
     <Image Include="Resources\Images\safe.ico" />
     <Image Include="Resources\Images\sibet.png" />
+    <Image Include="Resources\Images\MainWindow\lock.png" />
+    <Image Include="Resources\Images\MainWindow\settings1.png" />
+    <Image Include="Resources\Images\MainWindow\unlock.png" />
+    <Image Include="Resources\Images\MainWindow\usb_connected.png" />
+    <Image Include="Resources\Images\MainWindow\usb_disconnected.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\fcs_zh.ts">

@@ -567,9 +567,14 @@
     <Image Include="Resources\Images\MainWindow\analy.png" />
     <Image Include="Resources\Images\MainWindow\analy_hover.png" />
     <Image Include="Resources\Images\MainWindow\analy_pressed.png" />
+    <Image Include="Resources\Images\MainWindow\lock.png" />
     <Image Include="Resources\Images\MainWindow\settings.png" />
+    <Image Include="Resources\Images\MainWindow\settings1.png" />
     <Image Include="Resources\Images\MainWindow\start.png" />
     <Image Include="Resources\Images\MainWindow\stop.png" />
+    <Image Include="Resources\Images\MainWindow\unlock.png" />
+    <Image Include="Resources\Images\MainWindow\usb_connected.png" />
+    <Image Include="Resources\Images\MainWindow\usb_disconnected.png" />
     <Image Include="Resources\Images\safe.ico" />
     <Image Include="Resources\Images\sibet.png" />
     <Image Include="Resources\Images\Small.jpg" />
