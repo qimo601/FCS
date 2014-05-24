@@ -1,12 +1,12 @@
 #ifndef TESTWIDGET_H
 #define TESTWIDGET_H
 
-#include <QMainWindow>
+#include <QWidget>
 #include "ui_testwidget.h"
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QPoint>
-class TestWidget : public QMainWindow
+class TestWidget : public QWidget
 {
 	Q_OBJECT
 
@@ -17,14 +17,14 @@ public slots:
 
 	void on_pushButton_clicked();
 protected:
-	void resizeEvent(QResizeEvent * event);
-	void mouseMoveEvent(QMouseEvent* event);
+	virtual void resizeEvent(QResizeEvent * event);
+	virtual void mouseMoveEvent(QMouseEvent* event);
 private:
 	Ui::TestWidget ui;
 	QPoint mouseEventPos;
 	QPoint mouseEventGlobalPos;
 	QPoint cursorPos;
-	QPoint mapToGlobal
+	QPoint mapToGlobalpos;
 };
 
 #endif // TESTWIDGET_H
