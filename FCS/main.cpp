@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
 
 	Global global;
 	MainForm mainForm;
+	//mainForm.show();
 	mainForm.showMaximized();
 	//mainForm.resetGeometry(30);
 // 	MTitleWidget titleWidget;

@@ -94,6 +94,9 @@ color: green;</string>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
+       <property name="tracking">
+        <bool>true</bool>
+       </property>
        <property name="wheelWidth">
         <number>20</number>
        </property>

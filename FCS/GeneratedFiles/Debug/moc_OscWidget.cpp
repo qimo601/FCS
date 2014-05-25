@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_OscWidget_t {
-    QByteArrayData data[14];
-    char stringdata[190];
+    QByteArrayData data[18];
+    char stringdata[222];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,13 +42,18 @@ QT_MOC_LITERAL(9, 127, 2),
 QT_MOC_LITERAL(10, 130, 13),
 QT_MOC_LITERAL(11, 144, 8),
 QT_MOC_LITERAL(12, 153, 13),
-QT_MOC_LITERAL(13, 167, 22)
+QT_MOC_LITERAL(13, 167, 8),
+QT_MOC_LITERAL(14, 176, 6),
+QT_MOC_LITERAL(15, 183, 8),
+QT_MOC_LITERAL(16, 192, 6),
+QT_MOC_LITERAL(17, 199, 22)
     },
     "OscWidget\0startOscAcq\0\0propertyClicked\0"
     "updateOscPlot\0on_startOscAcqBtn_clicked\0"
     "on_stopOscAcqBtn_clicked\0legendChecked\0"
     "itemInfo\0on\0setXAxisScale\0interval\0"
-    "setYAxisScale\0on_propertyBtn_clicked"
+    "setYAxisScale\0setXMark\0mark_x\0setYMark\0"
+    "mark_y\0on_propertyBtn_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -58,7 +63,7 @@ static const uint qt_meta_data_OscWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -66,17 +71,19 @@ static const uint qt_meta_data_OscWidget[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   59,    2, 0x06 /* Public */,
-       3,    0,   60,    2, 0x06 /* Public */,
+       1,    0,   69,    2, 0x06 /* Public */,
+       3,    0,   70,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   61,    2, 0x0a /* Public */,
-       5,    0,   62,    2, 0x0a /* Public */,
-       6,    0,   63,    2, 0x0a /* Public */,
-       7,    2,   64,    2, 0x0a /* Public */,
-      10,    1,   69,    2, 0x0a /* Public */,
-      12,    1,   72,    2, 0x0a /* Public */,
-      13,    0,   75,    2, 0x0a /* Public */,
+       4,    0,   71,    2, 0x0a /* Public */,
+       5,    0,   72,    2, 0x0a /* Public */,
+       6,    0,   73,    2, 0x0a /* Public */,
+       7,    2,   74,    2, 0x0a /* Public */,
+      10,    1,   79,    2, 0x0a /* Public */,
+      12,    1,   82,    2, 0x0a /* Public */,
+      13,    1,   85,    2, 0x0a /* Public */,
+      15,    1,   88,    2, 0x0a /* Public */,
+      17,    0,   91,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -89,6 +96,8 @@ static const uint qt_meta_data_OscWidget[] = {
     QMetaType::Void, QMetaType::QVariant, QMetaType::Bool,    8,    9,
     QMetaType::Void, QMetaType::Double,   11,
     QMetaType::Void, QMetaType::Double,   11,
+    QMetaType::Void, QMetaType::Double,   14,
+    QMetaType::Void, QMetaType::Double,   16,
     QMetaType::Void,
 
        0        // eod
@@ -107,7 +116,9 @@ void OscWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         case 5: _t->legendChecked((*reinterpret_cast< const QVariant(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
         case 6: _t->setXAxisScale((*reinterpret_cast< double(*)>(_a[1]))); break;
         case 7: _t->setYAxisScale((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 8: _t->on_propertyBtn_clicked(); break;
+        case 8: _t->setXMark((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 9: _t->setYMark((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 10: _t->on_propertyBtn_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -153,13 +164,13 @@ int OscWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 11;
     }
     return _id;
 }

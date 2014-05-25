@@ -52,6 +52,9 @@ public:
     QFrame *frame_6;
     WheelBox *xScalewheelBox;
     WheelBox *yScalewheelBox;
+    QFrame *frame_7;
+    WheelBox *xMarkwheelBox;
+    WheelBox *yMarkwheelBox;
     QSpacerItem *verticalSpacer_3;
     QFrame *botFrame;
     QHBoxLayout *horizontalLayout_2;
@@ -61,7 +64,7 @@ public:
     {
         if (OscWidget->objectName().isEmpty())
             OscWidget->setObjectName(QStringLiteral("OscWidget"));
-        OscWidget->resize(907, 546);
+        OscWidget->resize(907, 562);
         verticalLayout_4 = new QVBoxLayout(OscWidget);
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -204,6 +207,25 @@ public:
         yScalewheelBox->setObjectName(QStringLiteral("yScalewheelBox"));
 
         verticalLayout_3->addWidget(yScalewheelBox);
+
+        frame_7 = new QFrame(toolFrame);
+        frame_7->setObjectName(QStringLiteral("frame_7"));
+        frame_7->setStyleSheet(QStringLiteral("background-color: rgb(166, 68, 41);"));
+        frame_7->setFrameShape(QFrame::HLine);
+        frame_7->setFrameShadow(QFrame::Raised);
+
+        verticalLayout_3->addWidget(frame_7);
+
+        xMarkwheelBox = new WheelBox(toolFrame);
+        xMarkwheelBox->setObjectName(QStringLiteral("xMarkwheelBox"));
+        yScalewheelBox->raise();
+
+        verticalLayout_3->addWidget(xMarkwheelBox);
+
+        yMarkwheelBox = new WheelBox(toolFrame);
+        yMarkwheelBox->setObjectName(QStringLiteral("yMarkwheelBox"));
+
+        verticalLayout_3->addWidget(yMarkwheelBox);
 
         verticalSpacer_3 = new QSpacerItem(20, 444, QSizePolicy::Minimum, QSizePolicy::Expanding);
 

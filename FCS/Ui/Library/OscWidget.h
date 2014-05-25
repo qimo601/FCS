@@ -10,6 +10,9 @@
 #include "Bll/DataCenter/BllDataCenter.h"
 #include <qwt_legend.h>
 #include <qwt_system_clock.h>
+#include <qwt_plot_grid.h>
+#include <qwt_plot_canvas.h>
+#include <qwt_plot_marker.h>
 #include <qwt_interval.h>
 #include "Ui/Library/PropertyWidget.h"
 #include <QPixmap>
@@ -67,6 +70,14 @@ public slots:
 	*/
 	void setYAxisScale(double interval);
 	/**
+	* @brief 设置X轴中间线
+	*/
+	void setXMark(double mark_x);
+	/**
+	* @brief 设置Y轴中间线
+	*/
+	void setYMark(double mark_y);
+	/**
 	* @brief 设置按钮弹出属性窗口
 	*/
 	void on_propertyBtn_clicked();
@@ -88,7 +99,7 @@ private:
 	//示波器曲线
 	QwtPlotCurve* oscCurve;
 	//曲线的描述
-	QwtLegend *legend;
+	QwtLegend* legend;
 	//示波器曲线 列表
 	QList<QwtPlotCurve*> m_curveList;
 	//曲线的描述 列表
@@ -97,12 +108,21 @@ private:
 	QwtSystemClock m_clock;
 	int m_timerId;
 
+	//设置画布
+	QwtPlotCanvas* canvas;
+	//中间十字标记
+	QwtPlotMarker* d_origin;
+	//背景方格
+	QwtPlotGrid* grid;
+
 	//曲线X轴坐标范围，间隔时间
 	QwtInterval m_interval_x;
 	//曲线Y轴坐标范围
 	QwtInterval m_interval_y;
 	//设置按钮图标
 	QPixmap settingPixmap;
+	//中间线位置
+	QPoint m_markPos;
 
 	//属性窗口
 	PropertyWidget* propertyWidget;

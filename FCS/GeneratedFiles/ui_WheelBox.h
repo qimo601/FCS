@@ -82,6 +82,7 @@ public:
         d_wheel->setMaximumSize(QSize(21, 51));
         d_wheel->setLayoutDirection(Qt::LeftToRight);
         d_wheel->setOrientation(Qt::Vertical);
+        d_wheel->setTracking(true);
         d_wheel->setWheelWidth(20);
 
         horizontalLayout_4->addWidget(d_wheel);

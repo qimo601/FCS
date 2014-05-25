@@ -45,15 +45,15 @@ public:
     QVBoxLayout *verticalLayout_2;
     QDockWidget *statusDockWidget;
     QWidget *dockWidgetContents;
-    QTextBrowser *textBrowser;
-    QLabel *label_10;
-    QWidget *layoutWidget;
+    QVBoxLayout *verticalLayout_7;
     QHBoxLayout *horizontalLayout_9;
-    QLabel *label_3;
-    QLabel *label_4;
-    QLabel *label_5;
-    QToolButton *lockBtn;
     QToolButton *usbBtn;
+    QToolButton *lockBtn;
+    QSpacerItem *horizontalSpacer_9;
+    QHBoxLayout *horizontalLayout_10;
+    QLabel *label_10;
+    QSpacerItem *horizontalSpacer_10;
+    QTextBrowser *textBrowser;
     QDockWidget *controlDockWidget;
     QWidget *dockWidgetContents_2;
     QVBoxLayout *verticalLayout_6;
@@ -149,100 +149,110 @@ public:
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         statusDockWidget = new QDockWidget(leftFrame);
         statusDockWidget->setObjectName(QStringLiteral("statusDockWidget"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(statusDockWidget->sizePolicy().hasHeightForWidth());
         statusDockWidget->setSizePolicy(sizePolicy);
-        statusDockWidget->setMinimumSize(QSize(218, 250));
-        statusDockWidget->setMaximumSize(QSize(524287, 524287));
+        statusDockWidget->setMinimumSize(QSize(250, 180));
+        statusDockWidget->setMaximumSize(QSize(250, 180));
         statusDockWidget->setStyleSheet(QStringLiteral("background-color: rgb(212, 211, 204);"));
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName(QStringLiteral("dockWidgetContents"));
+        verticalLayout_7 = new QVBoxLayout(dockWidgetContents);
+        verticalLayout_7->setSpacing(6);
+        verticalLayout_7->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setSpacing(6);
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        usbBtn = new QToolButton(dockWidgetContents);
+        usbBtn->setObjectName(QStringLiteral("usbBtn"));
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/usb_disconnected.png"), QSize(), QIcon::Normal, QIcon::Off);
+        usbBtn->setIcon(icon);
+        usbBtn->setIconSize(QSize(64, 32));
+
+        horizontalLayout_9->addWidget(usbBtn);
+
+        lockBtn = new QToolButton(dockWidgetContents);
+        lockBtn->setObjectName(QStringLiteral("lockBtn"));
+        QIcon icon1;
+        icon1.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/lock.png"), QSize(), QIcon::Normal, QIcon::Off);
+        lockBtn->setIcon(icon1);
+        lockBtn->setIconSize(QSize(128, 32));
+
+        horizontalLayout_9->addWidget(lockBtn);
+
+        horizontalSpacer_9 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_9->addItem(horizontalSpacer_9);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_9);
+
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        label_10 = new QLabel(dockWidgetContents);
+        label_10->setObjectName(QStringLiteral("label_10"));
+
+        horizontalLayout_10->addWidget(label_10);
+
+        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_10->addItem(horizontalSpacer_10);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_10);
+
         textBrowser = new QTextBrowser(dockWidgetContents);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(20, 150, 191, 51));
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(textBrowser->sizePolicy().hasHeightForWidth());
+        textBrowser->setSizePolicy(sizePolicy1);
+        textBrowser->setMaximumSize(QSize(228, 41));
         textBrowser->setFrameShape(QFrame::Box);
         textBrowser->setFrameShadow(QFrame::Sunken);
         textBrowser->setLineWidth(1);
         textBrowser->setLineWrapMode(QTextEdit::WidgetWidth);
-        label_10 = new QLabel(dockWidgetContents);
-        label_10->setObjectName(QStringLiteral("label_10"));
-        label_10->setGeometry(QRect(20, 120, 61, 16));
-        layoutWidget = new QWidget(dockWidgetContents);
-        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(20, 80, 176, 33));
-        horizontalLayout_9 = new QHBoxLayout(layoutWidget);
-        horizontalLayout_9->setSpacing(6);
-        horizontalLayout_9->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
-        horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
-        label_3 = new QLabel(layoutWidget);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setMinimumSize(QSize(54, 31));
-        label_3->setStyleSheet(QStringLiteral("background-color: rgb(127, 128, 128);"));
 
-        horizontalLayout_9->addWidget(label_3);
+        verticalLayout_7->addWidget(textBrowser);
 
-        label_4 = new QLabel(layoutWidget);
-        label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setMinimumSize(QSize(54, 31));
-        label_4->setStyleSheet(QStringLiteral("background-color: rgb(127, 128, 128);"));
-
-        horizontalLayout_9->addWidget(label_4);
-
-        label_5 = new QLabel(layoutWidget);
-        label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setMinimumSize(QSize(54, 31));
-        label_5->setStyleSheet(QStringLiteral("background-color: rgb(127, 128, 128);"));
-
-        horizontalLayout_9->addWidget(label_5);
-
-        lockBtn = new QToolButton(dockWidgetContents);
-        lockBtn->setObjectName(QStringLiteral("lockBtn"));
-        lockBtn->setGeometry(QRect(140, 20, 61, 31));
-        QIcon icon;
-        icon.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/lock.png"), QSize(), QIcon::Normal, QIcon::Off);
-        lockBtn->setIcon(icon);
-        lockBtn->setIconSize(QSize(128, 32));
-        usbBtn = new QToolButton(dockWidgetContents);
-        usbBtn->setObjectName(QStringLiteral("usbBtn"));
-        usbBtn->setGeometry(QRect(40, 20, 61, 31));
-        QIcon icon1;
-        icon1.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/usb_disconnected.png"), QSize(), QIcon::Normal, QIcon::Off);
-        usbBtn->setIcon(icon1);
-        usbBtn->setIconSize(QSize(64, 32));
         statusDockWidget->setWidget(dockWidgetContents);
-        layoutWidget->raise();
-        textBrowser->raise();
-        label_10->raise();
-        lockBtn->raise();
-        usbBtn->raise();
 
         verticalLayout_2->addWidget(statusDockWidget);
 
         controlDockWidget = new QDockWidget(leftFrame);
         controlDockWidget->setObjectName(QStringLiteral("controlDockWidget"));
-        sizePolicy.setHeightForWidth(controlDockWidget->sizePolicy().hasHeightForWidth());
-        controlDockWidget->setSizePolicy(sizePolicy);
-        controlDockWidget->setMinimumSize(QSize(218, 382));
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(controlDockWidget->sizePolicy().hasHeightForWidth());
+        controlDockWidget->setSizePolicy(sizePolicy2);
+        controlDockWidget->setMinimumSize(QSize(225, 0));
+        controlDockWidget->setMaximumSize(QSize(524287, 524287));
         controlDockWidget->setStyleSheet(QStringLiteral("background-color: rgb(212, 211, 204);"));
         dockWidgetContents_2 = new QWidget();
         dockWidgetContents_2->setObjectName(QStringLiteral("dockWidgetContents_2"));
         verticalLayout_6 = new QVBoxLayout(dockWidgetContents_2);
-        verticalLayout_6->setSpacing(6);
+        verticalLayout_6->setSpacing(7);
         verticalLayout_6->setContentsMargins(11, 11, 11, 11);
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
+        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_8 = new QHBoxLayout();
-        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setSpacing(7);
         horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        horizontalLayout_8->setContentsMargins(-1, 0, -1, 0);
         label_11 = new QLabel(dockWidgetContents_2);
         label_11->setObjectName(QStringLiteral("label_11"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
-        label_11->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
+        label_11->setSizePolicy(sizePolicy3);
         label_11->setMinimumSize(QSize(81, 16));
         label_11->setMaximumSize(QSize(81, 16));
         QFont font;
@@ -298,8 +308,8 @@ public:
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         label_8 = new QLabel(dockWidgetContents_2);
         label_8->setObjectName(QStringLiteral("label_8"));
-        sizePolicy1.setHeightForWidth(label_8->sizePolicy().hasHeightForWidth());
-        label_8->setSizePolicy(sizePolicy1);
+        sizePolicy3.setHeightForWidth(label_8->sizePolicy().hasHeightForWidth());
+        label_8->setSizePolicy(sizePolicy3);
         label_8->setMinimumSize(QSize(81, 16));
         label_8->setMaximumSize(QSize(81, 16));
         label_8->setFont(font);
@@ -390,8 +400,8 @@ public:
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
         label_7 = new QLabel(dockWidgetContents_2);
         label_7->setObjectName(QStringLiteral("label_7"));
-        sizePolicy1.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
-        label_7->setSizePolicy(sizePolicy1);
+        sizePolicy3.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
+        label_7->setSizePolicy(sizePolicy3);
         label_7->setMinimumSize(QSize(81, 16));
         label_7->setMaximumSize(QSize(81, 16));
         label_7->setFont(font);
@@ -401,11 +411,11 @@ public:
 
         passageComboBox = new QComboBox(dockWidgetContents_2);
         passageComboBox->setObjectName(QStringLiteral("passageComboBox"));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(59);
-        sizePolicy2.setVerticalStretch(18);
-        sizePolicy2.setHeightForWidth(passageComboBox->sizePolicy().hasHeightForWidth());
-        passageComboBox->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(59);
+        sizePolicy4.setVerticalStretch(18);
+        sizePolicy4.setHeightForWidth(passageComboBox->sizePolicy().hasHeightForWidth());
+        passageComboBox->setSizePolicy(sizePolicy4);
         passageComboBox->setMinimumSize(QSize(59, 23));
         passageComboBox->setMaximumSize(QSize(59, 23));
         passageComboBox->setFont(font2);
@@ -424,8 +434,8 @@ public:
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         label = new QLabel(dockWidgetContents_2);
         label->setObjectName(QStringLiteral("label"));
-        sizePolicy1.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy1);
+        sizePolicy3.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy3);
         label->setMinimumSize(QSize(81, 16));
         label->setMaximumSize(QSize(81, 16));
         label->setFont(font);
@@ -461,8 +471,8 @@ public:
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         label_9 = new QLabel(dockWidgetContents_2);
         label_9->setObjectName(QStringLiteral("label_9"));
-        sizePolicy1.setHeightForWidth(label_9->sizePolicy().hasHeightForWidth());
-        label_9->setSizePolicy(sizePolicy1);
+        sizePolicy3.setHeightForWidth(label_9->sizePolicy().hasHeightForWidth());
+        label_9->setSizePolicy(sizePolicy3);
         label_9->setMinimumSize(QSize(81, 16));
         label_9->setMaximumSize(QSize(81, 16));
         label_9->setFont(font);
@@ -499,8 +509,8 @@ public:
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         label_6 = new QLabel(dockWidgetContents_2);
         label_6->setObjectName(QStringLiteral("label_6"));
-        sizePolicy1.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
-        label_6->setSizePolicy(sizePolicy1);
+        sizePolicy3.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
+        label_6->setSizePolicy(sizePolicy3);
         label_6->setMinimumSize(QSize(81, 16));
         label_6->setMaximumSize(QSize(81, 16));
         label_6->setFont(font);
@@ -535,7 +545,7 @@ public:
 
         verticalLayout_2->addWidget(controlDockWidget);
 
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer = new QSpacerItem(20, 1, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_2->addItem(verticalSpacer);
 
@@ -550,7 +560,7 @@ public:
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        verticalLayout_3->setContentsMargins(6, 6, 6, 6);
+        verticalLayout_3->setContentsMargins(6, 0, 6, 6);
         viewStackedWidget = new QStackedWidget(rightFrame);
         viewStackedWidget->setObjectName(QStringLiteral("viewStackedWidget"));
         dataAnalyPage = new QWidget();
@@ -731,12 +741,9 @@ public:
     {
         StackedWidget->setWindowTitle(QApplication::translate("StackedWidget", "StackedWidget", 0));
         statusDockWidget->setWindowTitle(QApplication::translate("StackedWidget", "\347\263\273\347\273\237\347\212\266\346\200\201", 0));
-        label_10->setText(QApplication::translate("StackedWidget", "\350\277\220\350\241\214\347\212\266\346\200\201\357\274\232", 0));
-        label_3->setText(QApplication::translate("StackedWidget", "\346\266\262\351\235\242", 0));
-        label_4->setText(QApplication::translate("StackedWidget", "USB", 0));
-        label_5->setText(QApplication::translate("StackedWidget", "\351\207\207\351\233\206\347\212\266\346\200\201", 0));
-        lockBtn->setText(QApplication::translate("StackedWidget", "...", 0));
         usbBtn->setText(QApplication::translate("StackedWidget", "...", 0));
+        lockBtn->setText(QApplication::translate("StackedWidget", "...", 0));
+        label_10->setText(QApplication::translate("StackedWidget", "\350\277\220\350\241\214\347\212\266\346\200\201\357\274\232", 0));
         controlDockWidget->setWindowTitle(QApplication::translate("StackedWidget", "\346\216\247\345\210\266\351\235\242\346\235\277", 0));
         label_11->setText(QApplication::translate("StackedWidget", "\351\236\230\346\266\262\357\274\232", 0));
         setFluidBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));

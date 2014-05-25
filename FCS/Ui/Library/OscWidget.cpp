@@ -3,14 +3,12 @@
 #include <qwt_plot_layout.h>
 #include <qwt_scale_widget.h>
 #include <qwt_legend_label.h>
-#include <qwt_plot_grid.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_plot_marker.h>
 #include <qwt_symbol.h>
 #include <QTime>
 #include <QBitmap>
 OscWidget::OscWidget(QWidget *parent)
-: QWidget(parent), m_interval_x(0.0, 1028), m_interval_y(0.0,45000)
+: QWidget(parent), m_interval_x(0.0, 1028), m_interval_y(30000, 45000), m_markPos(514,37500)
+//m_interval_x设置大于1024，方便观察边界值
 {
 	ui.setupUi(this);
 	//初始化
@@ -20,7 +18,19 @@ OscWidget::OscWidget(QWidget *parent)
 
 OscWidget::~OscWidget()
 {
-
+	if (d_origin!=0)
+		delete d_origin;//删除十字中间线
+	if (grid != 0)
+		delete grid;//删除背景方格
+	if (canvas != 0)
+		delete canvas;//删除画布
+	if (legend != 0)
+		delete legend;//删除描述
+	//删除曲线数组
+	while (m_curveList.size() != 0)
+	{
+		delete m_curveList.takeFirst();
+	}
 }
 
 //时间刻度表
@@ -78,7 +88,7 @@ void OscWidget::init()
 void OscWidget::initPlot()
 {
 	//设置画布
-	QwtPlotCanvas *canvas = new QwtPlotCanvas();//画布
+	canvas = new QwtPlotCanvas();//画布
 	QPalette pal = palette();
 
 #if QT_VERSION >= 0x040400
@@ -96,18 +106,17 @@ void OscWidget::initPlot()
 	pal.setColor(QPalette::WindowText, Qt::green);
 
 	canvas->setPalette(pal);
-
 	canvas->setBorderRadius(10);//画布四周边框角半径
 	ui.oscPlot->setCanvas(canvas);//设置绘图的画布
 
 
 	ui.oscPlot->plotLayout()->setAlignCanvasToScales(true);//设置对齐画布、坐标轴、刻度
 	
-	legend = new QwtLegend;//曲线描述
+	legend = new QwtLegend();//曲线描述
 	legend->setDefaultItemMode(QwtLegendData::Checkable);//设置描述是QCheckBox类型
 	ui.oscPlot->insertLegend(legend, QwtPlot::RightLegend);//插入位置，可以分别是上下左右
 	//初始化曲线
-	for (int i = 0; i < 8; i++)
+	for (int i = 1; i < 9; i++)
 	{
 		QPolygonF points;
 		for (int j = 0; j < 20; j++)
@@ -170,7 +179,7 @@ void OscWidget::initPlot()
 
 	//修饰
 
-	QwtPlotGrid *grid = new QwtPlotGrid();
+	grid = new QwtPlotGrid();
 	grid->setPen(Qt::gray, 0.0, Qt::DotLine);
 	grid->enableX(true);
 	grid->enableXMin(true);
@@ -179,30 +188,30 @@ void OscWidget::initPlot()
 	grid->attach(ui.oscPlot);
 
 	//添加一个中间十字标记
-	QwtPlotMarker* d_origin = new QwtPlotMarker();
+	d_origin = new QwtPlotMarker();
 	d_origin->setLineStyle(QwtPlotMarker::Cross);
-	d_origin->setValue(150, 30);
+	d_origin->setValue(m_markPos.x(), m_markPos.y());
 	d_origin->setLinePen(Qt::gray, 0.0, Qt::DashLine);
 	d_origin->attach(ui.oscPlot);
-
-	//标记
-	QwtPlotMarker* d_marker = new QwtPlotMarker();
-	//标记值
-	d_marker->setValue(0, 20);
-	QwtText text("alert");
-	text.setFont(QFont("Helvetica", 10));
-	//text.setFont(QFont("Helvetica", 10, QFont::Bold));
-	text.setColor(QColor(200, 15, 370));
-	//设置标记线的标签
-	d_marker->setLabel(text);
-	d_marker->setLabelAlignment(Qt::AlignRight | Qt::AlignBottom);
-	//标记线的线风格 水平线，竖直线，十字线
-	d_marker->setLineStyle(QwtPlotMarker::HLine);
-	d_marker->setLinePen(QPen(Qt::red, 0, Qt::DashDotLine));
-	//标记线的标志符
-	d_marker->setSymbol(new QwtSymbol(QwtSymbol::Diamond,
-		QColor(Qt::yellow), QColor(Qt::red), QSize(7, 7)));
-	d_marker->attach(ui.oscPlot);
+// 
+// 	//标记
+// 	QwtPlotMarker* d_marker = new QwtPlotMarker();
+// 	//标记值
+// 	d_marker->setValue(0, 20);
+// 	QwtText text("alert");
+// 	text.setFont(QFont("Helvetica", 10));
+// 	//text.setFont(QFont("Helvetica", 10, QFont::Bold));
+// 	text.setColor(QColor(200, 15, 370));
+// 	//设置标记线的标签
+// 	d_marker->setLabel(text);
+// 	d_marker->setLabelAlignment(Qt::AlignRight | Qt::AlignBottom);
+// 	//标记线的线风格 水平线，竖直线，十字线
+// 	d_marker->setLineStyle(QwtPlotMarker::HLine);
+// 	d_marker->setLinePen(QPen(Qt::red, 0, Qt::DashDotLine));
+// 	//标记线的标志符
+// 	d_marker->setSymbol(new QwtSymbol(QwtSymbol::Diamond,
+// 		QColor(Qt::yellow), QColor(Qt::red), QSize(7, 7)));
+// 	d_marker->attach(ui.oscPlot);
 
 
 	//刷新plot
@@ -219,10 +228,19 @@ void OscWidget::initPlot()
 */
 void OscWidget::initWheelBox()
 {
-	ui.xScalewheelBox->setProperty("X轴调节", 0, 100000, 1);
-	ui.yScalewheelBox->setProperty("Y轴调节", 0, 100000, 1);
+	ui.xScalewheelBox->setProperty("X轴调节", 0, 100000, 40);
+	ui.yScalewheelBox->setProperty("Y轴调节", 0, 100000, 400);
+	ui.xMarkwheelBox->setProperty("X轴中间线", 0, 100000, 40);
+	ui.yMarkwheelBox->setProperty("Y轴中间与线", 0, 100000,400);
+
+	ui.xScalewheelBox->setValue(m_interval_x.width());
+	ui.yScalewheelBox->setValue(m_interval_y.width());
+	ui.xMarkwheelBox->setValue(m_markPos.x());
+	ui.yMarkwheelBox->setValue(m_markPos.y());
 	connect(ui.xScalewheelBox, SIGNAL(valueChanged(double)), this, SLOT(setXAxisScale(double)));
 	connect(ui.yScalewheelBox, SIGNAL(valueChanged(double)), this, SLOT(setYAxisScale(double)));
+	connect(ui.xMarkwheelBox, SIGNAL(valueChanged(double)), this, SLOT(setXMark(double)));
+	connect(ui.yMarkwheelBox, SIGNAL(valueChanged(double)), this, SLOT(setYMark(double)));
 }
 /**
 * @brief 更新绘图数据
@@ -330,34 +348,85 @@ void OscWidget::showCurve(QwtPlotItem *item, bool on)
 	ui.oscPlot->replot();
 }
 /**
-* @brief 设置X轴坐标
+* @brief 设置X轴坐标-范围
 */
 void OscWidget::setXAxisScale(double interval)
 {
 	//判断是否有效
 	if (interval > 0.0 && interval != m_interval_x.width())
 	{
-		m_interval_x.setMaxValue(m_interval_x.minValue() + interval);
+		double xChange = (interval - m_interval_x.width()) / 2;
+		m_interval_x.setMaxValue(m_interval_x.maxValue() + xChange);//重新设置间隔
+		m_interval_x.setMinValue(m_interval_x.minValue() - xChange);//重新设置间隔
+		//重新设置x轴坐标范围
 		ui.oscPlot->setAxisScale(QwtPlot::xBottom, m_interval_x.minValue(), m_interval_x.maxValue());
-
+		//更新一下mark是否变化，其实不会变
+		ui.xMarkwheelBox->setValue(m_markPos.x());
 		ui.oscPlot->replot();
 	}
 }
 /**
-* @brief 设置Y轴坐标
+* @brief 设置Y轴坐标-范围
 */
 void OscWidget::setYAxisScale(double interval)
 {
 	//判断是否有效
 	if (interval > 0.0 && interval != m_interval_y.width())
 	{
-		m_interval_y.setMaxValue(m_interval_y.minValue() + interval);
-		ui.oscPlot->setAxisScale(QwtPlot::yLeft, m_interval_y.minValue(), m_interval_y.maxValue());
-
+		double yChange = (interval - m_interval_y.width())/2;
+		m_interval_y.setMaxValue(m_interval_y.maxValue() + yChange);//重新设置间隔
+		m_interval_y.setMinValue(m_interval_y.minValue() - yChange);//重新设置间隔
+		//重新设置y轴坐标范围
+		ui.oscPlot->setAxisScale(QwtPlot::yLeft,  m_interval_y.minValue(),  m_interval_y.maxValue());
+		//更新一下mark是否变化，其实不会变
+		ui.yMarkwheelBox->setValue(m_markPos.y());
 		ui.oscPlot->replot();
 	}
 }
-
+/**
+* @brief 设置X轴中间线
+*/
+void OscWidget::setXMark(double mark_x)
+{
+	//判断是否有效
+	if (mark_x > 0.0 && mark_x != m_markPos.x())
+	{
+		double xchange = mark_x - m_markPos.x();
+		//设置十字中间线坐标
+		m_markPos.setX(mark_x);
+		//设置十字中间线具体位置
+		d_origin->setValue(m_markPos);
+		//更新间隔值
+		m_interval_x.setInterval(m_interval_x.minValue() + xchange, m_interval_x.maxValue() + xchange);
+		//重新设置x轴坐标范围
+		ui.oscPlot->setAxisScale(QwtPlot::xBottom, m_interval_x.minValue(), m_interval_x.maxValue());
+		//更新一下mark
+		ui.xMarkwheelBox->setValue(m_markPos.x());
+		ui.oscPlot->replot();
+	}
+}
+/**
+* @brief 设置Y轴中间线
+*/
+void OscWidget::setYMark(double mark_y)
+{
+	//判断是否有效
+	if (mark_y > 0.0 && mark_y != m_markPos.y())
+	{
+		double ychange = mark_y - m_markPos.y();
+		//设置十字中间线坐标
+		m_markPos.setY(mark_y);
+		//设置十字中间线具体位置
+		d_origin->setValue(m_markPos);
+		//更新间隔值
+		m_interval_y.setInterval(m_interval_y.minValue() + ychange, m_interval_y.maxValue() + ychange);
+		//重新设置y轴坐标范围
+		ui.oscPlot->setAxisScale(QwtPlot::yLeft, m_interval_y.minValue(), m_interval_y.maxValue());
+		//更新一下mark
+		ui.yMarkwheelBox->setValue(m_markPos.y());
+		ui.oscPlot->replot();
+	}
+}
 /**
 * @brief 设置按钮弹出属性窗口
 */

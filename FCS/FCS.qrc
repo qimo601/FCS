@@ -15,6 +15,8 @@
         <file>Resources/Images/MainWindow/stop.png</file>
         <file>Resources/Images/MainWindow/lock.png</file>
         <file>Resources/Images/MainWindow/unlock.png</file>
+        <file>Resources/Images/MainWindow/usb_connected.png</file>
+        <file>Resources/Images/MainWindow/usb_disconnected.png</file>
     </qresource>
     <qresource prefix="/Qss">
         <file>Resources/StyleSheet.qss</file>

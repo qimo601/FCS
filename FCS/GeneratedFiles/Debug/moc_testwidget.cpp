@@ -72,7 +72,7 @@ void TestWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
 }
 
 const QMetaObject TestWidget::staticMetaObject = {
-    { &QMainWindow::staticMetaObject, qt_meta_stringdata_TestWidget.data,
+    { &QWidget::staticMetaObject, qt_meta_stringdata_TestWidget.data,
       qt_meta_data_TestWidget,  qt_static_metacall, 0, 0}
 };
 
@@ -87,12 +87,12 @@ void *TestWidget::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_TestWidget.stringdata))
         return static_cast<void*>(const_cast< TestWidget*>(this));
-    return QMainWindow::qt_metacast(_clname);
+    return QWidget::qt_metacast(_clname);
 }
 
 int TestWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QMainWindow::qt_metacall(_c, _id, _a);
+    _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
