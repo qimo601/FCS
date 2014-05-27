@@ -111,6 +111,9 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer_2);
 
+        horizontalLayout->setStretch(0, 2);
+        horizontalLayout->setStretch(1, 2);
+        horizontalLayout->setStretch(2, 1);
 
         verticalLayout->addLayout(horizontalLayout);
 

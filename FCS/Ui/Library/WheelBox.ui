@@ -105,7 +105,7 @@ color: green;</string>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,2,1">
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">

@@ -28,7 +28,7 @@
      <number>6</number>
     </property>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,5">
       <item>
        <widget class="QFrame" name="leftFrame">
         <property name="frameShape">
@@ -183,13 +183,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>225</width>
-             <height>0</height>
+             <width>250</width>
+             <height>320</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>524287</width>
+             <width>250</width>
              <height>524287</height>
             </size>
            </property>
@@ -1364,6 +1364,7 @@
    <class>QwtPlot</class>
    <extends>QFrame</extends>
    <header>qwt_plot.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

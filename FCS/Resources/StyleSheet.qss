@@ -312,3 +312,73 @@ QToolButton#usbBtn,#lockBtn{
     padding:0 0px;
 	margin:0 0px;
 }
+QWidget#PropertyWidget{
+	border: 1px solid #A7B1BF;
+	background-color:#D6D6D6;
+	border-radius:0px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QGroupBox#groupBoxPropertyWidget{
+	border: 1px solid #909090;
+	background-color: #EDEDED;
+	border-radius:0px;
+    padding:0 0px;	
+}
+QGroupBox#rightGroupBoxProperty{
+	border: 0px solid #D6D6D6;
+	background-color: #D6D6D6;
+	border-radius:0px;
+    padding:0 0px;
+	margin-top: 1ex; /* leave space at the top for the title */
+}
+QStackedWidget#stackedWidgetProperty
+{
+	border-color: 1px solid #D6D6D6;
+	background-color: #D6D6D6;
+	border-radius:0px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QPushButton#colorBtnProperty,#fileNameBtnProperty,#midMarkBtnProperty{
+	border-bottom: 1px solid #AAAAAA;
+	background-color:#EDEDED;
+	border-radius:0px;
+    width: 75px;
+	height:23px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QPushButton#colorBtnProperty:hover,#fileNameBtnProperty:hover,#midMarkBtnProperty:hover{
+	border: 1px solid #949494;
+	background-color:#E1E1E1;
+	border-radius:2px;
+    width: 75px;
+	height:23px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QPushButton#colorBtnProperty:checked,#fileNameBtnProperty:checked,#midMarkBtnProperty:checked{
+	border: 1px solid #3399FE;
+	background-color:#3399FE;
+	border-radius:0px;
+    width: 75px;
+	height:23px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QGroupBox#passageGroupBox,#passageGroupBox_2,#passageGroupBox_3{
+	border: 1px solid #909090;
+	background-color: #D6D6D6;
+	border-radius:0px;
+    padding:0 0px;	
+}
+QPushButton#colorBtn_1,#colorBtn_2,#colorBtn_3,#colorBtn_4,#colorBtn_5,#colorBtn_6,#colorBtn_7,#colorBtn_8{
+	border: 1px solid #FFFFFF;
+	background-color:#0C7B50;
+	border-radius:0px;
+    width: 30px;
+	height:30px;
+    padding:0 0px;
+	margin:0 0px;
+}

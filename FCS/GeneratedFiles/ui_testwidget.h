@@ -32,7 +32,6 @@ public:
     QAction *actionF;
     QAction *actionD;
     QWidget *centralWidget;
-    QPushButton *pushButton;
     QPushButton *pushButton_3;
     QLabel *label;
     QLabel *lblMouseEventPos;
@@ -51,10 +50,12 @@ public:
     QLabel *mapToBl_2;
     QLabel *label_5;
     QLabel *label_6;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QHBoxLayout *horizontalLayout;
     QToolButton *toolButton;
     QToolButton *toolButton_2;
+    QFrame *frame_2;
+    QPushButton *pushButton123;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -74,9 +75,6 @@ public:
         centralWidget->setGeometry(QRect(0, 0, 1161, 491));
         centralWidget->setMouseTracking(true);
         centralWidget->setStyleSheet(QStringLiteral("background-color: rgb(195, 195, 195);"));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(50, 70, 101, 61));
         pushButton_3 = new QPushButton(centralWidget);
         pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
         pushButton_3->setGeometry(QRect(60, 280, 75, 23));
@@ -155,26 +153,36 @@ public:
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setGeometry(QRect(160, 180, 101, 31));
         label_6->setStyleSheet(QStringLiteral("background-color: rgb(255, 243, 206);"));
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(360, 340, 104, 126));
-        horizontalLayout = new QHBoxLayout(widget);
+        layoutWidget = new QWidget(centralWidget);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(360, 340, 104, 126));
+        horizontalLayout = new QHBoxLayout(layoutWidget);
         horizontalLayout->setSpacing(0);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        toolButton = new QToolButton(widget);
+        toolButton = new QToolButton(layoutWidget);
         toolButton->setObjectName(QStringLiteral("toolButton"));
         toolButton->setMinimumSize(QSize(50, 50));
 
         horizontalLayout->addWidget(toolButton);
 
-        toolButton_2 = new QToolButton(widget);
+        toolButton_2 = new QToolButton(layoutWidget);
         toolButton_2->setObjectName(QStringLiteral("toolButton_2"));
         toolButton_2->setMinimumSize(QSize(50, 50));
 
         horizontalLayout->addWidget(toolButton_2);
 
+        frame_2 = new QFrame(centralWidget);
+        frame_2->setObjectName(QStringLiteral("frame_2"));
+        frame_2->setGeometry(QRect(30, 110, 120, 80));
+        frame_2->setStyleSheet(QStringLiteral("background-color: rgb(144, 144, 255);"));
+        frame_2->setFrameShape(QFrame::StyledPanel);
+        frame_2->setFrameShadow(QFrame::Raised);
+        pushButton123 = new QPushButton(frame_2);
+        pushButton123->setObjectName(QStringLiteral("pushButton123"));
+        pushButton123->setGeometry(QRect(10, 10, 101, 61));
+        pushButton123->setStyleSheet(QStringLiteral("background-color: rgb(160, 255, 208);"));
         mainToolBar = new QToolBar(TestWidget);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         mainToolBar->setGeometry(QRect(0, 0, 4, 12));
@@ -193,7 +201,6 @@ public:
         actionC->setText(QApplication::translate("TestWidget", "C", 0));
         actionF->setText(QApplication::translate("TestWidget", "F", 0));
         actionD->setText(QApplication::translate("TestWidget", "D", 0));
-        pushButton->setText(QApplication::translate("TestWidget", "PushButton", 0));
         pushButton_3->setText(QApplication::translate("TestWidget", "PushButton", 0));
         label->setText(QApplication::translate("TestWidget", "lblMouseEventPos:", 0));
         lblMouseEventPos->setText(QApplication::translate("TestWidget", "TextLabel", 0));
@@ -213,6 +220,7 @@ public:
         label_6->setText(QApplication::translate("TestWidget", "\346\230\276\347\244\272\345\231\250\345\205\250\345\261\200\345\235\220\346\240\207\357\274\232", 0));
         toolButton->setText(QApplication::translate("TestWidget", "...", 0));
         toolButton_2->setText(QApplication::translate("TestWidget", "...", 0));
+        pushButton123->setText(QApplication::translate("TestWidget", "PushButton", 0));
     } // retranslateUi
 
 };

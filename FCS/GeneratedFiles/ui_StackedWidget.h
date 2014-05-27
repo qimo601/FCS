@@ -232,8 +232,8 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(controlDockWidget->sizePolicy().hasHeightForWidth());
         controlDockWidget->setSizePolicy(sizePolicy2);
-        controlDockWidget->setMinimumSize(QSize(225, 0));
-        controlDockWidget->setMaximumSize(QSize(524287, 524287));
+        controlDockWidget->setMinimumSize(QSize(250, 320));
+        controlDockWidget->setMaximumSize(QSize(250, 524287));
         controlDockWidget->setStyleSheet(QStringLiteral("background-color: rgb(212, 211, 204);"));
         dockWidgetContents_2 = new QWidget();
         dockWidgetContents_2->setObjectName(QStringLiteral("dockWidgetContents_2"));
@@ -676,7 +676,7 @@ public:
         horizontalLayout->addWidget(rightFrame);
 
         horizontalLayout->setStretch(0, 1);
-        horizontalLayout->setStretch(1, 4);
+        horizontalLayout->setStretch(1, 5);
 
         verticalLayout->addLayout(horizontalLayout);
 

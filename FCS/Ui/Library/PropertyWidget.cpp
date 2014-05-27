@@ -13,9 +13,31 @@ PropertyWidget::~PropertyWidget()
 {
 
 }
-void PropertyWidget::on_pushButton1_clicked()
+/**
+* @brief 设置通道颜色菜单
+*/
+void PropertyWidget::on_colorBtnProperty_clicked()
 {
-	animation1->start();
-	animation->start();
-
+	ui.stackedWidgetProperty->setCurrentIndex(0);
+}
+/**
+* @brief 设置文件名格式菜单
+*/
+void PropertyWidget::on_fileNameBtnProperty_clicked()
+{
+	ui.stackedWidgetProperty->setCurrentIndex(1);
+}
+/**
+* @brief 设置中间值菜单
+*/
+void PropertyWidget::on_midMarkBtnProperty_clicked()
+{
+	ui.stackedWidgetProperty->setCurrentIndex(2);
+}
+void PropertyWidget::paintEvent(QPaintEvent *)
+{
+	QStyleOption opt;
+	opt.init(this);
+	QPainter p(this);
+	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }

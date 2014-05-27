@@ -11,8 +11,12 @@ class PropertyWidget : public QWidget
 public:
 	PropertyWidget(QWidget *parent = 0);
 	~PropertyWidget();
-	public slots:
-	void on_pushButton1_clicked();
+public slots:
+	void on_colorBtnProperty_clicked();
+	void on_fileNameBtnProperty_clicked();
+	void on_midMarkBtnProperty_clicked();
+protected:
+	void paintEvent(QPaintEvent *);
 private:
 	Ui::PropertyWidget ui;
 	QPropertyAnimation* animation;

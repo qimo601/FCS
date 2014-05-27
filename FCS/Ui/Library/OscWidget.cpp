@@ -60,27 +60,27 @@ void OscWidget::init()
 {
 	initPlot();//初始化plot
 	initWheelBox();//初始化滑轮
-	//bool m = settingPixmap.load(":/MainWindow/Resources/Images/MainWindow/settings");
-	//settingPixmap = settingPixmap.scaled(20, 20, Qt::IgnoreAspectRatio, Qt::FastTransformation);
-	//QPixmap pixmapRight(":/MainWindow/Resources/Images/MainWindow/acq");
-	//ui.propertyBtn->setMask(settingPixmap.mask());
-	propertyWidget = new PropertyWidget(this);
-	propertyWidget->setVisible(false);
-	showPropertyAnimation = new QPropertyAnimation(propertyWidget, "geometry");
-	showPropertyAnimation->setDuration(10000);
-	int width = propertyWidget->width();
-	int height = propertyWidget->height();
-	/*
-	int x = ui.propertyBtn->pos().x();
-	int y = ui.propertyBtn->pos().y();*/
-	showPropertyAnimation->setStartValue(QRect(0, 0, 300, 200));
-	showPropertyAnimation->setEndValue(QRect(250, 250, 300, 200));
-
-
-	//ui.propertyBtn->setMouseTracking(true);//设置鼠标监控轨迹
+	initAnimation();//初始化属性窗口及其动画
 	this->setMouseTracking(true);
 
+	
+}
+/**
+* @brief 初始化属性窗口及其动画
+*/
+void OscWidget::initAnimation()
+{	//属性窗口
+	propertyWidget = new PropertyWidget(this);
+	propertyWidget->setVisible(false);
+	//属性窗口显示的动画
+	showPropertyAnimation = new QPropertyAnimation(propertyWidget, "geometry", this);
+
+	//属性窗口消失的动画
+	closePropertyAnimation = new QPropertyAnimation(propertyWidget, "geometry", this);
+	//
 	connect(this, SIGNAL(propertyClicked()), this, SLOT(on_propertyBtn_clicked()));
+
+	connect(closePropertyAnimation, SIGNAL(finished()), this, SLOT(setVisiblePropertyWidget()));
 }
 /**
 * @brief 初始化Plot
@@ -432,18 +432,23 @@ void OscWidget::setYMark(double mark_y)
 */
 void OscWidget::on_propertyBtn_clicked()
 {
-	propertyWidget->setVisible(true);
-	int x = ui.propertyBtn->pos().x();
-	int y = ui.propertyBtn->pos().y();
-	propertyWidget->move(QPoint(x, y));
-	showPropertyAnimation->start();
+	if (!propertyWidget->isVisible())
+	{
+		showPropertyWidget();
+	}
+	else
+	{
+		closePropertyWidget();
+
+	}
+
 }
 /**
 * @brief 鼠标滑动事件
 */
 void OscWidget::mouseMoveEvent(QMouseEvent* event)
 {
-	int x = mapToGlobal(event->pos()).x();
+	/*int x = mapToGlobal(event->pos()).x();
 	int y = mapToGlobal(event->pos()).y();
 	int propertyX = mapToGlobal(ui.propertyBtn->pos()).x();
 	int propertyY = mapToGlobal(ui.propertyBtn->pos()).y();
@@ -452,11 +457,52 @@ void OscWidget::mouseMoveEvent(QMouseEvent* event)
 
 	if (x > propertyX && x <propertyX + propertWidth && y>propertyY && y < propertyY + propertHeight)
 	{
-		this->setCursor(Qt::OpenHandCursor);
-		emit propertyClicked();
+	this->setCursor(Qt::OpenHandCursor);
+	emit propertyClicked();
 	}
 	else{
-		this->setCursor(Qt::ArrowCursor);
-	}
+	this->setCursor(Qt::ArrowCursor);
+	}*/
 
 }
+/**
+* @brief 显示属性窗口
+*/
+void OscWidget::showPropertyWidget()
+{
+	propertyWidget->setVisible(true);
+
+	int width = propertyWidget->width();
+	int height = propertyWidget->height();
+
+	showPropertyAnimation->setDuration(100);
+	QPoint pos = ui.toolFrame->mapTo(this, ui.propertyBtn->pos());
+	showPropertyAnimation->setStartValue(QRect(pos.x(), pos.y(), 0, 300));//开始位置
+	showPropertyAnimation->setEndValue(QRect(pos.x() - 530, pos.y(), 530, 300));//结束位置
+
+	showPropertyAnimation->start();
+
+}
+/**
+* @brief 关闭属性窗口
+*/
+void OscWidget::closePropertyWidget()
+{
+	int width = propertyWidget->width();
+	int height = propertyWidget->height();
+	closePropertyAnimation->setDuration(100);
+	QPoint pos = ui.toolFrame->mapTo(this, ui.propertyBtn->pos());
+	closePropertyAnimation->setStartValue(QRect(pos.x() - width, pos.y(), 530, 300));//开始位置
+	closePropertyAnimation->setEndValue(QRect(pos.x(), pos.y(), 0, 300));//结束位置
+	closePropertyAnimation->start();
+	//propertyWidget->setVisible(false);
+}
+/**
+* @brief 设置属性窗口不可见
+*/
+void OscWidget::setVisiblePropertyWidget()
+{
+	propertyWidget->setVisible(false);
+	update();
+}
+

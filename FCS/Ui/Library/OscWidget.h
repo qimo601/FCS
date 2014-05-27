@@ -39,6 +39,18 @@ public:
 	void initWheelBox();
 
 	/**
+	* @brief 初始化属性窗口及其动画
+	*/
+	void initAnimation();
+	/**
+	* @brief 显示属性窗口
+	*/
+	void showPropertyWidget();
+	/**
+	* @brief 关闭属性窗口
+	*/
+	void closePropertyWidget();
+	/**
 	* @brief 控制一下哪个曲线显示
 	*/
 	void showCurve(QwtPlotItem *item, bool on);
@@ -81,6 +93,10 @@ public slots:
 	* @brief 设置按钮弹出属性窗口
 	*/
 	void on_propertyBtn_clicked();
+	/**
+	* @brief 设置属性窗口不可见
+	*/
+	void setVisiblePropertyWidget();
 protected:
 	virtual void timerEvent(QTimerEvent *);
 	virtual void mouseMoveEvent(QMouseEvent *event);
@@ -128,7 +144,10 @@ private:
 	PropertyWidget* propertyWidget;
 	//属性窗口出现动画
 	QPropertyAnimation* showPropertyAnimation;
-
+	//属性窗口出现动画
+	QPropertyAnimation* closePropertyAnimation;
+	
+	bool propertWidgetTag;
 };
 
 #endif // OSCWIDGET_H

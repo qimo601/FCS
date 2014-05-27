@@ -28,19 +28,6 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(195, 195, 195);</string>
    </property>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>70</y>
-      <width>101</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
@@ -346,7 +333,7 @@ background-color: rgb(85, 170, 127);</string>
      <string>显示器全局坐标：</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -386,6 +373,41 @@ background-color: rgb(85, 170, 127);</string>
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>110</y>
+      <width>120</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(144, 144, 255);</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="pushButton123">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>101</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(160, 255, 208);</string>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QToolBar" name="mainToolBar">

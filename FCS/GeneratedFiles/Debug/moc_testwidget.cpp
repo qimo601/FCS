@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_TestWidget_t {
     QByteArrayData data[3];
-    char stringdata[34];
+    char stringdata[37];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,10 +30,11 @@ struct qt_meta_stringdata_TestWidget_t {
 static const qt_meta_stringdata_TestWidget_t qt_meta_stringdata_TestWidget = {
     {
 QT_MOC_LITERAL(0, 0, 10),
-QT_MOC_LITERAL(1, 11, 21),
-QT_MOC_LITERAL(2, 33, 0)
+QT_MOC_LITERAL(1, 11, 24),
+QT_MOC_LITERAL(2, 36, 0)
     },
-    "TestWidget\0on_pushButton_clicked\0"
+    "TestWidget\0on_pushButton123_clicked\0"
+    ""
 };
 #undef QT_MOC_LITERAL
 
@@ -64,7 +65,7 @@ void TestWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     if (_c == QMetaObject::InvokeMetaMethod) {
         TestWidget *_t = static_cast<TestWidget *>(_o);
         switch (_id) {
-        case 0: _t->on_pushButton_clicked(); break;
+        case 0: _t->on_pushButton123_clicked(); break;
         default: ;
         }
     }
