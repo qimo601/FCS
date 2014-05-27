@@ -18,7 +18,7 @@ ToolWidget::ToolWidget(QWidget *parent)
  	//ui.acqBtn->setPicName(":/MainWindow/Resources/Images/MainWindow/acq");
  	//ui.analyBtn->setPicName(":/MainWindow/Resources/Images/MainWindow/analy");
 
-	
+	on_analyBtn_clicked();
 }
 
 ToolWidget::~ToolWidget()

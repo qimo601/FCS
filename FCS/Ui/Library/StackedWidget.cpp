@@ -51,7 +51,7 @@ void StackedWidget::init()
 
 	//初始化采集控制业务
 	bllControl = new BllControl();
-	connect(oscWidgetPage, SIGNAL(startOscAcq()), this, SLOT(sendCmd()));
+	//connect(oscWidgetPage, SIGNAL(startOscAcq()), this, SLOT(sendCmd()));
 }
 /**
 * @brief 示波器显示处理槽函数
@@ -203,7 +203,28 @@ void StackedWidget::sendCmd()
 	//开始采集命令
 	VoCmd voCmd;
 	voCmd.setCmd(8);
-	//voCmd.setCmd(5);
+	voCmd.setLength(0);
+	bllControl->sendCmd(voCmd);
+}
+/**
+* @brief 下发开始采集命令
+*/
+void StackedWidget::on_startAcquisitionBtn_clicked()
+{
+	//停止采集命令
+	VoCmd voCmd;
+	voCmd.setCmd(5);
+	voCmd.setLength(0);
+	bllControl->sendCmd(voCmd);
+}
+/**
+* @brief 下发停止采集命令
+*/
+void StackedWidget::on_stopAcquisitionBtn_clicked()
+{
+	//停止采集命令
+	VoCmd voCmd;
+	voCmd.setCmd(6);
 	voCmd.setLength(0);
 	bllControl->sendCmd(voCmd);
 }

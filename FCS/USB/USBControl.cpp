@@ -14,7 +14,12 @@ USBControl::USBControl(QObject *parent)
 
 USBControl::~USBControl()
 {
-	delete usbThread;
+	if (usbThread != 0)
+	{
+		usbThread->setCtrlTag(USBThread::STOP_TAG);
+		usbThread->quit();
+		delete usbThread;
+	}
 }
 
 

@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -37,6 +38,7 @@ public:
     QLabel *label_3;
     QFrame *frame_5;
     QPushButton *startOscAcqBtn;
+    QCheckBox *saveCheckBox;
     QPushButton *stopOscAcqBtn;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_2;
@@ -110,6 +112,11 @@ public:
         startOscAcqBtn->setFlat(false);
 
         verticalLayout->addWidget(startOscAcqBtn);
+
+        saveCheckBox = new QCheckBox(oscLeftFrame);
+        saveCheckBox->setObjectName(QStringLiteral("saveCheckBox"));
+
+        verticalLayout->addWidget(saveCheckBox);
 
         stopOscAcqBtn = new QPushButton(oscLeftFrame);
         stopOscAcqBtn->setObjectName(QStringLiteral("stopOscAcqBtn"));
@@ -218,7 +225,6 @@ public:
 
         xMarkwheelBox = new WheelBox(toolFrame);
         xMarkwheelBox->setObjectName(QStringLiteral("xMarkwheelBox"));
-        yScalewheelBox->raise();
 
         verticalLayout_3->addWidget(xMarkwheelBox);
 
@@ -267,6 +273,7 @@ public:
         OscWidget->setWindowTitle(QApplication::translate("OscWidget", "OscWidget", 0));
         label_3->setText(QApplication::translate("OscWidget", "\347\244\272\346\263\242\345\231\250\346\216\247\345\210\266", 0));
         startOscAcqBtn->setText(QApplication::translate("OscWidget", "\345\274\200\345\247\213", 0));
+        saveCheckBox->setText(QApplication::translate("OscWidget", "\345\206\231\346\226\207\344\273\266", 0));
         stopOscAcqBtn->setText(QApplication::translate("OscWidget", "\345\201\234\346\255\242", 0));
         propertyBtn->setText(QApplication::translate("OscWidget", "...", 0));
     } // retranslateUi

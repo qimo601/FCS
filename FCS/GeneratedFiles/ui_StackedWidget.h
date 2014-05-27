@@ -22,16 +22,15 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
-#include <QtWidgets/QScrollBar>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStackedWidget>
-#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "qwt_plot.h"
+#include <Ui/Library/ViewWidget.h>
+#include "ui/Library/ReportWidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -101,21 +100,19 @@ public:
     QStackedWidget *viewStackedWidget;
     QWidget *dataAnalyPage;
     QVBoxLayout *verticalLayout_4;
-    QHBoxLayout *horizontalLayout_data;
-    QFrame *dataFrame;
-    QwtPlot *qwtPlot;
-    QwtPlot *qwtPlot_2;
-    QwtPlot *qwtPlot_3;
-    QwtPlot *qwtPlot_4;
-    QPushButton *closeUsbBtn;
-    QPushButton *openUsbBtn;
-    QScrollBar *verticalScrollBar;
-    QTableWidget *tableWidget;
+    QWidget *toolBtnWidget;
+    QHBoxLayout *horizontalLayout_11;
+    QSpacerItem *horizontalSpacer_12;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton_3;
+    QPushButton *pushButton_4;
+    ViewWidget *widget;
+    ReportWidget *reportWidget;
     QFrame *bottomFrame;
     QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QCheckBox *checkBox;
-    QPushButton *pushButton_3;
+    QPushButton *startAcquisitionBtn;
+    QCheckBox *saveCheckBox;
+    QPushButton *stopAcquisitionBtn;
     QCheckBox *checkBox_2;
     QSpinBox *spinBox_4;
     QCheckBox *checkBox_3;
@@ -554,120 +551,65 @@ public:
 
         rightFrame = new QFrame(page);
         rightFrame->setObjectName(QStringLiteral("rightFrame"));
+        rightFrame->setStyleSheet(QStringLiteral(""));
         rightFrame->setFrameShape(QFrame::StyledPanel);
         rightFrame->setFrameShadow(QFrame::Raised);
         verticalLayout_3 = new QVBoxLayout(rightFrame);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        verticalLayout_3->setContentsMargins(6, 0, 6, 6);
         viewStackedWidget = new QStackedWidget(rightFrame);
         viewStackedWidget->setObjectName(QStringLiteral("viewStackedWidget"));
+        viewStackedWidget->setStyleSheet(QStringLiteral(""));
         dataAnalyPage = new QWidget();
         dataAnalyPage->setObjectName(QStringLiteral("dataAnalyPage"));
         verticalLayout_4 = new QVBoxLayout(dataAnalyPage);
-        verticalLayout_4->setSpacing(0);
+        verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        verticalLayout_4->setContentsMargins(0, 0, 0, 0);
-        horizontalLayout_data = new QHBoxLayout();
-        horizontalLayout_data->setSpacing(0);
-        horizontalLayout_data->setObjectName(QStringLiteral("horizontalLayout_data"));
-        dataFrame = new QFrame(dataAnalyPage);
-        dataFrame->setObjectName(QStringLiteral("dataFrame"));
-        dataFrame->setStyleSheet(QStringLiteral(""));
-        dataFrame->setFrameShape(QFrame::StyledPanel);
-        dataFrame->setFrameShadow(QFrame::Raised);
-        qwtPlot = new QwtPlot(dataFrame);
-        qwtPlot->setObjectName(QStringLiteral("qwtPlot"));
-        qwtPlot->setGeometry(QRect(10, 20, 221, 151));
-        qwtPlot_2 = new QwtPlot(dataFrame);
-        qwtPlot_2->setObjectName(QStringLiteral("qwtPlot_2"));
-        qwtPlot_2->setGeometry(QRect(10, 270, 231, 171));
-        qwtPlot_3 = new QwtPlot(dataFrame);
-        qwtPlot_3->setObjectName(QStringLiteral("qwtPlot_3"));
-        qwtPlot_3->setGeometry(QRect(290, 20, 221, 151));
-        qwtPlot_4 = new QwtPlot(dataFrame);
-        qwtPlot_4->setObjectName(QStringLiteral("qwtPlot_4"));
-        qwtPlot_4->setGeometry(QRect(290, 300, 221, 151));
-        closeUsbBtn = new QPushButton(dataFrame);
-        closeUsbBtn->setObjectName(QStringLiteral("closeUsbBtn"));
-        closeUsbBtn->setGeometry(QRect(530, 150, 71, 51));
-        openUsbBtn = new QPushButton(dataFrame);
-        openUsbBtn->setObjectName(QStringLiteral("openUsbBtn"));
-        openUsbBtn->setGeometry(QRect(530, 30, 71, 51));
+        toolBtnWidget = new QWidget(dataAnalyPage);
+        toolBtnWidget->setObjectName(QStringLiteral("toolBtnWidget"));
+        toolBtnWidget->setStyleSheet(QStringLiteral("background-color: rgb(255, 201, 157);"));
+        horizontalLayout_11 = new QHBoxLayout(toolBtnWidget);
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        horizontalSpacer_12 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_data->addWidget(dataFrame);
+        horizontalLayout_11->addItem(horizontalSpacer_12);
 
-        verticalScrollBar = new QScrollBar(dataAnalyPage);
-        verticalScrollBar->setObjectName(QStringLiteral("verticalScrollBar"));
-        verticalScrollBar->setOrientation(Qt::Vertical);
+        pushButton_2 = new QPushButton(toolBtnWidget);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
 
-        horizontalLayout_data->addWidget(verticalScrollBar);
+        horizontalLayout_11->addWidget(pushButton_2);
 
-        horizontalLayout_data->setStretch(0, 5);
+        pushButton_3 = new QPushButton(toolBtnWidget);
+        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
 
-        verticalLayout_4->addLayout(horizontalLayout_data);
+        horizontalLayout_11->addWidget(pushButton_3);
 
-        tableWidget = new QTableWidget(dataAnalyPage);
-        if (tableWidget->columnCount() < 4)
-            tableWidget->setColumnCount(4);
-        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
-        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
-        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
-        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(3, __qtablewidgetitem3);
-        if (tableWidget->rowCount() < 4)
-            tableWidget->setRowCount(4);
-        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
-        tableWidget->setVerticalHeaderItem(0, __qtablewidgetitem4);
-        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
-        tableWidget->setVerticalHeaderItem(1, __qtablewidgetitem5);
-        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
-        tableWidget->setVerticalHeaderItem(2, __qtablewidgetitem6);
-        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
-        tableWidget->setVerticalHeaderItem(3, __qtablewidgetitem7);
-        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
-        tableWidget->setItem(0, 0, __qtablewidgetitem8);
-        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
-        tableWidget->setItem(0, 1, __qtablewidgetitem9);
-        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
-        tableWidget->setItem(0, 2, __qtablewidgetitem10);
-        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
-        tableWidget->setItem(0, 3, __qtablewidgetitem11);
-        QTableWidgetItem *__qtablewidgetitem12 = new QTableWidgetItem();
-        tableWidget->setItem(1, 0, __qtablewidgetitem12);
-        QTableWidgetItem *__qtablewidgetitem13 = new QTableWidgetItem();
-        tableWidget->setItem(1, 1, __qtablewidgetitem13);
-        QTableWidgetItem *__qtablewidgetitem14 = new QTableWidgetItem();
-        tableWidget->setItem(1, 2, __qtablewidgetitem14);
-        QTableWidgetItem *__qtablewidgetitem15 = new QTableWidgetItem();
-        tableWidget->setItem(1, 3, __qtablewidgetitem15);
-        QTableWidgetItem *__qtablewidgetitem16 = new QTableWidgetItem();
-        tableWidget->setItem(2, 0, __qtablewidgetitem16);
-        QTableWidgetItem *__qtablewidgetitem17 = new QTableWidgetItem();
-        tableWidget->setItem(2, 1, __qtablewidgetitem17);
-        QTableWidgetItem *__qtablewidgetitem18 = new QTableWidgetItem();
-        tableWidget->setItem(2, 2, __qtablewidgetitem18);
-        QTableWidgetItem *__qtablewidgetitem19 = new QTableWidgetItem();
-        tableWidget->setItem(2, 3, __qtablewidgetitem19);
-        QTableWidgetItem *__qtablewidgetitem20 = new QTableWidgetItem();
-        tableWidget->setItem(3, 0, __qtablewidgetitem20);
-        QTableWidgetItem *__qtablewidgetitem21 = new QTableWidgetItem();
-        tableWidget->setItem(3, 1, __qtablewidgetitem21);
-        QTableWidgetItem *__qtablewidgetitem22 = new QTableWidgetItem();
-        tableWidget->setItem(3, 2, __qtablewidgetitem22);
-        QTableWidgetItem *__qtablewidgetitem23 = new QTableWidgetItem();
-        tableWidget->setItem(3, 3, __qtablewidgetitem23);
-        tableWidget->setObjectName(QStringLiteral("tableWidget"));
+        pushButton_4 = new QPushButton(toolBtnWidget);
+        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
 
-        verticalLayout_4->addWidget(tableWidget);
+        horizontalLayout_11->addWidget(pushButton_4);
 
-        verticalLayout_4->setStretch(0, 6);
-        verticalLayout_4->setStretch(1, 1);
+        horizontalLayout_11->setStretch(0, 15);
+
+        verticalLayout_4->addWidget(toolBtnWidget);
+
+        widget = new ViewWidget(dataAnalyPage);
+        widget->setObjectName(QStringLiteral("widget"));
+
+        verticalLayout_4->addWidget(widget);
+
+        reportWidget = new ReportWidget(dataAnalyPage);
+        reportWidget->setObjectName(QStringLiteral("reportWidget"));
+
+        verticalLayout_4->addWidget(reportWidget);
+
+        verticalLayout_4->setStretch(0, 1);
+        verticalLayout_4->setStretch(1, 20);
+        verticalLayout_4->setStretch(2, 4);
         viewStackedWidget->addWidget(dataAnalyPage);
 
         verticalLayout_3->addWidget(viewStackedWidget);
@@ -688,16 +630,16 @@ public:
         pushButton = new QPushButton(bottomFrame);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(240, 20, 91, 41));
-        pushButton_2 = new QPushButton(bottomFrame);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(380, 20, 91, 41));
-        pushButton_2->setIcon(icon2);
-        checkBox = new QCheckBox(bottomFrame);
-        checkBox->setObjectName(QStringLiteral("checkBox"));
-        checkBox->setGeometry(QRect(480, 40, 71, 16));
-        pushButton_3 = new QPushButton(bottomFrame);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        pushButton_3->setGeometry(QRect(740, 20, 91, 41));
+        startAcquisitionBtn = new QPushButton(bottomFrame);
+        startAcquisitionBtn->setObjectName(QStringLiteral("startAcquisitionBtn"));
+        startAcquisitionBtn->setGeometry(QRect(380, 20, 91, 41));
+        startAcquisitionBtn->setIcon(icon2);
+        saveCheckBox = new QCheckBox(bottomFrame);
+        saveCheckBox->setObjectName(QStringLiteral("saveCheckBox"));
+        saveCheckBox->setGeometry(QRect(480, 40, 71, 16));
+        stopAcquisitionBtn = new QPushButton(bottomFrame);
+        stopAcquisitionBtn->setObjectName(QStringLiteral("stopAcquisitionBtn"));
+        stopAcquisitionBtn->setGeometry(QRect(740, 20, 91, 41));
         checkBox_2 = new QCheckBox(bottomFrame);
         checkBox_2->setObjectName(QStringLiteral("checkBox_2"));
         checkBox_2->setGeometry(QRect(880, 10, 41, 16));
@@ -759,65 +701,13 @@ public:
         setTriggerBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
         label_6->setText(QApplication::translate("StackedWidget", "\351\200\232\351\201\223\345\201\217\345\216\213\357\274\232", 0));
         setChannelBiasBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
-        closeUsbBtn->setText(QApplication::translate("StackedWidget", "\345\205\263\351\227\255USB", 0));
-        openUsbBtn->setText(QApplication::translate("StackedWidget", "\346\211\223\345\274\200USB", 0));
-        QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QApplication::translate("StackedWidget", "\350\256\276\351\227\250ID", 0));
-        QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QApplication::translate("StackedWidget", "\344\270\252\346\225\260", 0));
-        QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QApplication::translate("StackedWidget", "\344\270\252\346\225\260\346\257\224", 0));
-        QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QApplication::translate("StackedWidget", "CV\345\200\274", 0));
-        QTableWidgetItem *___qtablewidgetitem4 = tableWidget->verticalHeaderItem(0);
-        ___qtablewidgetitem4->setText(QApplication::translate("StackedWidget", "1", 0));
-        QTableWidgetItem *___qtablewidgetitem5 = tableWidget->verticalHeaderItem(1);
-        ___qtablewidgetitem5->setText(QApplication::translate("StackedWidget", "2", 0));
-        QTableWidgetItem *___qtablewidgetitem6 = tableWidget->verticalHeaderItem(2);
-        ___qtablewidgetitem6->setText(QApplication::translate("StackedWidget", "3", 0));
-        QTableWidgetItem *___qtablewidgetitem7 = tableWidget->verticalHeaderItem(3);
-        ___qtablewidgetitem7->setText(QApplication::translate("StackedWidget", "4", 0));
-
-        const bool __sortingEnabled = tableWidget->isSortingEnabled();
-        tableWidget->setSortingEnabled(false);
-        QTableWidgetItem *___qtablewidgetitem8 = tableWidget->item(0, 0);
-        ___qtablewidgetitem8->setText(QApplication::translate("StackedWidget", "A", 0));
-        QTableWidgetItem *___qtablewidgetitem9 = tableWidget->item(0, 1);
-        ___qtablewidgetitem9->setText(QApplication::translate("StackedWidget", "3", 0));
-        QTableWidgetItem *___qtablewidgetitem10 = tableWidget->item(0, 2);
-        ___qtablewidgetitem10->setText(QApplication::translate("StackedWidget", "10%", 0));
-        QTableWidgetItem *___qtablewidgetitem11 = tableWidget->item(0, 3);
-        ___qtablewidgetitem11->setText(QApplication::translate("StackedWidget", "44", 0));
-        QTableWidgetItem *___qtablewidgetitem12 = tableWidget->item(1, 0);
-        ___qtablewidgetitem12->setText(QApplication::translate("StackedWidget", "BInA", 0));
-        QTableWidgetItem *___qtablewidgetitem13 = tableWidget->item(1, 1);
-        ___qtablewidgetitem13->setText(QApplication::translate("StackedWidget", "2", 0));
-        QTableWidgetItem *___qtablewidgetitem14 = tableWidget->item(1, 2);
-        ___qtablewidgetitem14->setText(QApplication::translate("StackedWidget", "20%", 0));
-        QTableWidgetItem *___qtablewidgetitem15 = tableWidget->item(1, 3);
-        ___qtablewidgetitem15->setText(QApplication::translate("StackedWidget", "41", 0));
-        QTableWidgetItem *___qtablewidgetitem16 = tableWidget->item(2, 0);
-        ___qtablewidgetitem16->setText(QApplication::translate("StackedWidget", "CInB", 0));
-        QTableWidgetItem *___qtablewidgetitem17 = tableWidget->item(2, 1);
-        ___qtablewidgetitem17->setText(QApplication::translate("StackedWidget", "4", 0));
-        QTableWidgetItem *___qtablewidgetitem18 = tableWidget->item(2, 2);
-        ___qtablewidgetitem18->setText(QApplication::translate("StackedWidget", "15%", 0));
-        QTableWidgetItem *___qtablewidgetitem19 = tableWidget->item(2, 3);
-        ___qtablewidgetitem19->setText(QApplication::translate("StackedWidget", "10", 0));
-        QTableWidgetItem *___qtablewidgetitem20 = tableWidget->item(3, 0);
-        ___qtablewidgetitem20->setText(QApplication::translate("StackedWidget", "DInB", 0));
-        QTableWidgetItem *___qtablewidgetitem21 = tableWidget->item(3, 1);
-        ___qtablewidgetitem21->setText(QApplication::translate("StackedWidget", "5", 0));
-        QTableWidgetItem *___qtablewidgetitem22 = tableWidget->item(3, 2);
-        ___qtablewidgetitem22->setText(QApplication::translate("StackedWidget", "16%", 0));
-        QTableWidgetItem *___qtablewidgetitem23 = tableWidget->item(3, 3);
-        ___qtablewidgetitem23->setText(QApplication::translate("StackedWidget", "21", 0));
-        tableWidget->setSortingEnabled(__sortingEnabled);
-
+        pushButton_2->setText(QApplication::translate("StackedWidget", "\346\226\260\345\273\272\347\224\273\345\270\203", 0));
+        pushButton_3->setText(QApplication::translate("StackedWidget", "\345\210\240\351\231\244\347\224\273\345\270\203", 0));
+        pushButton_4->setText(QApplication::translate("StackedWidget", "\344\277\235\345\255\230", 0));
         pushButton->setText(QApplication::translate("StackedWidget", "\350\275\275\345\205\245\345\217\202\346\225\260", 0));
-        pushButton_2->setText(QApplication::translate("StackedWidget", "\345\274\200\345\247\213\351\207\207\351\233\206", 0));
-        checkBox->setText(QApplication::translate("StackedWidget", "\344\277\235\345\255\230\346\226\207\344\273\266", 0));
-        pushButton_3->setText(QApplication::translate("StackedWidget", "\345\201\234\346\255\242", 0));
+        startAcquisitionBtn->setText(QApplication::translate("StackedWidget", "\345\274\200\345\247\213\351\207\207\351\233\206", 0));
+        saveCheckBox->setText(QApplication::translate("StackedWidget", "\344\277\235\345\255\230\346\226\207\344\273\266", 0));
+        stopAcquisitionBtn->setText(QApplication::translate("StackedWidget", "\345\201\234\346\255\242", 0));
         checkBox_2->setText(QApplication::translate("StackedWidget", "\346\227\266\351\227\264", 0));
         checkBox_3->setText(QApplication::translate("StackedWidget", "\346\225\260\351\207\217", 0));
         checkBox_4->setText(QApplication::translate("StackedWidget", "\346\265\201\351\207\217", 0));

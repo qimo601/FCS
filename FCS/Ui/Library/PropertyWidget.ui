@@ -53,7 +53,7 @@
          <bool>true</bool>
         </property>
         <property name="checked">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -519,7 +519,7 @@
          <property name="title">
           <string>文件命名格式</string>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>30</x>
@@ -564,7 +564,7 @@
          <property name="title">
           <string>中间线设置</string>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -596,14 +596,6 @@
            </item>
           </layout>
          </widget>
-         <zorder>spinBox_2</zorder>
-         <zorder>label_11</zorder>
-         <zorder>label_10</zorder>
-         <zorder>spinBox</zorder>
-         <zorder>spinBox_2</zorder>
-         <zorder>label_11</zorder>
-         <zorder>label_10</zorder>
-         <zorder>spinBox</zorder>
         </widget>
        </item>
       </layout>

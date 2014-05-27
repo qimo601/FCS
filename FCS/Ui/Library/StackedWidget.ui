@@ -950,6 +950,9 @@
       </item>
       <item>
        <widget class="QFrame" name="rightFrame">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -957,256 +960,64 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0">
-         <property name="leftMargin">
-          <number>6</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>6</number>
-         </property>
-         <property name="bottomMargin">
-          <number>6</number>
-         </property>
          <item>
           <widget class="QStackedWidget" name="viewStackedWidget">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
            <property name="currentIndex">
             <number>0</number>
            </property>
            <widget class="QWidget" name="dataAnalyPage">
-            <layout class="QVBoxLayout" name="verticalLayout_4" stretch="6,1">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,20,4">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_data" stretch="5,0">
-               <property name="spacing">
-                <number>0</number>
+              <widget class="QWidget" name="toolBtnWidget" native="true">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 201, 157);</string>
                </property>
-               <item>
-                <widget class="QFrame" name="dataFrame">
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <widget class="QwtPlot" name="qwtPlot">
-                  <property name="geometry">
-                   <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>221</width>
-                    <height>151</height>
-                   </rect>
+               <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="15,0,0,0">
+                <item>
+                 <spacer name="horizontalSpacer_12">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
                   </property>
-                 </widget>
-                 <widget class="QwtPlot" name="qwtPlot_2">
-                  <property name="geometry">
-                   <rect>
-                    <x>10</x>
-                    <y>270</y>
-                    <width>231</width>
-                    <height>171</height>
-                   </rect>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
                   </property>
-                 </widget>
-                 <widget class="QwtPlot" name="qwtPlot_3">
-                  <property name="geometry">
-                   <rect>
-                    <x>290</x>
-                    <y>20</y>
-                    <width>221</width>
-                    <height>151</height>
-                   </rect>
-                  </property>
-                 </widget>
-                 <widget class="QwtPlot" name="qwtPlot_4">
-                  <property name="geometry">
-                   <rect>
-                    <x>290</x>
-                    <y>300</y>
-                    <width>221</width>
-                    <height>151</height>
-                   </rect>
-                  </property>
-                 </widget>
-                 <widget class="QPushButton" name="closeUsbBtn">
-                  <property name="geometry">
-                   <rect>
-                    <x>530</x>
-                    <y>150</y>
-                    <width>71</width>
-                    <height>51</height>
-                   </rect>
-                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_2">
                   <property name="text">
-                   <string>关闭USB</string>
+                   <string>新建画布</string>
                   </property>
                  </widget>
-                 <widget class="QPushButton" name="openUsbBtn">
-                  <property name="geometry">
-                   <rect>
-                    <x>530</x>
-                    <y>30</y>
-                    <width>71</width>
-                    <height>51</height>
-                   </rect>
-                  </property>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_3">
                   <property name="text">
-                   <string>打开USB</string>
+                   <string>删除画布</string>
                   </property>
                  </widget>
-                </widget>
-               </item>
-               <item>
-                <widget class="QScrollBar" name="verticalScrollBar">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_4">
+                  <property name="text">
+                   <string>保存</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </item>
              <item>
-              <widget class="QTableWidget" name="tableWidget">
-               <row>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </row>
-               <column>
-                <property name="text">
-                 <string>设门ID</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>个数</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>个数比</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>CV值</string>
-                </property>
-               </column>
-               <item row="0" column="0">
-                <property name="text">
-                 <string>A</string>
-                </property>
-               </item>
-               <item row="0" column="1">
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item row="0" column="2">
-                <property name="text">
-                 <string>10%</string>
-                </property>
-               </item>
-               <item row="0" column="3">
-                <property name="text">
-                 <string>44</string>
-                </property>
-               </item>
-               <item row="1" column="0">
-                <property name="text">
-                 <string>BInA</string>
-                </property>
-               </item>
-               <item row="1" column="1">
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item row="1" column="2">
-                <property name="text">
-                 <string>20%</string>
-                </property>
-               </item>
-               <item row="1" column="3">
-                <property name="text">
-                 <string>41</string>
-                </property>
-               </item>
-               <item row="2" column="0">
-                <property name="text">
-                 <string>CInB</string>
-                </property>
-               </item>
-               <item row="2" column="1">
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-               <item row="2" column="2">
-                <property name="text">
-                 <string>15%</string>
-                </property>
-               </item>
-               <item row="2" column="3">
-                <property name="text">
-                 <string>10</string>
-                </property>
-               </item>
-               <item row="3" column="0">
-                <property name="text">
-                 <string>DInB</string>
-                </property>
-               </item>
-               <item row="3" column="1">
-                <property name="text">
-                 <string>5</string>
-                </property>
-               </item>
-               <item row="3" column="2">
-                <property name="text">
-                 <string>16%</string>
-                </property>
-               </item>
-               <item row="3" column="3">
-                <property name="text">
-                 <string>21</string>
-                </property>
-               </item>
-              </widget>
+              <widget class="ViewWidget" name="widget" native="true"/>
+             </item>
+             <item>
+              <widget class="ReportWidget" name="reportWidget" native="true"/>
              </item>
             </layout>
            </widget>
@@ -1241,7 +1052,7 @@
         <string>载入参数</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="startAcquisitionBtn">
        <property name="geometry">
         <rect>
          <x>380</x>
@@ -1258,7 +1069,7 @@
          <normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</iconset>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="saveCheckBox">
        <property name="geometry">
         <rect>
          <x>480</x>
@@ -1271,7 +1082,7 @@
         <string>保存文件</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="stopAcquisitionBtn">
        <property name="geometry">
         <rect>
          <x>740</x>
@@ -1361,9 +1172,15 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QwtPlot</class>
-   <extends>QFrame</extends>
-   <header>qwt_plot.h</header>
+   <class>ReportWidget</class>
+   <extends>QWidget</extends>
+   <header>ui/Library/ReportWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ViewWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">Ui/Library/ViewWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

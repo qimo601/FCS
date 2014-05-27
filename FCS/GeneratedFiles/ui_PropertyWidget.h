@@ -66,14 +66,14 @@ public:
     QWidget *page_2;
     QVBoxLayout *verticalLayout_5;
     QGroupBox *passageGroupBox_2;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QFormLayout *formLayout_3;
     QLabel *label_9;
     QLineEdit *lineEdit;
     QWidget *page_3;
     QVBoxLayout *verticalLayout_4;
     QGroupBox *passageGroupBox_3;
-    QWidget *widget1;
+    QWidget *layoutWidget1;
     QFormLayout *formLayout_2;
     QLabel *label_10;
     QSpinBox *spinBox;
@@ -114,7 +114,7 @@ public:
         buttonGroup->addButton(colorBtnProperty);
         colorBtnProperty->setObjectName(QStringLiteral("colorBtnProperty"));
         colorBtnProperty->setCheckable(true);
-        colorBtnProperty->setChecked(false);
+        colorBtnProperty->setChecked(true);
         colorBtnProperty->setFlat(true);
 
         verticalLayout->addWidget(colorBtnProperty);
@@ -317,20 +317,20 @@ public:
         verticalLayout_5->setContentsMargins(0, 0, 0, 0);
         passageGroupBox_2 = new QGroupBox(page_2);
         passageGroupBox_2->setObjectName(QStringLiteral("passageGroupBox_2"));
-        widget = new QWidget(passageGroupBox_2);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(30, 50, 189, 22));
-        formLayout_3 = new QFormLayout(widget);
+        layoutWidget = new QWidget(passageGroupBox_2);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(30, 50, 189, 22));
+        formLayout_3 = new QFormLayout(layoutWidget);
         formLayout_3->setSpacing(6);
         formLayout_3->setContentsMargins(11, 11, 11, 11);
         formLayout_3->setObjectName(QStringLiteral("formLayout_3"));
         formLayout_3->setContentsMargins(0, 0, 0, 0);
-        label_9 = new QLabel(widget);
+        label_9 = new QLabel(layoutWidget);
         label_9->setObjectName(QStringLiteral("label_9"));
 
         formLayout_3->setWidget(0, QFormLayout::LabelRole, label_9);
 
-        lineEdit = new QLineEdit(widget);
+        lineEdit = new QLineEdit(layoutWidget);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
 
         formLayout_3->setWidget(0, QFormLayout::FieldRole, lineEdit);
@@ -348,42 +348,34 @@ public:
         verticalLayout_4->setContentsMargins(0, 0, 0, 0);
         passageGroupBox_3 = new QGroupBox(page_3);
         passageGroupBox_3->setObjectName(QStringLiteral("passageGroupBox_3"));
-        widget1 = new QWidget(passageGroupBox_3);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        widget1->setGeometry(QRect(10, 30, 161, 81));
-        formLayout_2 = new QFormLayout(widget1);
+        layoutWidget1 = new QWidget(passageGroupBox_3);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(10, 30, 161, 81));
+        formLayout_2 = new QFormLayout(layoutWidget1);
         formLayout_2->setSpacing(6);
         formLayout_2->setContentsMargins(11, 11, 11, 11);
         formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
         formLayout_2->setContentsMargins(0, 0, 0, 0);
-        label_10 = new QLabel(widget1);
+        label_10 = new QLabel(layoutWidget1);
         label_10->setObjectName(QStringLiteral("label_10"));
 
         formLayout_2->setWidget(0, QFormLayout::LabelRole, label_10);
 
-        spinBox = new QSpinBox(widget1);
+        spinBox = new QSpinBox(layoutWidget1);
         spinBox->setObjectName(QStringLiteral("spinBox"));
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, spinBox);
 
-        label_11 = new QLabel(widget1);
+        label_11 = new QLabel(layoutWidget1);
         label_11->setObjectName(QStringLiteral("label_11"));
 
         formLayout_2->setWidget(1, QFormLayout::LabelRole, label_11);
 
-        spinBox_2 = new QSpinBox(widget1);
+        spinBox_2 = new QSpinBox(layoutWidget1);
         spinBox_2->setObjectName(QStringLiteral("spinBox_2"));
 
         formLayout_2->setWidget(1, QFormLayout::FieldRole, spinBox_2);
 
-        spinBox_2->raise();
-        label_11->raise();
-        label_10->raise();
-        spinBox->raise();
-        spinBox_2->raise();
-        label_11->raise();
-        label_10->raise();
-        spinBox->raise();
 
         verticalLayout_4->addWidget(passageGroupBox_3);
 

@@ -2,22 +2,23 @@
 #define OSCWIDGET_H
 
 #include <QWidget>
+#include <QPixmap>
+#include <QPropertyAnimation>
+#include <QMouseEvent>
 #include "ui_OscWidget.h"
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 #include <QTimer>
-#include "Include/Global.h"
-#include "Bll/DataCenter/BllDataCenter.h"
 #include <qwt_legend.h>
 #include <qwt_system_clock.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_canvas.h>
 #include <qwt_plot_marker.h>
 #include <qwt_interval.h>
+#include "Include/Global.h"
+#include "Bll/DataCenter/BllDataCenter.h"
 #include "Ui/Library/PropertyWidget.h"
-#include <QPixmap>
-#include <QPropertyAnimation>
-#include <QMouseEvent>
+#include "Bll/Control/BllControl.h"
 class OscWidget : public QWidget
 {
 	Q_OBJECT
@@ -69,6 +70,10 @@ public slots:
 	*/
 	void on_stopOscAcqBtn_clicked();
 	/**
+	* @brief 保存示波器数据
+	*/
+	void on_saveCheckBox_clicked();
+	/**
 	* @brief 曲线描述激活槽函数
 	*/
 	void legendChecked(const QVariant &itemInfo, bool on);
@@ -109,7 +114,7 @@ private:
 	BllDataCenter bllDataCenter;
 	
 	//绘图定时器
-	QTimer *m_timer;
+	//QTimer *m_timer;
 	//测试用
 	int stepValue;
 	//示波器曲线
@@ -122,6 +127,7 @@ private:
 	QList<QwtLegend*> m_legendList;
 	//计算消耗事件
 	QwtSystemClock m_clock;
+	//真正的定时器
 	int m_timerId;
 
 	//设置画布
@@ -147,7 +153,8 @@ private:
 	//属性窗口出现动画
 	QPropertyAnimation* closePropertyAnimation;
 	
-	bool propertWidgetTag;
+
+	BllControl bllControl;//采集控制业务类
 };
 
 #endif // OSCWIDGET_H

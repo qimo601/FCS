@@ -73,7 +73,14 @@ public slots:
 	* @brief 设置样品流速-低档
 	*/
 	void on_lowRadioButton_clicked();
-
+	/**
+	* @brief 下发开始采集命令
+	*/
+	void on_startAcquisitionBtn_clicked();
+	/**
+	* @brief 下发停止采集命令
+	*/
+	void on_stopAcquisitionBtn_clicked();
 	/**
 	* @brief 数据分析与报告处理
 	*/

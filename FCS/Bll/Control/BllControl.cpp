@@ -3,13 +3,11 @@
 BllControl::BllControl(QObject *parent)
 	: QObject(parent)
 {
-	usbControl = NULL;
 	initUSBControl();
 }
 
 BllControl::~BllControl()
 {
-	delete usbControl;
 }
 
 /**
@@ -17,9 +15,13 @@ BllControl::~BllControl()
 */
 void BllControl::initUSBControl()
 {
-	usbControl = new USBControl();
+	//判断是否USB是否已经打开
+	if (USBDriver::usbControl == 0)
+		USBDriver::usbControl = new USBControl();
+	else
+		return;
 #if Simulation_Test == 0
-	if (!usbControl->openDevice())
+	if (!USBDriver::usbControl->openDevice())
 	{
 		QMessageBox msgBox;
 		msgBox.setText("打开USB设备失败.");
@@ -40,21 +42,21 @@ void BllControl::initUSBControl()
 */
 void BllControl::openUSBControl()
 {
-	usbControl->openDevice();
+	USBDriver::usbControl->openDevice();
 }
 /**
 * @brief 关闭USB设备
 */
 void BllControl::closeUSBControl()
 {
-	usbControl->closeDevice();
+	USBDriver::usbControl->closeDevice();
 }
 /**
 * @brief USB开始监听（持续读数据，非阻塞）
 */
 void BllControl::startListening()
 {
-	usbControl->listen();
+	USBDriver::usbControl->listen();
 }
 
 
@@ -72,7 +74,7 @@ bool BllControl::setLaser(VoLaser& vo)
 	buffer[2] = vo.getPassage();
 	buffer[3] = vo.getStrength();
 
-	if (!usbControl->write(buffer, DataLength))
+	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		qDebug("【BllControl】设置激光参数，失败!");
 		return false;
@@ -100,7 +102,7 @@ bool BllControl::setFluid(VoFluid& vo)
 	buffer[2] = getHighInt(vo.getVelocity());
 	buffer[3] = getLowInt(vo.getVelocity());
 
-	if (!usbControl->write(buffer, DataLength))
+	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		qDebug("【BllControl】设置鞘液参数，失败!");
 		return false;
@@ -127,7 +129,7 @@ bool BllControl::setSample(VoSample& vo)
 	buffer[2] = getHighInt(vo.getVelocity());
 	buffer[3] = getLowInt(vo.getVelocity());
 
-	if (!usbControl->write(buffer, DataLength))
+	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		qDebug("【BllControl】设置样本流，失败!");
 		return false;
@@ -155,7 +157,7 @@ bool BllControl::setChannelBias(VoChannelBias& vo)
 	buffer[2] = c2;
 	buffer[3] = c3;
 
-	if (!usbControl->write(buffer, DataLength))
+	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		qDebug("【BllControl】设置通道偏压，失败!");
 		return false;
@@ -185,7 +187,7 @@ bool BllControl::setTrigger(VoTrigger& vo)
 	buffer[4] = getHighInt(vo.getTriggerValue());
 	buffer[5] = getLowInt(vo.getTriggerValue());
 
-	if (!usbControl->write(buffer, DataLength))
+	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		qDebug("【BllControl】设置触发值，失败!");
 		return false;
@@ -208,7 +210,7 @@ bool BllControl::sendCmd(VoCmd& vo)
 	buffer[0] = vo.getCmd();
 	buffer[1] = vo.getLength();
 
-	if (!usbControl->write(buffer, DataLength))
+	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		qDebug() << "【BllControl】下发命令：" << buffer[0] << (",失败!");
 		return false;

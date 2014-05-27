@@ -84,6 +84,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="saveCheckBox">
+          <property name="text">
+           <string>写文件</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="stopOscAcqBtn">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -263,9 +270,7 @@
          </widget>
         </item>
         <item>
-         <widget class="WheelBox" name="xMarkwheelBox" native="true">
-          <zorder>yScalewheelBox</zorder>
-         </widget>
+         <widget class="WheelBox" name="xMarkwheelBox" native="true"/>
         </item>
         <item>
          <widget class="WheelBox" name="yMarkwheelBox" native="true"/>

@@ -35,7 +35,14 @@ public:
 		//继续采集
 		GOON_TAG = 0x0004
 	};
+	static bool saveTag;
+	static QString fileName;
+	static FILE *projectFile;
     void run();  
+	/**
+	* @brief 保存文件
+	*/
+	void saveToFile(PUCHAR buffer, DWORD DataLength);
 	/**
 	* @brief   读函数
 	* @return  Bool   True:成功，False:失败

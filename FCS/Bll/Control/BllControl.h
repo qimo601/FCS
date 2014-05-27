@@ -12,7 +12,6 @@
 #define BLLCONTROL_H
 
 #include <QObject>
-#include "USB/USBControl.h"
 #include "Include/Global.h"
 #include "Vo/VoCmd.h"
 #include "Vo/VoLaser.h"
@@ -20,6 +19,7 @@
 #include "Vo/VoSample.h"
 #include "Vo/VoChannelBias.h"
 #include "Vo/VoTrigger.h"
+#include "USB/USBDriver.h"
 class BllControl : public QObject
 {
 	Q_OBJECT
@@ -140,7 +140,6 @@ public slots:
 	*/
 	void getChannelBias(VoChannelBias& vo, char& buffer2, char& buffer3);
 private:
-	USBControl* usbControl;//USBøÿ÷∆¿‡
 };
 
 #endif // BLLCONTROL_H

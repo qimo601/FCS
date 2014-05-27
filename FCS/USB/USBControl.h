@@ -16,7 +16,6 @@
 #include <QDebug>
 #include <qt_windows.h>
 #include "ezusbsys.h"
-
 //#include <atlstr.h>
 #include "USB/USBThread.h"
 class USBControl : public QObject

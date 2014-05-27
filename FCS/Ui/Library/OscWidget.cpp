@@ -6,6 +6,7 @@
 #include <qwt_symbol.h>
 #include <QTime>
 #include <QBitmap>
+#include "USB/USBThread.h"
 OscWidget::OscWidget(QWidget *parent)
 : QWidget(parent), m_interval_x(0.0, 1028), m_interval_y(30000, 45000), m_markPos(514,37500)
 //m_interval_x设置大于1024，方便观察边界值
@@ -31,6 +32,9 @@ OscWidget::~OscWidget()
 	{
 		delete m_curveList.takeFirst();
 	}
+	//关闭定时器
+	if (m_timerId != 0)
+		killTimer(m_timerId);
 }
 
 //时间刻度表
@@ -62,7 +66,7 @@ void OscWidget::init()
 	initWheelBox();//初始化滑轮
 	initAnimation();//初始化属性窗口及其动画
 	this->setMouseTracking(true);
-
+	m_timerId = 0;//初始化
 	
 }
 /**
@@ -219,7 +223,7 @@ void OscWidget::initPlot()
 
 
 	//初始化定时器，自动更新画布
-	m_timer = new QTimer(this);
+	//m_timer = new QTimer(this);
 	//connect(m_timer, SIGNAL(timeout()), this, SLOT(updateOscPlot()));
 
 }
@@ -264,8 +268,14 @@ void OscWidget::updateOscPlot()
 void OscWidget::on_startOscAcqBtn_clicked()
 {
 	emit startOscAcq();
+	//停止采集命令
+	VoCmd voCmd;
+	voCmd.setCmd(8);
+	voCmd.setLength(0);
+	bllControl.sendCmd(voCmd);
+
 	//m_timer->start(100);
-	m_clock.start();
+	//m_clock.start();
 	m_timerId = startTimer(10);
 	ui.startOscAcqBtn->setEnabled(false);
 	ui.stopOscAcqBtn->setEnabled(true);
@@ -276,14 +286,19 @@ void OscWidget::on_startOscAcqBtn_clicked()
 */
 void OscWidget::on_stopOscAcqBtn_clicked()
 {
+	//停止采集命令
+	VoCmd voCmd;
+	voCmd.setCmd(9);
+	voCmd.setLength(0);
+	bllControl.sendCmd(voCmd);
+	//关闭定时器
 	killTimer(m_timerId);
-	//m_timer->stop();
 	ui.startOscAcqBtn->setEnabled(true);
 	ui.stopOscAcqBtn->setEnabled(false);
 }
 void OscWidget::timerEvent(QTimerEvent *event)
 {
-	//每个100ms更新一次
+	//每个10ms更新一次
 	if (event->timerId() == m_timerId)
 	{
 		updateOscPlot();
@@ -506,3 +521,22 @@ void OscWidget::setVisiblePropertyWidget()
 	update();
 }
 
+/**
+* @brief 保存示波器数据
+*/
+void OscWidget::on_saveCheckBox_clicked()
+{
+	if (ui.saveCheckBox->isChecked())
+	{
+		USBThread::fileName = QString("file_%1").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd--HH-mm-ss"));
+		USBThread::projectFile = fopen(USBThread::fileName.toLocal8Bit().data(), "ab+");
+		USBThread::saveTag = true;
+	}
+	else
+	{
+		USBThread::saveTag = false;
+		//关闭文件
+		if (fclose(USBThread::projectFile) != 0)
+			qDebug() << "【on_saveCheckBox_clicked】关闭文件失败，文件名：" << USBThread::fileName;
+	}
+}

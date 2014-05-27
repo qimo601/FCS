@@ -13,7 +13,8 @@ Global::Global(QObject *parent)
 
 Global::~Global()
 {
-	 
+	//if (S_CCycleBuffer != 0)
+	//	delete S_CCycleBuffer;
 }
 
 
@@ -36,11 +37,12 @@ void Global::init()
 
 }
 
-CCycleBuffer* Global::S_CCycleBuffer = NULL;
+CCycleBuffer* Global::S_CCycleBuffer = 0;
 
 
 QVector<double> Global::oscXData;
 QList<QVector<double>> Global::oscYData;
+
 
 
 /**
