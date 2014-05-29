@@ -1,4 +1,4 @@
-#ifndef TESTWIDGET_H
+ï»¿#ifndef TESTWIDGET_H
 #define TESTWIDGET_H
 
 #include <QWidget>
@@ -23,13 +23,6 @@ protected:
 	virtual void mouseMoveEvent(QMouseEvent* event);
 private:
 	Ui::TestWidget ui;
-	QPoint mouseEventPos;
-	QPoint mouseEventGlobalPos;
-	QPoint cursorPos;
-	QPoint mapToGlobalpos;
-	PropertyWidget* propertyWidget;
-	//ÊôÐÔ´°¿Ú³öÏÖ¶¯»­
-	QPropertyAnimation* showPropertyAnimation;
 
 };
 

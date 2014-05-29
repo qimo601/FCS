@@ -251,9 +251,9 @@ QFrame#bottomFrame,#toolFrame{
     padding:0 0px;
 	margin:0 0px;
 }
-QDockWidget#statusDockWidget{
+QWidget#statusDockWidgetContents{
 	border: 1px solid #D4D3CC;
-	background-color:#D4D3CC;
+	background-color: rgb(212, 211, 204);
 	border-radius:0px;
     padding:0 0px;
 	margin:0 0px;
@@ -265,9 +265,9 @@ QDockWidget#statusDockWidget::title{
 	padding:0 0px;
 	margin:0 0px;
 }
-QDockWidget#controlDockWidget{
+QWidget#controlDockWidgetContents{
 	border: 1px solid #D4D3CC;
-	background-color:#D4D3CC;
+	background-color: rgb(212, 211, 204);
 	border-radius:0px;
     padding:0 0px;
 	margin:0 0px;
@@ -381,4 +381,22 @@ QPushButton#colorBtn_1,#colorBtn_2,#colorBtn_3,#colorBtn_4,#colorBtn_5,#colorBtn
 	height:30px;
     padding:0 0px;
 	margin:0 0px;
+}
+QWidget#scrollAreaWidgetContents_3{
+	background-color:red;
+}
+QPushButton#pushButton{
+background-color: qconicalgradient(cx:0.5, cy:0.522909, angle:179.9, stop:0.494318 rgba(214, 214, 214, 255), stop:0.5 rgba(236, 236, 236, 255));
+border: 1px solid rgb(124, 124, 124);
+border-radius:5px;
+}
+QPushButton#pushButton:hover{
+  background-color: qconicalgradient(cx:0.5, cy:0.522909, angle:179.9, stop:0.494318 rgba(181, 225, 250, 255), stop:0.5 rgba(222, 242, 251, 255));
+  border-radius:5px;
+  border: 1px solid #3C80B1;  
+}
+QPushButton#pushButton:pressed{
+  background-color: qconicalgradient(cx:0.5, cy:0.522909, angle:179.9, stop:0.494318 rgba(134, 198, 233, 255), stop:0.5 rgba(206, 234, 248, 255));
+  border-radius:5px;
+  border: 1px solid #5F92B2;  
 }

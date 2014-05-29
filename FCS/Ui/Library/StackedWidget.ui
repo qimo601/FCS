@@ -59,12 +59,12 @@
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(212, 211, 204);</string>
+            <string notr="true"/>
            </property>
            <property name="windowTitle">
             <string>系统状态</string>
            </property>
-           <widget class="QWidget" name="dockWidgetContents">
+           <widget class="QWidget" name="statusDockWidgetContents">
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -194,12 +194,15 @@
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(212, 211, 204);</string>
+            <string notr="true"/>
            </property>
            <property name="windowTitle">
             <string>控制面板</string>
            </property>
-           <widget class="QWidget" name="dockWidgetContents_2">
+           <widget class="QWidget" name="controlDockWidgetContents">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <property name="spacing">
               <number>7</number>
