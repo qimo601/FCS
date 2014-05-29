@@ -1,3 +1,13 @@
+/**
+* 项    目:  FCS软件
+* 文件名称:  AnalysisWidget.h
+* 文件路径： Ui/Libarary/AnalysisWidget.h
+* 摘    要:  数据分析与报告窗口
+* 作    者： 刘兆邦
+* 日    期： 2014年05月28日
+* Copyright (c) 2014-2015, 中科院苏州医工所医学影像室电子组.All rights reserved.
+* Version v1.0
+*/
 #ifndef ANALYSISWIDGET_H
 #define ANALYSISWIDGET_H
 

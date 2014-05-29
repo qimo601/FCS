@@ -1,5 +1,4 @@
-#include "ReportWidget.h"
-
+﻿#include "ReportWidget.h"
 ReportWidget::ReportWidget(QWidget *parent)
 	: QWidget(parent)
 {

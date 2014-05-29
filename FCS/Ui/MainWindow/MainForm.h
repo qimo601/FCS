@@ -1,3 +1,13 @@
+/**
+* 项    目:  FCS软件
+* 文件名称:  MainForm.h
+* 文件路径： Ui/MainForm.h
+* 摘    要: 主窗口
+* 作    者： 刘兆邦
+* 日    期： 2014年04月02日
+* Copyright (c) 2014-2015, 中科院苏州医工所医学影像室电子组.All rights reserved.
+* Version v1.0
+*/
 #ifndef MAINFORM_H
 #define MAINFORM_H
 
