@@ -1,23 +1,11 @@
 ﻿#include "testwidget.h"
 #include <QBitmap>
 #include <QMdiSubWindow>
+#include <QPainter>
 TestWidget::TestWidget(QWidget *parent)
 : QWidget(parent)
 {
 	ui.setupUi(this);
-	
-
-	for (int i = 0; i < 50; i++)
-	{
-		QLabel *label = new QLabel("<--------->", ui.scrollAreaWidgetContents_3);
-		label->move(i * 10, i * 10);
-		
-	}
-
-	//隐藏原标题栏
-	QList<QMdiSubWindow *> mlist = ui.mdiArea->subWindowList();
-	mlist[2]->showMaximized();
-
 }
 
 TestWidget::~TestWidget()
@@ -39,4 +27,11 @@ void TestWidget::resizeEvent(QResizeEvent * event)
 void TestWidget::mouseMoveEvent(QMouseEvent* event)
 {
 	
+}
+void TestWidget::paintEvent(QPaintEvent *)
+{
+	QStyleOption opt;
+	opt.init(this);
+	QPainter p(this);
+	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
