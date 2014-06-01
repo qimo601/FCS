@@ -2,6 +2,7 @@
 
 #include "plot.h"
 #include <qmath.h>
+#include <QTime>
 PlotWidget::PlotWidget(QWidget *parent)
 	: QWidget(parent)
 {
@@ -10,9 +11,9 @@ PlotWidget::PlotWidget(QWidget *parent)
 	d_plot = new Plot(this);
 	d_plot->setObjectName(QStringLiteral("d_plot"));
 	d_plot->setGeometry(QRect(10, 20, 461, 341));
+	m_timerId = 0;//初始化
 
-	// a million points
-	setSamples(100000);
+
 }
 
 PlotWidget::~PlotWidget()
@@ -27,18 +28,32 @@ double PlotWidget::randomValue()
 }
 
 
-void PlotWidget::setSamples(int numPoints)
+void PlotWidget::updateSamples(int numPoints)
 {
 	QPolygonF samples;
 
-	for (int i = 0; i < numPoints; i++)
+	bllDataCenter.getCellData(false);
+	QVector<double>* vectorX = bllDataCenter.getCellDataVector(1, 0);
+	QVector<double>* vectorY = bllDataCenter.getCellDataVector(2, 0);
+	d_plot->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
+	d_plot->replot();
+}
+void PlotWidget::timerEvent(QTimerEvent *event)
+{
+	//每个10ms更新一次
+	if (event->timerId() == m_timerId)
 	{
-		const double x = randomValue() * 24.0 + 1.0;
-		const double y = ::log(10.0 * (x - 1.0) + 1.0)
-			* (randomValue() * 0.5 + 0.9);
-
-		samples += QPointF(x, y);
+		updateSamples(0);
 	}
+}
 
-	d_plot->setSamples(samples);
+void PlotWidget::startAcqTimer()
+{
+	//开启定时器
+	m_timerId = startTimer(10);
+}
+void PlotWidget::stopAcqTimer()
+{
+	//关闭定时器
+	killTimer(m_timerId);
 }

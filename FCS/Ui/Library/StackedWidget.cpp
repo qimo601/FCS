@@ -52,6 +52,10 @@ void StackedWidget::init()
 	//初始化采集控制业务
 	bllControl = new BllControl();
 	//connect(oscWidgetPage, SIGNAL(startOscAcq()), this, SLOT(sendCmd()));
+
+	//开始采集和停止采集
+	connect(ui.startAcquisitionBtn, SIGNAL(clicked()), ui.celllViewWidget, SLOT(startAcqSlot()));
+	connect(ui.stopAcquisitionBtn, SIGNAL(clicked()), ui.celllViewWidget, SLOT(stopAcqSlot()));
 }
 /**
 * @brief 示波器显示处理槽函数

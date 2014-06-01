@@ -233,12 +233,13 @@ void USBThread::onButtonRd()
 }
 void USBThread::onButtonRd1()
 {
-	//示波器测试数据
+	//示波器测试数据 --细胞测试数据8B*8通道*8个细胞
 	quint8 testOscData[512];
 	for (int i = 0; i < 512; i++)
 	{
 		testOscData[i] = 150 + qrand() % 50;
 	}
+
 	// TODO: Add your control notification handler code here
 	PUCHAR buffer; //存放读来的数据的buffer
 	DWORD BufferLength = 512;  //buffer的大小，可自行定义

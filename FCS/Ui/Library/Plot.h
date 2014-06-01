@@ -1,11 +1,11 @@
-/**
-* Ïî    Ä¿:  FCSÈí¼ş
-* ÎÄ¼şÃû³Æ:   Plot.h
-* ÎÄ¼şÂ·¾¶£º  Ui/Libary/Plot.h
-* Õª    Òª:  ×Ô¶¨Òå»æÍ¼¿Ø¼ş
-* ×÷    Õß£º ÁõÕ×°î
-* ÈÕ    ÆÚ£º 2014Äê05ÔÂ29ÈÕ
-* Copyright (c) 2014-2015, ÖĞ¿ÆÔºËÕÖİÒ½¹¤ËùÒ½Ñ§Ó°ÏñÊÒµç×Ó×é.All rights reserved.
+ï»¿/**
+* é¡¹    ç›®:  FCSè½¯ä»¶
+* æ–‡ä»¶åç§°:   Plot.h
+* æ–‡ä»¶è·¯å¾„ï¼š  Ui/Libary/Plot.h
+* æ‘˜    è¦:  è‡ªå®šä¹‰ç»˜å›¾æ§ä»¶
+* ä½œ    è€…ï¼š åˆ˜å…†é‚¦
+* æ—¥    æœŸï¼š 2014å¹´05æœˆ29æ—¥
+* Copyright (c) 2014-2015, ä¸­ç§‘é™¢è‹å·åŒ»å·¥æ‰€åŒ»å­¦å½±åƒå®¤ç”µå­ç»„.All rights reserved.
 * Version v1.0
 */
 #ifndef PLOT_H
@@ -24,6 +24,7 @@ public:
 	~Plot();
 	void setSymbol(QwtSymbol *);
 	void setSamples(const QVector<QPointF> &samples);
+	void setRawSamples(const double * xData, const double * yData, int size);
 private:
 	QwtPlotCurve *d_curve;
 };

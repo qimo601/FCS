@@ -9,6 +9,7 @@
 #include "Ui/Library/OscWidget.h"
 #include "testwidget.h"
 #include <string>
+#include "Include/ICellStaticData.h"
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
@@ -36,5 +37,10 @@ int main(int argc, char *argv[])
 	//ceshi
 	TestWidget testWidget;
 	testWidget.show();
+
+	ICellStaticData* iCellStaticData = ICellStaticData::getInstance();
+
+	iCellStaticData->insert(0,44,33,22);
+
 	return a.exec();
 }

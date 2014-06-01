@@ -13,6 +13,7 @@
 
 #include <QObject>
 #include "Include/Global.h"
+#include "Include/ICellStaticData.h"
 class BllDataCenter : public QObject
 {
 	Q_OBJECT
@@ -25,9 +26,20 @@ public:
 	* @brief 获取示波器显示数据
 	*/
 	void getOscData(QVector<double>& oscXData,QVector<double>& oscYData);
+	/**
+	* @brief 获取细胞显示数据
+	* @param bool 是否清空旧的数据
+	*/
+	void getCellData(bool clear = true);
+	/**
+	* @brief 获取细胞显示数据
+	*/
+	QVector<double>* getCellDataVector(int passage, int valuePos);
 
 private:
 	double stepValue;
+	//细胞数据接口
+	ICellStaticData* iCellStaticData;
 };
 
 #endif // BLLDATACENTER_H

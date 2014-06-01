@@ -12,6 +12,15 @@ class ViewWidget : public QWidget
 public:
 	ViewWidget(QWidget *parent = 0);
 	~ViewWidget();
+public slots:
+	/**
+	* @brief 开始采集
+	*/
+	void startAcqSlot();
+	/**
+	* @brief 结束采集
+	*/
+	void stopAcqSlot();
 protected:
 	void paintEvent(QPaintEvent *event);
 private:

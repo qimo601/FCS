@@ -24,10 +24,13 @@ public:
 	///环形缓冲区
 	static CCycleBuffer* S_CCycleBuffer;
 
-	//X轴显示数据
+	//示波器X轴显示数据
 	static QVector<double> oscXData;
-	//Y轴显示数据
+	//示波器Y轴显示数据
 	static QList<QVector<double>> oscYData;
+
+
+
 	///全局初始化
 	void init();
 	///初始化qss

@@ -106,7 +106,7 @@ public:
     QPushButton *pushButton_2;
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
-    ViewWidget *widget;
+    ViewWidget *celllViewWidget;
     ReportWidget *reportWidget;
     QFrame *bottomFrame;
     QPushButton *pushButton;
@@ -570,11 +570,11 @@ public:
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         toolBtnWidget = new QWidget(dataAnalyPage);
         toolBtnWidget->setObjectName(QStringLiteral("toolBtnWidget"));
-        toolBtnWidget->setStyleSheet(QStringLiteral("background-color: rgb(255, 201, 157);"));
         horizontalLayout_11 = new QHBoxLayout(toolBtnWidget);
-        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setSpacing(0);
         horizontalLayout_11->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        horizontalLayout_11->setContentsMargins(0, 0, 0, 0);
         horizontalSpacer_12 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_11->addItem(horizontalSpacer_12);
@@ -598,10 +598,10 @@ public:
 
         verticalLayout_4->addWidget(toolBtnWidget);
 
-        widget = new ViewWidget(dataAnalyPage);
-        widget->setObjectName(QStringLiteral("widget"));
+        celllViewWidget = new ViewWidget(dataAnalyPage);
+        celllViewWidget->setObjectName(QStringLiteral("celllViewWidget"));
 
-        verticalLayout_4->addWidget(widget);
+        verticalLayout_4->addWidget(celllViewWidget);
 
         reportWidget = new ReportWidget(dataAnalyPage);
         reportWidget->setObjectName(QStringLiteral("reportWidget"));

@@ -334,6 +334,15 @@
     <ClCompile Include="Ui\Library\PlotWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ICellStaticData.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ICellStaticData.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\ICellStaticData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FCS.h">
@@ -475,6 +484,9 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Ui\Library\PlotWidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Include\ICellStaticData.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

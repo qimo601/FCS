@@ -1,11 +1,11 @@
-/**
-* Ïî    Ä¿:  FCSÈí¼ş
-* ÎÄ¼şÃû³Æ:   PlotWidget.h
-* ÎÄ¼şÂ·¾¶£º  Ui/Libary/PlotWidget.h
-* Õª    Òª:  »æÍ¼´°¿Ú
-* ×÷    Õß£º ÁõÕ×°î
-* ÈÕ    ÆÚ£º 2014Äê05ÔÂ29ÈÕ
-* Copyright (c) 2014-2015, ÖĞ¿ÆÔºËÕÖİÒ½¹¤ËùÒ½Ñ§Ó°ÏñÊÒµç×Ó×é.All rights reserved.
+ï»¿/**
+* é¡¹    ç›®:  FCSè½¯ä»¶
+* æ–‡ä»¶åç§°:   PlotWidget.h
+* æ–‡ä»¶è·¯å¾„ï¼š  Ui/Libary/PlotWidget.h
+* æ‘˜    è¦:  ç»˜å›¾çª—å£
+* ä½œ    è€…ï¼š åˆ˜å…†é‚¦
+* æ—¥    æœŸï¼š 2014å¹´05æœˆ29æ—¥
+* Copyright (c) 2014-2015, ä¸­ç§‘é™¢è‹å·åŒ»å·¥æ‰€åŒ»å­¦å½±åƒå®¤ç”µå­ç»„.All rights reserved.
 * Version v1.0
 */
 #ifndef PLOTWIDGET_H
@@ -13,6 +13,7 @@
 
 #include <QWidget>
 #include "ui_PlotWidget.h"
+#include "Bll/DataCenter/BllDataCenter.h"
 class Plot;
 
 class PlotWidget : public QWidget
@@ -24,16 +25,24 @@ public:
 	~PlotWidget();
 
 	/**
-	* @brief ÉèÖÃÊı¾İ
+	* @brief æ›´æ–°æ•°æ®
 	*/
-	void setSamples(int samples);
+	void updateSamples(int samples);
 	/**
-	* @brief Ëæ»úÖµ
+	* @brief éšæœºå€¼
 	*/
 	double randomValue();
+public slots:
+	void startAcqTimer();
+	void stopAcqTimer();
+protected:
+	virtual void timerEvent(QTimerEvent *);
 private:
 	Ui::PlotWidget ui;
 	Plot *d_plot;
+	BllDataCenter bllDataCenter;
+	//çœŸæ­£çš„å®šæ—¶å™¨
+	int m_timerId;
 };
 
 #endif // PLOTWIDGET_H

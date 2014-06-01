@@ -1,11 +1,11 @@
-/**
-* Ïî    Ä¿:  FCSÈí¼ş
-* ÎÄ¼şÃû³Æ:  AnalysisWidget.h
-* ÎÄ¼şÂ·¾¶£º Ui/Libarary/AnalysisWidget.h
-* Õª    Òª:  Êı¾İ·ÖÎöÓë±¨¸æ´°¿Ú
-* ×÷    Õß£º ÁõÕ×°î
-* ÈÕ    ÆÚ£º 2014Äê05ÔÂ28ÈÕ
-* Copyright (c) 2014-2015, ÖĞ¿ÆÔºËÕÖİÒ½¹¤ËùÒ½Ñ§Ó°ÏñÊÒµç×Ó×é.All rights reserved.
+ï»¿/**
+* é¡¹    ç›®:  FCSè½¯ä»¶
+* æ–‡ä»¶åç§°:  AnalysisWidget.h
+* æ–‡ä»¶è·¯å¾„ï¼š Ui/Libarary/AnalysisWidget.h
+* æ‘˜    è¦:  æ•°æ®åˆ†æä¸æŠ¥å‘Šçª—å£
+* ä½œ    è€…ï¼š åˆ˜å…†é‚¦
+* æ—¥    æœŸï¼š 2014å¹´05æœˆ28æ—¥
+* Copyright (c) 2014-2015, ä¸­ç§‘é™¢è‹å·åŒ»å·¥æ‰€åŒ»å­¦å½±åƒå®¤ç”µå­ç»„.All rights reserved.
 * Version v1.0
 */
 #ifndef ANALYSISWIDGET_H

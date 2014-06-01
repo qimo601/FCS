@@ -43,16 +43,18 @@ Plot::Plot(QWidget *parent)
 : QwtPlot(parent),
 d_curve(NULL)
 {
+
 	canvas()->setStyleSheet(
-		"border: 2px solid Black;"
+		"border: 1px solid Black;"
 		"border-radius: 15px;"
-		"background-color: qlineargradient( x1: 0, y1: 0, x2: 0, y2: 1,"
-		"stop: 0 LemonChiffon, stop: 1 PaleGoldenrod );"
+		"background-color:#FFFFFF;"
 		);
 
 	// attach curve
 	d_curve = new QwtPlotCurve("Scattered Points");
-	d_curve->setPen(QColor("Purple"));
+	//设置颜色
+	QColor c(42,93,169);
+	d_curve->setPen(c, 1);
 
 	// when using QwtPlotCurve::ImageBuffer simple dots can be
 	// rendered in parallel on multicore systems.
@@ -99,4 +101,14 @@ void Plot::setSamples(const QVector<QPointF> &samples)
 		QwtPlotCurve::ImageBuffer, samples.size() > 1000);
 
 	d_curve->setSamples(samples);
+}
+void Plot::setRawSamples(const double * xData,	const double * 	yData,	int size)
+{
+	/**指定曲线绘画类型为ImageBufferRender the points to a temporary image and paint the image.
+	This is a very special optimization for Dots style, when having a huge amount of points.
+	With a reasonable number of points QPainter::drawPoints() will be faster.*/
+	d_curve->setPaintAttribute(
+		QwtPlotCurve::ImageBuffer, size > 1000);
+
+	d_curve->setRawSamples(xData, yData,size);
 }
