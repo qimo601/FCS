@@ -12,6 +12,7 @@
 #define PLOTWIDGET_H
 
 #include <QWidget>
+#include <QPaintEvent>
 #include "ui_PlotWidget.h"
 #include "Bll/DataCenter/BllDataCenter.h"
 class Plot;
@@ -32,6 +33,8 @@ public:
 	* @brief 随机值
 	*/
 	double randomValue();
+protected:
+	void paintEvent(QPaintEvent *event);
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
@@ -41,8 +44,10 @@ private:
 	Ui::PlotWidget ui;
 	Plot *d_plot;
 	BllDataCenter bllDataCenter;
-	//真正的定时器
-	int m_timerId;
+
+	QVBoxLayout *vLayoutCellPlotFrame;//细胞绘图布局控件
+	
+	int m_timerId;//真正的定时器
 };
 
 #endif // PLOTWIDGET_H

@@ -3,14 +3,25 @@
 #include "plot.h"
 #include <qmath.h>
 #include <QTime>
+#include <QPainter>
 PlotWidget::PlotWidget(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	d_plot = new Plot(this);
+	//细胞绘图控件初始化
+	vLayoutCellPlotFrame = new QVBoxLayout(ui.cellPlotFrame);
+	vLayoutCellPlotFrame->setSpacing(6);
+	vLayoutCellPlotFrame->setContentsMargins(11, 11, 11, 11);
+	vLayoutCellPlotFrame->setObjectName(QStringLiteral("verticalLayout_4"));
+	d_plot = new Plot(ui.cellPlotFrame);
 	d_plot->setObjectName(QStringLiteral("d_plot"));
-	d_plot->setGeometry(QRect(10, 20, 461, 341));
+
+	vLayoutCellPlotFrame->addWidget(d_plot);
+
+
+
+
 	m_timerId = 0;//初始化
 
 
@@ -56,4 +67,13 @@ void PlotWidget::stopAcqTimer()
 {
 	//关闭定时器
 	killTimer(m_timerId);
+}
+
+void PlotWidget::paintEvent(QPaintEvent *)
+{
+	QStyleOption opt;
+	opt.init(this);
+	QPainter p(this);
+	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+
 }

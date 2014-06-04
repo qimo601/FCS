@@ -89,7 +89,7 @@ QWidget#mainWidget{
 	border:1px solid #7D9971;
 }
 
-QPushButton#pushButton{
+/**QPushButton#pushButton{
 	border: 3px solid #C0C0C0;
 	background-color:#FFFFFF;
 	padding:8 8px;
@@ -106,7 +106,7 @@ QPushButton#pushButton:pressed{
 	border: 3px solid #C0C0C0;
 	padding:8 8px;
 	border-radius:10px;
-}
+}*/
 QPushButton#fileBtn,#helpBtn,#settingBtn{
 	border: 1px solid #C0C0C0;
 	background-color:#C0C0C0;
@@ -402,3 +402,8 @@ QWidget#scrollAreaWidgetContents_3{
 	background-color:red;
 }
 */
+
+QWidget#firstPlotWidget,#widget_2{
+	border:2px solid #CFCFCF;
+	background-color: red;
+}

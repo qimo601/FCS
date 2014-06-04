@@ -3,8 +3,9 @@ ViewWidget::ViewWidget(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-	//plotWidget = new PlotWidget();
-	//ui.gridLayout->addWidget(plotWidget, 2, 0, 1, 1);
+	/*plotWidget = new PlotWidget(ui.scrollAreaWidgetContents);
+	ui.gridLayout->addWidget(plotWidget, 1, 0, 1, 1);*/
+
 }
 
 ViewWidget::~ViewWidget()

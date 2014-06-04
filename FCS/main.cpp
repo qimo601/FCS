@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
 
 	Global global;
 	MainForm mainForm;
-	mainForm.show();
-	//mainForm.showMaximized();
+	//mainForm.show();
+	mainForm.showMaximized();
 	//mainForm.resetGeometry(30);
 // 	MTitleWidget titleWidget;
 // 	titleWidget.show();
@@ -35,12 +35,12 @@ int main(int argc, char *argv[])
 // 	oscWidget.show();
 
 	//ceshi
-	TestWidget testWidget;
-	testWidget.show();
+	//TestWidget testWidget;
+	//testWidget.show();
 
-	ICellStaticData* iCellStaticData = ICellStaticData::getInstance();
+	/*ICellStaticData* iCellStaticData = ICellStaticData::getInstance();
 
-	iCellStaticData->insert(0,44,33,22);
+	iCellStaticData->insert(0,44,33,22);*/
 
 	return a.exec();
 }
