@@ -22,7 +22,7 @@ public slots:
 	*/
 	void stopAcqSlot();
 protected:
-	void paintEvent(QPaintEvent *event);
+	virtual void paintEvent(QPaintEvent *event);
 private:
 	Ui::ViewWidget ui;
 	PlotWidget* plotWidget;

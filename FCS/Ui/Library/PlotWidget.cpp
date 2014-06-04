@@ -19,7 +19,8 @@ PlotWidget::PlotWidget(QWidget *parent)
 
 	vLayoutCellPlotFrame->addWidget(d_plot);
 
-
+	//设置背景线是否显示
+	connect(ui.gridCheckBox, SIGNAL(clicked(bool)), d_plot, SLOT(setGridEnable(bool)));
 
 
 	m_timerId = 0;//初始化

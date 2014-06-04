@@ -402,8 +402,16 @@ QWidget#scrollAreaWidgetContents_3{
 	background-color:red;
 }
 */
-
-QWidget#firstPlotWidget,#widget_2{
-	border:2px solid #CFCFCF;
-	background-color: red;
+/**画布可滚动区域**/
+QWidget#scrollAreaWidgetContents{
+	background-color: #D4D3CC;
+}
+PlotWidget{
+	border:1px solid #CFCFCF;
+}
+PlotWidget:hover{
+	border:2px solid #2A578B;
+}
+PlotWidget:selected{
+	border:5px solid red;
 }

@@ -54,7 +54,7 @@ d_curve(NULL)
 	d_curve = new QwtPlotCurve("Scattered Points");
 	//设置颜色
 	QColor c(42,93,169);
-	d_curve->setPen(c, 1);
+	d_curve->setPen(c, 2);
 
 	// when using QwtPlotCurve::ImageBuffer simple dots can be
 	// rendered in parallel on multicore systems.
@@ -64,7 +64,7 @@ d_curve(NULL)
 
 	setSymbol(NULL);
 
-	// 重新调整画布，根据鼠标左键
+	// 平移画布，根据鼠标左键
 	(void)new QwtPlotPanner(canvas());
 
 	//支持滑轮放大缩小zoom in/out with the wheel
@@ -75,6 +75,16 @@ d_curve(NULL)
 	DistancePicker *picker = new DistancePicker(canvas());
 	picker->setMousePattern(QwtPlotPicker::MouseSelect1, Qt::RightButton);
 	picker->setRubberBandPen(QPen(Qt::blue));
+
+	grid = new QwtPlotGrid();
+	grid->setPen(QColor(233, 228, 225), 0.0, Qt::DashLine);
+	grid->enableX(true);
+	grid->enableXMin(false);
+	grid->enableY(true);
+	grid->enableYMin(false);
+	grid->attach(this);
+
+
 }
 
 Plot::~Plot()
@@ -111,4 +121,17 @@ void Plot::setRawSamples(const double * xData,	const double * 	yData,	int size)
 		QwtPlotCurve::ImageBuffer, size > 1000);
 
 	d_curve->setRawSamples(xData, yData,size);
+}
+/**
+* @brief 设置背景线是否显示
+*/
+void Plot::setGridEnable(bool checked)
+{
+	
+	grid->enableX(checked);
+	grid->enableXMin(false);
+	grid->enableY(checked);
+	grid->enableYMin(false);
+
+	replot();
 }

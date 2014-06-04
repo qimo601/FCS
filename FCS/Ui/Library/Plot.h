@@ -12,7 +12,7 @@
 #define PLOT_H
 
 #include <qwt_plot.h>
-
+#include <qwt_plot_grid.h>
 class QwtPlotCurve;
 class QwtSymbol;
 class Plot : public QwtPlot
@@ -25,8 +25,13 @@ public:
 	void setSymbol(QwtSymbol *);
 	void setSamples(const QVector<QPointF> &samples);
 	void setRawSamples(const double * xData, const double * yData, int size);
+public slots:
+	void setGridEnable(bool checked);
+
 private:
 	QwtPlotCurve *d_curve;
+	//背景方格
+	QwtPlotGrid* grid;
 };
 
 #endif // PLOT_H

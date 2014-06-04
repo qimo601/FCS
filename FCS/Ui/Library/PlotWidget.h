@@ -33,12 +33,12 @@ public:
 	* @brief 随机值
 	*/
 	double randomValue();
-protected:
-	void paintEvent(QPaintEvent *event);
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
+
 protected:
+	virtual void paintEvent(QPaintEvent *event);
 	virtual void timerEvent(QTimerEvent *);
 private:
 	Ui::PlotWidget ui;

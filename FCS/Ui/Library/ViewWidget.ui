@@ -14,17 +14,11 @@
    <string>ViewWidget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(212, 211, 204);</string>
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QScrollArea" name="scrollArea">
-     <property name="styleSheet">
-      <string>PlotWidget{
-	border:2px solid #CFCFCF;
-	background: red;
-}</string>
-     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -45,9 +39,6 @@
            <width>745</width>
            <height>540</height>
           </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border:1px solid #CFCFCF;</string>
          </property>
         </widget>
        </item>
