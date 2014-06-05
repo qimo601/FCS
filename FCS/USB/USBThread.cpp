@@ -14,13 +14,15 @@ USBThread::~USBThread()
   
 }
 
-bool USBThread::saveTag = false;
+bool USBThread::saveTag = true;
 QString USBThread::fileName = "temp";
 FILE* USBThread::projectFile = NULL;
 
 void USBThread::run()  
 { 
 	qDebug() << "【USB监听线程】启动USBThread,线程Id" << QThread::currentThreadId();
+	
+
 	//只要不是停止
 	while (ctrlTag != CTRL_TAG::STOP_TAG)
 	{
@@ -185,7 +187,7 @@ void USBThread::onButtonRd()
 	}
 	//将读到的数据写入文件以便对比
 	if (saveTag)
-		saveToFile(buffer, DataLength);
+		saveToFile(buffer, 512);
 	//将读到的数据写入文件以便对比
 	//QString filename = "addata.txt";
 	//FILE *projectFile = fopen(filename.toLocal8Bit().data(), "wb+");
@@ -237,7 +239,7 @@ void USBThread::onButtonRd1()
 	quint8 testOscData[512];
 	for (int i = 0; i < 512; i++)
 	{
-		testOscData[i] = 150 + qrand() % 50;
+		testOscData[i] = 150 + qrand() % 1000;
 	}
 
 	// TODO: Add your control notification handler code here
@@ -329,7 +331,8 @@ void USBThread::setHdevice(HANDLE device)
 */
 void USBThread::saveToFile(PUCHAR buffer, DWORD DataLength)
 {
-
+	QString filename = "addata.txt";
+	FILE *projectFile = fopen(filename.toLocal8Bit().data(), "wb+");
 	if (!projectFile)
 	{
 		qDebug() << "【onButtonRd】数据文件" << projectFile << "，打开失败！\n";
@@ -347,6 +350,6 @@ void USBThread::saveToFile(PUCHAR buffer, DWORD DataLength)
 		qDebug() << "【onButtonRd】将USB数据写入文件成功,文件名：" << fileName;
 	}
 	//关闭文件
-	/*if (fclose(projectFile) != 0)
-		qDebug() << "【onButtonRd】关闭文件失败，文件名：" << fileName;*/
+	if (fclose(projectFile) != 0)
+		qDebug() << "【onButtonRd】关闭文件失败，文件名：" << fileName;
 }

@@ -58,22 +58,22 @@ void BllDataCenter::getOscData(QVector<double>& oscXData, QVector<double>& oscYD
 */
 void BllDataCenter::getCellData(bool clear)
 {
-	quint8 valueHH;
+	double valueHH;
 	quint8 valueHH1;
 	quint8 valueHH2;
 	quint8 valueHH3;
-	quint8 valueAA;
+	double valueAA;
 	quint8 valueAA1;
 	quint8 valueAA2;
 	quint8 valueAA3;
-	quint8 valueWW;
+	double valueWW;
 	quint8 valueWW1;
 	quint8 valueWW2;
 	int value;
 	stepValue = 1;
 
 	//添加至环形缓冲区:示波器一个数据包大小512Byte
-	if (Global::S_CCycleBuffer->getUsedSize() >= 512)
+	if (Global::S_CCycleBuffer->getUsedSize() >= 512*64)
 	{
 		//如果需要清空
 		if (clear)
@@ -84,7 +84,7 @@ void BllDataCenter::getCellData(bool clear)
 		}
 
 		//一次8个细胞
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 8*64; i++)
 		{
 			//8个通道
 			for (int j = 0; j < 8; j++)

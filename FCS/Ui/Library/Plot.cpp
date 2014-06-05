@@ -85,6 +85,9 @@ d_curve(NULL)
 	grid->attach(this);
 
 
+	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//设置x轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//设置y轴坐标刻度大小
+
 }
 
 Plot::~Plot()

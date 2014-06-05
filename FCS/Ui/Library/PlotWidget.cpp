@@ -45,8 +45,8 @@ void PlotWidget::updateSamples(int numPoints)
 	QPolygonF samples;
 
 	bllDataCenter.getCellData(false);
-	QVector<double>* vectorX = bllDataCenter.getCellDataVector(1, 0);
-	QVector<double>* vectorY = bllDataCenter.getCellDataVector(2, 0);
+	QVector<double>* vectorX = bllDataCenter.getCellDataVector(3, 1);
+	QVector<double>* vectorY = bllDataCenter.getCellDataVector(3, 1);
 	d_plot->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
 	d_plot->replot();
 }

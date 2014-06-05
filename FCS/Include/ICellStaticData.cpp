@@ -47,9 +47,12 @@ void ICellStaticData::insert(int passage,double valueHH,double valueAA,double va
 {
 	QList< QVector<double>* >* passageData = cellFullData->at(passage);
 	//mutex.lock();
-	(passageData->at(0))->append(valueHH);
-	(passageData->at(1))->append(valueAA);
-	(passageData->at(2))->append(valueWW);
+	QVector <double> * HH = passageData->at(0);
+	QVector <double> * AA = passageData->at(1);
+	QVector <double> * WW = passageData->at(2);
+	HH->append(valueHH);
+	AA->append(valueAA);
+	WW->append(valueWW);
 	//mutex.unlock();
 }
 /**
