@@ -38,8 +38,10 @@ public slots:
 	void stopAcqTimer();
 
 protected:
-	virtual void paintEvent(QPaintEvent *event);
-	virtual void timerEvent(QTimerEvent *);
+	virtual void paintEvent(QPaintEvent * event);
+	virtual void timerEvent(QTimerEvent * event);
+	virtual void focusInEvent(QFocusEvent * event);
+	virtual void focusOutEvent(QFocusEvent * event);
 private:
 	Ui::PlotWidget ui;
 	Plot *d_plot;

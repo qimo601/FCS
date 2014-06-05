@@ -70,11 +70,19 @@ void PlotWidget::stopAcqTimer()
 	killTimer(m_timerId);
 }
 
-void PlotWidget::paintEvent(QPaintEvent *)
+void PlotWidget::paintEvent(QPaintEvent * event)
 {
 	QStyleOption opt;
 	opt.init(this);
 	QPainter p(this);
 	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+
+}
+void PlotWidget::focusInEvent(QFocusEvent * event)
+{
+
+}
+void PlotWidget::focusOutEvent(QFocusEvent * event)
+{
 
 }

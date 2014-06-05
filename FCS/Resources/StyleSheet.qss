@@ -412,6 +412,6 @@ PlotWidget{
 PlotWidget:hover{
 	border:2px solid #2A578B;
 }
-PlotWidget:selected{
+PlotWidget:focus{
 	border:5px solid red;
 }
