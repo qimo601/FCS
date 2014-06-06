@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="focusPolicy">
-   <enum>Qt::ClickFocus</enum>
+   <enum>Qt::StrongFocus</enum>
   </property>
   <property name="acceptDrops">
    <bool>false</bool>
@@ -37,6 +37,9 @@
    </property>
    <item>
     <widget class="QFrame" name="cellToolFrame">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
@@ -67,6 +70,9 @@
           <height>30</height>
          </size>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>放大/缩小</string>
         </property>
@@ -86,6 +92,9 @@
           <height>30</height>
          </size>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>平移</string>
         </property>
@@ -93,6 +102,9 @@
       </item>
       <item>
        <spacer name="verticalSpacer">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -119,6 +131,9 @@
          <width>16777215</width>
          <height>30</height>
         </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -159,6 +174,9 @@
             <height>30</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>设置</string>
           </property>
@@ -166,6 +184,9 @@
         </item>
         <item>
          <widget class="QCheckBox" name="gridCheckBox">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>背景方格线</string>
           </property>
@@ -176,6 +197,9 @@
         </item>
         <item>
          <spacer name="horizontalSpacer">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -192,6 +216,9 @@
      </item>
      <item>
       <widget class="QFrame" name="cellPlotFrame">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -212,6 +239,9 @@
        <width>30</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="styleSheet">
       <string notr="true"/>
@@ -240,6 +270,9 @@
       </property>
       <item>
        <spacer name="verticalSpacer_2">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -264,6 +297,9 @@
           <width>30</width>
           <height>30</height>
          </size>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
          <string>设置</string>

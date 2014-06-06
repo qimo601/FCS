@@ -27,12 +27,12 @@ void ViewWidget::paintEvent(QPaintEvent *)
 void ViewWidget::startAcqSlot()
 {
 
-	ui.firstPlotWidget->startAcqTimer();
+	ui.plotWidget_1->startAcqTimer();
 }
 /**
 * @brief 结束采集
 */
 void ViewWidget::stopAcqSlot()
 {
-	ui.firstPlotWidget->stopAcqTimer();
+	ui.plotWidget_1->stopAcqTimer();
 }

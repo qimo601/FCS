@@ -35,8 +35,8 @@ int main(int argc, char *argv[])
 // 	oscWidget.show();
 
 	//ceshi
-	//TestWidget testWidget;
-	//testWidget.show();
+	TestWidget testWidget;
+	testWidget.show();
 
 	/*ICellStaticData* iCellStaticData = ICellStaticData::getInstance();
 

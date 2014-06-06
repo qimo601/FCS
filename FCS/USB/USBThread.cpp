@@ -239,7 +239,7 @@ void USBThread::onButtonRd1()
 	quint8 testOscData[512];
 	for (int i = 0; i < 512; i++)
 	{
-		testOscData[i] = 150 + qrand() % 1000;
+		testOscData[i] = 150 + qrand() % 1000000;
 	}
 
 	// TODO: Add your control notification handler code here

@@ -13,15 +13,12 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QDockWidget>
-#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QListView>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
-#include <QtWidgets/QTableView>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <Ui/Library/PlotWidget.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -31,21 +28,17 @@ public:
     QAction *actionC;
     QAction *actionF;
     QAction *actionD;
-    QPushButton *pushButton123;
     QScrollArea *scrollArea;
-    QWidget *scrollAreaWidgetContents_3;
-    QVBoxLayout *verticalLayout;
-    QTableView *tableView;
+    QWidget *scrollAreaWidgetContents;
+    QGridLayout *gridLayout;
+    QWidget *widget_1;
     QPushButton *pushButton;
-    QListView *listView;
-    QDockWidget *dockWidget_2;
-    QWidget *dockWidgetContents_2;
-    QDockWidget *dockWidget;
-    QWidget *dockWidgetContents;
-    QGroupBox *groupBox_2;
-    QGroupBox *groupBox;
-    QPushButton *pushButton_7;
-    QPushButton *pushButton_9;
+    PlotWidget *plotwidget_45;
+    QWidget *widget_4;
+    QPushButton *pushButton_3;
+    QWidget *widget_3;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton123;
 
     void setupUi(QWidget *TestWidget)
     {
@@ -59,86 +52,78 @@ public:
         actionF->setObjectName(QStringLiteral("actionF"));
         actionD = new QAction(TestWidget);
         actionD->setObjectName(QStringLiteral("actionD"));
-        pushButton123 = new QPushButton(TestWidget);
-        pushButton123->setObjectName(QStringLiteral("pushButton123"));
-        pushButton123->setGeometry(QRect(9, 844, 75, 23));
         scrollArea = new QScrollArea(TestWidget);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setGeometry(QRect(9, 9, 432, 400));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
-        scrollArea->setSizePolicy(sizePolicy);
-        scrollArea->setMinimumSize(QSize(400, 400));
-        scrollArea->setStyleSheet(QStringLiteral(""));
+        scrollArea->setGeometry(QRect(100, 110, 691, 611));
+        scrollArea->setFocusPolicy(Qt::StrongFocus);
+        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         scrollArea->setWidgetResizable(true);
-        scrollAreaWidgetContents_3 = new QWidget();
-        scrollAreaWidgetContents_3->setObjectName(QStringLiteral("scrollAreaWidgetContents_3"));
-        scrollAreaWidgetContents_3->setGeometry(QRect(0, -28, 1000, 1000));
-        scrollAreaWidgetContents_3->setMinimumSize(QSize(1000, 1000));
-        verticalLayout = new QVBoxLayout(scrollAreaWidgetContents_3);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        tableView = new QTableView(scrollAreaWidgetContents_3);
-        tableView->setObjectName(QStringLiteral("tableView"));
-        tableView->setStyleSheet(QStringLiteral("background-color: rgb(146, 255, 87);"));
-
-        verticalLayout->addWidget(tableView);
-
-        pushButton = new QPushButton(scrollAreaWidgetContents_3);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 672, 690));
+        scrollAreaWidgetContents->setFocusPolicy(Qt::StrongFocus);
+        gridLayout = new QGridLayout(scrollAreaWidgetContents);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        widget_1 = new QWidget(scrollAreaWidgetContents);
+        widget_1->setObjectName(QStringLiteral("widget_1"));
+        widget_1->setMinimumSize(QSize(200, 300));
+        widget_1->setFocusPolicy(Qt::StrongFocus);
+        widget_1->setStyleSheet(QStringLiteral("background-color: rgb(194, 203, 255);"));
+        pushButton = new QPushButton(widget_1);
         pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(60, 80, 75, 161));
+        pushButton->setFocusPolicy(Qt::NoFocus);
+        pushButton->setStyleSheet(QStringLiteral("background-color: rgb(142, 138, 255);"));
 
-        verticalLayout->addWidget(pushButton);
+        gridLayout->addWidget(widget_1, 0, 0, 2, 1);
 
-        listView = new QListView(scrollAreaWidgetContents_3);
-        listView->setObjectName(QStringLiteral("listView"));
-        listView->setStyleSheet(QStringLiteral("background-color: rgb(146, 255, 87);"));
+        plotwidget_45 = new PlotWidget(scrollAreaWidgetContents);
+        plotwidget_45->setObjectName(QStringLiteral("plotwidget_45"));
+        plotwidget_45->setMinimumSize(QSize(200, 300));
+        plotwidget_45->setFocusPolicy(Qt::StrongFocus);
+        plotwidget_45->setStyleSheet(QStringLiteral(""));
 
-        verticalLayout->addWidget(listView);
+        gridLayout->addWidget(plotwidget_45, 0, 1, 1, 1);
 
-        dockWidget_2 = new QDockWidget(scrollAreaWidgetContents_3);
-        dockWidget_2->setObjectName(QStringLiteral("dockWidget_2"));
-        dockWidget_2->setStyleSheet(QStringLiteral("background-color: rgb(255, 89, 125);"));
-        dockWidgetContents_2 = new QWidget();
-        dockWidgetContents_2->setObjectName(QStringLiteral("dockWidgetContents_2"));
-        dockWidget_2->setWidget(dockWidgetContents_2);
+        widget_4 = new QWidget(scrollAreaWidgetContents);
+        widget_4->setObjectName(QStringLiteral("widget_4"));
+        widget_4->setMinimumSize(QSize(200, 300));
+        widget_4->setFocusPolicy(Qt::StrongFocus);
+        widget_4->setStyleSheet(QStringLiteral("background-color: rgb(255, 99, 229);"));
+        pushButton_3 = new QPushButton(widget_4);
+        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        pushButton_3->setGeometry(QRect(100, 40, 75, 161));
+        pushButton_3->setFocusPolicy(Qt::NoFocus);
+        pushButton_3->setStyleSheet(QStringLiteral("background-color: rgb(142, 138, 255);"));
 
-        verticalLayout->addWidget(dockWidget_2);
+        gridLayout->addWidget(widget_4, 1, 1, 2, 1);
 
-        dockWidget = new QDockWidget(scrollAreaWidgetContents_3);
-        dockWidget->setObjectName(QStringLiteral("dockWidget"));
-        dockWidget->setStyleSheet(QStringLiteral("background-color: rgb(255, 89, 125);"));
-        dockWidgetContents = new QWidget();
-        dockWidgetContents->setObjectName(QStringLiteral("dockWidgetContents"));
-        dockWidget->setWidget(dockWidgetContents);
+        widget_3 = new QWidget(scrollAreaWidgetContents);
+        widget_3->setObjectName(QStringLiteral("widget_3"));
+        widget_3->setMinimumSize(QSize(200, 300));
+        widget_3->setFocusPolicy(Qt::StrongFocus);
+        widget_3->setStyleSheet(QLatin1String("\n"
+"background-color: rgb(255, 182, 99);"));
+        pushButton_2 = new QPushButton(widget_3);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_2->setGeometry(QRect(100, 40, 75, 161));
+        pushButton_2->setFocusPolicy(Qt::NoFocus);
+        pushButton_2->setStyleSheet(QStringLiteral("background-color: rgb(142, 138, 255);"));
 
-        verticalLayout->addWidget(dockWidget);
+        gridLayout->addWidget(widget_3, 2, 0, 1, 1);
 
-        groupBox_2 = new QGroupBox(scrollAreaWidgetContents_3);
-        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        groupBox_2->setStyleSheet(QStringLiteral("background-color: rgb(146, 255, 87);"));
+        pushButton123 = new QPushButton(scrollAreaWidgetContents);
+        pushButton123->setObjectName(QStringLiteral("pushButton123"));
+        pushButton123->setStyleSheet(QString::fromUtf8("font: 75 26pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";"));
 
-        verticalLayout->addWidget(groupBox_2);
+        gridLayout->addWidget(pushButton123, 3, 0, 1, 1);
 
-        groupBox = new QGroupBox(scrollAreaWidgetContents_3);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setStyleSheet(QStringLiteral("background-color: rgb(146, 255, 87);"));
-
-        verticalLayout->addWidget(groupBox);
-
-        pushButton_7 = new QPushButton(scrollAreaWidgetContents_3);
-        pushButton_7->setObjectName(QStringLiteral("pushButton_7"));
-
-        verticalLayout->addWidget(pushButton_7);
-
-        pushButton_9 = new QPushButton(scrollAreaWidgetContents_3);
-        pushButton_9->setObjectName(QStringLiteral("pushButton_9"));
-
-        verticalLayout->addWidget(pushButton_9);
-
-        scrollArea->setWidget(scrollAreaWidgetContents_3);
+        scrollArea->setWidget(scrollAreaWidgetContents);
+        QWidget::setTabOrder(widget_3, widget_1);
+        QWidget::setTabOrder(widget_1, plotwidget_45);
+        QWidget::setTabOrder(plotwidget_45, pushButton123);
 
         retranslateUi(TestWidget);
 
@@ -151,12 +136,10 @@ public:
         actionC->setText(QApplication::translate("TestWidget", "C", 0));
         actionF->setText(QApplication::translate("TestWidget", "F", 0));
         actionD->setText(QApplication::translate("TestWidget", "D", 0));
-        pushButton123->setText(QApplication::translate("TestWidget", "PushButton", 0));
         pushButton->setText(QApplication::translate("TestWidget", "PushButton", 0));
-        groupBox_2->setTitle(QApplication::translate("TestWidget", "GroupBox", 0));
-        groupBox->setTitle(QApplication::translate("TestWidget", "GroupBox", 0));
-        pushButton_7->setText(QApplication::translate("TestWidget", "PushButton", 0));
-        pushButton_9->setText(QApplication::translate("TestWidget", "PushButton", 0));
+        pushButton_3->setText(QApplication::translate("TestWidget", "PushButton", 0));
+        pushButton_2->setText(QApplication::translate("TestWidget", "PushButton", 0));
+        pushButton123->setText(QApplication::translate("TestWidget", "\344\270\213\344\270\200\344\270\252\357\274\210\347\204\246\347\202\271\357\274\211", 0));
     } // retranslateUi
 
 };

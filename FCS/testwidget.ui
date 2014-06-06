@@ -16,130 +16,166 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QPushButton" name="pushButton123">
-   <property name="geometry">
-    <rect>
-     <x>9</x>
-     <y>844</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
   <widget class="QScrollArea" name="scrollArea">
    <property name="geometry">
     <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>432</width>
-     <height>400</height>
+     <x>100</x>
+     <y>110</y>
+     <width>691</width>
+     <height>611</height>
     </rect>
    </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
    </property>
-   <property name="minimumSize">
-    <size>
-     <width>400</width>
-     <height>400</height>
-    </size>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAsNeeded</enum>
    </property>
    <property name="widgetResizable">
     <bool>true</bool>
    </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents_3">
+   <widget class="QWidget" name="scrollAreaWidgetContents">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-28</y>
-      <width>1000</width>
-      <height>1000</height>
+      <y>0</y>
+      <width>672</width>
+      <height>690</height>
      </rect>
     </property>
-    <property name="minimumSize">
-     <size>
-      <width>1000</width>
-      <height>1000</height>
-     </size>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QTableView" name="tableView">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0" rowspan="2">
+      <widget class="QWidget" name="widget_1" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>300</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(146, 255, 87);</string>
+        <string notr="true">background-color: rgb(194, 203, 255);</string>
+       </property>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>80</y>
+          <width>75</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(142, 138, 255);</string>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="PlotWidget" name="plotwidget_45" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>300</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="pushButton">
+     <item row="1" column="1" rowspan="2">
+      <widget class="QWidget" name="widget_4" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>300</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 99, 229);</string>
+       </property>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>40</y>
+          <width>75</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(142, 138, 255);</string>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QWidget" name="widget_3" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>300</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+background-color: rgb(255, 182, 99);</string>
+       </property>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>40</y>
+          <width>75</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(142, 138, 255);</string>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QPushButton" name="pushButton123">
+       <property name="styleSheet">
+        <string notr="true">font: 75 26pt &quot;微软雅黑&quot;;</string>
+       </property>
        <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListView" name="listView">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(146, 255, 87);</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDockWidget" name="dockWidget_2">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 89, 125);</string>
-       </property>
-       <widget class="QWidget" name="dockWidgetContents_2"/>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDockWidget" name="dockWidget">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 89, 125);</string>
-       </property>
-       <widget class="QWidget" name="dockWidgetContents"/>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_2">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(146, 255, 87);</string>
-       </property>
-       <property name="title">
-        <string>GroupBox</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(146, 255, 87);</string>
-       </property>
-       <property name="title">
-        <string>GroupBox</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_7">
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_9">
-       <property name="text">
-        <string>PushButton</string>
+        <string>下一个（焦点）</string>
        </property>
       </widget>
      </item>
@@ -163,6 +199,20 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">Ui/Library/PlotWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>widget_3</tabstop>
+  <tabstop>widget_1</tabstop>
+  <tabstop>plotwidget_45</tabstop>
+  <tabstop>pushButton123</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

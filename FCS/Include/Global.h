@@ -7,7 +7,7 @@
 
 #ifndef Simulation_Test 
 //若Simulation_Test=1，表示模拟测试，Simulation_Test=0表示正是通过USB采集
-#define Simulation_Test 0
+#define Simulation_Test 1
 #endif
 
 

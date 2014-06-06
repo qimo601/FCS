@@ -13,8 +13,11 @@
 
 #include <qwt_plot.h>
 #include <qwt_plot_grid.h>
+#include <qwt_plot_panner.h>
+
 class QwtPlotCurve;
 class QwtSymbol;
+class Zoomer;
 class Plot : public QwtPlot
 {
 	Q_OBJECT
@@ -32,6 +35,10 @@ private:
 	QwtPlotCurve *d_curve;
 	//背景方格
 	QwtPlotGrid* grid;
+	//放大器
+	Zoomer* zoomer;
+	// 平移画布，根据鼠标左键
+	QwtPlotPanner* panner;
 };
 
 #endif // PLOT_H

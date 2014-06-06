@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -29,23 +32,16 @@
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" columnstretch="0,0">
-       <item row="0" column="0">
-        <widget class="PlotWidget" name="firstPlotWidget" native="true">
+       <item row="0" column="1">
+        <widget class="PlotWidget" name="plotWidget_2" native="true">
          <property name="maximumSize">
           <size>
            <width>745</width>
            <height>540</height>
           </size>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="PlotWidget" name="widget_2" native="true">
-         <property name="maximumSize">
-          <size>
-           <width>745</width>
-           <height>540</height>
-          </size>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -53,12 +49,15 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="PlotWidget" name="firstPlotWidget_2" native="true">
+        <widget class="PlotWidget" name="plotWidget_3" native="true">
          <property name="maximumSize">
           <size>
            <width>745</width>
            <height>540</height>
           </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -66,12 +65,31 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="PlotWidget" name="widget_3" native="true">
+        <widget class="PlotWidget" name="plotWidget_4" native="true">
          <property name="maximumSize">
           <size>
            <width>745</width>
            <height>540</height>
           </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="PlotWidget" name="plotWidget_1" native="true">
+         <property name="maximumSize">
+          <size>
+           <width>745</width>
+           <height>540</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>

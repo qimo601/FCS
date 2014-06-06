@@ -25,7 +25,7 @@ protected:
 	virtual void paintEvent(QPaintEvent *event);
 private:
 	Ui::ViewWidget ui;
-	PlotWidget* plotWidget;
+	//PlotWidget* plotWidget;
 };
 
 #endif // VIEWWIDGET_H

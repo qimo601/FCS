@@ -2,10 +2,15 @@
 #include <QBitmap>
 #include <QMdiSubWindow>
 #include <QPainter>
+#include <QTimer>
 TestWidget::TestWidget(QWidget *parent)
 : QWidget(parent)
 {
 	ui.setupUi(this);
+	QTimer* timer = new QTimer();
+	connect(timer, SIGNAL(timeout()), this, SLOT(on_pushButton123_clicked()));
+	//timer->start(1000);
+
 }
 
 TestWidget::~TestWidget()
@@ -14,7 +19,8 @@ TestWidget::~TestWidget()
 }
 void TestWidget::on_pushButton123_clicked()
 {
-	
+
+	this->focusNextChild();
 }
 void TestWidget::resizeEvent(QResizeEvent * event)
 {

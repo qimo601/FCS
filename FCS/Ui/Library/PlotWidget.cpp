@@ -26,6 +26,7 @@ PlotWidget::PlotWidget(QWidget *parent)
 	m_timerId = 0;//≥ı ºªØ
 
 
+
 }
 
 PlotWidget::~PlotWidget()
@@ -46,7 +47,7 @@ void PlotWidget::updateSamples(int numPoints)
 
 	bllDataCenter.getCellData(false);
 	QVector<double>* vectorX = bllDataCenter.getCellDataVector(3, 1);
-	QVector<double>* vectorY = bllDataCenter.getCellDataVector(3, 1);
+	QVector<double>* vectorY = bllDataCenter.getCellDataVector(3, 0);
 	d_plot->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
 	d_plot->replot();
 }
@@ -76,13 +77,5 @@ void PlotWidget::paintEvent(QPaintEvent * event)
 	opt.init(this);
 	QPainter p(this);
 	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-
-}
-void PlotWidget::focusInEvent(QFocusEvent * event)
-{
-
-}
-void PlotWidget::focusOutEvent(QFocusEvent * event)
-{
 
 }

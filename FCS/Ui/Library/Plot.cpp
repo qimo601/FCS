@@ -1,9 +1,10 @@
 #include "Plot.h"
 #include <qwt_plot_magnifier.h>
-#include <qwt_plot_panner.h>
 #include <qwt_plot_picker.h>
 #include <qwt_picker_machine.h>
 #include <qwt_plot_curve.h>
+#include <qwt_plot_zoomer.h>
+
 class DistancePicker : public QwtPlotPicker
 {
 public:
@@ -39,6 +40,27 @@ public:
 	}
 };
 
+
+class Zoomer : public QwtPlotZoomer
+{
+public:
+	Zoomer(int xAxis, int yAxis, QWidget *canvas) :
+		QwtPlotZoomer(xAxis, yAxis, canvas)
+	{
+		setTrackerMode(QwtPicker::AlwaysOff);
+		setRubberBand(QwtPicker::NoRubberBand);
+
+		// RightButton: zoom out by 1
+		// Ctrl+RightButton: zoom out to full size
+
+		setMousePattern(QwtEventPattern::MouseSelect2,
+			Qt::RightButton, Qt::ControlModifier);
+		setMousePattern(QwtEventPattern::MouseSelect3,
+			Qt::RightButton);
+	}
+};
+
+
 Plot::Plot(QWidget *parent)
 : QwtPlot(parent),
 d_curve(NULL)
@@ -65,16 +87,17 @@ d_curve(NULL)
 	setSymbol(NULL);
 
 	// 平移画布，根据鼠标左键
-	(void)new QwtPlotPanner(canvas());
+	//panner = new QwtPlotPanner(canvas());
+	//panner->setEnabled(false);
 
 	//支持滑轮放大缩小zoom in/out with the wheel
 	QwtPlotMagnifier *magnifier = new QwtPlotMagnifier(canvas());
-	magnifier->setMouseButton(Qt::NoButton);
+	magnifier->setMouseButton(Qt::RightButton);
 
 	//右键测量 distanve measurement with the right mouse button
-	DistancePicker *picker = new DistancePicker(canvas());
+	/*DistancePicker *picker = new DistancePicker(canvas());
 	picker->setMousePattern(QwtPlotPicker::MouseSelect1, Qt::RightButton);
-	picker->setRubberBandPen(QPen(Qt::blue));
+	picker->setRubberBandPen(QPen(Qt::blue));*/
 
 	grid = new QwtPlotGrid();
 	grid->setPen(QColor(233, 228, 225), 0.0, Qt::DashLine);
@@ -88,6 +111,18 @@ d_curve(NULL)
 	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//设置x轴坐标刻度大小
 	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//设置y轴坐标刻度大小
 
+	//this->setFocusPolicy(Qt::TabFocus);//设置画布聚焦策略为键盘TAB，这样父类可以影响到子控件
+
+	//放大器
+ 	zoomer = new Zoomer(QwtPlot::xBottom, QwtPlot::yLeft,this->canvas());
+ 	zoomer->setRubberBand(QwtPicker::RectRubberBand);
+ 	zoomer->setRubberBandPen(QColor(Qt::green));
+ 	zoomer->setTrackerMode(QwtPicker::ActiveOnly);
+ 	zoomer->setTrackerPen(QColor(Qt::white));
+
+
+	zoomer->setEnabled(true);
+	zoomer->zoom(0);
 }
 
 Plot::~Plot()
