@@ -18,7 +18,7 @@ public:
 	~TestWidget();
 public slots:
 
-	void on_pushButton123_clicked();
+	void on_pushButton1234_clicked();
 protected:
 	virtual void resizeEvent(QResizeEvent * event);
 	virtual void mouseMoveEvent(QMouseEvent* event);

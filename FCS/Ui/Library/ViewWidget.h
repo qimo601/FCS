@@ -23,6 +23,7 @@ public slots:
 	void stopAcqSlot();
 protected:
 	virtual void paintEvent(QPaintEvent *event);
+	virtual void mouseMoveEvent(QMouseEvent * e);
 private:
 	Ui::ViewWidget ui;
 	//PlotWidget* plotWidget;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PlotWidget</class>
- <widget class="QWidget" name="PlotWidget">
+ <class>BarChartWidget</class>
+ <widget class="QWidget" name="BarChartWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -23,7 +23,7 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>PlotWidget</string>
+   <string>BarChartWidget</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <property name="spacing">

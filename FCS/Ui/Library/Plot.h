@@ -30,15 +30,22 @@ public:
 	void setRawSamples(const double * xData, const double * yData, int size);
 public slots:
 	void setGridEnable(bool checked);
-
+	/**
+	* @brief 设置放大/缩小按钮功能启用
+	*/
+	void enableZoomMode(bool checked);
+	/**
+	* @brief 设置平移功能启用
+	*/
+	void enablePannerMode(bool checked);
 private:
 	QwtPlotCurve *d_curve;
 	//背景方格
-	QwtPlotGrid* grid;
+	QwtPlotGrid* d_grid;
 	//放大器
-	Zoomer* zoomer;
+	Zoomer* d_zoomer;
 	// 平移画布，根据鼠标左键
-	QwtPlotPanner* panner;
+	QwtPlotPanner* d_panner;
 };
 
 #endif // PLOT_H

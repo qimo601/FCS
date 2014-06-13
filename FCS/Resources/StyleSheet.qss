@@ -422,3 +422,28 @@ QWidget#scrollAreaWidgetContents,#pushButton123,#widget_1,#widget_3,#widget_4{
 QWidget#scrollAreaWidgetContents:focus,#pushButton123:focus,#widget_1:focus,#widget_3:focus,#widget_4:focus{
 	border:5px solid red;
 }
+QGraphicsView
+{
+	background:transparent;
+	border:1px;
+}
+
+QFrame#cellToolFrame{
+	border: 1px solid #7D8180;
+	background-color:#7D8180;
+	border-radius:0px;
+    width: 110px;
+	height:30px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QFrame#cellPlotFrame
+{
+	border: 1px solid #FFFFFF;
+	background-color: #FFFFFF;
+	border-radius:0px;
+    width: 110px;
+	height:30px;
+    padding:0 0px;
+	margin:0 0px;
+}

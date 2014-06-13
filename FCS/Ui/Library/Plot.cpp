@@ -1,30 +1,30 @@
-#include "Plot.h"
+ï»¿#include "Plot.h"
 #include <qwt_plot_magnifier.h>
 #include <qwt_plot_picker.h>
 #include <qwt_picker_machine.h>
 #include <qwt_plot_curve.h>
 #include <qwt_plot_zoomer.h>
-
+#include <qwt_scale_widget.h>
 class DistancePicker : public QwtPlotPicker
 {
 public:
-	//Ìá¹©Ñ¡ÔñÀà
+	//æä¾›é€‰æ‹©ç±»
 	DistancePicker(QWidget *canvas) :
 		QwtPlotPicker(canvas)
 	{
-		//ÉèÖÃ¸ú×ÙÄ£Ê½
+		//è®¾ç½®è·Ÿè¸ªæ¨¡å¼
 		setTrackerMode(QwtPicker::ActiveOnly);
-		//ÉèÖÃÒ»¸ö×´Ì¬»ú£¬²¢É¾³ýÉÏÒ»¸ö
+		//è®¾ç½®ä¸€ä¸ªçŠ¶æ€æœºï¼Œå¹¶åˆ é™¤ä¸Šä¸€ä¸ª
 		setStateMachine(new QwtPickerDragLineMachine());
-		//ÉèÖÃÏð½ºÈ¦ÑùÊ½£º¶à±ßÐÎ
+		//è®¾ç½®æ©¡èƒ¶åœˆæ ·å¼ï¼šå¤šè¾¹å½¢
 		setRubberBand(QwtPlotPicker::PolygonRubberBand);
 	}
-	//½«Î»ÖÃ×ª»»³É×Ö·û´®
+	//å°†ä½ç½®è½¬æ¢æˆå­—ç¬¦ä¸²
 	virtual QwtText trackerTextF(const QPointF &pos) const
 	{
 		QwtText text;
 
-		const QPolygon points = selection();//Ñ¡ÔñµÄµã
+		const QPolygon points = selection();//é€‰æ‹©çš„ç‚¹
 		if (!points.isEmpty())
 		{
 			QString num;
@@ -47,16 +47,16 @@ public:
 	Zoomer(int xAxis, int yAxis, QWidget *canvas) :
 		QwtPlotZoomer(xAxis, yAxis, canvas)
 	{
-		setTrackerMode(QwtPicker::AlwaysOff);
-		setRubberBand(QwtPicker::NoRubberBand);
+		//setTrackerMode(QwtPicker::AlwaysOff);
+		//setRubberBand(QwtPicker::NoRubberBand);
 
-		// RightButton: zoom out by 1
-		// Ctrl+RightButton: zoom out to full size
+		//// RightButton: zoom out by 1
+		//// Ctrl+RightButton: zoom out to full size
 
-		setMousePattern(QwtEventPattern::MouseSelect2,
-			Qt::RightButton, Qt::ControlModifier);
-		setMousePattern(QwtEventPattern::MouseSelect3,
-			Qt::RightButton);
+		//setMousePattern(QwtEventPattern::MouseSelect2,
+		//	Qt::RightButton, Qt::ControlModifier);
+		//setMousePattern(QwtEventPattern::MouseSelect3,
+		//	Qt::RightButton);
 	}
 };
 
@@ -67,14 +67,14 @@ d_curve(NULL)
 {
 
 	canvas()->setStyleSheet(
-		"border: 1px solid Black;"
+		"border: 1px solid black;"
 		"border-radius: 15px;"
 		"background-color:#FFFFFF;"
 		);
-
+	canvas()->setFocusPolicy(Qt::StrongFocus);
 	// attach curve
 	d_curve = new QwtPlotCurve("Scattered Points");
-	//ÉèÖÃÑÕÉ«
+	//è®¾ç½®é¢œè‰²
 	QColor c(42,93,169);
 	d_curve->setPen(c, 2);
 
@@ -86,43 +86,49 @@ d_curve(NULL)
 
 	setSymbol(NULL);
 
-	// Æ½ÒÆ»­²¼£¬¸ù¾ÝÊó±ê×ó¼ü
-	//panner = new QwtPlotPanner(canvas());
-	//panner->setEnabled(false);
+	// å¹³ç§»ç”»å¸ƒï¼Œæ ¹æ®é¼ æ ‡å·¦é”®
+	d_panner = new QwtPlotPanner(canvas());
+	d_panner->setEnabled(false);
 
-	//Ö§³Ö»¬ÂÖ·Å´óËõÐ¡zoom in/out with the wheel
+	//æ”¯æŒæ»‘è½®æ”¾å¤§ç¼©å°zoom in/out with the wheel
 	QwtPlotMagnifier *magnifier = new QwtPlotMagnifier(canvas());
-	magnifier->setMouseButton(Qt::RightButton);
+	magnifier->setMouseButton(Qt::RightButton);//é»˜è®¤å°±æ˜¯å³é”®é¼ æ ‡
 
-	//ÓÒ¼ü²âÁ¿ distanve measurement with the right mouse button
-	/*DistancePicker *picker = new DistancePicker(canvas());
+	//å³é”®æµ‹é‡ distanve measurement with the right mouse button
+	DistancePicker *picker = new DistancePicker(canvas());
 	picker->setMousePattern(QwtPlotPicker::MouseSelect1, Qt::RightButton);
-	picker->setRubberBandPen(QPen(Qt::blue));*/
+	picker->setRubberBandPen(QPen(Qt::blue));
 
-	grid = new QwtPlotGrid();
-	grid->setPen(QColor(233, 228, 225), 0.0, Qt::DashLine);
-	grid->enableX(true);
-	grid->enableXMin(false);
-	grid->enableY(true);
-	grid->enableYMin(false);
-	grid->attach(this);
+	d_grid = new QwtPlotGrid();
+	d_grid->setPen(QColor(233, 228, 225), 0.0, Qt::DashLine);
+	d_grid->enableX(true);
+	d_grid->enableXMin(false);
+	d_grid->enableY(true);
+	d_grid->enableYMin(false);
+	d_grid->attach(this);
+	//åæ ‡è½´åˆ»åº¦ä¿®é¥°
+	//QwtScaleWidget *scaleXWidget = this->axisWidget(QwtPlot::xBottom);//xè½´åˆ»åº¦æŽ§ä»¶
+	//scaleXWidget->setStyleSheet(
+	//	"color:#8A8A88;"
+	//	);
+	//QwtScaleWidget *scaleYWidget = this->axisWidget(QwtPlot::yLeft);//xè½´åˆ»åº¦æŽ§ä»¶
+	//scaleYWidget->setStyleSheet(
+	//	"color:#8A8A88;"
+	//	);
+	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//è®¾ç½®xè½´åæ ‡åˆ»åº¦å¤§å°
+	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//è®¾ç½®yè½´åæ ‡åˆ»åº¦å¤§å°
+
+	//this->setFocusPolicy(Qt::TabFocus);//è®¾ç½®ç”»å¸ƒèšç„¦ç­–ç•¥ä¸ºé”®ç›˜TABï¼Œè¿™æ ·çˆ¶ç±»å¯ä»¥å½±å“åˆ°å­æŽ§ä»¶
+
+	//æ”¾å¤§å™¨
+	d_zoomer = new Zoomer(QwtPlot::xBottom, QwtPlot::yLeft,this->canvas());
+	d_zoomer->setRubberBand(QwtPicker::RectRubberBand);
+	d_zoomer->setRubberBandPen(QColor(Qt::green));
+	d_zoomer->setTrackerMode(QwtPicker::ActiveOnly);
+	d_zoomer->setTrackerPen(QColor(Qt::white));
+	d_zoomer->setEnabled(false);
 
 
-	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//ÉèÖÃxÖá×ø±ê¿Ì¶È´óÐ¡
-	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//ÉèÖÃyÖá×ø±ê¿Ì¶È´óÐ¡
-
-	//this->setFocusPolicy(Qt::TabFocus);//ÉèÖÃ»­²¼¾Û½¹²ßÂÔÎª¼üÅÌTAB£¬ÕâÑù¸¸Àà¿ÉÒÔÓ°Ïìµ½×Ó¿Ø¼þ
-
-	//·Å´óÆ÷
- 	zoomer = new Zoomer(QwtPlot::xBottom, QwtPlot::yLeft,this->canvas());
- 	zoomer->setRubberBand(QwtPicker::RectRubberBand);
- 	zoomer->setRubberBandPen(QColor(Qt::green));
- 	zoomer->setTrackerMode(QwtPicker::ActiveOnly);
- 	zoomer->setTrackerPen(QColor(Qt::white));
-
-
-	zoomer->setEnabled(true);
-	zoomer->zoom(0);
 }
 
 Plot::~Plot()
@@ -131,7 +137,7 @@ Plot::~Plot()
 }
 void Plot::setSymbol(QwtSymbol *symbol)
 {
-	//ÉèÖÃÒ»¸ö·ûºÅ
+	//è®¾ç½®ä¸€ä¸ªç¬¦å·
 	d_curve->setSymbol(symbol);
 
 	if (symbol == NULL)
@@ -142,7 +148,7 @@ void Plot::setSymbol(QwtSymbol *symbol)
 
 void Plot::setSamples(const QVector<QPointF> &samples)
 {
-	/**Ö¸¶¨ÇúÏß»æ»­ÀàÐÍÎªImageBufferRender the points to a temporary image and paint the image.
+	/**æŒ‡å®šæ›²çº¿ç»˜ç”»ç±»åž‹ä¸ºImageBufferRender the points to a temporary image and paint the image.
 	This is a very special optimization for Dots style, when having a huge amount of points.
 	With a reasonable number of points QPainter::drawPoints() will be faster.*/
 	d_curve->setPaintAttribute(
@@ -152,7 +158,7 @@ void Plot::setSamples(const QVector<QPointF> &samples)
 }
 void Plot::setRawSamples(const double * xData,	const double * 	yData,	int size)
 {
-	/**Ö¸¶¨ÇúÏß»æ»­ÀàÐÍÎªImageBufferRender the points to a temporary image and paint the image.
+	/**æŒ‡å®šæ›²çº¿ç»˜ç”»ç±»åž‹ä¸ºImageBufferRender the points to a temporary image and paint the image.
 	This is a very special optimization for Dots style, when having a huge amount of points.
 	With a reasonable number of points QPainter::drawPoints() will be faster.*/
 	d_curve->setPaintAttribute(
@@ -161,15 +167,47 @@ void Plot::setRawSamples(const double * xData,	const double * 	yData,	int size)
 	d_curve->setRawSamples(xData, yData,size);
 }
 /**
-* @brief ÉèÖÃ±³¾°ÏßÊÇ·ñÏÔÊ¾
+* @brief è®¾ç½®èƒŒæ™¯çº¿æ˜¯å¦æ˜¾ç¤º
 */
 void Plot::setGridEnable(bool checked)
 {
 	
-	grid->enableX(checked);
-	grid->enableXMin(false);
-	grid->enableY(checked);
-	grid->enableYMin(false);
+	d_grid->enableX(checked);
+	d_grid->enableXMin(false);
+	d_grid->enableY(checked);
+	d_grid->enableYMin(false);
 
 	replot();
+}
+/**
+* @brief è®¾ç½®æ”¾å¤§/ç¼©å°æŒ‰é’®åŠŸèƒ½å¯ç”¨
+*/
+void Plot::enableZoomMode(bool checked)
+{
+	d_zoomer->setEnabled(checked);
+	d_zoomer->zoom(0);
+	if (checked)
+	{
+		canvas()->setCursor(QCursor(Qt::CrossCursor));
+	}
+	else
+	{
+		canvas()->setCursor(QCursor(Qt::ArrowCursor));
+	}
+	
+}
+/**
+* @brief è®¾ç½®å¹³ç§»åŠŸèƒ½å¯ç”¨
+*/
+void Plot::enablePannerMode(bool checked)
+{
+	d_panner->setEnabled(checked);
+	if (checked)
+	{
+		canvas()->setCursor(QCursor(Qt::SizeAllCursor));
+	}
+	else
+	{
+		canvas()->setCursor(QCursor(Qt::ArrowCursor));
+	}
 }

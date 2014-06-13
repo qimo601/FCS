@@ -1,4 +1,5 @@
 ﻿#include "ViewWidget.h"
+#include <QScrollBar>
 ViewWidget::ViewWidget(QWidget *parent)
 	: QWidget(parent)
 {
@@ -35,4 +36,13 @@ void ViewWidget::startAcqSlot()
 void ViewWidget::stopAcqSlot()
 {
 	ui.plotWidget_1->stopAcqTimer();
+}
+
+void ViewWidget::mouseMoveEvent(QMouseEvent * e)
+{
+	//int hvalue = ui.scrollArea->horizontalScrollBar()->value();
+	//int vvalue = ui.scrollArea->verticalScrollBar()->value();
+	//QPoint topLeft = ui.scrollArea->viewport()->rect().topLeft();
+
+	//ui.scrollArea->viewport()->move(topLeft.x() - hvalue, topLeft.y() - vvalue);
 }

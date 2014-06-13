@@ -1,10 +1,10 @@
-#include "PlotWidget.h"
+#include "BarChartWidget.h"
 
 #include "plot.h"
 #include <qmath.h>
 #include <QTime>
 #include <QPainter>
-PlotWidget::PlotWidget(QWidget *parent)
+BarChartWidget::BarChartWidget(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -37,19 +37,19 @@ PlotWidget::PlotWidget(QWidget *parent)
 
 }
 
-PlotWidget::~PlotWidget()
+BarChartWidget::~BarChartWidget()
 {
 
 }
 
-double PlotWidget::randomValue()
+double BarChartWidget::randomValue()
 {
 	// a number between [ 0.0, 1.0 ]
 	return (qrand() % 100000) / 100000.0;
 }
 
 
-void PlotWidget::updateSamples(int numPoints)
+void BarChartWidget::updateSamples(int numPoints)
 {
 	QPolygonF samples;
 
@@ -59,7 +59,7 @@ void PlotWidget::updateSamples(int numPoints)
 	d_plot->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
 	d_plot->replot();
 }
-void PlotWidget::timerEvent(QTimerEvent *event)
+void BarChartWidget::timerEvent(QTimerEvent *event)
 {
 	//每个10ms更新一次
 	if (event->timerId() == m_timerId)
@@ -68,18 +68,18 @@ void PlotWidget::timerEvent(QTimerEvent *event)
 	}
 }
 
-void PlotWidget::startAcqTimer()
+void BarChartWidget::startAcqTimer()
 {
 	//开启定时器
 	m_timerId = startTimer(10);
 }
-void PlotWidget::stopAcqTimer()
+void BarChartWidget::stopAcqTimer()
 {
 	//关闭定时器
 	killTimer(m_timerId);
 }
 
-void PlotWidget::paintEvent(QPaintEvent * event)
+void BarChartWidget::paintEvent(QPaintEvent * event)
 {
 	QStyleOption opt;
 	opt.init(this);
