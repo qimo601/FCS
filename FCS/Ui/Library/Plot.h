@@ -14,7 +14,7 @@
 #include <qwt_plot.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_panner.h>
-
+#include "Include/Global.h"
 class QwtPlotCurve;
 class QwtSymbol;
 class Zoomer;

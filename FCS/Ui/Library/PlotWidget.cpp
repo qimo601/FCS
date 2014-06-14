@@ -8,11 +8,10 @@ PlotWidget::PlotWidget(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-
 	//细胞绘图控件初始化
 	vLayoutCellPlotFrame = new QVBoxLayout(ui.cellPlotFrame);
-	vLayoutCellPlotFrame->setSpacing(6);
-	vLayoutCellPlotFrame->setContentsMargins(11, 11, 11, 11);
+	vLayoutCellPlotFrame->setSpacing(0);
+	vLayoutCellPlotFrame->setContentsMargins(0, 0, 0, 0);
 	vLayoutCellPlotFrame->setObjectName(QStringLiteral("verticalLayout_4"));
 	d_plot = new Plot(ui.cellPlotFrame);
 	d_plot->setObjectName(QStringLiteral("d_plot"));
@@ -33,6 +32,8 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.pannerBtn, SIGNAL(toggled(bool)), d_plot, SLOT(enablePannerMode(bool)));
 
 	m_timerId = 0;//初始化
+
+	this->setFocusPolicy(Qt::ClickFocus);
 
 
 }

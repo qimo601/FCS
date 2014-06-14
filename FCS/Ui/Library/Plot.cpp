@@ -65,13 +65,29 @@ Plot::Plot(QWidget *parent)
 : QwtPlot(parent),
 d_curve(NULL)
 {
-
+	setAutoFillBackground(true);
+	setPalette(QColor("#D4D3CC"));//plot背景色
+	setTitle("散点图显示");//画布标题
 	canvas()->setStyleSheet(
-		"border: 1px solid black;"
+		"border: 1px solid #666666;"
 		"border-radius: 15px;"
 		"background-color:#FFFFFF;"
-		);
+		);//画布背景色
 	canvas()->setFocusPolicy(Qt::StrongFocus);
+
+	////设置画布
+	//QwtPlotCanvas *canvas = new QwtPlotCanvas();
+	//canvas->setLineWidth(2);
+	//canvas->setFrameStyle(QFrame::Box | QFrame::Sunken);
+	//canvas->setBorderRadius(10);
+
+	//QPalette canvasPalette(QColor("Plum"));
+	//canvasPalette.setColor(QPalette::Foreground, QColor("Indigo"));
+	//canvas->setPalette(canvasPalette);
+
+	//setCanvas(canvas);
+
+
 	// attach curve
 	d_curve = new QwtPlotCurve("Scattered Points");
 	//设置颜色
@@ -100,21 +116,21 @@ d_curve(NULL)
 	picker->setRubberBandPen(QPen(Qt::blue));
 
 	d_grid = new QwtPlotGrid();
-	d_grid->setPen(QColor(233, 228, 225), 0.0, Qt::DashLine);
+	d_grid->setPen(QColor(215, 215, 215), 0.0, Qt::DashLine);
 	d_grid->enableX(true);
 	d_grid->enableXMin(false);
 	d_grid->enableY(true);
 	d_grid->enableYMin(false);
 	d_grid->attach(this);
 	//坐标轴刻度修饰
-	//QwtScaleWidget *scaleXWidget = this->axisWidget(QwtPlot::xBottom);//x轴刻度控件
-	//scaleXWidget->setStyleSheet(
-	//	"color:#8A8A88;"
-	//	);
-	//QwtScaleWidget *scaleYWidget = this->axisWidget(QwtPlot::yLeft);//x轴刻度控件
-	//scaleYWidget->setStyleSheet(
-	//	"color:#8A8A88;"
-	//	);
+	QwtScaleWidget *scaleXWidget = this->axisWidget(QwtPlot::xBottom);//x轴刻度控件
+	scaleXWidget->setStyleSheet(
+		"color:#666666;"
+		);
+	QwtScaleWidget *scaleYWidget = this->axisWidget(QwtPlot::yLeft);//x轴刻度控件
+	scaleYWidget->setStyleSheet(
+		"color:#666666;"
+		);
 	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//设置x轴坐标刻度大小
 	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//设置y轴坐标刻度大小
 

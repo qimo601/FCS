@@ -1,4 +1,4 @@
-#include "BarChartWidget.h"
+ï»¿#include "BarChartWidget.h"
 
 #include "plot.h"
 #include <qmath.h>
@@ -10,10 +10,10 @@ BarChartWidget::BarChartWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	//Ï¸°û»æÍ¼¿Ø¼ş³õÊ¼»¯
+	//ç»†èƒç»˜å›¾æ§ä»¶åˆå§‹åŒ–
 	vLayoutCellPlotFrame = new QVBoxLayout(ui.cellPlotFrame);
-	vLayoutCellPlotFrame->setSpacing(6);
-	vLayoutCellPlotFrame->setContentsMargins(11, 11, 11, 11);
+	vLayoutCellPlotFrame->setSpacing(0);
+	vLayoutCellPlotFrame->setContentsMargins(0, 0, 0, 0);
 	vLayoutCellPlotFrame->setObjectName(QStringLiteral("verticalLayout_4"));
 	d_barChart = new BarChart(ui.cellPlotFrame);
 	d_barChart->setObjectName(QStringLiteral("d_barChart"));
@@ -22,18 +22,18 @@ BarChartWidget::BarChartWidget(QWidget *parent)
 
 
 
-	////ÉèÖÃ±³¾°ÏßÊÇ·ñÏÔÊ¾
+	////è®¾ç½®èƒŒæ™¯çº¿æ˜¯å¦æ˜¾ç¤º
 	//connect(ui.gridCheckBox, SIGNAL(clicked(bool)), d_barChart, SLOT(setGridEnable(bool)));
-	////ÉèÖÃ·Å´ó/ËõĞ¡°´Å¥¿ÉÑ¡Ôñ
+	////è®¾ç½®æ”¾å¤§/ç¼©å°æŒ‰é’®å¯é€‰æ‹©
 	//ui.zoomerBtn->setCheckable(true);
-	////ÉèÖÃ·Å´óËõĞ¡¹¦ÄÜÊÇ·ñÆôÓÃ
+	////è®¾ç½®æ”¾å¤§ç¼©å°åŠŸèƒ½æ˜¯å¦å¯ç”¨
 	//connect(ui.zoomerBtn, SIGNAL(toggled(bool)), d_barChart, SLOT(enableZoomMode(bool)));
-	////ÉèÖÃÆ½ÒÆ°´Å¥¿ÉÑ¡Ôñ
+	////è®¾ç½®å¹³ç§»æŒ‰é’®å¯é€‰æ‹©
 	//ui.pannerBtn->setCheckable(true);
-	////ÉèÖÃÆ½ÒÆ°´Å¥¹¦ÄÜÊÇ·ñÆôÓÃ
+	////è®¾ç½®å¹³ç§»æŒ‰é’®åŠŸèƒ½æ˜¯å¦å¯ç”¨
 	//connect(ui.pannerBtn, SIGNAL(toggled(bool)), d_barChart, SLOT(enablePannerMode(bool)));
 
-	m_timerId = 0;//³õÊ¼»¯
+	m_timerId = 0;//åˆå§‹åŒ–
 
 
 }
@@ -62,7 +62,7 @@ void BarChartWidget::updateSamples(int numPoints)
 }
 void BarChartWidget::timerEvent(QTimerEvent *event)
 {
-	//Ã¿¸ö10ms¸üĞÂÒ»´Î
+	//æ¯ä¸ª10msæ›´æ–°ä¸€æ¬¡
 	/*if (event->timerId() == m_timerId)
 	{
 	updateSamples(0);
@@ -71,12 +71,12 @@ void BarChartWidget::timerEvent(QTimerEvent *event)
 
 void BarChartWidget::startAcqTimer()
 {
-	//¿ªÆô¶¨Ê±Æ÷
+	//å¼€å¯å®šæ—¶å™¨
 	//m_timerId = startTimer(10);
 }
 void BarChartWidget::stopAcqTimer()
 {
-	//¹Ø±Õ¶¨Ê±Æ÷
+	//å…³é—­å®šæ—¶å™¨
 	//killTimer(m_timerId);
 }
 

@@ -1005,14 +1005,14 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_2">
+                 <widget class="QPushButton" name="newPlotBtn">
                   <property name="text">
                    <string>新建画布</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_3">
+                 <widget class="QPushButton" name="delPlotBtn">
                   <property name="text">
                    <string>删除画布</string>
                   </property>

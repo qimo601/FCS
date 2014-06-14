@@ -56,6 +56,7 @@ void StackedWidget::init()
 	//开始采集和停止采集
 	connect(ui.startAcquisitionBtn, SIGNAL(clicked()), ui.celllViewWidget, SLOT(startAcqSlot()));
 	connect(ui.stopAcquisitionBtn, SIGNAL(clicked()), ui.celllViewWidget, SLOT(stopAcqSlot()));
+	
 }
 /**
 * @brief 示波器显示处理槽函数
@@ -64,6 +65,7 @@ void StackedWidget::oscHandle()
 {
 	ui.viewStackedWidget->setCurrentWidget(oscWidgetPage);
 	ui.bottomFrame->setEnabled(false);//屏蔽正常采集功能
+
 
 }
 /**
@@ -220,6 +222,8 @@ void StackedWidget::on_startAcquisitionBtn_clicked()
 	voCmd.setCmd(5);
 	voCmd.setLength(0);
 	bllControl->sendCmd(voCmd);
+	ui.startAcquisitionBtn->setEnabled(false);
+	ui.stopAcquisitionBtn->setEnabled(true);
 }
 /**
 * @brief 下发停止采集命令
@@ -231,4 +235,21 @@ void StackedWidget::on_stopAcquisitionBtn_clicked()
 	voCmd.setCmd(6);
 	voCmd.setLength(0);
 	bllControl->sendCmd(voCmd);
+
+	ui.startAcquisitionBtn->setEnabled(true);
+	ui.stopAcquisitionBtn->setEnabled(false);
+}
+/**
+* @brief 新建plot
+*/
+void StackedWidget::on_newPlotBtn_clicked()
+{
+	ui.celllViewWidget->addNewPlot();
+}
+/**
+* @brief 删除plot
+*/
+void StackedWidget::on_delPlotBtn_clicked()
+{
+	ui.celllViewWidget->delPlot();
 }

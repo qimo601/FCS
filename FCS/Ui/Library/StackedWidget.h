@@ -99,6 +99,14 @@ public slots:
 	* @brief 下发命令
 	*/
 	void sendCmd();
+	/**
+	* @brief 新建plot
+	*/
+	void on_newPlotBtn_clicked();
+	/**
+	* @brief 删除plot
+	*/
+	void on_delPlotBtn_clicked();
 protected:
 	void paintEvent(QPaintEvent *event);
 private:

@@ -427,16 +427,17 @@ QGraphicsView
 	background:transparent;
 	border:1px;
 }
-
+/*
 QFrame#cellToolFrame{
 	border: 1px solid #7D8180;
-	background-color:#7D8180;
+	background-color: #000000;
 	border-radius:0px;
     width: 110px;
 	height:30px;
     padding:0 0px;
 	margin:0 0px;
-}
+}*/
+/*
 QFrame#cellPlotFrame
 {
 	border: 1px solid #FFFFFF;
@@ -447,3 +448,4 @@ QFrame#cellPlotFrame
     padding:0 0px;
 	margin:0 0px;
 }
+*/

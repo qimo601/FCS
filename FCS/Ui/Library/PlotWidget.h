@@ -40,6 +40,7 @@ public slots:
 protected:
 	virtual void paintEvent(QPaintEvent * event);
 	virtual void timerEvent(QTimerEvent * event);
+
 private:
 	Ui::PlotWidget ui;
 	Plot *d_plot;

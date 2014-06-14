@@ -103,8 +103,8 @@ public:
     QWidget *toolBtnWidget;
     QHBoxLayout *horizontalLayout_11;
     QSpacerItem *horizontalSpacer_12;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
+    QPushButton *newPlotBtn;
+    QPushButton *delPlotBtn;
     QPushButton *pushButton_4;
     ViewWidget *celllViewWidget;
     ReportWidget *reportWidget;
@@ -579,15 +579,15 @@ public:
 
         horizontalLayout_11->addItem(horizontalSpacer_12);
 
-        pushButton_2 = new QPushButton(toolBtnWidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        newPlotBtn = new QPushButton(toolBtnWidget);
+        newPlotBtn->setObjectName(QStringLiteral("newPlotBtn"));
 
-        horizontalLayout_11->addWidget(pushButton_2);
+        horizontalLayout_11->addWidget(newPlotBtn);
 
-        pushButton_3 = new QPushButton(toolBtnWidget);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        delPlotBtn = new QPushButton(toolBtnWidget);
+        delPlotBtn->setObjectName(QStringLiteral("delPlotBtn"));
 
-        horizontalLayout_11->addWidget(pushButton_3);
+        horizontalLayout_11->addWidget(delPlotBtn);
 
         pushButton_4 = new QPushButton(toolBtnWidget);
         pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
@@ -702,8 +702,8 @@ public:
         setTriggerBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
         label_6->setText(QApplication::translate("StackedWidget", "\351\200\232\351\201\223\345\201\217\345\216\213\357\274\232", 0));
         setChannelBiasBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
-        pushButton_2->setText(QApplication::translate("StackedWidget", "\346\226\260\345\273\272\347\224\273\345\270\203", 0));
-        pushButton_3->setText(QApplication::translate("StackedWidget", "\345\210\240\351\231\244\347\224\273\345\270\203", 0));
+        newPlotBtn->setText(QApplication::translate("StackedWidget", "\346\226\260\345\273\272\347\224\273\345\270\203", 0));
+        delPlotBtn->setText(QApplication::translate("StackedWidget", "\345\210\240\351\231\244\347\224\273\345\270\203", 0));
         pushButton_4->setText(QApplication::translate("StackedWidget", "\344\277\235\345\255\230", 0));
         pushButton->setText(QApplication::translate("StackedWidget", "\350\275\275\345\205\245\345\217\202\346\225\260", 0));
         startAcquisitionBtn->setText(QApplication::translate("StackedWidget", "\345\274\200\345\247\213\351\207\207\351\233\206", 0));

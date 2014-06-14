@@ -21,12 +21,32 @@ public slots:
 	* @brief 结束采集
 	*/
 	void stopAcqSlot();
+	/**
+	* @brief 新添加plot
+	*/
+	void addNewPlot();
+	/**
+	* @brief 删除plot
+	*/
+	void delPlot();
+	/**
+	* @brief 清空所有画布
+	*/
+	void clearPlotWidget();
+	/**
+	* @brief 重新布局画布
+	*/
+	void relayoutPlotWidget();
 protected:
 	virtual void paintEvent(QPaintEvent *event);
-	virtual void mouseMoveEvent(QMouseEvent * e);
+	virtual void mouseMoveEvent(QMouseEvent * event);
+	virtual void mousePressEvent(QMouseEvent * event);
+
 private:
 	Ui::ViewWidget ui;
 	//PlotWidget* plotWidget;
+	QList<QWidget*> plotWidgetList;
+	QWidget* focusPlotWidget;
 };
 
 #endif // VIEWWIDGET_H
