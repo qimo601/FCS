@@ -15,8 +15,8 @@
 #include <QPaintEvent>
 #include "ui_BarChartWidget.h"
 #include "Bll/DataCenter/BllDataCenter.h"
-class Plot;
 
+class BarChart;
 class BarChartWidget : public QWidget
 {
 	Q_OBJECT
@@ -42,7 +42,7 @@ protected:
 	virtual void timerEvent(QTimerEvent * event);
 private:
 	Ui::BarChartWidget ui;
-	Plot *d_plot;
+	BarChart *d_barChart;//直方图控件
 	BllDataCenter bllDataCenter;
 
 	QVBoxLayout *vLayoutCellPlotFrame;//细胞绘图布局控件

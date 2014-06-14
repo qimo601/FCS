@@ -7,6 +7,8 @@ ViewWidget::ViewWidget(QWidget *parent)
 	/*plotWidget = new PlotWidget(ui.scrollAreaWidgetContents);
 	ui.gridLayout->addWidget(plotWidget, 1, 0, 1, 1);*/
 
+	//barChartWidget = new BarChartWidget(ui.scrollAreaWidgetContents);
+
 }
 
 ViewWidget::~ViewWidget()

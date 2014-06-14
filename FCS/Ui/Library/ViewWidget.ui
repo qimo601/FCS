@@ -42,7 +42,7 @@
           </widget>
          </item>
          <item>
-          <widget class="PlotWidget" name="plotWidget_2" native="true"/>
+          <widget class="BarChartWidget" name="plotWidget_2" native="true"/>
          </item>
          <item>
           <spacer name="horizontalSpacer">
@@ -106,7 +106,13 @@
   <customwidget>
    <class>PlotWidget</class>
    <extends>QWidget</extends>
-   <header location="global">Ui/Library/PlotWidget.h</header>
+   <header>Ui/Library/PlotWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BarChartWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">Ui/Library/BarChartWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -4,6 +4,7 @@
 #include <qmath.h>
 #include <QTime>
 #include <QPainter>
+#include "Ui/Library/BarChart.h"
 BarChartWidget::BarChartWidget(QWidget *parent)
 	: QWidget(parent)
 {
@@ -14,23 +15,23 @@ BarChartWidget::BarChartWidget(QWidget *parent)
 	vLayoutCellPlotFrame->setSpacing(6);
 	vLayoutCellPlotFrame->setContentsMargins(11, 11, 11, 11);
 	vLayoutCellPlotFrame->setObjectName(QStringLiteral("verticalLayout_4"));
-	d_plot = new Plot(ui.cellPlotFrame);
-	d_plot->setObjectName(QStringLiteral("d_plot"));
+	d_barChart = new BarChart(ui.cellPlotFrame);
+	d_barChart->setObjectName(QStringLiteral("d_barChart"));
 
-	vLayoutCellPlotFrame->addWidget(d_plot);
+	vLayoutCellPlotFrame->addWidget(d_barChart);
 
 
 
-	//设置背景线是否显示
-	connect(ui.gridCheckBox, SIGNAL(clicked(bool)), d_plot, SLOT(setGridEnable(bool)));
-	//设置放大/缩小按钮可选择
-	ui.zoomerBtn->setCheckable(true);
-	//设置放大缩小功能是否启用
-	connect(ui.zoomerBtn, SIGNAL(toggled(bool)), d_plot, SLOT(enableZoomMode(bool)));
-	//设置平移按钮可选择
-	ui.pannerBtn->setCheckable(true);
-	//设置平移按钮功能是否启用
-	connect(ui.pannerBtn, SIGNAL(toggled(bool)), d_plot, SLOT(enablePannerMode(bool)));
+	////设置背景线是否显示
+	//connect(ui.gridCheckBox, SIGNAL(clicked(bool)), d_barChart, SLOT(setGridEnable(bool)));
+	////设置放大/缩小按钮可选择
+	//ui.zoomerBtn->setCheckable(true);
+	////设置放大缩小功能是否启用
+	//connect(ui.zoomerBtn, SIGNAL(toggled(bool)), d_barChart, SLOT(enableZoomMode(bool)));
+	////设置平移按钮可选择
+	//ui.pannerBtn->setCheckable(true);
+	////设置平移按钮功能是否启用
+	//connect(ui.pannerBtn, SIGNAL(toggled(bool)), d_barChart, SLOT(enablePannerMode(bool)));
 
 	m_timerId = 0;//初始化
 
@@ -51,32 +52,32 @@ double BarChartWidget::randomValue()
 
 void BarChartWidget::updateSamples(int numPoints)
 {
-	QPolygonF samples;
+	//QPolygonF samples;
 
-	bllDataCenter.getCellData(false);
-	QVector<double>* vectorX = bllDataCenter.getCellDataVector(3, 1);
-	QVector<double>* vectorY = bllDataCenter.getCellDataVector(3, 0);
-	d_plot->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
-	d_plot->replot();
+	//bllDataCenter.getCellData(false);
+	//QVector<double>* vectorX = bllDataCenter.getCellDataVector(3, 1);
+	//QVector<double>* vectorY = bllDataCenter.getCellDataVector(3, 0);
+	//d_barChart->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
+	//d_barChart->replot();
 }
 void BarChartWidget::timerEvent(QTimerEvent *event)
 {
 	//每个10ms更新一次
-	if (event->timerId() == m_timerId)
+	/*if (event->timerId() == m_timerId)
 	{
-		updateSamples(0);
-	}
+	updateSamples(0);
+	}*/
 }
 
 void BarChartWidget::startAcqTimer()
 {
 	//开启定时器
-	m_timerId = startTimer(10);
+	//m_timerId = startTimer(10);
 }
 void BarChartWidget::stopAcqTimer()
 {
 	//关闭定时器
-	killTimer(m_timerId);
+	//killTimer(m_timerId);
 }
 
 void BarChartWidget::paintEvent(QPaintEvent * event)

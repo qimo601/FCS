@@ -13,7 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -42,11 +41,11 @@ public:
     QPushButton *pushButton_3;
     QWidget *widget_3;
     QPushButton *pushButton123;
-    QGraphicsView *graphicsView;
     QPushButton *pushButton_2;
     QPushButton *pushButton1234;
     QLabel *label;
     QToolButton *toolButton;
+    QWidget *widget;
 
     void setupUi(QWidget *TestWidget)
     {
@@ -123,9 +122,6 @@ public:
         gridLayout->addWidget(pushButton123, 3, 0, 1, 1);
 
         scrollArea->setWidget(scrollAreaWidgetContents);
-        graphicsView = new QGraphicsView(TestWidget);
-        graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        graphicsView->setGeometry(QRect(640, 170, 571, 561));
         pushButton_2 = new QPushButton(TestWidget);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
         pushButton_2->setGeometry(QRect(110, 730, 211, 111));
@@ -140,6 +136,9 @@ public:
         toolButton = new QToolButton(TestWidget);
         toolButton->setObjectName(QStringLiteral("toolButton"));
         toolButton->setGeometry(QRect(510, 30, 201, 61));
+        widget = new QWidget(TestWidget);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(720, 150, 411, 471));
         QWidget::setTabOrder(widget_3, widget_1);
         QWidget::setTabOrder(widget_1, plotwidget_45);
         QWidget::setTabOrder(plotwidget_45, pushButton123);
