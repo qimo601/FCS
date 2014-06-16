@@ -40,6 +40,10 @@ private:
 	double stepValue;
 	//细胞数据接口
 	ICellStaticData* iCellStaticData;
+
+	char m_buffer[512];//一个USB细胞的数据包
+	char m_bufferOSC[1024 * 16];//一个示波器要显示的数据
+
 };
 
 #endif // BLLDATACENTER_H

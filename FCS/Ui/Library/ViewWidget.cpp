@@ -17,7 +17,7 @@ ViewWidget::ViewWidget(QWidget *parent)
 
 	//初始化当前焦点plot
 	focusPlotWidget = 0;
-
+	m_timerId = 0;//初始化
 	this->setFocusPolicy(Qt::StrongFocus);
 
 }
@@ -41,14 +41,19 @@ void ViewWidget::paintEvent(QPaintEvent *)
 void ViewWidget::startAcqSlot()
 {
 
-	ui.plotWidget_1->startAcqTimer();
+	//ui.plotWidget_1->startAcqTimer();
+	//m_timerId = startTimer(10);//定时器读取
+
+	
 }
 /**
 * @brief 结束采集
 */
 void ViewWidget::stopAcqSlot()
 {
-	ui.plotWidget_1->stopAcqTimer();
+	//ui.plotWidget_1->stopAcqTimer();
+	//关闭定时器
+	//killTimer(m_timerId);
 }
 /**
 * @brief 新建画布
@@ -152,5 +157,13 @@ void ViewWidget::relayoutPlotWidget()
 		ui.gridLayout->addWidget(plotWidgetList.at(i), row, column, 1, 1);
 		column++;
 
+	}
+}
+void ViewWidget::timerEvent(QTimerEvent *event)
+{
+	//每个10ms更新一次
+	if (event->timerId() == m_timerId)
+	{
+		
 	}
 }

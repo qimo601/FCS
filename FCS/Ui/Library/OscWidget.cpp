@@ -3,10 +3,12 @@
 #include <qwt_plot_layout.h>
 #include <qwt_scale_widget.h>
 #include <qwt_legend_label.h>
+#include <qwt_plot_intervalcurve.h>
 #include <qwt_symbol.h>
 #include <QTime>
 #include <QBitmap>
 #include "USB/USBThread.h"
+#include "Include/OscDataCenter.h"
 OscWidget::OscWidget(QWidget *parent)
 : QWidget(parent), m_interval_x(0.0, 1028), m_interval_y(30000, 45000), m_markPos(514,37500)
 //m_interval_x设置大于1024，方便观察边界值
@@ -67,6 +69,9 @@ void OscWidget::init()
 	initAnimation();//初始化属性窗口及其动画
 	this->setMouseTracking(true);
 	m_timerId = 0;//初始化
+
+	readOscThread = new ReadOscThread();//示波器数据读取线程
+	connect(readOscThread, SIGNAL(oscReadySignal()), this, SLOT(updateOscPlot()));
 	
 }
 /**
@@ -134,6 +139,12 @@ void OscWidget::initPlot()
 		QColor c(qrand() % 255, qrand() % 255, qrand() % 255);
 		oscCurve->setPen(c,1);
 		//oscCurve->setBrush(c);//填充色
+
+		/*oscCurve->setPen(c, 1);
+		QColor bg(Qt::blue);
+		bg.setAlpha(150);
+		oscCurve->setBrush(QBrush(bg));
+		oscCurve->setStyle(QwtPlotCurve::Lines);*/
 
 		oscCurve->setZ(oscCurve->z() - i*10);//设置z轴上下先后顺序，哪个曲线在上。
 
@@ -253,14 +264,22 @@ void OscWidget::updateOscPlot()
 {
 	QVector<double> oscXData;
 	QVector<double> oscYData;
-	bllDataCenter.getOscData(oscXData,oscYData);
+	bllDataCenter.getOscData(oscXData, oscYData);
+	//OscDataCenter::setLock();
 	for (int i = 0; i < Global::oscYData.count(); i++)
 
 	{
 		oscCurve = m_curveList[i];
-		oscCurve->setSamples(Global::oscXData, Global::oscYData[i]);
+		/*if (Global::oscYData.at(i).size() != 0 && Global::oscXData.size() != 0)
+		{*/
+			//QVector<double> oxcX = Global::oscXData;
+			//QVector<double> oxcY = Global::oscYData[i];
+			oscCurve->setSamples(Global::oscXData, Global::oscYData[i]);
+			ui.oscPlot->replot();
+		//}
 	}
-	ui.oscPlot->replot();
+	//OscDataCenter::setUnlock();
+	
 }
 /**
 * @brief 开始示波器采集
@@ -274,9 +293,10 @@ void OscWidget::on_startOscAcqBtn_clicked()
 	voCmd.setLength(0);
 	bllControl.sendCmd(voCmd);
 
-	//m_timer->start(100);
-	//m_clock.start();
-	m_timerId = startTimer(10);
+
+	m_timerId = startTimer(10);//定时器读取
+	//readOscThread->start();//示波器线程读取
+	//readOscThread->setGoOn(true);//启动真读循环
 	ui.startOscAcqBtn->setEnabled(false);
 	ui.stopOscAcqBtn->setEnabled(true);
 }
@@ -293,6 +313,7 @@ void OscWidget::on_stopOscAcqBtn_clicked()
 	bllControl.sendCmd(voCmd);
 	//关闭定时器
 	killTimer(m_timerId);
+	//readOscThread->setGoOn(false);//停止真读循环，线程进入待读阶段
 	ui.startOscAcqBtn->setEnabled(true);
 	ui.stopOscAcqBtn->setEnabled(false);
 }

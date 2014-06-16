@@ -5,6 +5,35 @@
 #include <qwt_plot_curve.h>
 #include <qwt_plot_zoomer.h>
 #include <qwt_scale_widget.h>
+#include <qwt_plot_canvas.h>
+#include <qwt_plot_layout.h>
+class OtherScaleDraw : public QwtScaleDraw
+{
+public:
+	OtherScaleDraw()
+	{
+		setTickLength(QwtScaleDiv::MinorTick, 1);
+		setTickLength(QwtScaleDiv::MediumTick, 2);
+		setTickLength(QwtScaleDiv::MajorTick, 4);
+
+		enableComponent(QwtScaleDraw::Backbone, true);
+		//setLabelRotation(-20.0);
+
+		setLabelAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+
+	}
+
+	//刻度标签值
+	virtual QwtText label(double value) const
+	{
+		QwtText lbl ="";
+		
+		return lbl;
+	}
+
+private:
+	const QStringList d_labels;
+};
 class DistancePicker : public QwtPlotPicker
 {
 public:
@@ -66,15 +95,29 @@ Plot::Plot(QWidget *parent)
 d_curve(NULL)
 {
 	setAutoFillBackground(true);
-	setPalette(QColor("#D4D3CC"));//plot背景色
+	plotLayout()->setAlignCanvasToScales(true);//设置对齐画布、坐标轴、刻度 
+
+	setPalette(QColor("#FFFFFF"));//plot背景色
+	//setStyleSheet(
+	//	"border-top: 1px solid #9D9D9D;"
+	//	"border-radius: 0px;"
+	//	"margin-right: 10px;"
+	//	"background-color:#FFFFFF;"
+	//	);//画布背景色
 	setTitle("散点图显示");//画布标题
-	canvas()->setStyleSheet(
-		"border: 1px solid #666666;"
-		"border-radius: 15px;"
+
+	//设置画布
+	canvas = new QwtPlotCanvas();
+
+	canvas->setStyleSheet(
+		"border: 0px solid #000000;"
+		"border-radius: 0px;"
 		"background-color:#FFFFFF;"
 		);//画布背景色
-	canvas()->setFocusPolicy(Qt::StrongFocus);
-
+	setCanvas(canvas);
+    canvas->setFrameStyle(QFrame::Box | QFrame::Sunken);
+	canvas->setFocusPolicy(Qt::StrongFocus);
+	canvas->setBorderRadius(0);
 	////设置画布
 	//QwtPlotCanvas *canvas = new QwtPlotCanvas();
 	//canvas->setLineWidth(2);
@@ -91,7 +134,7 @@ d_curve(NULL)
 	// attach curve
 	d_curve = new QwtPlotCurve("Scattered Points");
 	//设置颜色
-	QColor c(42,93,169);
+	QColor c("#3535CB");
 	d_curve->setPen(c, 2);
 
 	// when using QwtPlotCurve::ImageBuffer simple dots can be
@@ -103,26 +146,32 @@ d_curve(NULL)
 	setSymbol(NULL);
 
 	// 平移画布，根据鼠标左键
-	d_panner = new QwtPlotPanner(canvas());
+	d_panner = new QwtPlotPanner(canvas);
 	d_panner->setEnabled(false);
 
 	//支持滑轮放大缩小zoom in/out with the wheel
-	QwtPlotMagnifier *magnifier = new QwtPlotMagnifier(canvas());
+	QwtPlotMagnifier *magnifier = new QwtPlotMagnifier(canvas);
 	magnifier->setMouseButton(Qt::RightButton);//默认就是右键鼠标
 
 	//右键测量 distanve measurement with the right mouse button
-	DistancePicker *picker = new DistancePicker(canvas());
+	DistancePicker *picker = new DistancePicker(canvas);
 	picker->setMousePattern(QwtPlotPicker::MouseSelect1, Qt::RightButton);
 	picker->setRubberBandPen(QPen(Qt::blue));
 
 	d_grid = new QwtPlotGrid();
-	d_grid->setPen(QColor(215, 215, 215), 0.0, Qt::DashLine);
+	//d_grid->setPen(QColor(215, 215, 215), 0.0, Qt::DashLine);
 	d_grid->enableX(true);
-	d_grid->enableXMin(false);
+	d_grid->enableXMin(true);
 	d_grid->enableY(true);
 	d_grid->enableYMin(false);
+
+	d_grid->setMajorPen(Qt::gray, 0, Qt::DotLine);
+	d_grid->setMinorPen(QColor("#DDDDDD"), 0, Qt::DotLine);
+
 	d_grid->attach(this);
 	//坐标轴刻度修饰
+	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//设置x轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//设置y轴坐标刻度大小
 	QwtScaleWidget *scaleXWidget = this->axisWidget(QwtPlot::xBottom);//x轴刻度控件
 	scaleXWidget->setStyleSheet(
 		"color:#666666;"
@@ -131,19 +180,38 @@ d_curve(NULL)
 	scaleYWidget->setStyleSheet(
 		"color:#666666;"
 		);
-	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//设置x轴坐标刻度大小
-	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//设置y轴坐标刻度大小
+
+	//其它两坐标也显示
+	this->setAxisScaleDraw(QwtPlot::xTop, new OtherScaleDraw());
+	this->setAxisScaleDraw(QwtPlot::yRight, new OtherScaleDraw());
+	enableAxis(QwtPlot::yRight);
+	enableAxis(QwtPlot::xTop);
+	setAxisAutoScale(QwtPlot::yRight, true);
+	setAxisAutoScale(QwtPlot::xTop, true);
+
+	this->setAxisScale(QwtPlot::xTop, 4000000, 6000000);//设置y轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yRight, 4000000, 6000000);//设置y轴坐标刻度大小
+
+	
+
+	QwtScaleWidget *scaleXTopWidget = this->axisWidget(QwtPlot::xTop);//x轴刻度控件
+	scaleXWidget->setStyleSheet(
+		"color:#666666;"
+		);
+	QwtScaleWidget *scaleYRightWidget = this->axisWidget(QwtPlot::yRight);//x轴刻度控件
+	scaleYWidget->setStyleSheet(
+		"color:#666666;"
+		);
 
 	//this->setFocusPolicy(Qt::TabFocus);//设置画布聚焦策略为键盘TAB，这样父类可以影响到子控件
 
 	//放大器
-	d_zoomer = new Zoomer(QwtPlot::xBottom, QwtPlot::yLeft,this->canvas());
+	d_zoomer = new Zoomer(QwtPlot::xBottom, QwtPlot::yLeft, canvas);
 	d_zoomer->setRubberBand(QwtPicker::RectRubberBand);
 	d_zoomer->setRubberBandPen(QColor(Qt::green));
 	d_zoomer->setTrackerMode(QwtPicker::ActiveOnly);
 	d_zoomer->setTrackerPen(QColor(Qt::white));
 	d_zoomer->setEnabled(false);
-
 
 }
 
@@ -189,7 +257,7 @@ void Plot::setGridEnable(bool checked)
 {
 	
 	d_grid->enableX(checked);
-	d_grid->enableXMin(false);
+	d_grid->enableXMin(checked);
 	d_grid->enableY(checked);
 	d_grid->enableYMin(false);
 
@@ -204,11 +272,11 @@ void Plot::enableZoomMode(bool checked)
 	d_zoomer->zoom(0);
 	if (checked)
 	{
-		canvas()->setCursor(QCursor(Qt::CrossCursor));
+		canvas->setCursor(QCursor(Qt::CrossCursor));
 	}
 	else
 	{
-		canvas()->setCursor(QCursor(Qt::ArrowCursor));
+		canvas->setCursor(QCursor(Qt::ArrowCursor));
 	}
 	
 }
@@ -220,10 +288,10 @@ void Plot::enablePannerMode(bool checked)
 	d_panner->setEnabled(checked);
 	if (checked)
 	{
-		canvas()->setCursor(QCursor(Qt::SizeAllCursor));
+		canvas->setCursor(QCursor(Qt::SizeAllCursor));
 	}
 	else
 	{
-		canvas()->setCursor(QCursor(Qt::ArrowCursor));
+		canvas->setCursor(QCursor(Qt::ArrowCursor));
 	}
 }

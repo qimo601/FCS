@@ -15,6 +15,7 @@
 #include <QPaintEvent>
 #include "ui_BarChartWidget.h"
 #include "Bll/DataCenter/BllDataCenter.h"
+#include "PlotWidget.h"
 
 class BarChart;
 class BarChartWidget : public QWidget

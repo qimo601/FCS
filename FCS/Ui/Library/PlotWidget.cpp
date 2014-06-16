@@ -32,6 +32,7 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.pannerBtn, SIGNAL(toggled(bool)), d_plot, SLOT(enablePannerMode(bool)));
 
 	m_timerId = 0;//初始化
+	m_timerId = startTimer(10);//测试开始即实时显示
 
 	this->setFocusPolicy(Qt::ClickFocus);
 

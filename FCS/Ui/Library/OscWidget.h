@@ -29,6 +29,7 @@
 #include "Bll/DataCenter/BllDataCenter.h"
 #include "Ui/Library/PropertyWidget.h"
 #include "Bll/Control/BllControl.h"
+#include "Bll/DataCenter/ReadOscThread.h"
 class OscWidget : public QWidget
 {
 	Q_OBJECT
@@ -165,6 +166,7 @@ private:
 	
 
 	BllControl bllControl;//采集控制业务类
+	ReadOscThread* readOscThread;//示波器读取线程
 };
 
 #endif // OSCWIDGET_H

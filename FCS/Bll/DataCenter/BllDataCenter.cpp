@@ -1,5 +1,5 @@
 #include "BllDataCenter.h"
-
+#include "Include/OscDataCenter.h"
 BllDataCenter::BllDataCenter(QObject *parent)
 	: QObject(parent)
 {
@@ -27,15 +27,21 @@ void BllDataCenter::getOscData(QVector<double>& oscXData, QVector<double>& oscYD
 		Global::oscXData.clear();
 		for (int i = 0; i < Global::oscYData.count(); i++)
 			Global::oscYData[i].clear();
-		//一次32组
+
+		char * buffer = m_bufferOSC;
+		memset(buffer, 0, 1024*16);//清空数组
+		Global::S_CCycleBuffer->read(m_bufferOSC, 1024*16);
+		//一次1024组
 		for (int i = 0; i < 1024; i++)
 		{
 			stepValue = i;
 			Global::oscXData.append(stepValue);
 			for (int j = 0; j < 8; j++)
 			{
-			Global::S_CCycleBuffer->read((char *)&valueA, 1);
-			Global::S_CCycleBuffer->read((char *)&valueB, 1);
+			memcpy((char *)&valueA, buffer++,1);
+			memcpy((char *)&valueB, buffer++, 1);
+			//Global::S_CCycleBuffer->read((char *)&valueA, 1);
+			//Global::S_CCycleBuffer->read((char *)&valueB, 1);
 			value = (valueB * 256 + valueA);//高低位
 			
 			Global::oscYData[j].append(value);
@@ -53,6 +59,8 @@ void BllDataCenter::getOscData(QVector<double>& oscXData, QVector<double>& oscYD
 
 	}
 }
+
+
 /**
 * @brief 获取细胞显示数据
 */
@@ -71,9 +79,9 @@ void BllDataCenter::getCellData(bool clear)
 	quint8 valueWW2;
 	int value;
 	stepValue = 1;
-
+	
 	//添加至环形缓冲区:示波器一个数据包大小512Byte
-	if (Global::S_CCycleBuffer->getUsedSize() >= 512*64)
+	if (Global::S_CCycleBuffer->getUsedSize() >= 512)
 	{
 		//如果需要清空
 		if (clear)
@@ -83,28 +91,44 @@ void BllDataCenter::getCellData(bool clear)
 				iCellStaticData->clear(i);
 		}
 
+		
+		char * buffer = m_buffer;//指向临时数组
+		memset(buffer, 0, 512);//清空数组
+		Global::S_CCycleBuffer->read(m_buffer, 512);//一次读8个细胞的数据
 		//一次8个细胞
-		for (int i = 0; i < 8*64; i++)
+		for (int i = 0; i < 8; i++)
 		{
 			//8个通道
 			for (int j = 0; j < 8; j++)
 			{
 				//一个通道8个字节
-				Global::S_CCycleBuffer->read((char *)&valueHH1, 1);
+				/*Global::S_CCycleBuffer->read((char *)&valueHH1, 1);
 				Global::S_CCycleBuffer->read((char *)&valueHH2, 1);
 				Global::S_CCycleBuffer->read((char *)&valueHH3, 1);
 				Global::S_CCycleBuffer->read((char *)&valueAA1, 1);
 				Global::S_CCycleBuffer->read((char *)&valueAA2, 1);
 				Global::S_CCycleBuffer->read((char *)&valueAA3, 1);
 				Global::S_CCycleBuffer->read((char *)&valueWW1, 1);
-				Global::S_CCycleBuffer->read((char *)&valueWW2, 1);
-				valueHH = (valueHH1 * 65536 + valueHH2 * 256 + valueHH3);
-				valueAA = (valueAA1 * 65536 + valueAA2 * 256 + valueAA3);
-				valueWW = (valueWW1 * 256 + valueWW2);
+				Global::S_CCycleBuffer->read((char *)&valueWW2, 1);*/
+
+				memcpy((char *)&valueHH1, buffer++, 1);
+				memcpy((char *)&valueHH2, buffer++, 1);
+				memcpy((char *)&valueHH3, buffer++, 1);
+				memcpy((char *)&valueAA1, buffer++, 1);
+				memcpy((char *)&valueAA2, buffer++, 1);
+				memcpy((char *)&valueAA3, buffer++, 1);
+				memcpy((char *)&valueWW1, buffer++, 1);
+				memcpy((char *)&valueWW2, buffer++, 1);
+
+				//解析细胞数据结构
+				valueHH = (valueHH1 * 65536 + valueHH2 * 256 + valueHH3);//细胞高度
+				valueAA = (valueAA1 * 65536 + valueAA2 * 256 + valueAA3);//细胞面积
+				valueWW = (valueWW1 * 256 + valueWW2);//细胞宽度
 
 				iCellStaticData->insert(j, valueHH, valueAA, valueWW);
 			}
 		}
+
 
 	}
 	else//如果没有这个等待，就会有很多空循环，CPU会很高。

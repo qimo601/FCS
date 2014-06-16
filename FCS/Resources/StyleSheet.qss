@@ -437,15 +437,13 @@ QFrame#cellToolFrame{
     padding:0 0px;
 	margin:0 0px;
 }*/
-/*
+
 QFrame#cellPlotFrame
 {
-	border: 1px solid #FFFFFF;
+	border: 1px solid #9D9D9D;
 	background-color: #FFFFFF;
 	border-radius:0px;
-    width: 110px;
-	height:30px;
     padding:0 0px;
-	margin:0 0px;
+	margin-right: 10px;
+
 }
-*/

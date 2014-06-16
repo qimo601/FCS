@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QTranslator>
+#include "Include/OscDataCenter.h"
 Global::Global(QObject *parent)
 	: QObject(parent)
 {

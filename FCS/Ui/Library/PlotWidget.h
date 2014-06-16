@@ -33,6 +33,9 @@ public:
 	* @brief 随机值
 	*/
 	double randomValue();
+
+	QList<double> origialDataList;//符合条件的原始数据
+
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();

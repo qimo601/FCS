@@ -18,6 +18,7 @@
 class QwtPlotCurve;
 class QwtSymbol;
 class Zoomer;
+class QwtPlotCanvas;
 class Plot : public QwtPlot
 {
 	Q_OBJECT
@@ -46,6 +47,8 @@ private:
 	Zoomer* d_zoomer;
 	// 平移画布，根据鼠标左键
 	QwtPlotPanner* d_panner;
+	//设置画布
+	QwtPlotCanvas *canvas;
 };
 
 #endif // PLOT_H
