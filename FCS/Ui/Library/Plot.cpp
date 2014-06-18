@@ -245,8 +245,8 @@ void Plot::setRawSamples(const double * xData,	const double * 	yData,	int size)
 	/**指定曲线绘画类型为ImageBufferRender the points to a temporary image and paint the image.
 	This is a very special optimization for Dots style, when having a huge amount of points.
 	With a reasonable number of points QPainter::drawPoints() will be faster.*/
-	d_curve->setPaintAttribute(
-		QwtPlotCurve::ImageBuffer, size > 1000);
+	/*d_curve->setPaintAttribute(
+		QwtPlotCurve::ImageBuffer, size > 1000);*/
 
 	d_curve->setRawSamples(xData, yData,size);
 }

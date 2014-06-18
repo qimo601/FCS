@@ -14,6 +14,7 @@
 #include <QObject>
 #include <QVector>
 #include <QMutex>
+#include <QtCore/qmath.h>
 class ICellStaticData : public QObject
 {
 	Q_OBJECT
@@ -50,6 +51,10 @@ public:
 	* @brief 获取某个通道某列值
 	*/
 	QVector<double>* getDataVector(int passage, int valuePos);
+	/**
+	* @brief 获取细胞所有数据
+	*/
+	void getDataVector(QList < QList < QVector<double>* > * >*  origialDataList, QList < QList < QVector<double>* >*  >* logDataList);
 };
 
 #endif // ICELLSTATICDATA_H

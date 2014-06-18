@@ -34,14 +34,20 @@ int main(int argc, char *argv[])
 // 	//主窗口
 // 	OscWidget oscWidget;
 // 	oscWidget.show();
+
+	
 	double n1 =  4000000;
 	double n11 = 6000000;
 	double n12= 7000000;
 	double n2 = 10;
 	double m;
-	m = qLn(n1) / qLn(10);
+	m = qLn(n1)/qLn(10);
+	double t = qPow(10,m);
 	m = qLn(n11) / qLn(10);
+	t = qPow(10, m);
 	m = qLn(n12) / qLn(10);
+	t = qPow(10, m);
+	
 
 	char data[512] = { "12345" };
 	memset(data,0,5);

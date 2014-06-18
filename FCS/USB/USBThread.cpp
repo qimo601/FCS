@@ -175,13 +175,13 @@ void USBThread::onButtonRd()
 		//		MessageBox(_T("read got failed!"));
 		//string.Format("%d",DataLength);
 		//MessageBox(string,"A",0);
-		qDebug() << "【USBThread】read failed!实际读取长度：" << DataLength;
+		qDebug() << "【USBThread】onButtonRd(),read failed!实际读取长度：" << DataLength;
 	}
 
 	else
 	{
 		i = i + 1;
-		qDebug() << QString("【USBThread】read succeed! 第%1次,大小为：%2B").arg(i).arg(DataLength);
+		//qDebug() << QString("【USBThread】read succeed! 第%1次,大小为：%2B").arg(i).arg(DataLength);
 		//m_strTestDisplay = string;
 		//m_strTestDisplay = "read succeed!";
 	}
@@ -222,6 +222,7 @@ void USBThread::onButtonRd()
 
 		//Global::S_CCycleBuffer->write((char *)&stepValue, 4);
 		stepValue++;
+		qDebug() << "【USBThread】onButtonRd(),写完，还剩下空闲空间：" << Global::S_CCycleBuffer->getFreeSize() << "B.";
 
 	}
 	else//如果没有这个等待，会有很多空循环，CPU会很高
@@ -262,13 +263,13 @@ void USBThread::onButtonRd1()
 		//		MessageBox(_T("read got failed!"));
 		//string.Format("%d",DataLength);
 		//MessageBox(string,"A",0);
-		qDebug() << "【onButtonRd】read failed!实际读取长度：" << DataLength;
+		qDebug() << "【USBThread】onButtonRd1(),read failed!实际读取长度：" << DataLength;
 	}
 
 	else
 	{
 		i = i + 1;
-		qDebug("read succeed! 第%d次", i);
+		//qDebug("read succeed! 第%d次", i);
 		//m_strTestDisplay = string;
 		//m_strTestDisplay = "read succeed!";
 	}
@@ -302,16 +303,18 @@ void USBThread::onButtonRd1()
 
 	/********************************************/
 	//添加至环形缓冲区
-	if (Global::S_CCycleBuffer->getFreeSize() >= DataLength)
+	if (Global::S_CCycleBuffer->getFreeSize() >= 512/*DataLength*/)
 	{
 		//Global::S_CCycleBuffer->write((char *)buffer, DataLength);
 
 		Global::S_CCycleBuffer->write((char *)&testOscData, 512);
 		stepValue++;
+		qDebug() << "【USBThread】onButtonRd1(),写完，还剩下空闲空间：" << Global::S_CCycleBuffer->getFreeSize()<< "B.";
 
 	}
 	else//如果没有这个等待，会有很多空循环，CPU会很高
 	{
+		//qDebug() << "【USBThread】循环缓冲区已满，等待中....";
 		Global::S_CCycleBuffer->waitNotFull();
 	}
 
@@ -342,12 +345,12 @@ void USBThread::saveToFile(PUCHAR buffer, DWORD DataLength)
 	//拷贝数据失败
 	if (result < 0)
 	{
-		qDebug() << "【onButtonRd】写入文件失败,文件名：" << fileName;
+		//qDebug() << "【onButtonRd】写入文件失败,文件名：" << fileName;
 
 	}
 	else
 	{
-		qDebug() << "【onButtonRd】将USB数据写入文件成功,文件名：" << fileName;
+		//qDebug() << "【onButtonRd】将USB数据写入文件成功,文件名：" << fileName;
 	}
 	//关闭文件
 	if (fclose(projectFile) != 0)

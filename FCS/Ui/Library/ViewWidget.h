@@ -5,6 +5,7 @@
 #include <QPainter>
 #include "ui_ViewWidget.h"
 #include "PlotWidget.h"
+#include "Bll/DataCenter/ReadCellThread.h"
 class ViewWidget : public QWidget
 {
 	Q_OBJECT
@@ -49,6 +50,7 @@ private:
 	QWidget* focusPlotWidget;
 	//真正的定时器
 	int m_timerId;
+	ReadCellThread* readCellThread;
 };
 
 #endif // VIEWWIDGET_H

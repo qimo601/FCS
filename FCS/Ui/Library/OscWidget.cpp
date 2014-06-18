@@ -70,8 +70,11 @@ void OscWidget::init()
 	this->setMouseTracking(true);
 	m_timerId = 0;//初始化
 
-	readOscThread = new ReadOscThread();//示波器数据读取线程
-	connect(readOscThread, SIGNAL(oscReadySignal()), this, SLOT(updateOscPlot()));
+
+	/****测试线程获取示波器数据****/
+	//readOscThread = new ReadOscThread();//示波器数据读取线程
+	//connect(readOscThread, SIGNAL(oscReadySignal()), this, SLOT(updateOscPlot()));
+	/****测试线程获取示波器数据****/
 	
 }
 /**
@@ -264,21 +267,23 @@ void OscWidget::updateOscPlot()
 {
 	QVector<double> oscXData;
 	QVector<double> oscYData;
-	bllDataCenter.getOscData(oscXData, oscYData);
-	//OscDataCenter::setLock();
+	bllDataCenter.getOscData(oscXData, oscYData);//定时获取示波器源数据
+	//OscDataCenter::setLock();//测试-线程获取数据
 	for (int i = 0; i < Global::oscYData.count(); i++)
 
 	{
 		oscCurve = m_curveList[i];
-		/*if (Global::oscYData.at(i).size() != 0 && Global::oscXData.size() != 0)
-		{*/
-			//QVector<double> oxcX = Global::oscXData;
-			//QVector<double> oxcY = Global::oscYData[i];
-			oscCurve->setSamples(Global::oscXData, Global::oscYData[i]);
-			ui.oscPlot->replot();
-		//}
+		if (Global::oscYData.at(i).size() != 0 && Global::oscXData.size() != 0)
+		{
+			double * oxcX = Global::oscXData.data();
+			QVector<double> oxYData = Global::oscYData.at(i);
+			double * oxcY = oxYData.data();
+			oscCurve->setSamples(oxcX, oxcY, Global::oscXData.size());
+			
+		}
 	}
-	//OscDataCenter::setUnlock();
+	ui.oscPlot->replot();
+	//OscDataCenter::setUnlock();//测试-线程获取数据
 	
 }
 /**
@@ -295,8 +300,12 @@ void OscWidget::on_startOscAcqBtn_clicked()
 
 
 	m_timerId = startTimer(10);//定时器读取
+
+	/****测试线程获取示波器数据****/
 	//readOscThread->start();//示波器线程读取
 	//readOscThread->setGoOn(true);//启动真读循环
+	/****测试线程获取示波器数据****/
+
 	ui.startOscAcqBtn->setEnabled(false);
 	ui.stopOscAcqBtn->setEnabled(true);
 }
@@ -313,7 +322,11 @@ void OscWidget::on_stopOscAcqBtn_clicked()
 	bllControl.sendCmd(voCmd);
 	//关闭定时器
 	killTimer(m_timerId);
+
+	/****测试线程获取示波器数据****/
 	//readOscThread->setGoOn(false);//停止真读循环，线程进入待读阶段
+	/****测试线程获取示波器数据****/
+
 	ui.startOscAcqBtn->setEnabled(true);
 	ui.stopOscAcqBtn->setEnabled(false);
 }

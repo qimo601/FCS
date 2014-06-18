@@ -379,6 +379,15 @@
     <ClCompile Include="Include\OscDataCenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ReadCellThread.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ReadCellThread.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Bll\DataCenter\ReadCellThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FCS.h">
@@ -538,6 +547,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Include\OscDataCenter.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Bll\DataCenter\ReadCellThread.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

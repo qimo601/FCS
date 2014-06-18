@@ -25,21 +25,34 @@ public:
 	PlotWidget(QWidget *parent = 0);
 	~PlotWidget();
 
-	/**
-	* @brief 更新数据
-	*/
-	void updateSamples(int samples);
+
 	/**
 	* @brief 随机值
 	*/
 	double randomValue();
 
-	QList<double> origialDataList;//符合条件的原始数据
+	/**
+	* @brief 初始化
+	*/
+	void init();
 
+	QList < QList < QVector<double>* >*  >* origialDataList;//符合条件的原始数据
+	QList < QList < QVector<double>* >*  >* logDataList;//符合条件的log值
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
-
+	/**
+	* @brief 更新数据
+	*/
+	void updateSamples();
+	/**
+	* @brief 重新设置刻度
+	*/
+	void setAxisScale();
+	/**
+	* @brief 启动log数据显示
+	*/
+	void setLogEnable(bool enable);
 protected:
 	virtual void paintEvent(QPaintEvent * event);
 	virtual void timerEvent(QTimerEvent * event);
@@ -52,6 +65,7 @@ private:
 	QVBoxLayout *vLayoutCellPlotFrame;//细胞绘图布局控件
 	
 	int m_timerId;//真正的定时器
+	bool logEnable;
 };
 
 #endif // PLOTWIDGET_H

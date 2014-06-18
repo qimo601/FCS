@@ -33,8 +33,14 @@ public:
 	void getCellData(bool clear = true);
 	/**
 	* @brief 获取细胞显示数据
+	* @param passage 通道
+	* @param valuePos 值位置
 	*/
 	QVector<double>* getCellDataVector(int passage, int valuePos);
+	/**
+	* @brief 获取细胞显示数据接口
+	*/
+	void getCellDataVector(QList < QList < QVector<double>* > * >* origialDataList, QList < QList < QVector<double>* >*  >* logDataList);
 
 private:
 	double stepValue;

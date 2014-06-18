@@ -146,3 +146,7 @@ QVector<double>* BllDataCenter::getCellDataVector(int passage, int valuePos)
 {
 	return iCellStaticData->getDataVector(passage, valuePos);
 }
+void BllDataCenter::getCellDataVector(QList < QList < QVector<double>* > * >* origialDataList, QList < QList < QVector<double>* >*  >* logDataList)
+{
+	iCellStaticData->getDataVector(origialDataList,logDataList);
+}

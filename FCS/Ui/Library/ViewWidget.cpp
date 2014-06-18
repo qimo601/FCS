@@ -20,6 +20,15 @@ ViewWidget::ViewWidget(QWidget *parent)
 	m_timerId = 0;//初始化
 	this->setFocusPolicy(Qt::StrongFocus);
 
+
+	/****测试线程获取示波器数据****/
+	readCellThread = new ReadCellThread();//细胞数据读取线程
+	connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_1, SLOT(updateSamples()));
+	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_2, SLOT(updateSamples()));
+	connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_3, SLOT(updateSamples()));
+	connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_4, SLOT(updateSamples()));
+	/****测试线程获取示波器数据****/
+
 }
 
 ViewWidget::~ViewWidget()
@@ -44,6 +53,13 @@ void ViewWidget::startAcqSlot()
 	//ui.plotWidget_1->startAcqTimer();
 	//m_timerId = startTimer(10);//定时器读取
 
+
+
+	/****测试线程获取示波器数据****/
+	readCellThread->start();//示波器线程读取
+	readCellThread->setGoOn(true);//启动真读循环
+	/****测试线程获取示波器数据****/
+
 	
 }
 /**
@@ -54,6 +70,11 @@ void ViewWidget::stopAcqSlot()
 	//ui.plotWidget_1->stopAcqTimer();
 	//关闭定时器
 	//killTimer(m_timerId);
+
+
+	/****测试线程获取示波器数据****/
+	readCellThread->setGoOn(false);//停止真读循环，线程进入待读阶段
+	/****测试线程获取示波器数据****/
 }
 /**
 * @brief 新建画布

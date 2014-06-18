@@ -30,10 +30,12 @@ void Global::init()
 	//initLanguage();
 	//初始化环形缓冲区大小
 	initCCycleBuffer(512*10240);
-	for (int i = 0; i < 8; i++)
+	//初始化示波器缓冲区结构
+	for (int i = 0; i < 8; i++)//8个通道
 	{
 		QVector<double> vector;
 		Global::oscYData.append(vector);
+		
 	}
 
 }

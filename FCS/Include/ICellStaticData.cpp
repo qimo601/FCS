@@ -1,23 +1,23 @@
-
+ï»¿
 #include "ICellStaticData.h"
 
 ICellStaticData::ICellStaticData(QObject *parent)
 	: QObject(parent)
 {
 	
-	//Èç¹ûÏ¸°ûÊı¾İÉĞÎ´³õÊ¼»¯£¬Ä¬ÈÏ×Ô¶¯³õÊ¼»¯
-	init();//ÓÉÓÚÊÇµ¥Àı£¬Ö»»á³õÊ¼»¯Ò»´Î
+	//å¦‚æœç»†èƒæ•°æ®å°šæœªåˆå§‹åŒ–ï¼Œé»˜è®¤è‡ªåŠ¨åˆå§‹åŒ–
+	init();//ç”±äºæ˜¯å•ä¾‹ï¼Œåªä¼šåˆå§‹åŒ–ä¸€æ¬¡
 }
 
 ICellStaticData::~ICellStaticData()
 {
 
 }
-//Íâ²¿³õÊ¼»¯ before invoke main     
+//å¤–éƒ¨åˆå§‹åŒ– before invoke main     
 ICellStaticData* ICellStaticData::m_instance = new ICellStaticData();
 
 /**
-* @brief ·µ»ØÏ¸°ûÊı¾İÈ«¾Öµ¥ÀıÖ¸Õë
+* @brief è¿”å›ç»†èƒæ•°æ®å…¨å±€å•ä¾‹æŒ‡é’ˆ
 */
 ICellStaticData* ICellStaticData::getInstance()
 {
@@ -25,7 +25,7 @@ ICellStaticData* ICellStaticData::getInstance()
 }
 void ICellStaticData::init()
 {
-	//³õÊ¼»¯8¸öÍ¨µÀÏ¸°ûÊı¾İµÄÊı×é
+	//åˆå§‹åŒ–8ä¸ªé€šé“ç»†èƒæ•°æ®çš„æ•°ç»„
 	cellFullData = new QList<QList< QVector<double>* >* > ();
 	QList< QVector<double>* >* passageData = 0;
 	for (int i = 0; i < 8; i++)
@@ -41,39 +41,69 @@ void ICellStaticData::init()
 	}
 }
 /**
-* @brief ²åÈëÄ³Í¨µÀÄ³Öµ
+* @brief æ’å…¥æŸé€šé“æŸå€¼
 */
 void ICellStaticData::insert(int passage,double valueHH,double valueAA,double valueWW)
 {
+	mutex.lock();
+
 	QList< QVector<double>* >* passageData = cellFullData->at(passage);
-	//mutex.lock();
+	
 	QVector <double> * HH = passageData->at(0);
 	QVector <double> * AA = passageData->at(1);
 	QVector <double> * WW = passageData->at(2);
 	HH->append(valueHH);
 	AA->append(valueAA);
 	WW->append(valueWW);
-	//mutex.unlock();
+	mutex.unlock();
 }
 /**
-* @brief Çå¿ÕÄ³¸öÍ¨µÀÖµ
+* @brief æ¸…ç©ºæŸä¸ªé€šé“å€¼
 */
 void ICellStaticData::clear(int passage)
 {
-
-	QList< QVector<double>* >* passageData = cellFullData->at(passage);
 	mutex.lock();
-	passageData->at(0)->clear();//Çå³şÈı¸öÖµ
+	QList< QVector<double>* >* passageData = cellFullData->at(passage);
+	passageData->at(0)->clear();//æ¸…æ¥šä¸‰ä¸ªå€¼
 	passageData->at(1)->clear();
 	passageData->at(2)->clear();
 	mutex.unlock();
 }
 /**
-* @brief »ñÈ¡Ä³¸öÍ¨µÀÄ³ÁĞÖµ
+* @brief è·å–æŸä¸ªé€šé“æŸåˆ—å€¼
 */
 QVector<double>* ICellStaticData::getDataVector(int passage, int valuePos)
 {
 	QList< QVector<double>* >* passageData = cellFullData->at(passage);
 	QVector<double>* vector = passageData->at(valuePos);
 	return vector;
+}
+/**
+* @brief è·å–æŸä¸ªé€šé“æŸåˆ—å€¼
+*/
+void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  origialDataList, QList < QList < QVector<double>* >*  >* logDataList)
+{
+	mutex.lock();
+	for (int i = 0; i < cellFullData->size(); i++)
+	{
+		QList < QVector<double>* > * list = cellFullData->at(i);
+		QList < QVector<double>* > * list1 = origialDataList->at(i);
+		QList < QVector<double>* > * list2 = logDataList->at(i);
+		
+		for (int j = 0; j < 3; j++)
+		{
+			QVector<double>* vector = list->at(j);
+			QVector<double>* vector1 = list1->at(j);
+			QVector<double>* vector2 = list2->at(j);
+			for (int m = vector1->size(); m < vector->size(); m++)//int m = vector1->size()è¡¨ç¤ºä»ä¸Šæ¬¡æ•°æ®å¼€å§‹è¯»ï¼Œä¸è¯»æ—§æ•°æ®ï¼Œæé«˜ç­›é€‰æ¦‚ç‡
+			{
+				origialDataList->at(i)->at(j)->append(vector->at(m));
+				logDataList->at(i)->at(j)->append(qLn(vector->at(m)) / qLn(10));
+			}
+			//memcpy(cellDataVector->at(i)->at(j), vector, vector->size());
+			
+		}
+	}
+	mutex.unlock();
+			
 }
