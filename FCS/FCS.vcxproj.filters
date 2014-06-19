@@ -343,9 +343,6 @@
     <ClCompile Include="Include\ICellStaticData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ui\Library\BarChart.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Ui\Library\BarChartWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -353,12 +350,6 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_BarChartWidget.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_BarChart.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_BarChart.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_OscDataCenter.cpp">
@@ -389,6 +380,15 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_ReadOscThread.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\Library\BarChart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BarChart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BarChart.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
@@ -537,9 +537,6 @@
     <CustomBuild Include="Include\ICellStaticData.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Ui\Library\BarChart.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="Ui\Library\BarChartWidget.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -556,6 +553,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Bll\DataCenter\ReadOscThread.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Library\BarChart.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
