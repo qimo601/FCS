@@ -18,6 +18,7 @@
 #include "PlotWidget.h"
 
 class BarChart;
+class BarStruct;
 class BarChartWidget : public QWidget
 {
 	Q_OBJECT
@@ -25,11 +26,10 @@ class BarChartWidget : public QWidget
 public:
 	BarChartWidget(QWidget *parent = 0);
 	~BarChartWidget();
+	QList < QList < QVector<double>* >*  >* origialDataList;//符合条件的原始数据
+	QList < QList < QVector<double>* >*  >* logDataList;//符合条件的log值
+	QList <BarStruct> barStructList;//直方图标题、颜色数据信息
 
-	/**
-	* @brief 更新数据
-	*/
-	void updateSamples(int samples);
 	/**
 	* @brief 随机值
 	*/
@@ -37,6 +37,14 @@ public:
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
+	/**
+	* @brief 初始化Bar列标题、颜色，模拟数据
+	*/
+	void initBarData();
+	/**
+	* @brief 更新数据
+	*/
+	void updateSamples();
 
 protected:
 	virtual void paintEvent(QPaintEvent * event);
@@ -44,11 +52,14 @@ protected:
 private:
 	Ui::BarChartWidget ui;
 	BarChart *d_barChart;//直方图控件
-	BllDataCenter bllDataCenter;
+	BllDataCenter bllDataCenter;//数据读取业务
 
 	QVBoxLayout *vLayoutCellPlotFrame;//细胞绘图布局控件
 	
 	int m_timerId;//真正的定时器
+	bool logEnable;//是否启动log绘图
+	QVector<double> barDataVector;//直方图数据
+
 };
 
 #endif // BarChartWidget_H

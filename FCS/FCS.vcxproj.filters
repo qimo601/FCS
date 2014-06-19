@@ -388,6 +388,9 @@
     <ClCompile Include="Bll\DataCenter\ReadCellThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ui\Library\BarStruct.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FCS.h">
@@ -550,6 +553,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Bll\DataCenter\ReadCellThread.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Library\BarStruct.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

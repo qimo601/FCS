@@ -113,8 +113,8 @@ void PlotWidget::updateSamples()
 	//QVector<double>* vectorY = bllDataCenter.getCellDataVector(3, 0);
     
 	bllDataCenter.getCellDataVector(origialDataList,logDataList);//更新最新的数据给当前plot
-	QVector<double>* vectorX = logDataList->at(3)->at(1);
-	QVector<double>* vectorY = logDataList->at(3)->at(0);
+	QVector<double>* vectorX;
+	QVector<double>* vectorY;
 	if (logEnable)//决定显示log否
 	{
 		
@@ -168,7 +168,7 @@ void PlotWidget::setLogEnable(bool enable)
 {
 	logEnable = enable;
 	setAxisScale();
-
+	updateSamples();
 }
 /**
 * @brief 重新设置刻度

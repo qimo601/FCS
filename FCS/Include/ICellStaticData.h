@@ -15,6 +15,7 @@
 #include <QVector>
 #include <QMutex>
 #include <QtCore/qmath.h>
+class BarStruct;
 class ICellStaticData : public QObject
 {
 	Q_OBJECT
@@ -55,6 +56,10 @@ public:
 	* @brief 获取细胞所有数据
 	*/
 	void getDataVector(QList < QList < QVector<double>* > * >*  origialDataList, QList < QList < QVector<double>* >*  >* logDataList);
+	/**
+	* @brief 直方图读取数据方法
+	*/
+	void getDataVector(QList < QList < QVector<double>* > * >*  origialDataList, QList < QList < QVector<double>* >*  >* logDataList, QList <BarStruct>& barStructList);
 };
 
 #endif // ICELLSTATICDATA_H

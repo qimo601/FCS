@@ -1,6 +1,6 @@
 ﻿
 #include "ICellStaticData.h"
-
+#include "Ui/Library/BarStruct.h"
 ICellStaticData::ICellStaticData(QObject *parent)
 	: QObject(parent)
 {
@@ -79,7 +79,7 @@ QVector<double>* ICellStaticData::getDataVector(int passage, int valuePos)
 	return vector;
 }
 /**
-* @brief 获取某个通道某列值
+* @brief 散点图获取数据方法
 */
 void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  origialDataList, QList < QList < QVector<double>* >*  >* logDataList)
 {
@@ -106,4 +106,44 @@ void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  ori
 	}
 	mutex.unlock();
 			
+}
+/**
+* @brief 直方图读取数据方法
+*/
+void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  origialDataList, QList < QList < QVector<double>* >*  >* logDataList, QList <BarStruct>& barStructList)
+{
+	mutex.lock();
+	for (int i = 0; i < cellFullData->size(); i++)
+	{
+		QList < QVector<double>* > * list = cellFullData->at(i);
+		QList < QVector<double>* > * list1 = origialDataList->at(i);
+		QList < QVector<double>* > * list2 = logDataList->at(i);
+
+		for (int j = 0; j < 3; j++)
+		{
+			QVector<double>* vector = list->at(j);
+			QVector<double>* vector1 = list1->at(j);
+			QVector<double>* vector2 = list2->at(j);
+			for (int m = vector1->size(); m < vector->size(); m++)//int m = vector1->size()表示从上次数据开始读，不读旧数据，提高筛选概率
+			{
+				origialDataList->at(i)->at(j)->append(vector->at(m));
+				double value = qLn(vector->at(m)) / qLn(10);
+				logDataList->at(i)->at(j)->append(value);
+				for (int k = 0; k < barStructList.size(); k++)
+				{
+					BarStruct barStruct = barStructList.at(k);
+					if (value >= barStruct.m_point.x() && value < barStruct.m_point.y())
+					{
+						barStruct.m_value++;
+						barStructList.replace(k, barStruct);
+					}
+				}
+
+			}
+			//memcpy(cellDataVector->at(i)->at(j), vector, vector->size());
+
+		}
+	}
+	mutex.unlock();
+
 }

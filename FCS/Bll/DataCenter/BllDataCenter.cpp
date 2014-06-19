@@ -1,5 +1,6 @@
 #include "BllDataCenter.h"
 #include "Include/OscDataCenter.h"
+#include "Ui/Library/BarStruct.h"
 BllDataCenter::BllDataCenter(QObject *parent)
 	: QObject(parent)
 {
@@ -125,6 +126,8 @@ void BllDataCenter::getCellData(bool clear)
 				valueAA = (valueAA1 * 65536 + valueAA2 * 256 + valueAA3);//细胞面积
 				valueWW = (valueWW1 * 256 + valueWW2);//细胞宽度
 
+				
+
 				iCellStaticData->insert(j, valueHH, valueAA, valueWW);
 			}
 		}
@@ -146,7 +149,17 @@ QVector<double>* BllDataCenter::getCellDataVector(int passage, int valuePos)
 {
 	return iCellStaticData->getDataVector(passage, valuePos);
 }
+/**
+* @brief 散点图获取数据方法
+*/
 void BllDataCenter::getCellDataVector(QList < QList < QVector<double>* > * >* origialDataList, QList < QList < QVector<double>* >*  >* logDataList)
 {
 	iCellStaticData->getDataVector(origialDataList,logDataList);
+}
+/**
+* @brief 直方图获取数据方法
+*/
+void BllDataCenter::getCellDataVector(QList < QList < QVector<double>* > * >* origialDataList, QList < QList < QVector<double>* >*  >* logDataList, QList <BarStruct>& barStructList)
+{
+	iCellStaticData->getDataVector(origialDataList, logDataList, barStructList);
 }

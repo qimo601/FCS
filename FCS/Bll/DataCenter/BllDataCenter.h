@@ -41,7 +41,10 @@ public:
 	* @brief 获取细胞显示数据接口
 	*/
 	void getCellDataVector(QList < QList < QVector<double>* > * >* origialDataList, QList < QList < QVector<double>* >*  >* logDataList);
-
+	/**
+	* @brief 直方图获取数据方法
+	*/
+	void getCellDataVector(QList < QList < QVector<double>* > * >* origialDataList, QList < QList < QVector<double>* >*  >* logDataList, QList <BarStruct>& barStructList);
 private:
 	double stepValue;
 	//细胞数据接口

@@ -176,6 +176,8 @@ d_curve(NULL)
 	scaleXWidget->setStyleSheet(
 		"color:#666666;"
 		);
+	const int fmh = QFontMetrics(scaleXWidget->font()).height();
+	scaleXWidget->setMinBorderDist(0, fmh / 2);//设置刻度的边界最小值，防止因为标签变化，引起跳动  
 	QwtScaleWidget *scaleYWidget = this->axisWidget(QwtPlot::yLeft);//x轴刻度控件
 	scaleYWidget->setStyleSheet(
 		"color:#666666;"

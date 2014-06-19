@@ -65,7 +65,7 @@ private:
 	QVBoxLayout *vLayoutCellPlotFrame;//细胞绘图布局控件
 	
 	int m_timerId;//真正的定时器
-	bool logEnable;
+	bool logEnable;//是否启动log绘图
 };
 
 #endif // PLOTWIDGET_H
