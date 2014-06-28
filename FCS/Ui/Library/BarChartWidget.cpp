@@ -142,8 +142,13 @@ void BarChartWidget::initBarData()
 
 	logEnable = false; //默认不显示log
 
-
+	double internal = 10.00 / 100;
 	//初始化直方图数据结构
+	for (int i = 0; i < 100; i++)
+	{
+		BarStruct barStruct1(QString("[%1,%2)").arg(i*internal).arg((i + 1)*internal), 0, QColor("DodgerBlue"), QPoint(i*internal, (i + 1)*internal));
+		barStructList.append(barStruct1);
+	}/*
 	BarStruct barStruct1("[0,1)", 0, QColor("DodgerBlue"),QPoint(0,1));
 	BarStruct barStruct2("[1,2)", 0, QColor("#d70751"), QPoint(1, 2));
 	BarStruct barStruct3("[2,3)", 0, QColor("SteelBlue"), QPoint(2, 3));
@@ -163,7 +168,7 @@ void BarChartWidget::initBarData()
 	barStructList.append(barStruct7);
 	barStructList.append(barStruct8);
 	barStructList.append(barStruct9);
-	barStructList.append(barStruct10);
+	barStructList.append(barStruct10);*/
 
 	d_barChart->setBarChartData(barStructList);
 	d_barChart->replot();

@@ -15,6 +15,7 @@ ViewWidget::ViewWidget(QWidget *parent)
 	plotWidgetList.append(ui.plotWidget_3);
 	plotWidgetList.append(ui.plotWidget_4);
 
+	connect(ui.plotWidget_1, SIGNAL(normalPlot()), this, SLOT(relayoutPlotWidget()));
 	//初始化当前焦点plot
 	focusPlotWidget = 0;
 	m_timerId = 0;//初始化

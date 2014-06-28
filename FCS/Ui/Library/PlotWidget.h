@@ -35,12 +35,29 @@ public:
 	* @brief 初始化
 	*/
 	void init();
-
+	void initUi();//初始化界面
 	QList < QList < QVector<double>* >*  >* origialDataList;//符合条件的原始数据
 	QList < QList < QVector<double>* >*  >* logDataList;//符合条件的log值
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
+	/**
+	* @brief 设置通道
+	*/
+	void setPassage(int index);
+
+	/**
+	* @brief 设置数据单元类型
+	*/
+	void setDataUnit(int index);
+	/**
+	* @brief 最大化当前plot窗口
+	*/
+	void maximizedPlotWidget();
+	/**
+	* @brief 还原窗口
+	*/
+	void normalPlotWidget();
 	/**
 	* @brief 更新数据
 	*/
@@ -53,6 +70,8 @@ public slots:
 	* @brief 启动log数据显示
 	*/
 	void setLogEnable(bool enable);
+signals:
+	void normalPlot();//正常显示信号
 protected:
 	virtual void paintEvent(QPaintEvent * event);
 	virtual void timerEvent(QTimerEvent * event);
@@ -66,6 +85,8 @@ private:
 	
 	int m_timerId;//真正的定时器
 	bool logEnable;//是否启动log绘图
+
+	QWidget* m_parent;//临时存储当前窗口的父窗口
 };
 
 #endif // PLOTWIDGET_H

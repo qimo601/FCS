@@ -32,12 +32,20 @@ PlotWidget::PlotWidget(QWidget *parent)
 	ui.pannerBtn->setCheckable(true);
 	//设置平移按钮功能是否启用
 	connect(ui.pannerBtn, SIGNAL(toggled(bool)), d_plot, SLOT(enablePannerMode(bool)));
-
+	//通道值选择
+	connect(ui.passageXCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(setPassage(int)));
+	//数据单元类型选择
+	connect(ui.dataUnitXCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(setDataUnit(int)));
+	//最大化窗口
+	connect(ui.maximizedBtn, SIGNAL(clicked()), this, SLOT(maximizedPlotWidget()));
+	//还原窗口
+	connect(ui.normalBtn, SIGNAL(clicked()), this, SLOT(normalPlotWidget()));
+	
 	m_timerId = 0;//初始化
 	//m_timerId = startTimer(10);//测试开始即实时显示
 
 	this->setFocusPolicy(Qt::ClickFocus);
-
+	parent = 0;
 	init();//初始化
 
 }
@@ -70,6 +78,33 @@ void PlotWidget::init()
 	}
 
 	logEnable = false; //默认不显示log
+	//初始化界面一些数据
+	initUi();
+}
+
+/**
+* @brief 初始化界面一些数据
+*/
+void PlotWidget::initUi()
+{
+	//初始化通道和数据单元值
+	for (int i = 0; i < 8; i++)
+	{
+		ui.passageXCombox->addItem(QString("通道%1").arg(i + 1), i);
+		ui.passageYCombox->addItem(QString("通道%1").arg(i + 1), i);
+	}
+	ui.dataUnitYCombox->addItem("HH", 0);
+	ui.dataUnitYCombox->addItem("AA", 1);
+	ui.dataUnitYCombox->addItem("WW", 2);
+	ui.dataUnitXCombox->addItem("HH", 0);
+	ui.dataUnitXCombox->addItem("AA", 1);
+	ui.dataUnitXCombox->addItem("WW", 2);
+
+	ui.passageXCombox->setCurrentIndex(2);//默认通道3
+	ui.passageYCombox->setCurrentIndex(2);
+	ui.dataUnitXCombox->setCurrentIndex(0);//默认HH数据单元
+	ui.dataUnitYCombox->setCurrentIndex(0);
+
 }
 double PlotWidget::randomValue()
 {
@@ -104,6 +139,41 @@ double PlotWidget::randomValue()
 //{
 //
 //}
+/**
+* @brief 设置通道
+*/
+void PlotWidget::setPassage(int index)
+{
+	updateSamples();
+}
+/**
+* @brief 设置数据单元类型
+*/
+void PlotWidget::setDataUnit(int index)
+{
+	updateSamples();
+}
+/**
+* @brief 最大化当前plot窗口
+*/
+void PlotWidget::maximizedPlotWidget()
+{
+	m_parent = this->parentWidget();
+	this->setParent(0);
+	this->showMaximized();
+	ui.maximizedBtn->setEnabled(false);
+	ui.normalBtn->setEnabled(true);
+}
+/**
+* @brief 还原窗口
+*/
+void PlotWidget::normalPlotWidget()
+{
+	ui.maximizedBtn->setEnabled(true);
+	ui.normalBtn->setEnabled(false);
+	this->setParent(m_parent);
+	emit normalPlot();//还原窗口信号
+}
 void PlotWidget::updateSamples()
 {
 	QPolygonF samples;
@@ -115,17 +185,18 @@ void PlotWidget::updateSamples()
 	bllDataCenter.getCellDataVector(origialDataList,logDataList);//更新最新的数据给当前plot
 	QVector<double>* vectorX;
 	QVector<double>* vectorY;
+	
 	if (logEnable)//决定显示log否
 	{
 		
-		vectorX = logDataList->at(3)->at(1);
-		vectorY = logDataList->at(3)->at(0);
+		vectorX = logDataList->at(ui.passageXCombox->currentData().toInt())->at(ui.dataUnitXCombox->currentData().toInt());
+		vectorY = logDataList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
 
 	}
 	else
 	{
-		vectorX = origialDataList->at(3)->at(1);
-		vectorY = origialDataList->at(3)->at(0);
+		vectorX = origialDataList->at(ui.passageXCombox->currentData().toInt())->at(ui.dataUnitXCombox->currentData().toInt());
+		vectorY = origialDataList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
 	}
 	d_plot->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
 	//qDebug() << "PlotWidget," << this->objectName() << " " << origialDataList->at(3)->at(0)->size();

@@ -185,7 +185,7 @@ void BarChart::initBarChart()
 	
 	m_barChartItem = new DistroChartItem();//直方图
 	m_barChartItem->attach(this);
-	insertLegend(new QwtLegend());//插入直方图描述
+	//insertLegend(new QwtLegend());//插入直方图描述
 
 	setAutoReplot(false);
 
@@ -230,14 +230,16 @@ void BarChart::setOrientation(int orient)
 		qSwap(axis1, axis2);
 
 	m_barChartItem->setOrientation(orientation);//直方图方向
-	m_barChartItem->setSpacing(20);//spacing 是两个样本之间的距离（两个直方图之间的距离，或者每组直方图之间的距离
-	m_barChartItem->setMargin(30);// margin 最外层的直方图与画布的边框矩形之间的距离
+	m_barChartItem->setSpacing(5);//spacing 是两个样本之间的距离（两个直方图之间的距离，或者每组直方图之间的距离
+	m_barChartItem->setMargin(5);// margin 最外层的直方图与画布的边框矩形之间的距离
+	m_barChartItem->setLayoutHint(5);//bar的宽度
 
 	setAxisTitle(axis1, "值范围");
 
 
-	setAxisMaxMinor(axis1, 3);//设置坐标轴小刻度的最大值
+	setAxisMaxMinor(axis1, 0);//设置坐标轴小刻度的最大值
 	setAxisMaxMajor(axis1, 10);//设置坐标轴大刻度的最大值
+
 	setAxisScaleDraw(axis1, new DistroScaleDraw(orientation, m_titleList));//需要重新更新标题
 
 

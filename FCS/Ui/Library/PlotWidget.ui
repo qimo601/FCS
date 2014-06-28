@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
-    <height>450</height>
+    <width>974</width>
+    <height>481</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -107,6 +107,50 @@
        </widget>
       </item>
       <item>
+       <widget class="QToolButton" name="maximizedBtn">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>最大化</string>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="normalBtn">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>还原</string>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer">
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
@@ -189,6 +233,26 @@
          </widget>
         </item>
         <item>
+         <widget class="QComboBox" name="passageYCombox">
+          <property name="toolTip">
+           <string>通道</string>
+          </property>
+          <property name="currentText">
+           <string/>
+          </property>
+          <property name="currentIndex">
+           <number>-1</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="dataUnitYCombox">
+          <property name="toolTip">
+           <string>数据单元类型</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="gridCheckBox">
           <property name="focusPolicy">
            <enum>Qt::NoFocus</enum>
@@ -258,7 +322,7 @@
     <widget class="QFrame" name="cellYFrame">
      <property name="maximumSize">
       <size>
-       <width>30</width>
+       <width>80</width>
        <height>16777215</height>
       </size>
      </property>
@@ -305,6 +369,12 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QComboBox" name="dataUnitXCombox"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="passageXCombox"/>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_4">
