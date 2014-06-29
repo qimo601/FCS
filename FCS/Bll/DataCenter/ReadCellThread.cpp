@@ -20,20 +20,20 @@ void ReadCellThread::run()
 	
 	
 	//只要不是停止
-	while (ctrlTag != CTRL_TAG::STOP_TAG)
-	{
+	//while (ctrlTag != CTRL_TAG::STOP_TAG)
+	//{
 
-	}
-	qint64 step = 0;
-	while (m_goOn)
-	{
-		
-		getCellData(false);
-		emit cellReadySignal();
-		step++;
-		//qDebug() << "【ReadCellThread】step:" <<step;
-		msleep(10);
-	}
+	//}
+	//qint64 step = 0;
+	//while (m_goOn)
+	//{
+	//	
+	//	getCellData(false);
+	//	emit cellReadySignal();
+	//	step++;
+	//	//qDebug() << "【ReadCellThread】step:" <<step;
+	//	msleep(10);
+	//}
 	//qDebug() << "【ReadCellThread】运行结束!";
 	this->exec();
 

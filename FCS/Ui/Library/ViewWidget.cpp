@@ -39,6 +39,8 @@ ViewWidget::ViewWidget(QWidget *parent)
 	connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_4->staticsThread, SLOT(staticsCellData()));
 	/****测试线程获取示波器数据****/
 
+	//读取本地文件
+	connect(this, SIGNAL(openExpSignal(QString, bool)), readCellThread, SLOT(getCellDataFromFile(QString, bool)));
 }
 
 ViewWidget::~ViewWidget()
@@ -199,4 +201,12 @@ void ViewWidget::timerEvent(QTimerEvent *event)
 	{
 		
 	}
+}
+/**
+* @brief 打开文件
+*/
+void ViewWidget::openExpFileSlot()
+{
+	QString file = "20140618_14.fcm";
+	emit openExpSignal(file,true);
 }

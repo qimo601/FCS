@@ -38,9 +38,12 @@ public:
 public slots:
 	void showMaxOrNormal();
 	void showMin();
-
-	
-
+	/**
+	* @brief 打开实验文件
+	*/
+	void openExpFileSlot();
+signals:
+	void openExpFileSignal();
 protected:
 	void paintEvent(QPaintEvent *event);
 private:

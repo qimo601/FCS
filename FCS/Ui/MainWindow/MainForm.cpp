@@ -3,7 +3,7 @@
 MainForm::MainForm(QWidget *parent)
 : DropShadowWidget(parent)
 {
-	
+
 	ui.setupUi(this);
 
 	init();
@@ -15,13 +15,13 @@ MainForm::MainForm(QWidget *parent)
 	connect(ui.titleWidget, SIGNAL(maxWidget()), this, SLOT(showMaxOrNormal()));
 	connect(ui.titleWidget, SIGNAL(closeWidget()), this, SLOT(close()));
 
-	
-	
+
+
 	connect(ui.toolWidget, SIGNAL(acqBtnClicked()), ui.stackedWidget, SLOT(oscHandle()));//示波器采集按钮
 	connect(ui.toolWidget, SIGNAL(analyBtnClicked()), ui.stackedWidget, SLOT(dataAnalyHandle()));//细胞绘图分析与报告按钮
 
 
-
+	connect(ui.menuWidget, SIGNAL(openExpFileSignal()), ui.stackedWidget, SLOT(openExpFileSlot()));//打开本地文件
 }
 
 MainForm::~MainForm()
@@ -77,4 +77,11 @@ void MainForm::resetGeometry(int x)
 {
 	
 	ui.toolWidget->resetGeometry(x);
+}
+/**
+* @brief 打开实验文件
+*/
+void MainForm::openExpFileSlot()
+{
+	emit openExpFileSignal();
 }

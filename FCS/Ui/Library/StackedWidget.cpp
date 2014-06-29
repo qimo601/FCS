@@ -12,6 +12,7 @@ StackedWidget::StackedWidget(QWidget *parent)
 	ui.setupUi(this);
 	
 	init();//初始化
+	connect(this, SIGNAL(openExpFileSignal()), ui.celllViewWidget, SLOT(openExpFileSlot()));
 }
 
 StackedWidget::~StackedWidget()
@@ -252,4 +253,12 @@ void StackedWidget::on_newPlotBtn_clicked()
 void StackedWidget::on_delPlotBtn_clicked()
 {
 	ui.celllViewWidget->delPlot();
+}
+
+/**
+* @brief 打开实验文件
+*/
+void StackedWidget::openExpFileSlot()
+{
+	emit openExpFileSignal();
 }

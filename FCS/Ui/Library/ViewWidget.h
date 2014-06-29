@@ -38,6 +38,12 @@ public slots:
 	* @brief 重新布局画布
 	*/
 	void relayoutPlotWidget();
+	/**
+	* @brief 打开文件
+	*/
+	void openExpFileSlot();
+signals:
+	void openExpSignal(QString,bool);
 protected:
 	virtual void paintEvent(QPaintEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent * event);

@@ -107,6 +107,12 @@ public slots:
 	* @brief 删除plot
 	*/
 	void on_delPlotBtn_clicked();
+	/**
+	* @brief 打开实验文件
+	*/
+	void openExpFileSlot();
+signals:
+	void openExpFileSignal();
 protected:
 	void paintEvent(QPaintEvent *event);
 private:
