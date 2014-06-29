@@ -21,6 +21,13 @@ class MenuWidget : public QWidget
 public:
 	MenuWidget(QWidget *parent = 0);
 	~MenuWidget();
+public slots:
+	/**
+	* @brief 打开实验文件
+	*/
+	void openExpFile();
+signals:
+	void openExpFileSignal();//打开实验文件信号
 protected:
 	void paintEvent(QPaintEvent *);
 private:

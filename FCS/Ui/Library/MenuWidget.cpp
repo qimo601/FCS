@@ -10,6 +10,7 @@ MenuWidget::MenuWidget(QWidget *parent)
 	fileMenu->addAction(ui.newExpAction);
 	fileMenu->addAction(ui.openExpAction);
 	ui.fileBtn->setMenu(fileMenu);
+	connect(ui.openExpAction, SIGNAL(triggered()), this, SLOT(openExpFile()));
 }
 
 MenuWidget::~MenuWidget()
@@ -22,4 +23,11 @@ void MenuWidget::paintEvent(QPaintEvent *)
 	opt.init(this);
 	QPainter p(this);
 	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+/**
+* @brief 打开实验文件
+*/
+void MenuWidget::openExpFile()
+{
+	emit openExpFileSignal();
 }

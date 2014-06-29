@@ -30,6 +30,12 @@ public slots:
 	* @brief 获取细胞数据
 	*/
 	void getCellData(bool clear);
+	/**
+	* @brief 通过文件读取本地细胞数据
+	* @param filepath:文件地址
+	* @param clear:每次读一个文件，默认清空缓存
+	*/
+	void getCellDataFromFile(QString filePath, bool clear=true);
 signals:
 	void cellReadySignal();
 private:

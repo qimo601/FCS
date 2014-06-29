@@ -34,10 +34,14 @@ PlotWidget::PlotWidget(QWidget *parent)
 	ui.pannerBtn->setCheckable(true);
 	//设置平移按钮功能是否启用
 	connect(ui.pannerBtn, SIGNAL(toggled(bool)), d_plot, SLOT(enablePannerMode(bool)));
-	//通道值选择
+	//X轴通道值选择
 	connect(ui.passageXCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(setPassage(int)));
-	//数据单元类型选择
+	//Y轴通道值选择
+	connect(ui.passageYCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(setPassage(int)));
+	//Y轴数据单元类型选择
 	connect(ui.dataUnitXCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(setDataUnit(int)));
+	//Y轴数据单元类型选择
+	connect(ui.dataUnitYCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(setDataUnit(int)));
 	//最大化窗口
 	connect(ui.maximizedBtn, SIGNAL(clicked()), this, SLOT(maximizedPlotWidget()));
 	//还原窗口

@@ -22,7 +22,6 @@ MainForm::MainForm(QWidget *parent)
 
 
 
-
 }
 
 MainForm::~MainForm()
