@@ -201,17 +201,18 @@ void BarChart::initBarChart()
 /**
 * @brief 设置直方图列标题和颜色
 */
-void BarChart::setBarChartData(QList<BarStruct>& barStructList)
+void BarChart::setBarChartData(QList < QList < QVector<BarStruct>* >*  >* barStructList)
 {
 	
 	setAxisScaleDraw(QwtPlot::yLeft, new DistroScaleDraw(Qt::Vertical, m_titleList));//需要重新更新标题
 
+	QVector<BarStruct>* vector = barStructList->at(3)->at(0);
 	//数据源
-	for (int i = 0; i < barStructList.size(); i++)
+	for (int i = 0; i < vector->size(); i++)
 	{
-		m_titleList.append(barStructList.at(i).m_title); //给标题赋值
-		m_samples.append(barStructList.at(i).m_value);//给数据赋值
-		m_barChartItem->addDistro(barStructList.at(i).m_title, barStructList.at(i).m_color);//更新颜色和标题
+		m_titleList.append(vector->at(i).m_title); //给标题赋值
+		m_samples.append(vector->at(i).m_value);//给数据赋值
+		m_barChartItem->addDistro(vector->at(i).m_title, vector->at(i).m_color);//更新颜色和标题
 	}
 	m_barChartItem->setSamples(m_samples);//更新初始数据完，要更新legend
 	updateLegend();//更新legend

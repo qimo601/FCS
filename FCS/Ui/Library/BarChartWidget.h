@@ -16,9 +16,9 @@
 #include "ui_BarChartWidget.h"
 #include "Bll/DataCenter/BllDataCenter.h"
 #include "PlotWidget.h"
-
+#include "StaticsThread.h"
+#include "BarStruct.h"
 class BarChart;
-class BarStruct;
 class BarChartWidget : public QWidget
 {
 	Q_OBJECT
@@ -28,7 +28,10 @@ public:
 	~BarChartWidget();
 	QList < QList < QVector<double>* >*  >* origialDataList;//符合条件的原始数据
 	QList < QList < QVector<double>* >*  >* logDataList;//符合条件的log值
-	QList <BarStruct> barStructList;//直方图标题、颜色数据信息
+	QList < QList < QVector<BarStruct>* >*  >* barStructList;//符合条件统计值
+
+	QMutex dataMutex;//外界更改必用数据锁
+	StaticsThread staticsThread;//统计线程
 
 	/**
 	* @brief 随机值

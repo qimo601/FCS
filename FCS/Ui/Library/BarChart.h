@@ -35,7 +35,7 @@ public slots:
 	/**
 	* @brief 设置直方图列标题和颜色
 	*/
-	void setBarChartData(QList<BarStruct>& barStructList);
+	void setBarChartData(QList < QList < QVector<BarStruct>* >*  >*barStructList);
 	/**
 	* @brief 更新数据
 	*/

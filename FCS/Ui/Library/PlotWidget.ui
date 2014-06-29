@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>974</width>
-    <height>481</height>
+    <width>1057</width>
+    <height>513</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -279,6 +279,29 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="scatterCheckBox">
+          <property name="text">
+           <string>散点图</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="barChatStaticsCheckBox">
+          <property name="text">
+           <string>直方图统计</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item>
          <spacer name="horizontalSpacer">
           <property name="focusPolicy">
            <enum>Qt::NoFocus</enum>
@@ -406,4 +429,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

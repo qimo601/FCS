@@ -242,6 +242,18 @@ void Plot::setSamples(const QVector<QPointF> &samples)
 
 	d_curve->setSamples(samples);
 }
+
+
+void Plot::setSamples(const QVector< double > & xData,	const QVector< double > & 	yData)
+{
+	/**指定曲线绘画类型为ImageBufferRender the points to a temporary image and paint the image.
+	This is a very special optimization for Dots style, when having a huge amount of points.
+	With a reasonable number of points QPainter::drawPoints() will be faster.*/
+	/*d_curve->setPaintAttribute(
+	QwtPlotCurve::ImageBuffer, size > 1000);*/
+
+	d_curve->setSamples(xData, yData);
+}
 void Plot::setRawSamples(const double * xData,	const double * 	yData,	int size)
 {
 	/**指定曲线绘画类型为ImageBufferRender the points to a temporary image and paint the image.
@@ -296,4 +308,33 @@ void Plot::enablePannerMode(bool checked)
 	{
 		canvas->setCursor(QCursor(Qt::ArrowCursor));
 	}
+}
+/**
+* @brief 设置直方图统计模式的样式
+*/
+void Plot::enableStaticsMode()
+{
+	//设置统计曲线样式
+	d_curve->setPen(Qt::darkBlue);
+	d_curve->setStyle(QwtPlotCurve::Lines);
+	d_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
+
+	//坐标轴刻度修饰
+	this->setAxisScale(QwtPlot::xBottom, 0, 10);//设置x轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yLeft, 0, 100000);//设置y轴坐标刻度大小
+	replot();
+}
+/**
+* @brief 设置散点图模式的样式
+*/
+void Plot::enableScatterMode()
+{
+	//设置统计曲线样式
+	d_curve->setPen(Qt::darkBlue);
+	d_curve->setStyle(QwtPlotCurve::Dots);
+
+	//坐标轴刻度修饰
+	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//设置x轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//设置y轴坐标刻度大小
+	replot();
 }

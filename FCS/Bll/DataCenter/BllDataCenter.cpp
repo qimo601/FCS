@@ -159,7 +159,7 @@ void BllDataCenter::getCellDataVector(QList < QList < QVector<double>* > * >* or
 /**
 * @brief 直方图获取数据方法
 */
-void BllDataCenter::getCellDataVector(QList < QList < QVector<double>* > * >* origialDataList, QList < QList < QVector<double>* >*  >* logDataList, QList <BarStruct>& barStructList)
+void BllDataCenter::getCellDataVector(QList < QList < QVector<double>* > * >* origialDataList, QList < QList < QVector<double>* >*  >* logDataList, QList < QList < QVector<BarStruct>* >*  >* barStructList)
 {
 	iCellStaticData->getDataVector(origialDataList, logDataList, barStructList);
 }

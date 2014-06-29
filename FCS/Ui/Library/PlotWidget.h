@@ -15,8 +15,9 @@
 #include <QPaintEvent>
 #include "ui_PlotWidget.h"
 #include "Bll/DataCenter/BllDataCenter.h"
+#include "PlotStaticsThread.h"
 class Plot;
-
+class BarStruct;
 class PlotWidget : public QWidget
 {
 	Q_OBJECT
@@ -36,8 +37,16 @@ public:
 	*/
 	void init();
 	void initUi();//初始化界面
+	//初始化Bar列标题、颜色，模拟数据
+	void initBarData();
 	QList < QList < QVector<double>* >*  >* origialDataList;//符合条件的原始数据
 	QList < QList < QVector<double>* >*  >* logDataList;//符合条件的log值
+
+	QList < QList < QVector<BarStruct>* >*  >* barStructList;//符合条件统计值
+	QMutex dataMutex;//外界更改上面三组数据，必用该锁
+
+	PlotStaticsThread staticsThread;//统计线程
+
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
@@ -58,10 +67,7 @@ public slots:
 	* @brief 还原窗口
 	*/
 	void normalPlotWidget();
-	/**
-	* @brief 更新数据
-	*/
-	void updateSamples();
+	
 	/**
 	* @brief 重新设置刻度
 	*/
@@ -70,6 +76,27 @@ public slots:
 	* @brief 启动log数据显示
 	*/
 	void setLogEnable(bool enable);
+
+	/**
+	* @brief 设置直方图统计显示模式
+	*/
+	void setBarStatisticsMode(bool mode);
+	/**
+	* @brief 设置散点图显示模式
+	*/
+	void setScatterMode(bool mode);
+	/**
+	* @brief 更新数据
+	*/
+	void updateSamples();
+	/**
+	* @brief 更新统计数据
+	*/
+	void updateStaticsSamples();
+	/**
+	* @brief 更新散点图统计数据
+	*/
+	void updateScatterSamples();
 signals:
 	void normalPlot();//正常显示信号
 protected:

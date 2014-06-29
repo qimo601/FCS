@@ -37,6 +37,10 @@ BarChartWidget::BarChartWidget(QWidget *parent)
 	m_timerId = 0;//初始化
 
 	initBarData();//初始化直方图数据
+	staticsThread.setDataWidget(this);
+	staticsThread.start();
+	//绑定统计信号
+	connect(&staticsThread, SIGNAL(staticsFinished()), this, SLOT(updateSamples()));
 }
 
 BarChartWidget::~BarChartWidget()
@@ -91,7 +95,8 @@ void BarChartWidget::updateSamples()
 	////QVector<double>* vectorY = bllDataCenter.getCellDataVector(3, 0);
 	////d_barChart->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
 
-	bllDataCenter.getCellDataVector(origialDataList, logDataList, barStructList);//更新最新的数据给当前plot
+	//bllDataCenter.getCellDataVector(origialDataList, logDataList, barStructList);//更新最新的数据给当前plot
+	
 	/*QVector<double>* vectorX;
 	QVector<double>* vectorY;*/
 	//if (logEnable)//决定显示log否
@@ -107,10 +112,16 @@ void BarChartWidget::updateSamples()
 	//	vectorY = origialDataList->at(3)->at(0);
 	//}
 
+	dataMutex.lock();
+
 	QVector<double> barChartDataVector;
-	for (int i = 0; i < barStructList.size(); i++)
-		barChartDataVector.append(barStructList.at(i).m_value);
+
+	QVector<BarStruct>* vector = barStructList->at(3)->at(0);
+	for (int i = 0; i < vector->size(); i++)
+		barChartDataVector.append(vector->at(i).m_value);
+
 	d_barChart->setSamples(barChartDataVector);
+	dataMutex.unlock();
 	//qDebug() << "PlotWidget," << this->objectName() << " " << origialDataList->at(3)->at(0)->size();
 	d_barChart->replot();
 
@@ -122,53 +133,40 @@ void BarChartWidget::updateSamples()
 void BarChartWidget::initBarData()
 {
 
-	//初始化绘图的数据结构
+	//初始化该绘图的数据结构
 	origialDataList = new QList < QList < QVector<double>* >*  >();//符合条件的原始数据
 	logDataList = new QList < QList < QVector<double>* >*  >();//符合条件的log值
+	barStructList = new QList < QList < QVector<BarStruct>* >*  >();
 	for (int i = 0; i < 8; i++)
 	{
 		QList < QVector<double>* >* list = new QList < QVector<double>* >();
 		origialDataList->append(list);
 		QList < QVector<double>* >* list1 = new QList < QVector<double>* >();
 		logDataList->append(list1);
+
+		QList<QVector<BarStruct>*>* list2 = new QList<QVector<BarStruct>*>();
 		for (int j = 0; j < 3; j++)
 		{
 			QVector<double>* vector = new QVector<double>();
 			list->append(vector);
 			QVector<double>* vector1 = new QVector<double>();
 			list1->append(vector1);
+			//初始化直方图数据结构
+			QVector<BarStruct>* vector2= new QVector<BarStruct>();
+			double internal = 10.00 / 100;
+			for (int i = 0; i < 100; i++)
+			{
+				BarStruct barStruct1(i*internal, QString("[%1,%2)").arg(i*internal).arg((i + 1)*internal), 0, QColor("DodgerBlue"), QPoint(i*internal, (i + 1)*internal));
+				vector2->append(barStruct1);//QList不是new的，append只是拷贝，所以必须在最后append
+			}
+			list2->append(vector2);
+
 		}
+		barStructList->append(list2);//QList不是new的，append只是拷贝，所以必须在最后append
+
 	}
 
 	logEnable = false; //默认不显示log
-
-	double internal = 10.00 / 100;
-	//初始化直方图数据结构
-	for (int i = 0; i < 100; i++)
-	{
-		BarStruct barStruct1(QString("[%1,%2)").arg(i*internal).arg((i + 1)*internal), 0, QColor("DodgerBlue"), QPoint(i*internal, (i + 1)*internal));
-		barStructList.append(barStruct1);
-	}/*
-	BarStruct barStruct1("[0,1)", 0, QColor("DodgerBlue"),QPoint(0,1));
-	BarStruct barStruct2("[1,2)", 0, QColor("#d70751"), QPoint(1, 2));
-	BarStruct barStruct3("[2,3)", 0, QColor("SteelBlue"), QPoint(2, 3));
-	BarStruct barStruct4("[3,4)", 0, QColor("Indigo"), QPoint(3, 4));
-	BarStruct barStruct5("[4,5)", 0, QColor(183, 255, 183), QPoint(4, 5));
-	BarStruct barStruct6("[5,6)", 0, QColor(115, 186, 37), QPoint(5, 6));
-	BarStruct barStruct7("[6,7)", 0, QColor("LightSkyBlue"), QPoint(6, 7));
-	BarStruct barStruct8("[7,8)", 0, QColor("FireBrick"), QPoint(7, 8));
-	BarStruct barStruct9("[8,9)", 0, QColor("Green"), QPoint(8, 9));
-	BarStruct barStruct10("[9,10)", 0, QColor("Red"), QPoint(9, 10));
-	barStructList.append(barStruct1);
-	barStructList.append(barStruct2);
-	barStructList.append(barStruct3);
-	barStructList.append(barStruct4);
-	barStructList.append(barStruct5);
-	barStructList.append(barStruct6);
-	barStructList.append(barStruct7);
-	barStructList.append(barStruct8);
-	barStructList.append(barStruct9);
-	barStructList.append(barStruct10);*/
 
 	d_barChart->setBarChartData(barStructList);
 	d_barChart->replot();

@@ -28,6 +28,7 @@ public:
 	~Plot();
 	void setSymbol(QwtSymbol *);
 	void setSamples(const QVector<QPointF> &samples);
+	void setSamples(const QVector< double > & xData, const QVector< double > & 	yData);
 	void setRawSamples(const double * xData, const double * yData, int size);
 public slots:
 	void setGridEnable(bool checked);
@@ -39,6 +40,14 @@ public slots:
 	* @brief 设置平移功能启用
 	*/
 	void enablePannerMode(bool checked);
+	/**
+	* @brief 设置统计模式的样式
+	*/
+	void enableStaticsMode();
+	/**
+	* @brief 设置散点图模式的样式
+	*/
+	void enableScatterMode();
 private:
 	QwtPlotCurve *d_curve;
 	//背景方格

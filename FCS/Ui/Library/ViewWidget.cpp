@@ -23,11 +23,20 @@ ViewWidget::ViewWidget(QWidget *parent)
 
 
 	/****测试线程获取示波器数据****/
-	readCellThread = new ReadCellThread();//细胞数据读取线程
-	connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_1, SLOT(updateSamples()));
-	connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_2, SLOT(updateSamples()));
-	connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_3, SLOT(updateSamples()));
-	connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_4, SLOT(updateSamples()));
+	readCellThread = new ReadCellThread();//从全局缓冲区读取细胞数据线程
+
+	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_1, SLOT(updateSamples()));
+	//统计线程
+	connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_1->staticsThread, SLOT(staticsCellData()));
+	//直方图统计，这个速度有点卡
+	//connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_2->staticsThread, SLOT(staticsCellData()));
+	
+	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_3, SLOT(updateSamples()));
+	//统计线程
+	connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_3->staticsThread, SLOT(staticsCellData()));
+	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_4, SLOT(updateSamples()));
+	//统计线程
+	connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_4->staticsThread, SLOT(staticsCellData()));
 	/****测试线程获取示波器数据****/
 
 }
