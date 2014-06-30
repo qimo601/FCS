@@ -22,9 +22,17 @@ ViewWidget::ViewWidget(QWidget *parent)
 	this->setFocusPolicy(Qt::StrongFocus);
 
 
-	/****测试线程获取示波器数据****/
+	/****线程读取细胞数据****/
 	readCellThread = new ReadCellThread();//从全局缓冲区读取细胞数据线程
+	readCellThread->start();//细胞数据线程读取
+	//循环读取缓冲区
+	connect(this, SIGNAL(startReadCellDataFromCircleBuffer()), readCellThread, SLOT(startReadCellDataFromCircleBuffer()));
+	//读取本地文件
+	connect(this, SIGNAL(openExpSignal(QString, bool)), readCellThread, SLOT(getCellDataFromFile(QString, bool)));
+	/****线程读取细胞数据****/
+	
 
+	/****线程传递细胞数据****/
 	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_1, SLOT(updateSamples()));
 	//统计线程
 	connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_1->staticsThread, SLOT(staticsCellData()));
@@ -37,15 +45,13 @@ ViewWidget::ViewWidget(QWidget *parent)
 	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_4, SLOT(updateSamples()));
 	//统计线程
 	connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_4->staticsThread, SLOT(staticsCellData()));
-	/****测试线程获取示波器数据****/
-
-	//读取本地文件
-	connect(this, SIGNAL(openExpSignal(QString, bool)), readCellThread, SLOT(getCellDataFromFile(QString, bool)));
+	/****线程传递细胞数据****/
+	
 }
 
 ViewWidget::~ViewWidget()
 {
-
+	readCellThread->quit();//线程离开exec循环
 }
 void ViewWidget::paintEvent(QPaintEvent *)
 {
@@ -67,11 +73,11 @@ void ViewWidget::startAcqSlot()
 
 
 
-	/****测试线程获取示波器数据****/
-	readCellThread->setGoOn(true);//启动真读循环
+	/****测试线程获取细胞数据****/
+	readCellThread->setGoOn(true);//设置真读循环槽函标志位为真
+	emit startReadCellDataFromCircleBuffer();//启动真读循环槽函数
 
-	readCellThread->start();//示波器线程读取
-	/****测试线程获取示波器数据****/
+	/****测试线程获取细胞数据****/
 
 	
 }
@@ -87,7 +93,6 @@ void ViewWidget::stopAcqSlot()
 
 	/****测试线程获取示波器数据****/
 	readCellThread->setGoOn(false);//停止真读循环，线程进入待读阶段
-	readCellThread->quit();//线程离开exec循环
 	/****测试线程获取示波器数据****/
 }
 /**

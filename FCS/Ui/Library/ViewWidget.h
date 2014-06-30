@@ -44,6 +44,8 @@ public slots:
 	void openExpFileSlot();
 signals:
 	void openExpSignal(QString,bool);
+	void getCellDataFromFile();
+	void startReadCellDataFromCircleBuffer();
 protected:
 	virtual void paintEvent(QPaintEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent * event);

@@ -12,6 +12,7 @@
 #ifndef ReadCellThread_H  
 #define ReadCellThread_H
 #include <QThread> 
+#include <QMutex>
 #include "Include/Global.h"
 #include "Include/ICellStaticData.h"
 class ReadCellThread : public QThread  
@@ -21,11 +22,22 @@ public:
 	ReadCellThread(QObject *parent = 0);
     ~ReadCellThread();  
     void run(); 
-	void setGoOn(bool on)
-	{
-		m_goOn = on;
-	}
+	//设置循环读取标签
+	void setGoOn(bool on);
+
+	//操作枚举值
+	enum Operate {
+		CLEAR = 0x0001,//清空全局缓存
+		START_ACQ = 0x0002,//采集缓冲区数据
+		Read_FILE = 0x0003,//读取本地文件
+		NORMAL = 0x0004//正常状态
+	};
+
 public slots:
+	/**
+	* @brief 开始循环读取环形缓冲区中细胞数据
+	*/
+	void startReadCellDataFromCircleBuffer();
 	/**
 	* @brief 获取细胞数据
 	*/
@@ -36,12 +48,27 @@ public slots:
 	* @param clear:每次读一个文件，默认清空缓存
 	*/
 	void getCellDataFromFile(QString filePath, bool clear=true);
+	/**
+	* @brief 清楚全局细胞缓冲区旧数据，
+	*        每次切换采集和读取本地文件必须调用
+	*/
+	void clearCellStaticData();
+
+	/**
+	* @brief 设置该线程操作
+	*/
+	void setOperate(Operate operate);
 signals:
 	void cellReadySignal();
 private:
 	double stepValue;
 	char m_buffer[512];//一个USB细胞的数据包//细胞数据
 	bool m_goOn;//继续标志
+	QMutex mutex;//互斥锁
+	
+
+	QString m_filePath;//文件路径
+	Operate m_opertaeEnum;//操作枚举值
 	//细胞数据接口
 	ICellStaticData* iCellStaticData;
 }; 

@@ -6,6 +6,7 @@ ReadCellThread::ReadCellThread(QObject *parent) :QThread(parent)
 {  
 	stepValue = 0;
 	m_goOn = true;//默认就自动进入循环
+	opertaeEnum = Operate::NORMAL;//默认普通操作
 	iCellStaticData = ICellStaticData::getInstance();//初始化细胞数据接口
 }  
 
@@ -18,7 +19,21 @@ void ReadCellThread::run()
 { 
 	qDebug() << "【USB监听线程】启动ReadCellThread,线程Id" << QThread::currentThreadId();
 	
-	
+	while (1)
+	{
+		switch (opertaeEnum)
+		{
+		case Operate::START_ACQ:
+			startReadCellDataFromCircleBuffer();
+			break;
+		case Operate::Read_FILE:
+			getCellDataFromFile(filePath,true);
+			break;
+		default:
+			sleep(1000);
+		}
+
+	}
 	//只要不是停止
 	//while (ctrlTag != CTRL_TAG::STOP_TAG)
 	//{
@@ -38,9 +53,26 @@ void ReadCellThread::run()
 	this->exec();
 
 }
-
 /**
-* @brief 获取细胞显示数据
+* @brief 开始循环读取环形缓冲区中细胞数据
+*/
+void ReadCellThread::startReadCellDataFromCircleBuffer()
+{
+	qint64 step = 0;
+	//必须先清空原先的全局数据;
+	clearCellStaticData();
+	while (m_goOn)
+	{
+		
+		getCellData(false);
+		emit cellReadySignal();
+		step++;
+		//qDebug() << "【ReadCellThread】step:" <<step;
+		msleep(10);
+	}
+}
+/**
+* @brief 获取细胞显示数据，环形缓冲区中读一个单元
 */
 void ReadCellThread::getCellData(bool clear)
 {
@@ -139,9 +171,7 @@ void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 	//如果需要清空
 	if (clear)
 	{
-		//清空每个通道的具体内容
-		for (int i = 0; i < 8; i++)
-			iCellStaticData->clear(i);
+		clearCellStaticData();
 	}
 	char * tmp = new char[512]();//指向临时数组
 	FILE *stream;
@@ -208,4 +238,40 @@ void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 			}
 		}
 	}
+}
+
+
+/**
+* @brief 设置循环读取标签
+*/
+void ReadCellThread::setGoOn(bool on)
+{
+	mutex.lock();
+	m_goOn = on;
+	mutex.unlock();
+}
+/**
+* @brief 设置该线程操作
+*/
+void ReadCellThread::setOperate(Operate operate)
+{
+	mutex.lock();
+	m_opertaeEnum = operate;
+	mutex.unlock();
+}
+void ReadCellThread::setFilePath(QString filePaht operate)
+{
+	mutex.lock();
+	m_opertaeEnum = operate;
+	mutex.unlock();
+}
+/**
+* @brief 清楚全局细胞缓冲区旧数据，
+*        每次切换采集和读取本地文件必须调用
+*/
+void ReadCellThread::clearCellStaticData()
+{
+	//清空每个通道
+	for (int i = 0; i < 8; i++)
+		iCellStaticData->clear(i);
 }
