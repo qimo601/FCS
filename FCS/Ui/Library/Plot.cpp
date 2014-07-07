@@ -7,6 +7,8 @@
 #include <qwt_scale_widget.h>
 #include <qwt_plot_canvas.h>
 #include <qwt_plot_layout.h>
+
+//重新绘制刻度标尺
 class OtherScaleDraw : public QwtScaleDraw
 {
 public:
@@ -34,6 +36,7 @@ public:
 private:
 	const QStringList d_labels;
 };
+
 class DistancePicker : public QwtPlotPicker
 {
 public:
@@ -95,8 +98,9 @@ Plot::Plot(QWidget *parent)
 d_curve(NULL)
 {
 	setAutoFillBackground(true);
-	plotLayout()->setAlignCanvasToScales(true);//设置对齐画布、坐标轴、刻度 
-
+	
+	//plotLayout()->setCanvasMargin(0);
+	plotLayout()->setAlignCanvasToScales(true);//设置对齐画布、坐标轴、刻度 会掩盖setCanvasMargin()
 	setPalette(QColor("#FFFFFF"));//plot背景色
 	//setStyleSheet(
 	//	"border-top: 1px solid #9D9D9D;"
@@ -113,6 +117,7 @@ d_curve(NULL)
 		"border: 0px solid #000000;"
 		"border-radius: 0px;"
 		"background-color:#FFFFFF;"
+		"margin:0 0px;"
 		);//画布背景色
 	setCanvas(canvas);
     canvas->setFrameStyle(QFrame::Box | QFrame::Sunken);
@@ -136,7 +141,7 @@ d_curve(NULL)
 	//设置颜色
 	QColor c("#3535CB");
 	d_curve->setPen(c, 2);
-
+	d_curve->setLegendAttribute(QwtPlotCurve::LegendShowLine);//设置描述的样式
 	// when using QwtPlotCurve::ImageBuffer simple dots can be
 	// rendered in parallel on multicore systems.
 	d_curve->setRenderThreadCount(0); // 0: use QThread::idealThreadCount()
@@ -158,20 +163,30 @@ d_curve(NULL)
 	picker->setMousePattern(QwtPlotPicker::MouseSelect1, Qt::RightButton);
 	picker->setRubberBandPen(QPen(Qt::blue));
 
+	//鼠标显示当前值
+	d_picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft, QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn, canvas);
+	d_picker->setStateMachine(new QwtPickerDragPointMachine());
+	d_picker->setRubberBandPen(QColor(Qt::red));
+	d_picker->setRubberBand(QwtPicker::CrossRubberBand);
+	d_picker->setTrackerPen(QColor(Qt::blue));
+
+
 	d_grid = new QwtPlotGrid();
 	//d_grid->setPen(QColor(215, 215, 215), 0.0, Qt::DashLine);
 	d_grid->enableX(true);
 	d_grid->enableXMin(true);
-	d_grid->enableY(true);
+	d_grid->enableY(false);
 	d_grid->enableYMin(false);
 
 	d_grid->setMajorPen(Qt::gray, 0, Qt::DotLine);
 	d_grid->setMinorPen(QColor("#DDDDDD"), 0, Qt::DotLine);
 
 	d_grid->attach(this);
-	//坐标轴刻度修饰
-	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//设置x轴坐标刻度大小
-	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//设置y轴坐标刻度大小
+	//默认坐标轴刻度
+	this->setAxisScale(QwtPlot::xBottom, 0, 60000000);//设置x轴坐标刻度大小
+	//setAxisMaxMajor(QwtPlot::xBottom, 6);//主要刻度的最大间隔数量
+	//setAxisMaxMinor(QwtPlot::xBottom, 9);//次要刻度的最大间隔数量
+	this->setAxisScale(QwtPlot::yLeft, 0, 60000000);//设置y轴坐标刻度大小
 	QwtScaleWidget *scaleXWidget = this->axisWidget(QwtPlot::xBottom);//x轴刻度控件
 	scaleXWidget->setStyleSheet(
 		"color:#666666;"
@@ -191,8 +206,8 @@ d_curve(NULL)
 	setAxisAutoScale(QwtPlot::yRight, true);
 	setAxisAutoScale(QwtPlot::xTop, true);
 
-	this->setAxisScale(QwtPlot::xTop, 4000000, 6000000);//设置y轴坐标刻度大小
-	this->setAxisScale(QwtPlot::yRight, 4000000, 6000000);//设置y轴坐标刻度大小
+	this->setAxisScale(QwtPlot::xTop, 0, 6000000);//设置y轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yRight, 0, 6000000);//设置y轴坐标刻度大小
 
 	
 
@@ -321,6 +336,8 @@ void Plot::enableStaticsMode()
 
 	//坐标轴刻度修饰
 	this->setAxisScale(QwtPlot::xBottom, 0, 10);//设置x轴坐标刻度大小
+	//this->setAxisMaxMajor(QwtPlot::xBottom, 5);//主要刻度的最大间隔数量
+	//this->setAxisMaxMinor(QwtPlot::xBottom, 10);//次要刻度的最大间隔数量
 	this->setAxisScale(QwtPlot::yLeft, 0, 100000);//设置y轴坐标刻度大小
 	replot();
 }
@@ -334,7 +351,16 @@ void Plot::enableScatterMode()
 	d_curve->setStyle(QwtPlotCurve::Dots);
 
 	//坐标轴刻度修饰
-	this->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//设置x轴坐标刻度大小
-	this->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//设置y轴坐标刻度大小
+	this->setAxisScale(QwtPlot::xBottom, 0, 6000000);//设置x轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yLeft, 0, 6000000);//设置y轴坐标刻度大小
 	replot();
+}
+/**
+* @brief 设置跟踪鼠标显示当前值
+*/
+void Plot::enableViewTrueValue(bool mode)
+{
+	d_picker->setEnabled(mode);
+
+	d_picker->setStateMachine(new QwtPickerDragPointMachine());
 }

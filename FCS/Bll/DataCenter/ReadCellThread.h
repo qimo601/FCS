@@ -33,6 +33,10 @@ public:
 		NORMAL = 0x0004//正常状态
 	};
 
+
+	static bool saveTag;//保存文件标示符
+	static QString fileName;//细胞文件
+	static FILE *projectFile;//文件指针
 public slots:
 	/**
 	* @brief 开始循环读取环形缓冲区中细胞数据
@@ -58,8 +62,17 @@ public slots:
 	* @brief 设置该线程操作
 	*/
 	void setOperate(Operate operate);
+	/**
+	* @brief 设置读取文件路径
+	*/
+	void setFilePath(QString filePath);
+	/**
+	* @brief 保存细胞文件
+	*/
+	void saveToFile(char* buffer, qint32 DataLength);
 signals:
-	void cellReadySignal();
+	//信号 new = false,表示正常采集。true，表示新数据源数据，需要对方清空
+	void cellReadySignal(bool newData = false);
 private:
 	double stepValue;
 	char m_buffer[512];//一个USB细胞的数据包//细胞数据

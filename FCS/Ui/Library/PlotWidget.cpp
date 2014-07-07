@@ -1,11 +1,41 @@
 #include "PlotWidget.h"
 
-#include "plot.h"
 #include <qmath.h>
 #include <QTime>
 #include <QPainter>
 #include "BarStruct.h"
+#include <qwt_scale_engine.h>
+#include <qwt_scale_draw.h>
 
+//按照log值绘制标签
+class LogScaleDraw : public QwtScaleDraw
+{
+public:
+	LogScaleDraw()
+	{
+		setTickLength(QwtScaleDiv::MinorTick, 1);
+		setTickLength(QwtScaleDiv::MediumTick, 2);
+		setTickLength(QwtScaleDiv::MajorTick, 4);
+
+		enableComponent(QwtScaleDraw::Backbone, true);
+		//setLabelRotation(-20.0);
+
+		setLabelAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+
+	}
+	~LogScaleDraw()
+	{
+	}
+	//刻度标签值
+	virtual QwtText label(double value) const
+	{
+		double lblValue = qPow(10, value);//qLn(value) / qLn(10);
+		QwtText lbl = QString::number(lblValue);
+
+		return lbl;
+	}
+
+};
 PlotWidget::PlotWidget(QWidget *parent)
 	: QWidget(parent)
 {
@@ -29,7 +59,7 @@ PlotWidget::PlotWidget(QWidget *parent)
 	//设置放大/缩小按钮可选择
 	ui.zoomerBtn->setCheckable(true);
 	//设置放大缩小功能是否启用
-	connect(ui.zoomerBtn, SIGNAL(toggled(bool)), d_plot, SLOT(enableZoomMode(bool)));
+	connect(ui.zoomerBtn, SIGNAL(toggled(bool)), this, SLOT(enableZoomMode(bool)));
 	//设置平移按钮可选择
 	ui.pannerBtn->setCheckable(true);
 	//设置平移按钮功能是否启用
@@ -46,6 +76,9 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.maximizedBtn, SIGNAL(clicked()), this, SLOT(maximizedPlotWidget()));
 	//还原窗口
 	connect(ui.normalBtn, SIGNAL(clicked()), this, SLOT(normalPlotWidget()));
+	//跟踪鼠标显示真值
+	connect(ui.viewTrueValueBtn, SIGNAL(toggled(bool)), this, SLOT(enableViewTrueValueMode(bool)));
+	
 	//直方图统计
 	connect(ui.barChatStaticsCheckBox, SIGNAL(clicked(bool)), this, SLOT(setBarStatisticsMode(bool)));
 	//散点图统计
@@ -77,6 +110,7 @@ PlotWidget::~PlotWidget()
 */
 void PlotWidget::init()
 {
+	dataMutex.lock();
 	//初始化该绘图的数据结构
 	origialDataList = new QList < QList < QVector<double>* >*  >();//符合条件的原始数据
 	logDataList = new QList < QList < QVector<double>* >*  >();//符合条件的log值
@@ -98,10 +132,10 @@ void PlotWidget::init()
 			//初始化直方图数据结构
 			QVector<BarStruct>* vector2 = new QVector<BarStruct>();
 			double internal = 10.00 / 100;
-			for (int i = 0; i < 100; i++)
+			for (int k = 0; k < 100; k++)
 			{
-				QPointF p(i*internal, (i + 1)*internal);
-				BarStruct barStruct1(i*internal, QString("[%1,%2)").arg(i*internal).arg((i + 1)*internal), 0, QColor("DodgerBlue"), QPointF(i*internal, (i + 1)*internal));
+				QPointF p(k*internal, (k + 1)*internal);
+				BarStruct barStruct1(k*internal, QString("[%1,%2)").arg(k*internal).arg((k + 1)*internal), 0, QColor("DodgerBlue"), QPointF(k*internal, (k + 1)*internal));
 				vector2->append(barStruct1);
 			}
 			list2->append(vector2);//QList不是new的，append只是拷贝，所以必须在最后append
@@ -110,7 +144,7 @@ void PlotWidget::init()
 		barStructList->append(list2);//QList不是new的，append只是拷贝，所以必须在最后append
 
 	}
-
+	dataMutex.unlock();
 	logEnable = false; //默认不显示log
 	//初始化界面一些数据
 	initUi();
@@ -272,15 +306,21 @@ void PlotWidget::setAxisScale()
 {
 	if (logEnable)
 	{
+
+		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new LogScaleDraw());//每次改变坐标值，都会重新绘制刻度标签和刻度样式
+		d_plot->setAxisScaleDraw(QwtPlot::yLeft, new LogScaleDraw());
 		d_plot->setAxisScale(QwtPlot::xBottom, 0, 10);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
 		d_plot->setAxisScale(QwtPlot::yLeft, 0, 10);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+		//d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
 	}
 	else
 	{
-		d_plot->setAxisScale(QwtPlot::xBottom, 4000000, 6000000);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
-		d_plot->setAxisScale(QwtPlot::yLeft, 4000000, 6000000);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
-	}
 
+		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
+		d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
+		d_plot->setAxisScale(QwtPlot::xBottom, 0, 60000000);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+		d_plot->setAxisScale(QwtPlot::yLeft, 0, 60000000);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+	}
 	d_plot->replot();
 }
 
@@ -319,15 +359,32 @@ void PlotWidget::setScatterMode(bool mode)
 		ui.dataUnitXCombox->setEnabled(true);
 	}
 }
+/**
+* @brief 启用放大缩小按钮
+*/
+void PlotWidget::enableZoomMode(bool mode)
+{
+
+	d_plot->enableZoomMode(mode);
+}
+/**
+* @brief 显示鼠标指向的点的真值
+*/
+void PlotWidget::enableViewTrueValueMode(bool mode)
+{
+
+	d_plot->enableViewTrueValue(mode);
+}
 //更新数据
 void PlotWidget::updateSamples()
 {
 
-
+	//散点图模式
 	if (ui.scatterCheckBox->isChecked())
 	{
 		updateScatterSamples();
 	}
+	//直方图统计模式
 	else if (ui.barChatStaticsCheckBox->isChecked())
 	{
 		updateStaticsSamples();
@@ -383,11 +440,41 @@ void PlotWidget::updateStaticsSamples()
 		for (int i = 0; i < vecotrData->size(); i++)
 		{
 			barChartDataVector.append(vecotrData->at(i).m_value);
+			barChartDataVector.append(0);//置隔离值为0，凸显曲线
 			xIndexVector.append(vecotrData->at(i).m_index);
+			xIndexVector.append(vecotrData->at(i).m_index+0.05);//置隔离值横坐标为中间坐标0.05
 		}
 		d_plot->setSamples(xIndexVector, barChartDataVector);
 		dataMutex.unlock();
 		//qDebug() << "PlotWidget," << this->objectName() << " " << origialDataList->at(3)->at(0)->size();
-		d_plot->replot();
+		d_plot->replot(); 
 	}
+}
+/**
+* @brief 清楚plot旧数据
+*
+*/
+void PlotWidget::clearPlotSamples()
+{
+	dataMutex.lock();
+
+	//初始化该绘图的数据结构
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			origialDataList->at(i)->at(j)->clear();
+			logDataList->at(i)->at(j)->clear();
+			for (int k = 0; k < 100; k++)
+			{
+				BarStruct barstruct = barStructList->at(i)->at(j)->at(k);
+				barstruct.m_value = 0;
+
+				barStructList->at(i)->at(j)->replace(k, barstruct);
+			}
+
+		}
+
+	}
+	dataMutex.unlock();
 }

@@ -24,7 +24,7 @@ public:
 	void setDataWidget(PlotWidget* dataWidget);
     void run();
 public slots:
-	void staticsCellData();//统计细胞数据
+	void staticsCellData(bool newData);//统计细胞数据
 
 signals:
 	void staticsFinished();//数据统计完成信号

@@ -13,6 +13,8 @@ StackedWidget::StackedWidget(QWidget *parent)
 	
 	init();//初始化
 	connect(this, SIGNAL(openExpFileSignal()), ui.celllViewWidget, SLOT(openExpFileSlot()));
+	//测试用-先隐藏报告界面
+	ui.reportWidget->setVisible(false);
 }
 
 StackedWidget::~StackedWidget()
@@ -44,7 +46,7 @@ void StackedWidget::init()
 	ui.passageComboBox->addItem("通道6", (int)6);
 	ui.passageComboBox->addItem("通道7", (int)7);
 	ui.passageComboBox->addItem("通道8", (int)8);
-	ui.passageComboBox->setCurrentIndex(0);
+	ui.passageComboBox->setCurrentIndex(3);
 
 	//默认中等速度
 	ui.midRadioButton->setChecked(true);
@@ -239,6 +241,10 @@ void StackedWidget::on_stopAcquisitionBtn_clicked()
 
 	ui.startAcquisitionBtn->setEnabled(true);
 	ui.stopAcquisitionBtn->setEnabled(false);
+
+	//关闭文件
+	ui.saveCheckBox->setChecked(false);
+	on_saveCheckBox_clicked();
 }
 /**
 * @brief 新建plot
@@ -261,4 +267,35 @@ void StackedWidget::on_delPlotBtn_clicked()
 void StackedWidget::openExpFileSlot()
 {
 	emit openExpFileSignal();
+}
+/**
+* @brief 保存细胞数据
+*/
+void StackedWidget::on_saveCheckBox_clicked()
+{
+	if (ui.saveCheckBox->isChecked())
+	{
+		ReadCellThread::fileName = QString("cellFile_%1").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd--HH-mm-ss"));
+		QDir dir("../CellData");
+		
+		QString absolutePath = dir.absolutePath();
+		if (!dir.exists())
+			dir.mkdir(absolutePath);
+		ReadCellThread::fileName = absolutePath +"/"+ ReadCellThread::fileName;
+		ReadCellThread::projectFile = fopen(ReadCellThread::fileName.toLocal8Bit().data(), "ab+");
+		ReadCellThread::saveTag = true;
+	}
+	else
+	{
+		ReadCellThread::saveTag = false;
+		if (ReadCellThread::projectFile != 0)//如果文件打开状态，关闭文件
+		{//关闭文件
+			if (fclose(ReadCellThread::projectFile) != 0)
+				qDebug() << "【StackedWidget】关闭文件失败，文件名：" << ReadCellThread::fileName;
+			else
+			{
+				ReadCellThread::projectFile = 0;
+			}
+		}
+	}
 }

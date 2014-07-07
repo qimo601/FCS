@@ -1,5 +1,7 @@
 ﻿#include "ViewWidget.h"
 #include <QScrollBar>
+#include <QFileDialog>
+#include <QDir>
 ViewWidget::ViewWidget(QWidget *parent)
 	: QWidget(parent)
 {
@@ -35,16 +37,16 @@ ViewWidget::ViewWidget(QWidget *parent)
 	/****线程传递细胞数据****/
 	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_1, SLOT(updateSamples()));
 	//统计线程
-	connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_1->staticsThread, SLOT(staticsCellData()));
+	connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_1->staticsThread, SLOT(staticsCellData(bool)));
 	//直方图统计，这个速度有点卡
 	//connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_2->staticsThread, SLOT(staticsCellData()));
 	
 	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_3, SLOT(updateSamples()));
 	//统计线程
-	connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_3->staticsThread, SLOT(staticsCellData()));
+	/////connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_3->staticsThread, SLOT(staticsCellData(bool)));
 	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_4, SLOT(updateSamples()));
 	//统计线程
-	connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_4->staticsThread, SLOT(staticsCellData()));
+	/////connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_4->staticsThread, SLOT(staticsCellData(bool)));
 	/****线程传递细胞数据****/
 	
 }
@@ -75,7 +77,8 @@ void ViewWidget::startAcqSlot()
 
 	/****测试线程获取细胞数据****/
 	readCellThread->setGoOn(true);//设置真读循环槽函标志位为真
-	emit startReadCellDataFromCircleBuffer();//启动真读循环槽函数
+	readCellThread->setOperate(ReadCellThread::START_ACQ);
+	//emit startReadCellDataFromCircleBuffer();//启动真读循环槽函数
 
 	/****测试线程获取细胞数据****/
 
@@ -92,7 +95,7 @@ void ViewWidget::stopAcqSlot()
 
 
 	/****测试线程获取示波器数据****/
-	readCellThread->setGoOn(false);//停止真读循环，线程进入待读阶段
+	readCellThread->setGoOn(false);//停止真读循环，线程进入默认状态
 	/****测试线程获取示波器数据****/
 }
 /**
@@ -213,5 +216,30 @@ void ViewWidget::timerEvent(QTimerEvent *event)
 void ViewWidget::openExpFileSlot()
 {
 	QString file = "20140618_14.fcm";
-	emit openExpSignal(file,true);
+
+	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), "../FCSData", "");
+	fd->setFileMode(QFileDialog::ExistingFile);
+	fd->setViewMode(QFileDialog::Detail);
+	QStringList fileNamesList;
+	if (fd->exec()) // ok
+	{
+		fileNamesList = fd->selectedFiles();
+	}
+	QString fileName = fileNamesList.at(0).toLocal8Bit().constData();
+	QDir dir = fd->directory();
+	QString absolutePath = dir.absolutePath();
+	QString canonicalPath = dir.canonicalPath();
+	
+	
+
+
+
+
+
+
+
+	readCellThread->setGoOn(false);//停止采集
+	readCellThread->setFilePath(fileName);//传递文件名
+	readCellThread->setOperate(ReadCellThread::Read_FILE);//开始读取本地文件
+	//emit openExpSignal(file,true);
 }

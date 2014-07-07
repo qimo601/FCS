@@ -16,6 +16,7 @@
 #include "ui_PlotWidget.h"
 #include "Bll/DataCenter/BllDataCenter.h"
 #include "PlotStaticsThread.h"
+#include "plot.h"
 class Plot;
 class BarStruct;
 class PlotWidget : public QWidget
@@ -86,6 +87,14 @@ public slots:
 	*/
 	void setScatterMode(bool mode);
 	/**
+	* @brief 启用放大缩小按钮
+	*/
+	void enableZoomMode(bool mode);
+	/**
+	* @brief 显示鼠标指向的点的真值
+	*/
+	void enableViewTrueValueMode(bool mode);
+	/**
 	* @brief 更新数据
 	*/
 	void updateSamples();
@@ -97,6 +106,11 @@ public slots:
 	* @brief 更新散点图统计数据
 	*/
 	void updateScatterSamples();
+	/**
+	* @brief 清楚plot旧数据
+	*
+	*/
+	void clearPlotSamples();
 signals:
 	void normalPlot();//正常显示信号
 protected:

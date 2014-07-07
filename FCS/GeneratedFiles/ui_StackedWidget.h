@@ -484,6 +484,7 @@ public:
         triggerSpin->setMaximumSize(QSize(59, 23));
         triggerSpin->setFont(font1);
         triggerSpin->setMaximum(65536);
+        triggerSpin->setValue(35000);
 
         horizontalLayout_4->addWidget(triggerSpin);
 

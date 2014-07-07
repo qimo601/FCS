@@ -14,9 +14,9 @@ USBThread::~USBThread()
   
 }
 
-bool USBThread::saveTag = true;
+bool USBThread::saveTag = false;//默认false
 QString USBThread::fileName = "temp";
-FILE* USBThread::projectFile = NULL;
+FILE* USBThread::projectFile = 0;
 
 void USBThread::run()  
 { 
@@ -334,25 +334,26 @@ void USBThread::setHdevice(HANDLE device)
 */
 void USBThread::saveToFile(PUCHAR buffer, DWORD DataLength)
 {
-	QString filename = "addata.txt";
-	FILE *projectFile = fopen(filename.toLocal8Bit().data(), "wb+");
+	//界面打开文件
+	/*QString filename = "addata.txt";
+	FILE *projectFile = fopen(filename.toLocal8Bit().data(), "wb+");*/
 	if (!projectFile)
 	{
-		qDebug() << "【onButtonRd】数据文件" << projectFile << "，打开失败！\n";
+		qDebug() << "【USBThread】数据文件" << projectFile << "，打开失败！\n";
 	}
 	//写入磁盘
 	int result = fwrite(buffer, sizeof(char), DataLength, projectFile);
 	//拷贝数据失败
 	if (result < 0)
 	{
-		//qDebug() << "【onButtonRd】写入文件失败,文件名：" << fileName;
+		qDebug() << "【USBThread】写入文件失败,文件名：" << fileName;
 
 	}
 	else
 	{
-		//qDebug() << "【onButtonRd】将USB数据写入文件成功,文件名：" << fileName;
+		qDebug() << "【USBThread】将USB数据写入文件成功,文件名：" << fileName;
 	}
-	//关闭文件
-	if (fclose(projectFile) != 0)
-		qDebug() << "【onButtonRd】关闭文件失败，文件名：" << fileName;
+	////界面了关闭文件
+	//if (fclose(projectFile) != 0)
+	//	qDebug() << "【USBThread】关闭文件失败，文件名：" << fileName;
 }

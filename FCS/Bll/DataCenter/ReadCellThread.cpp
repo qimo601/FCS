@@ -6,7 +6,7 @@ ReadCellThread::ReadCellThread(QObject *parent) :QThread(parent)
 {  
 	stepValue = 0;
 	m_goOn = true;//默认就自动进入循环
-	opertaeEnum = Operate::NORMAL;//默认普通操作
+	m_opertaeEnum = Operate::NORMAL;//默认普通操作
 	iCellStaticData = ICellStaticData::getInstance();//初始化细胞数据接口
 }  
 
@@ -14,23 +14,27 @@ ReadCellThread::~ReadCellThread()
 {  
   
 }
-
+bool ReadCellThread::saveTag = false;//默认为false
+QString ReadCellThread::fileName = "cellFile";
+FILE* ReadCellThread::projectFile = 0;
 void ReadCellThread::run()  
 { 
 	qDebug() << "【USB监听线程】启动ReadCellThread,线程Id" << QThread::currentThreadId();
 	
 	while (1)
 	{
-		switch (opertaeEnum)
+		switch (m_opertaeEnum)
 		{
 		case Operate::START_ACQ:
+			emit cellReadySignal(true);//新数据，请对方清空
 			startReadCellDataFromCircleBuffer();
 			break;
 		case Operate::Read_FILE:
-			getCellDataFromFile(filePath,true);
+			emit cellReadySignal(true);//新数据，请对方清空
+			getCellDataFromFile(m_filePath,true);
 			break;
 		default:
-			sleep(1000);
+			sleep(1);
 		}
 
 	}
@@ -65,11 +69,12 @@ void ReadCellThread::startReadCellDataFromCircleBuffer()
 	{
 		
 		getCellData(false);
-		emit cellReadySignal();
+		emit cellReadySignal(false);
 		step++;
 		//qDebug() << "【ReadCellThread】step:" <<step;
 		msleep(10);
 	}
+	m_opertaeEnum = NORMAL;//回复默认状态
 }
 /**
 * @brief 获取细胞显示数据，环形缓冲区中读一个单元
@@ -134,11 +139,17 @@ void ReadCellThread::getCellData(bool clear)
 				valueAA = (valueAA1 * 65536 + valueAA2 * 256 + valueAA3);//细胞面积
 				valueWW = (valueWW1 * 256 + valueWW2);//细胞宽度
 
+				//继续转换
+				valueAA = valueAA - 32768 * valueWW;
+				valueHH = valueHH - 32768 * 4;
 
 				iCellStaticData->insert(j, valueHH, valueAA, valueWW);
 			}
 		}
 
+		//将读到的数据写入文件以便对比
+		if (saveTag)
+			saveToFile(m_buffer, 512);
 
 	}
 	else//如果没有这个等待，就会有很多空循环，CPU会很高。
@@ -218,11 +229,16 @@ void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 					valueWW = (valueWW1 * 256 + valueWW2);//细胞宽度
 
 
+					//继续转换
+					valueAA = valueAA - 32768 * valueWW;
+					valueHH = valueHH - 32768 * 4;
+
+
 					iCellStaticData->insert(j, valueHH, valueAA, valueWW);
 				}
 			}
 			
-			emit cellReadySignal();
+			emit cellReadySignal(false);
 		}
 
 
@@ -238,6 +254,7 @@ void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 			}
 		}
 	}
+	m_opertaeEnum = NORMAL;//回复默认状态
 }
 
 
@@ -259,10 +276,13 @@ void ReadCellThread::setOperate(Operate operate)
 	m_opertaeEnum = operate;
 	mutex.unlock();
 }
-void ReadCellThread::setFilePath(QString filePaht operate)
+/**
+* @brief 设置读取文件路径
+*/
+void ReadCellThread::setFilePath(QString filePath)
 {
 	mutex.lock();
-	m_opertaeEnum = operate;
+	m_filePath = filePath;
 	mutex.unlock();
 }
 /**
@@ -274,4 +294,33 @@ void ReadCellThread::clearCellStaticData()
 	//清空每个通道
 	for (int i = 0; i < 8; i++)
 		iCellStaticData->clear(i);
+}
+/**
+* @brief 保存细胞文件
+*/
+void ReadCellThread::saveToFile(char* buffer, qint32 DataLength)
+{
+	//从界面打开
+	//QString filename = "addata.txt";
+	//FILE *projectFile = fopen(filename.toLocal8Bit().data(), "wb+");
+	if (!projectFile)
+	{
+		qDebug() << "【ReadCellThread】数据文件" << projectFile << "，打开失败！\n";
+	}
+	//写入磁盘
+	int result = fwrite(buffer, sizeof(char), DataLength, projectFile);
+	//拷贝数据失败
+	if (result < 0)
+	{
+		qDebug() << "【ReadCellThread】写入文件失败,文件名：" << fileName;
+
+	}
+	else
+	{
+		qDebug() << "【ReadCellThread】将USB数据写入文件成功,文件名：" << fileName;
+	}
+	//从界面关闭
+	////关闭文件
+	//if (fclose(projectFile) != 0)
+	//	qDebug() << "【ReadCellThread】关闭文件失败，文件名：" << fileName;
 }

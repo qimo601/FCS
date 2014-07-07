@@ -38,11 +38,22 @@ void PlotStaticsThread::setDataWidget(PlotWidget* dataWidget)
 /**
 * @brief 统计细胞数据
 */
-void PlotStaticsThread::staticsCellData()
+void PlotStaticsThread::staticsCellData(bool newData)
 {
-	m_dataWidgetParent->dataMutex.lock();
-	m_bllDataCenter.getCellDataVector(m_dataWidgetParent->origialDataList, m_dataWidgetParent->logDataList, m_dataWidgetParent->barStructList);//更新最新的数据给当前plot
-	m_dataWidgetParent->dataMutex.unlock();
+	if (newData)
+	{
+		m_dataWidgetParent->clearPlotSamples();
+		emit staticsFinished();
+		return;
+	}
+	else
+	{
+		m_dataWidgetParent->dataMutex.lock();
+		m_bllDataCenter.getCellDataVector(m_dataWidgetParent->origialDataList, m_dataWidgetParent->logDataList, m_dataWidgetParent->barStructList);//更新最新的数据给当前plot
+		m_dataWidgetParent->dataMutex.unlock();
+		emit staticsFinished();
+	}
 
-	emit staticsFinished();
+	
+
 }

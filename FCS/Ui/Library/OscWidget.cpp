@@ -329,6 +329,10 @@ void OscWidget::on_stopOscAcqBtn_clicked()
 
 	ui.startOscAcqBtn->setEnabled(true);
 	ui.stopOscAcqBtn->setEnabled(false);
+
+	//关闭文件
+	ui.saveCheckBox->setChecked(false);
+	on_saveCheckBox_clicked();
 }
 void OscWidget::timerEvent(QTimerEvent *event)
 {
@@ -562,15 +566,28 @@ void OscWidget::on_saveCheckBox_clicked()
 {
 	if (ui.saveCheckBox->isChecked())
 	{
-		USBThread::fileName = QString("file_%1").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd--HH-mm-ss"));
+		USBThread::fileName = QString("oscFile_%1").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd--HH-mm-ss"));
+		
+		QDir dir("../OSCData");
+		QString absolutePath = dir.absolutePath();
+		if (!dir.exists())
+			dir.mkdir(absolutePath);
+		USBThread::fileName = absolutePath + "/" + USBThread::fileName;
 		USBThread::projectFile = fopen(USBThread::fileName.toLocal8Bit().data(), "ab+");
 		USBThread::saveTag = true;
 	}
 	else
 	{
 		USBThread::saveTag = false;
-		//关闭文件
-		if (fclose(USBThread::projectFile) != 0)
-			qDebug() << "【on_saveCheckBox_clicked】关闭文件失败，文件名：" << USBThread::fileName;
+		if (USBThread::projectFile != 0)//如果文件打开，则关闭
+		{
+			//关闭文件
+			if (fclose(USBThread::projectFile) != 0)
+				qDebug() << "【on_saveCheckBox_clicked】关闭文件失败，文件名：" << USBThread::fileName;
+			else
+			{
+				USBThread::projectFile = 0;
+			}
+		}
 	}
 }

@@ -14,6 +14,7 @@
 #include <qwt_plot.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_panner.h>
+#include <qwt_plot_picker.h>
 #include "Include/Global.h"
 class QwtPlotCurve;
 class QwtSymbol;
@@ -48,6 +49,11 @@ public slots:
 	* @brief 设置散点图模式的样式
 	*/
 	void enableScatterMode();
+	/**
+	* @brief 设置跟踪鼠标显示当前值
+	*/
+	void enableViewTrueValue(bool mode);
+
 private:
 	QwtPlotCurve *d_curve;
 	//背景方格
@@ -58,6 +64,8 @@ private:
 	QwtPlotPanner* d_panner;
 	//设置画布
 	QwtPlotCanvas *canvas;
+	//鼠标显示当前值
+	QwtPlotPicker* d_picker;
 };
 
 #endif // PLOT_H
