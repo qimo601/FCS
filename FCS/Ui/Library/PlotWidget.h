@@ -95,6 +95,14 @@ public slots:
 	*/
 	void enableViewTrueValueMode(bool mode);
 	/**
+	* @brief 显示鼠标指向的点的真值
+	*/
+	void enableViewTrueValueMode2(bool mode);
+	/**
+	* @brief 测试选择
+	*/
+	void chooseBtnMode(bool mode);
+	/**
 	* @brief 更新数据
 	*/
 	void updateSamples();
@@ -111,6 +119,12 @@ public slots:
 	*
 	*/
 	void clearPlotSamples();
+
+	/**
+	* @brief 选择的十字坐标
+	*
+	*/
+	void selectedCrosspickerSlot(QPointF pointf1);
 signals:
 	void normalPlot();//正常显示信号
 protected:

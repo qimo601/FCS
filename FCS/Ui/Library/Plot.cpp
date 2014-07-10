@@ -72,7 +72,146 @@ public:
 	}
 };
 
+class CrossPicker : public QwtPlotPicker
+{
+public:
+	//提供选择类
+	CrossPicker(QWidget *canvas) :
+		QwtPlotPicker(canvas)
+	{
 
+		setAxis(QwtPlot::xBottom, QwtPlot::yLeft);
+		//设置一个状态机，并删除上一个
+		setStateMachine(new QwtPickerDragPointMachine());
+		setRubberBandPen(QColor(Qt::red));
+		//设置橡胶圈样式：十字形
+		setRubberBand(QwtPicker::CrossRubberBand);
+		setTrackerPen(QColor(Qt::blue));
+		//设置跟踪模式
+		setTrackerMode(QwtPicker::ActiveOnly);
+		setEnabled(false);
+	}
+	//将位置转换成字符串
+	virtual QwtText trackerTextF(const QPointF &pos) const
+	{
+		QwtText text;
+
+		const QPolygon points = selection();//选择的点
+		if (!points.isEmpty())
+		{
+			QString num;
+			QPoint point = points[0];
+			QPointF point2 = invTransform(point);
+			num = QString("%1,%2").arg(point2.x()).arg(point2.y());
+			QColor bg(Qt::white);
+			bg.setAlpha(200);
+
+			text.setBackgroundBrush(QBrush(bg));
+			text.setText(num);
+		}
+		return text;
+	}
+
+	virtual void 	reset()
+	{
+		QwtPlotPicker::reset();
+	}
+	//virtual void 	begin()
+	//{
+
+	//}
+
+	//virtual void 	append(const QPoint &)
+	//{
+
+	//}
+
+	virtual void 	move(const QPoint & pos)
+	{
+		QwtPlotPicker::move(pos);
+	}
+
+	virtual void append(const QPoint & 	pos)
+	{
+		QwtPlotPicker::append(pos);
+	}
+
+	virtual void 	remove()
+	{
+		/*if (d_data->isActive)
+		{
+		const int idx = d_data->pickedPoints.count() - 1;
+		if (idx > 0)
+		{
+		const int idx = d_data->pickedPoints.count();
+
+		const QPoint pos = d_data->pickedPoints[idx - 1];
+		d_data->pickedPoints.resize(idx - 1);
+
+		updateDisplay();
+		Q_EMIT removed(pos);
+		}
+		}*/
+		QwtPlotPicker::remove();
+		int m = 0;
+	}
+	virtual bool 	end(bool ok = false)
+	{
+		/*QwtPlotPicker::end(ok);
+		return true;*/
+		if (!ok)
+			return false;
+
+		QwtPlot *plot = QwtPlotPicker::plot();
+		if (!plot)
+			return false;
+
+		const QPolygon points = selection();
+		if (points.count() == 0)
+			return false;
+
+		QwtPickerMachine::SelectionType selectionType =
+			QwtPickerMachine::NoSelection;
+
+		if (stateMachine())
+			selectionType = stateMachine()->selectionType();
+
+		switch (selectionType)
+		{
+		case QwtPickerMachine::PointSelection:
+		{
+												 const QPointF pos = invTransform(points.first());
+												 Q_EMIT selected(pos);
+												 break;
+		}
+		case QwtPickerMachine::RectSelection:
+		{
+												if (points.count() >= 2)
+												{
+													const QPoint p1 = points.first();
+													const QPoint p2 = points.last();
+
+													const QRect rect = QRect(p1, p2).normalized();
+													Q_EMIT selected(invTransform(rect));
+												}
+												break;
+		}
+		case QwtPickerMachine::PolygonSelection:
+		{
+												   QVector<QPointF> dpa(points.count());
+												   for (int i = 0; i < points.count(); i++)
+													   dpa[i] = invTransform(points[i]);
+
+												   Q_EMIT selected(dpa);
+		}
+		default:
+			break;
+		}
+
+		return true;
+	}
+
+};
 class Zoomer : public QwtPlotZoomer
 {
 public:
@@ -139,8 +278,10 @@ d_curve(NULL)
 	// attach curve
 	d_curve = new QwtPlotCurve("Scattered Points");
 	//设置颜色
-	QColor c("#3535CB");
-	d_curve->setPen(c, 2);
+	QColor penColor("DarkBlue");
+	QColor brushColor("#DDE9FD");
+	d_curve->setPen(penColor, 2);
+	//d_curve->setBrush(brushColor);//设置笔刷
 	d_curve->setLegendAttribute(QwtPlotCurve::LegendShowLine);//设置描述的样式
 	// when using QwtPlotCurve::ImageBuffer simple dots can be
 	// rendered in parallel on multicore systems.
@@ -163,19 +304,21 @@ d_curve(NULL)
 	picker->setMousePattern(QwtPlotPicker::MouseSelect1, Qt::RightButton);
 	picker->setRubberBandPen(QPen(Qt::blue));
 
-	//鼠标显示当前值
-	d_picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft, QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn, canvas);
-	d_picker->setStateMachine(new QwtPickerDragPointMachine());
-	d_picker->setRubberBandPen(QColor(Qt::red));
-	d_picker->setRubberBand(QwtPicker::CrossRubberBand);
-	d_picker->setTrackerPen(QColor(Qt::blue));
+	//十字线
+	d_picker = new CrossPicker(canvas);
+	connect(d_picker, SIGNAL(selected(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
+	//十字线
+	d_picker2 = new CrossPicker(canvas);
+	d_picker2->setRubberBandPen(QColor(Qt::green));
 
+	connect(d_picker2, SIGNAL(selected(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
 
+	//背景方格
 	d_grid = new QwtPlotGrid();
 	//d_grid->setPen(QColor(215, 215, 215), 0.0, Qt::DashLine);
 	d_grid->enableX(true);
 	d_grid->enableXMin(true);
-	d_grid->enableY(false);
+	d_grid->enableY(true);
 	d_grid->enableYMin(false);
 
 	d_grid->setMajorPen(Qt::gray, 0, Qt::DotLine);
@@ -183,10 +326,10 @@ d_curve(NULL)
 
 	d_grid->attach(this);
 	//默认坐标轴刻度
-	this->setAxisScale(QwtPlot::xBottom, 0, 60000000);//设置x轴坐标刻度大小
+	this->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小
 	//setAxisMaxMajor(QwtPlot::xBottom, 6);//主要刻度的最大间隔数量
 	//setAxisMaxMinor(QwtPlot::xBottom, 9);//次要刻度的最大间隔数量
-	this->setAxisScale(QwtPlot::yLeft, 0, 60000000);//设置y轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yLeft, 0, 1e6);//设置y轴坐标刻度大小
 	QwtScaleWidget *scaleXWidget = this->axisWidget(QwtPlot::xBottom);//x轴刻度控件
 	scaleXWidget->setStyleSheet(
 		"color:#666666;"
@@ -201,24 +344,22 @@ d_curve(NULL)
 	//其它两坐标也显示
 	this->setAxisScaleDraw(QwtPlot::xTop, new OtherScaleDraw());
 	this->setAxisScaleDraw(QwtPlot::yRight, new OtherScaleDraw());
+	QwtScaleWidget *scaleXTopWidget = this->axisWidget(QwtPlot::xTop);//x轴刻度控件
+	scaleXTopWidget->setStyleSheet(
+		"color:#666666;"
+		);
+	QwtScaleWidget *scaleYRightWidget = this->axisWidget(QwtPlot::yRight);//x轴刻度控件
+	scaleYRightWidget->setStyleSheet(
+		"color:#666666;"
+		);
 	enableAxis(QwtPlot::yRight);
 	enableAxis(QwtPlot::xTop);
 	setAxisAutoScale(QwtPlot::yRight, true);
 	setAxisAutoScale(QwtPlot::xTop, true);
 
-	this->setAxisScale(QwtPlot::xTop, 0, 6000000);//设置y轴坐标刻度大小
-	this->setAxisScale(QwtPlot::yRight, 0, 6000000);//设置y轴坐标刻度大小
+	this->setAxisScale(QwtPlot::xTop, 0, 1e6);//设置y轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yRight, 0, 1e6);//设置y轴坐标刻度大小
 
-	
-
-	QwtScaleWidget *scaleXTopWidget = this->axisWidget(QwtPlot::xTop);//x轴刻度控件
-	scaleXWidget->setStyleSheet(
-		"color:#666666;"
-		);
-	QwtScaleWidget *scaleYRightWidget = this->axisWidget(QwtPlot::yRight);//x轴刻度控件
-	scaleYWidget->setStyleSheet(
-		"color:#666666;"
-		);
 
 	//this->setFocusPolicy(Qt::TabFocus);//设置画布聚焦策略为键盘TAB，这样父类可以影响到子控件
 
@@ -289,7 +430,13 @@ void Plot::setGridEnable(bool checked)
 	d_grid->enableXMin(checked);
 	d_grid->enableY(checked);
 	d_grid->enableYMin(false);
-
+	if (checked)
+	{
+		QColor brushColor("#DDE9FD");
+		d_curve->setBrush(brushColor);//设置笔刷
+	}
+	else
+		d_curve->setBrush(Qt::NoBrush);
 	replot();
 }
 /**
@@ -330,15 +477,14 @@ void Plot::enablePannerMode(bool checked)
 void Plot::enableStaticsMode()
 {
 	//设置统计曲线样式
-	d_curve->setPen(Qt::darkBlue);
+	//设置颜色
+	QColor penColor("#325481");
+	QColor brushColor("#DDE9FD");
+	d_curve->setPen(penColor, 2);
+	d_curve->setBrush(brushColor);//设置笔刷
 	d_curve->setStyle(QwtPlotCurve::Lines);
 	d_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
 
-	//坐标轴刻度修饰
-	this->setAxisScale(QwtPlot::xBottom, 0, 10);//设置x轴坐标刻度大小
-	//this->setAxisMaxMajor(QwtPlot::xBottom, 5);//主要刻度的最大间隔数量
-	//this->setAxisMaxMinor(QwtPlot::xBottom, 10);//次要刻度的最大间隔数量
-	this->setAxisScale(QwtPlot::yLeft, 0, 100000);//设置y轴坐标刻度大小
 	replot();
 }
 /**
@@ -347,12 +493,14 @@ void Plot::enableStaticsMode()
 void Plot::enableScatterMode()
 {
 	//设置统计曲线样式
-	d_curve->setPen(Qt::darkBlue);
+	QColor penColor("DarkBlue");
+	d_curve->setPen(penColor,2);
+	d_curve->setBrush(Qt::NoBrush);
 	d_curve->setStyle(QwtPlotCurve::Dots);
 
 	//坐标轴刻度修饰
-	this->setAxisScale(QwtPlot::xBottom, 0, 6000000);//设置x轴坐标刻度大小
-	this->setAxisScale(QwtPlot::yLeft, 0, 6000000);//设置y轴坐标刻度大小
+	this->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yLeft, 0, 1e6);//设置y轴坐标刻度大小
 	replot();
 }
 /**
@@ -361,6 +509,48 @@ void Plot::enableScatterMode()
 void Plot::enableViewTrueValue(bool mode)
 {
 	d_picker->setEnabled(mode);
-
-	d_picker->setStateMachine(new QwtPickerDragPointMachine());
+	if (!mode)
+	{
+		//d_picker2->remove();
+		d_picker->setTrackerMode(QwtPicker::AlwaysOff);
+	}
+	else
+	{
+		d_picker2->setTrackerMode(QwtPicker::AlwaysOff);
+		d_picker->setTrackerMode(QwtPicker::ActiveOnly);
+	}
+	//d_picker->setStateMachine(new QwtPickerDragPointMachine());
+}
+/**
+* @brief 设置跟踪鼠标显示当前值
+*/
+void Plot::enableViewTrueValue2(bool mode)
+{
+	d_picker2->setEnabled(mode);
+	if (!mode)
+	{
+		//d_picker2->remove();
+		d_picker2->setTrackerMode(QwtPicker::AlwaysOff);
+	}
+	else
+	{
+		d_picker2->setTrackerMode(QwtPicker::ActiveOnly);
+		d_picker->setTrackerMode(QwtPicker::AlwaysOff);
+	}
+	//d_picker->setStateMachine(new QwtPickerDragPointMachine());
+}
+/**
+* @brief 测试选择
+*/
+void Plot::setChooseBtnMode(bool mode)
+{
+	const QPolygon points = d_picker2->selection();//选择的点
+	QPoint p = points[0];
+	p.setX(p.x() +0);
+	p.setY(p.y()+10);
+	d_picker2->move(p);
+}
+void Plot::selectedCrossPickerSlot(QPointF pointf)
+{
+	emit selectedCrossPicker(pointf);
 }

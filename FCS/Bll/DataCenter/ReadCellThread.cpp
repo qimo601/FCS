@@ -166,15 +166,15 @@ void ReadCellThread::getCellData(bool clear)
 void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 {
 
-	double valueHH;
+	qint32 valueHH;
 	quint8 valueHH1;
 	quint8 valueHH2;
 	quint8 valueHH3;
-	double valueAA;
+	qint32 valueAA;
 	quint8 valueAA1;
 	quint8 valueAA2;
 	quint8 valueAA3;
-	double valueWW;
+	qint32 valueWW;
 	quint8 valueWW1;
 	quint8 valueWW2;
 	int value;
@@ -184,7 +184,7 @@ void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 	{
 		clearCellStaticData();
 	}
-	char * tmp = new char[512]();//指向临时数组
+	char * tmp = new char[32*3*8*8]();//指向临时数组
 	FILE *stream;
 	int err;
 	int numwritten;
@@ -197,13 +197,15 @@ void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 		{
 			buffer = tmp;
 			//读取原始数据文件头
-			fread(buffer, sizeof(char), 512, stream);
+			fread(buffer, sizeof(char), 32 * 3 * 8 * 8, stream);
 			//一次8个细胞
 			for (int i = 0; i < 8; i++)
 			{
+				QList<QVector<double>> list;
 				//8个通道
 				for (int j = 0; j < 8; j++)
 				{
+					QVector<double> vector;
 					//一个通道8个字节
 					/*Global::S_CCycleBuffer->read((char *)&valueHH1, 1);
 					Global::S_CCycleBuffer->read((char *)&valueHH2, 1);
@@ -214,28 +216,69 @@ void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 					Global::S_CCycleBuffer->read((char *)&valueWW1, 1);
 					Global::S_CCycleBuffer->read((char *)&valueWW2, 1);*/
 
-					memcpy((char *)&valueHH1, buffer++, 1);
+					/*memcpy((char *)&valueHH1, buffer++, 1);
 					memcpy((char *)&valueHH2, buffer++, 1);
 					memcpy((char *)&valueHH3, buffer++, 1);
 					memcpy((char *)&valueAA1, buffer++, 1);
 					memcpy((char *)&valueAA2, buffer++, 1);
 					memcpy((char *)&valueAA3, buffer++, 1);
 					memcpy((char *)&valueWW1, buffer++, 1);
-					memcpy((char *)&valueWW2, buffer++, 1);
+					memcpy((char *)&valueWW2, buffer++, 1);*/
 
-					//解析细胞数据结构
-					valueHH = (valueHH1 * 65536 + valueHH2 * 256 + valueHH3);//细胞高度
-					valueAA = (valueAA1 * 65536 + valueAA2 * 256 + valueAA3);//细胞面积
-					valueWW = (valueWW1 * 256 + valueWW2);//细胞宽度
+					memcpy(&valueAA, buffer, 4);
+					buffer = buffer + 4;
+					memcpy(&valueHH, buffer, 4);
+					buffer = buffer + 4;
+					memcpy(&valueWW, buffer, 4);
+					buffer = buffer + 4;
+
+					////解析细胞数据结构
+					//valueHH = (valueHH1 * 65536 + valueHH2 * 256 + valueHH3);//细胞高度
+					//valueAA = (valueAA1 * 65536 + valueAA2 * 256 + valueAA3);//细胞面积
+					//valueWW = (valueWW1 * 256 + valueWW2);//细胞宽度
 
 
 					//继续转换
-					valueAA = valueAA - 32768 * valueWW;
-					valueHH = valueHH - 32768 * 4;
+					valueAA = valueAA - 32813 * valueWW;
+					valueHH = valueHH - 32813 * 4;
 
 
-					iCellStaticData->insert(j, valueHH, valueAA, valueWW);
+					/*valueHH = 9000000009;
+					valueAA = 8000000009;
+					valueWW = 7000000009;*/
+					/*if (valueHH >= 0 && valueAA >= 0 && valueWW >= 0)
+					{*/
+						double valueH = valueHH;
+						double valueA = valueAA;
+						double valueW = valueWW;
+						vector.append(valueH);
+						vector.append(valueA);
+						vector.append(valueW);
+						list.append(vector);
+					/*}*/
+					/*else
+					{
+						list.clear();
+						break;
+					}*/
+
+					
 				}
+				if (list.size() == 8)
+				{
+					//8个通道
+					for (int k = 0; k < 8; k++)
+					{
+						for (int i = 0; i < 3; i++)
+						{
+							QVector<double> vector = list.at(k);
+							iCellStaticData->insert(k, vector.at(0), vector.at(1), vector.at(2));
+						}
+
+					}
+
+				}
+
 			}
 			
 			emit cellReadySignal(false);

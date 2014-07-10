@@ -129,6 +129,7 @@ void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  ori
 			for (int m = vector1->size(); m < vector->size(); m++)//int m = vector1->size()表示从上次数据开始读，不读旧数据，提高筛选概率
 			{
 				origialDataList->at(i)->at(j)->append(vector->at(m));
+				//double value = vector->at(m);
 				double value = qLn(vector->at(m)) / qLn(10);
 				logDataList->at(i)->at(j)->append(value);
 				for (int k = 0; k < vector3->size(); k++)

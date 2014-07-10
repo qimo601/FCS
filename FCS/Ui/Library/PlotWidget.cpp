@@ -78,11 +78,22 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.normalBtn, SIGNAL(clicked()), this, SLOT(normalPlotWidget()));
 	//跟踪鼠标显示真值
 	connect(ui.viewTrueValueBtn, SIGNAL(toggled(bool)), this, SLOT(enableViewTrueValueMode(bool)));
+	//跟踪鼠标显示真值
+	connect(ui.viewTrueValueBtn_2, SIGNAL(toggled(bool)), this, SLOT(enableViewTrueValueMode2(bool)));
+
+	//测试选择
+	connect(ui.chooseBtn, SIGNAL(toggled(bool)), this, SLOT(chooseBtnMode(bool)));
 	
 	//直方图统计
 	connect(ui.barChatStaticsCheckBox, SIGNAL(clicked(bool)), this, SLOT(setBarStatisticsMode(bool)));
 	//散点图统计
 	connect(ui.scatterCheckBox, SIGNAL(clicked(bool)), this, SLOT(setScatterMode(bool)));
+
+
+
+	//绘图返回值
+	connect(d_plot, SIGNAL(selectedCrossPicker(QPointF)), this, SLOT(selectedCrosspickerSlot(QPointF)));
+
 	
 	m_timerId = 0;//初始化
 	//m_timerId = startTimer(10);//测试开始即实时显示
@@ -131,8 +142,9 @@ void PlotWidget::init()
 			list1->append(vector1);
 			//初始化直方图数据结构
 			QVector<BarStruct>* vector2 = new QVector<BarStruct>();
-			double internal = 10.00 / 100;
-			for (int k = 0; k < 100; k++)
+			//double internal = 10000000000.00 / 256;
+			double internal = 10.00 / 256;
+			for (int k = 0; k < 256; k++)
 			{
 				QPointF p(k*internal, (k + 1)*internal);
 				BarStruct barStruct1(k*internal, QString("[%1,%2)").arg(k*internal).arg((k + 1)*internal), 0, QColor("DodgerBlue"), QPointF(k*internal, (k + 1)*internal));
@@ -304,24 +316,56 @@ void PlotWidget::setLogEnable(bool enable)
 */
 void PlotWidget::setAxisScale()
 {
-	if (logEnable)
+	//散点图模式
+	if (ui.scatterCheckBox->isChecked())
 	{
-
-		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new LogScaleDraw());//每次改变坐标值，都会重新绘制刻度标签和刻度样式
-		d_plot->setAxisScaleDraw(QwtPlot::yLeft, new LogScaleDraw());
-		d_plot->setAxisScale(QwtPlot::xBottom, 0, 10);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
-		d_plot->setAxisScale(QwtPlot::yLeft, 0, 10);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
-		//d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
-	}
-	else
-	{
-
 		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
 		d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
-		d_plot->setAxisScale(QwtPlot::xBottom, 0, 60000000);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
-		d_plot->setAxisScale(QwtPlot::yLeft, 0, 60000000);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+		d_plot->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+		d_plot->setAxisScale(QwtPlot::yLeft, 0, 1e6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+		d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLinearScaleEngine);
+		d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
+		if (ui.logCheckBox->isChecked())
+		{
+
+			d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());//每次改变坐标值，都会重新绘制刻度标签和刻度样式
+			d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
+			
+			d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
+			d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLogScaleEngine);
+			//d_plot->setAxisScale(QwtPlot::xBottom, 0, 6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+			d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
+			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
+		}
+
 	}
-	d_plot->replot();
+	//直方图统计模式
+	else if (ui.barChatStaticsCheckBox->isChecked())
+	{
+		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
+		d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
+		
+		d_plot->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+		d_plot->setAxisAutoScale(QwtPlot::yLeft);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+		d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLinearScaleEngine);
+		d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
+		if (ui.logCheckBox->isChecked())
+		{
+			
+			d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
+			d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
+			//d_plot->setAxisScale(QwtPlot::xBottom, 1, 1e10);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+			d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());//每次改变坐标值，都会重新绘制刻度标签和刻度样式
+			d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
+			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 10000);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+			//d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
+			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
+			d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
+			//d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
+		}
+	}
+
 }
 
 /**
@@ -333,7 +377,7 @@ void PlotWidget::setBarStatisticsMode(bool mode)
 	{
 		//设置统计曲线样式
 		d_plot->enableStaticsMode();
-
+		setAxisScale();
 		//手动更新一次数据
 		updateStaticsSamples();
 		//直方图没有x轴
@@ -375,6 +419,28 @@ void PlotWidget::enableViewTrueValueMode(bool mode)
 
 	d_plot->enableViewTrueValue(mode);
 }
+/**
+* @brief 显示鼠标指向的点的真值
+*/
+void PlotWidget::enableViewTrueValueMode2(bool mode)
+{
+
+	d_plot->enableViewTrueValue2(mode);
+}
+/**
+* @brief 选择测试
+*/
+void PlotWidget::chooseBtnMode(bool mode)
+{
+
+	d_plot->setChooseBtnMode(mode);
+
+
+
+}
+
+
+
 //更新数据
 void PlotWidget::updateSamples()
 {
@@ -398,31 +464,39 @@ void PlotWidget::updateSamples()
 */
 void PlotWidget::updateScatterSamples()
 {
-	QPolygonF samples;
-
-	//bllDataCenter.getCellData(false);//读取细胞数据，不清空缓存
-	//QVector<double>* vectorX = bllDataCenter.getCellDataVector(3, 1);
-	//QVector<double>* vectorY = bllDataCenter.getCellDataVector(3, 0);
-
-	//bllDataCenter.getCellDataVector(origialDataList,logDataList);//更新最新的数据给当前plot
-	QVector<double>* vectorX;
-	QVector<double>* vectorY;
-
-	if (logEnable)//决定显示log否
+	//散点图模式
+	if (ui.scatterCheckBox->isChecked())
 	{
 
-		vectorX = logDataList->at(ui.passageXCombox->currentData().toInt())->at(ui.dataUnitXCombox->currentData().toInt());
-		vectorY = logDataList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
+		QPolygonF samples;
 
-	}
-	else
-	{
+		//bllDataCenter.getCellData(false);//读取细胞数据，不清空缓存
+		//QVector<double>* vectorX = bllDataCenter.getCellDataVector(3, 1);
+		//QVector<double>* vectorY = bllDataCenter.getCellDataVector(3, 0);
+
+		//bllDataCenter.getCellDataVector(origialDataList,logDataList);//更新最新的数据给当前plot
+		QVector<double>* vectorX;
+		QVector<double>* vectorY;
+		//因为用log坐标轴，所以所有数据只需用原数据即可，不用判断Log了。
 		vectorX = origialDataList->at(ui.passageXCombox->currentData().toInt())->at(ui.dataUnitXCombox->currentData().toInt());
 		vectorY = origialDataList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
+
+		//if (ui.logCheckBox->isChecked())//决定显示log否
+		//{
+
+		//	vectorX = logDataList->at(ui.passageXCombox->currentData().toInt())->at(ui.dataUnitXCombox->currentData().toInt());
+		//	vectorY = logDataList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
+
+		//}
+		//else
+		//{
+		//	vectorX = origialDataList->at(ui.passageXCombox->currentData().toInt())->at(ui.dataUnitXCombox->currentData().toInt());
+		//	vectorY = origialDataList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
+		//}
+		d_plot->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
+		//qDebug() << "PlotWidget," << this->objectName() << " " << origialDataList->at(3)->at(0)->size();
+		d_plot->replot();
 	}
-	d_plot->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
-	//qDebug() << "PlotWidget," << this->objectName() << " " << origialDataList->at(3)->at(0)->size();
-	d_plot->replot();
 }
 /**
 * @brief 更新直方图统计数据
@@ -433,18 +507,33 @@ void PlotWidget::updateStaticsSamples()
 	{
 		dataMutex.lock();
 		QVector<double> barChartDataVector;
-		QVector<double> xIndexVector;
+		QVector<double> xIndexVectorLog;//log值x轴坐标
+		QVector<double> xIndexVectorOri;//原值x轴坐标
 
 		//选择通道和数据单元类型
 		QVector<BarStruct>* vecotrData = barStructList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
 		for (int i = 0; i < vecotrData->size(); i++)
 		{
 			barChartDataVector.append(vecotrData->at(i).m_value);
-			barChartDataVector.append(0);//置隔离值为0，凸显曲线
-			xIndexVector.append(vecotrData->at(i).m_index);
-			xIndexVector.append(vecotrData->at(i).m_index+0.05);//置隔离值横坐标为中间坐标0.05
+			//barChartDataVector.append(0);//置隔离值为0，凸显曲线
+			xIndexVectorLog.append(vecotrData->at(i).m_index);
+			xIndexVectorOri.append(qPow(10,vecotrData->at(i).m_index));
+
+			//xIndexVector.append(vecotrData->at(i).m_index+10/256/2);//置隔离值横坐标为中间坐标0.05
 		}
-		d_plot->setSamples(xIndexVector, barChartDataVector);
+		//全部更新源数据
+		//因为用log坐标轴，所以所有数据只需用原数据即可，不用判断Log了。
+		d_plot->setSamples(xIndexVectorOri, barChartDataVector);
+		//如果选择log模式
+		/*if (ui.logCheckBox->isChecked())
+		{
+		d_plot->setSamples(xIndexVectorOri, barChartDataVector);
+		}
+		else
+		{
+			d_plot->setSamples(xIndexVectorOri, barChartDataVector);
+		}*/
+		
 		dataMutex.unlock();
 		//qDebug() << "PlotWidget," << this->objectName() << " " << origialDataList->at(3)->at(0)->size();
 		d_plot->replot(); 
@@ -465,7 +554,7 @@ void PlotWidget::clearPlotSamples()
 		{
 			origialDataList->at(i)->at(j)->clear();
 			logDataList->at(i)->at(j)->clear();
-			for (int k = 0; k < 100; k++)
+			for (int k = 0; k < 256; k++)
 			{
 				BarStruct barstruct = barStructList->at(i)->at(j)->at(k);
 				barstruct.m_value = 0;
@@ -477,4 +566,13 @@ void PlotWidget::clearPlotSamples()
 
 	}
 	dataMutex.unlock();
+}
+
+/**
+* @brief 选择的十字坐标
+*
+*/
+void PlotWidget::selectedCrosspickerSlot(QPointF pointf1)
+{
+	QPointF  pointf = pointf1;
 }
