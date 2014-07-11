@@ -164,6 +164,8 @@ void PlotWidget::init()
 	initUi();
 	//初始化bar条件数据
 	initBarData();
+	//初始化坐标
+	setAxisScale();
 }
 
 /**
