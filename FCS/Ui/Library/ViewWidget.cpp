@@ -230,7 +230,7 @@ void ViewWidget::openExpFileSlot()
 	fd->setViewMode(QFileDialog::Detail);
 	QStringList nameFilters;
 	nameFilters << "USB files (*.usb *.USB)"
-		<< "matlab files (*.matlab *.MATLAB *.fcm *.FCM)"
+		<< "matlab files (*.fcm *.FCM *.matlab *.MATLAB)"
 		<< "FCS files (*.fcs *.FCS)";
 
 	fd->setNameFilters(nameFilters);//设置文件类型过滤器

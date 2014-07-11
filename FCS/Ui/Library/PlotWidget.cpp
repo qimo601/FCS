@@ -347,7 +347,6 @@ void PlotWidget::setAxisScale()
 	{
 		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
 		d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
-		
 		d_plot->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
 		d_plot->setAxisAutoScale(QwtPlot::yLeft);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
 		d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLinearScaleEngine);
