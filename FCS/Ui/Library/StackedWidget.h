@@ -112,11 +112,16 @@ public slots:
 	*/
 	void openExpFileSlot();
 	/**
+	* @brief 保存实验文件
+	*/
+	void saveExpFileSlot();
+	/**
 	* @brief 保存细胞数据
 	*/
 	void on_saveCheckBox_clicked();
 signals:
 	void openExpFileSignal();
+	void saveExpFileSignal();
 protected:
 	void paintEvent(QPaintEvent *event);
 private:

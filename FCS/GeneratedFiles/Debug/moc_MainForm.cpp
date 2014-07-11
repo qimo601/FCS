@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainForm_t {
     QByteArrayData data[6];
-    char stringdata[68];
+    char stringdata[70];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,12 +32,13 @@ static const qt_meta_stringdata_MainForm_t qt_meta_stringdata_MainForm = {
 QT_MOC_LITERAL(0, 0, 8),
 QT_MOC_LITERAL(1, 9, 17),
 QT_MOC_LITERAL(2, 27, 0),
-QT_MOC_LITERAL(3, 28, 15),
-QT_MOC_LITERAL(4, 44, 7),
-QT_MOC_LITERAL(5, 52, 15)
+QT_MOC_LITERAL(3, 28, 17),
+QT_MOC_LITERAL(4, 46, 15),
+QT_MOC_LITERAL(5, 62, 7)
     },
-    "MainForm\0openExpFileSignal\0\0showMaxOrNormal\0"
-    "showMin\0openExpFileSlot"
+    "MainForm\0openExpFileSignal\0\0"
+    "saveExpFileSignal\0showMaxOrNormal\0"
+    "showMin"
 };
 #undef QT_MOC_LITERAL
 
@@ -52,21 +53,21 @@ static const uint qt_meta_data_MainForm[] = {
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
        1,    0,   34,    2, 0x06 /* Public */,
+       3,    0,   35,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   35,    2, 0x0a /* Public */,
        4,    0,   36,    2, 0x0a /* Public */,
        5,    0,   37,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
+    QMetaType::Void,
 
  // slots: parameters
-    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -79,9 +80,9 @@ void MainForm::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         MainForm *_t = static_cast<MainForm *>(_o);
         switch (_id) {
         case 0: _t->openExpFileSignal(); break;
-        case 1: _t->showMaxOrNormal(); break;
-        case 2: _t->showMin(); break;
-        case 3: _t->openExpFileSlot(); break;
+        case 1: _t->saveExpFileSignal(); break;
+        case 2: _t->showMaxOrNormal(); break;
+        case 3: _t->showMin(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -91,6 +92,12 @@ void MainForm::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
             typedef void (MainForm::*_t)();
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MainForm::openExpFileSignal)) {
                 *result = 0;
+            }
+        }
+        {
+            typedef void (MainForm::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MainForm::saveExpFileSignal)) {
+                *result = 1;
             }
         }
     }
@@ -137,5 +144,11 @@ int MainForm::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 void MainForm::openExpFileSignal()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, 0);
+}
+
+// SIGNAL 1
+void MainForm::saveExpFileSignal()
+{
+    QMetaObject::activate(this, &staticMetaObject, 1, 0);
 }
 QT_END_MOC_NAMESPACE

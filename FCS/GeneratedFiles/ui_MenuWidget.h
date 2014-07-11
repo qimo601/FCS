@@ -28,6 +28,7 @@ class Ui_MenuWidget
 public:
     QAction *newExpAction;
     QAction *openExpAction;
+    QAction *saveExpAction;
     QVBoxLayout *verticalLayout;
     QFrame *frame;
     QHBoxLayout *horizontalLayout;
@@ -56,6 +57,8 @@ public:
         newExpAction->setIcon(icon);
         openExpAction = new QAction(MenuWidget);
         openExpAction->setObjectName(QStringLiteral("openExpAction"));
+        saveExpAction = new QAction(MenuWidget);
+        saveExpAction->setObjectName(QStringLiteral("saveExpAction"));
         verticalLayout = new QVBoxLayout(MenuWidget);
         verticalLayout->setSpacing(0);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -147,6 +150,10 @@ public:
         openExpAction->setText(QApplication::translate("MenuWidget", "\346\211\223\345\274\200\345\256\236\351\252\214", 0));
 #ifndef QT_NO_TOOLTIP
         openExpAction->setToolTip(QApplication::translate("MenuWidget", "\346\211\223\345\274\200\345\256\236\351\252\214", 0));
+#endif // QT_NO_TOOLTIP
+        saveExpAction->setText(QApplication::translate("MenuWidget", "\344\277\235\345\255\230\345\256\236\351\252\214", 0));
+#ifndef QT_NO_TOOLTIP
+        saveExpAction->setToolTip(QApplication::translate("MenuWidget", "\344\277\235\345\255\230\345\256\236\351\252\214", 0));
 #endif // QT_NO_TOOLTIP
         fileBtn->setText(QApplication::translate("MenuWidget", "\346\226\207\344\273\266", 0));
         expBtn->setText(QApplication::translate("MenuWidget", "\345\256\236\351\252\214", 0));

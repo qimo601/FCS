@@ -1,11 +1,11 @@
-/**
-* Ïî    Ä¿:  FCSÈí¼ş
-* ÎÄ¼şÃû³Æ:   MenuWidget.h
-* ÎÄ¼şÂ·¾¶£º  Ui/Libary/MenuWidget.h
-* Õª    Òª:  ²Ëµ¥´°¿Ú
-* ×÷    Õß£º ÁõÕ×°î
-* ÈÕ    ÆÚ£º 2014Äê04ÔÂ03ÈÕ
-* Copyright (c) 2014-2015, ÖĞ¿ÆÔºËÕÖİÒ½¹¤ËùÒ½Ñ§Ó°ÏñÊÒµç×Ó×é.All rights reserved.
+ï»¿/**
+* é¡¹    ç›®:  FCSè½¯ä»¶
+* æ–‡ä»¶åç§°:   MenuWidget.h
+* æ–‡ä»¶è·¯å¾„ï¼š  Ui/Libary/MenuWidget.h
+* æ‘˜    è¦:  èœå•çª—å£
+* ä½œ    è€…ï¼š åˆ˜å…†é‚¦
+* æ—¥    æœŸï¼š 2014å¹´04æœˆ03æ—¥
+* Copyright (c) 2014-2015, ä¸­ç§‘é™¢è‹å·åŒ»å·¥æ‰€åŒ»å­¦å½±åƒå®¤ç”µå­ç»„.All rights reserved.
 * Version v1.0
 */
 #ifndef MENUWIDGET_H
@@ -23,11 +23,16 @@ public:
 	~MenuWidget();
 public slots:
 	/**
-	* @brief ´ò¿ªÊµÑéÎÄ¼ş
+	* @brief æ‰“å¼€å®éªŒæ–‡ä»¶
 	*/
 	void openExpFile();
+	/**
+	* @brief ä¿å­˜å®éªŒæ–‡ä»¶
+	*/
+	void saveExpFile();
 signals:
-	void openExpFileSignal();//´ò¿ªÊµÑéÎÄ¼şĞÅºÅ
+	void openExpFileSignal();//æ‰“å¼€å®éªŒæ–‡ä»¶ä¿¡å·
+	void saveExpFileSignal();//ä¿å­˜å®éªŒæ–‡ä»¶ä¿¡å·
 protected:
 	void paintEvent(QPaintEvent *);
 private:

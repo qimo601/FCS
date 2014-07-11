@@ -42,10 +42,18 @@ public slots:
 	* @brief 打开文件
 	*/
 	void openExpFileSlot();
+	/**
+	* @brief 保存文件
+	*/
+	void saveExpFileSlot();
 signals:
 	void openExpSignal(QString,bool);
 	void getCellDataFromFile();
 	void startReadCellDataFromCircleBuffer();
+	/**
+	* @brief 保存文件信号
+	*/
+	void saveExpFileToPlotwigetSignal(QString fileName,QString filetype);
 protected:
 	virtual void paintEvent(QPaintEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent * event);

@@ -29,8 +29,9 @@ ViewWidget::ViewWidget(QWidget *parent)
 	readCellThread->start();//细胞数据线程读取
 	//循环读取缓冲区
 	connect(this, SIGNAL(startReadCellDataFromCircleBuffer()), readCellThread, SLOT(startReadCellDataFromCircleBuffer()));
-	//读取本地文件
+	//读取本地文件--已经没用了
 	connect(this, SIGNAL(openExpSignal(QString, bool)), readCellThread, SLOT(getCellDataFromFile(QString, bool)));
+
 	/****线程读取细胞数据****/
 	
 
@@ -38,6 +39,9 @@ ViewWidget::ViewWidget(QWidget *parent)
 	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_1, SLOT(updateSamples()));
 	//统计线程
 	connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_1->staticsThread, SLOT(staticsCellData(bool)));
+	//统计线程
+	connect(this, SIGNAL(saveExpFileToPlotwigetSignal(QString, QString)), ui.plotWidget_1, SLOT(saveExpFileSlot(QString,QString)));
+
 	//直方图统计，这个速度有点卡
 	//connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_2->staticsThread, SLOT(staticsCellData()));
 	//统计线程
@@ -221,13 +225,22 @@ void ViewWidget::openExpFileSlot()
 {
 	QString file = "20140618_14.fcm";
 
-	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), "../FCSData", "");
+	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), "../MatLabData", "");
 	fd->setFileMode(QFileDialog::ExistingFile);
 	fd->setViewMode(QFileDialog::Detail);
+	QStringList nameFilters;
+	nameFilters << "USB files (*.usb *.USB)"
+		<< "matlab files (*.matlab *.MATLAB *.fcm *.FCM)"
+		<< "FCS files (*.fcs *.FCS)";
+
+	fd->setNameFilters(nameFilters);//设置文件类型过滤器
 	QStringList fileNamesList;
-	if (fd->exec()) // ok
+	if (fd->exec()==QDialog::Accepted) // 取消则是：QDialog::Rejected
 	{
 		fileNamesList = fd->selectedFiles();
+	}
+	else{
+		return;
 	}
 	QString fileName = fileNamesList.at(0).toLocal8Bit().constData();
 	QDir dir = fd->directory();
@@ -240,10 +253,56 @@ void ViewWidget::openExpFileSlot()
 
 
 
-
+	
 
 	readCellThread->setGoOn(false);//停止采集
 	readCellThread->setFilePath(fileName);//传递文件名
-	readCellThread->setOperate(ReadCellThread::Read_FILE);//开始读取本地文件
-	//emit openExpSignal(file,true);
+	QString nameFilter = fd->selectedNameFilter();
+	if (nameFilter == "USB files (*.usb *.USB)")
+		readCellThread->setOperate(ReadCellThread::Read_USB_FILE);//开始读取USB格式本地文件
+	else if (nameFilter == "matlab files (*.fcm *.FCM *.matlab *.MATLAB)")
+		readCellThread->setOperate(ReadCellThread::Read_MatLab_FILE);//开始读取MatLab格式本地文件
+	else if (nameFilter == "FCS files (*.fcs *.FCS)")
+		readCellThread->setOperate(ReadCellThread::Read_FCS_FILE);//开始读取FCS格式本地文件
+	//emit openExpSignal(file,true);//不用发信号
+}
+/**
+* @brief 保存文件
+*/
+void ViewWidget::saveExpFileSlot()
+{
+	QFileDialog *fd = new QFileDialog(this);//创建一个QFileDialog对象，构造函数中的参数可以有所添加。
+	fd->setWindowTitle(tr("Save As"));//设置文件保存对话框的标题
+	fd->setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
+	fd->setFileMode(QFileDialog::AnyFile);//设置文件对话框弹出的时候显示任何文件，不论是文件夹还是文件
+	fd->setViewMode(QFileDialog::Detail);//文件以详细的形式显示，显示文件名，大小，创建日期等信息；
+	//还有另一种形式QFileDialog::List，这个只是把文件的文件名以列表的形式显示出来
+	fd->setGeometry(10, 30, 300, 200);//设置文件对话框的显示位置
+	fd->setDirectory("../USBData");
+	QStringList nameFilters;
+	nameFilters << "USB files (*.usb *.USB)"
+		<< "matlab files (*.fcm *.FCM *.matlab *.MATLAB)"
+		<< "FCS files (*.fcs *.FCS)";
+	fd->setNameFilters(nameFilters);//设置文件类型过滤器
+
+	QStringList fileNamesList;
+	if (fd->exec() == QDialog::Accepted) {
+		fileNamesList = fd->selectedFiles();
+		}
+
+
+	QString fileName = fileNamesList.at(0).toLocal8Bit().constData();
+	//QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+	//	"../USBData",
+	//	tr("USB files (*.usb *.USB)"));
+
+	QStringList list = fileName.split(".");
+	QString fileType;
+	if (list.last() == "usb" || list.last() == "USB")
+		fileType = "usb";
+	else if (list.last() == "fcs" || list.last() == "FCS")
+		fileType = "fcs";
+	else if (list.last() == "matlab" || list.last() == "MATLAB" || list.last() == "fcm" || list.last() == "FCM")
+		fileType = "fcm";
+	emit saveExpFileToPlotwigetSignal(fileName,fileType);
 }

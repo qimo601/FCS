@@ -125,6 +125,26 @@ public slots:
 	*
 	*/
 	void selectedCrosspickerSlot(QPointF pointf1);
+	/**
+	* @brief 保存文件
+	* @param QString:文件类型
+	*/
+	void saveExpFileSlot(QString fileName, QString fileType);
+	/**
+	* @brief 保存USB格式文件
+	* @param QString 文件名称，QString:文件类型
+	*/
+	void saveUSBFile(QString fileName);
+	/**
+	* @brief 保存FCM/MatLab格式文件
+	* @param QString 文件名称，QString:文件类型
+	*/
+	void saveFcmFile(QString fileName);
+	/**
+	* @brief 保存FCS标准格式文件
+	* @param QString 文件名称，QString:文件类型
+	*/
+	void saveFCSFile(QString fileName);
 signals:
 	void normalPlot();//正常显示信号
 protected:

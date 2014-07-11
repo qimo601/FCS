@@ -22,6 +22,7 @@ MainForm::MainForm(QWidget *parent)
 
 
 	connect(ui.menuWidget, SIGNAL(openExpFileSignal()), ui.stackedWidget, SLOT(openExpFileSlot()));//打开本地文件
+	connect(ui.menuWidget, SIGNAL(saveExpFileSignal()), ui.stackedWidget, SLOT(saveExpFileSlot()));//打开本地文件
 }
 
 MainForm::~MainForm()
@@ -77,11 +78,4 @@ void MainForm::resetGeometry(int x)
 {
 	
 	ui.toolWidget->resetGeometry(x);
-}
-/**
-* @brief 打开实验文件
-*/
-void MainForm::openExpFileSlot()
-{
-	emit openExpFileSignal();
 }

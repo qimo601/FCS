@@ -12,7 +12,8 @@ StackedWidget::StackedWidget(QWidget *parent)
 	ui.setupUi(this);
 	
 	init();//初始化
-	connect(this, SIGNAL(openExpFileSignal()), ui.celllViewWidget, SLOT(openExpFileSlot()));
+	connect(this, SIGNAL(openExpFileSignal()), ui.celllViewWidget, SLOT(openExpFileSlot()));//打开实验文件
+	connect(this, SIGNAL(saveExpFileSignal()), ui.celllViewWidget, SLOT(saveExpFileSlot()));//保存实验文件
 	//测试用-先隐藏报告界面
 	ui.reportWidget->setVisible(false);
 }
@@ -268,6 +269,14 @@ void StackedWidget::openExpFileSlot()
 {
 	emit openExpFileSignal();
 }
+
+/**
+* @brief 保存实验文件
+*/
+void StackedWidget::saveExpFileSlot()
+{
+	emit saveExpFileSignal();
+}
 /**
 * @brief 保存细胞数据
 */
@@ -275,8 +284,9 @@ void StackedWidget::on_saveCheckBox_clicked()
 {
 	if (ui.saveCheckBox->isChecked())
 	{
-		ReadCellThread::fileName = QString("cellFile_%1").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd--HH-mm-ss"));
-		QDir dir("../CellData");
+		//细胞USB格式原始数据
+		ReadCellThread::fileName = QString("OriFile_%1.usb").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd--HH-mm-ss"));
+		QDir dir("../USBData");
 		
 		QString absolutePath = dir.absolutePath();
 		if (!dir.exists())

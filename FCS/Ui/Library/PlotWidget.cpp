@@ -126,6 +126,7 @@ void PlotWidget::init()
 	origialDataList = new QList < QList < QVector<double>* >*  >();//符合条件的原始数据
 	logDataList = new QList < QList < QVector<double>* >*  >();//符合条件的log值
 	barStructList = new QList < QList < QVector<BarStruct>* >*  >();
+	//8个通道
 	for (int i = 0; i < 8; i++)
 	{
 		QList < QVector<double>* >* list = new QList < QVector<double>* >();
@@ -134,6 +135,7 @@ void PlotWidget::init()
 		logDataList->append(list1);
 
 		QList<QVector<BarStruct>*>* list2 = new QList<QVector<BarStruct>*>();
+		//三组参数
 		for (int j = 0; j < 3; j++)
 		{
 			QVector<double>* vector = new QVector<double>();
@@ -350,6 +352,8 @@ void PlotWidget::setAxisScale()
 		d_plot->setAxisAutoScale(QwtPlot::yLeft);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
 		d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLinearScaleEngine);
 		d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
+		d_plot->setAxisMaxMajor(QwtPlot::xBottom, 5);//
+		d_plot->setAxisMaxMinor(QwtPlot::xBottom, 5);
 		if (ui.logCheckBox->isChecked())
 		{
 			
@@ -358,8 +362,8 @@ void PlotWidget::setAxisScale()
 			//d_plot->setAxisScale(QwtPlot::xBottom, 1, 1e10);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
 			d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());//每次改变坐标值，都会重新绘制刻度标签和刻度样式
 			d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
-			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 10000);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
-			//d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
+			d_plot->setAxisMaxMajor(QwtPlot::xBottom, 10);//大刻度最多10个
+			d_plot->setAxisMaxMinor(QwtPlot::xBottom, 5);//小刻度最多5个
 			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
 			d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
 			//d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
@@ -575,4 +579,85 @@ void PlotWidget::clearPlotSamples()
 void PlotWidget::selectedCrosspickerSlot(QPointF pointf1)
 {
 	QPointF  pointf = pointf1;
+}
+
+/**
+* @brief 保存文件
+* @param QString:文件类型
+*/
+void PlotWidget::saveExpFileSlot(QString fileName,QString fileType)
+{
+	if (fileType == "usb")
+		saveUSBFile(fileName);
+	else if (fileType == "fcm")
+		saveFcmFile(fileName);
+	else if (fileType == "fcs")
+		saveFCSFile(fileName);
+}
+/**
+* @brief 保存USB格式文件
+* @param QString 文件名称，QString:文件类型
+*/
+void PlotWidget::saveUSBFile(QString fileName)
+{
+	
+}
+/**
+* @brief 保存FCM/MatLab格式文件
+* @param QString 文件名称，QString:文件类型
+*/
+void PlotWidget::saveFcmFile(QString fileName)
+{
+	FILE *stream;
+	int err;
+	int numwritten;
+
+	QByteArray pathByteArray = fileName.toLocal8Bit();
+	if ((stream = fopen(pathByteArray.data(), "wb")) != NULL)
+	{
+		int m = origialDataList->at(0)->at(0)->size();
+		int n = origialDataList->at(0)->size();
+		int t = origialDataList->size();
+		//n个细胞
+		for (int i = 0; i < origialDataList->at(0)->at(0)->size(); i++)
+		{
+			//8个通道
+			for (int j = 0; j < origialDataList->size(); j++)
+			{
+				//3组参数
+				double valueHH = origialDataList->at(j)->at(0)->at(i);
+				double valueAA = origialDataList->at(j)->at(1)->at(i);
+				double valueWW = origialDataList->at(j)->at(2)->at(i);
+				valueAA = valueAA + 32813 * valueWW;
+				valueHH = valueHH + 32813 * 4;
+				qint32 valueAAInt = valueAA;
+				qint32 valueHHInt = valueHH;
+				qint32 valueWWInt = valueWW;
+				numwritten = fwrite(&valueAAInt, sizeof(qint32), 1, stream);
+				numwritten = fwrite(&valueHHInt, sizeof(qint32), 1, stream);
+				numwritten = fwrite(&valueWWInt, sizeof(qint32), 1, stream);
+
+
+			}
+
+			qDebug() << "【PlotWidget】 保存文件成功:" << fileName;
+		}
+
+		//关闭文件
+		if (stream)
+		{
+			if (fclose(stream))
+			{
+				qDebug() << "【PlotWidget】文件关闭失败:" << fileName;
+			}
+		}
+	}
+}
+/**
+* @brief 保存FCS标准格式文件
+* @param QString 文件名称，QString:文件类型
+*/
+void PlotWidget::saveFCSFile(QString fileName)
+{
+
 }

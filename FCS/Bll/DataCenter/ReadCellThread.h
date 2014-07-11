@@ -29,8 +29,10 @@ public:
 	enum Operate {
 		CLEAR = 0x0001,//清空全局缓存
 		START_ACQ = 0x0002,//采集缓冲区数据
-		Read_FILE = 0x0003,//读取本地文件
-		NORMAL = 0x0004//正常状态
+		Read_USB_FILE = 0x0003,//读取USB协议格式本地文件
+		Read_MatLab_FILE = 0x0004,//读取MatLab格式本地文件
+		Read_FCS_FILE = 0x0005,//读取FCS格式本地文件
+		NORMAL = 0x0006//正常状态
 	};
 
 
@@ -52,6 +54,14 @@ public slots:
 	* @param clear:每次读一个文件，默认清空缓存
 	*/
 	void getCellDataFromFile(QString filePath, bool clear=true);
+	/**
+	* @brief 通过文件读取matlab版本本地细胞数据
+	*/
+	void getCellDataFromMatlabFile(QString filePath, bool clear);
+	/**
+	* @brief 通过文件读取FCS格式本地细胞数据
+	*/
+	void getCellDataFromFCSFile(QString filePath, bool clear);
 	/**
 	* @brief 清楚全局细胞缓冲区旧数据，
 	*        每次切换采集和读取本地文件必须调用

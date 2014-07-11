@@ -254,6 +254,14 @@
     <string>打开实验</string>
    </property>
   </action>
+  <action name="saveExpAction">
+   <property name="text">
+    <string>保存实验</string>
+   </property>
+   <property name="toolTip">
+    <string>保存实验</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
