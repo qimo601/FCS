@@ -38,7 +38,9 @@ public:
     QToolButton *normalBtn;
     QToolButton *viewTrueValueBtn;
     QToolButton *viewTrueValueBtn_2;
-    QToolButton *chooseBtn;
+    QToolButton *rectBtn;
+    QToolButton *testUpBtn;
+    QToolButton *testDownBtn;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout;
     QFrame *cellXFrame;
@@ -139,14 +141,32 @@ public:
 
         verticalLayout_2->addWidget(viewTrueValueBtn_2);
 
-        chooseBtn = new QToolButton(cellToolFrame);
-        chooseBtn->setObjectName(QStringLiteral("chooseBtn"));
-        chooseBtn->setMinimumSize(QSize(70, 30));
-        chooseBtn->setMaximumSize(QSize(70, 30));
-        chooseBtn->setCheckable(true);
-        chooseBtn->setChecked(false);
+        rectBtn = new QToolButton(cellToolFrame);
+        rectBtn->setObjectName(QStringLiteral("rectBtn"));
+        rectBtn->setMinimumSize(QSize(70, 30));
+        rectBtn->setMaximumSize(QSize(70, 30));
+        rectBtn->setCheckable(true);
+        rectBtn->setChecked(false);
 
-        verticalLayout_2->addWidget(chooseBtn);
+        verticalLayout_2->addWidget(rectBtn);
+
+        testUpBtn = new QToolButton(cellToolFrame);
+        testUpBtn->setObjectName(QStringLiteral("testUpBtn"));
+        testUpBtn->setMinimumSize(QSize(70, 30));
+        testUpBtn->setMaximumSize(QSize(70, 30));
+        testUpBtn->setCheckable(true);
+        testUpBtn->setChecked(false);
+
+        verticalLayout_2->addWidget(testUpBtn);
+
+        testDownBtn = new QToolButton(cellToolFrame);
+        testDownBtn->setObjectName(QStringLiteral("testDownBtn"));
+        testDownBtn->setMinimumSize(QSize(70, 30));
+        testDownBtn->setMaximumSize(QSize(70, 30));
+        testDownBtn->setCheckable(true);
+        testDownBtn->setChecked(false);
+
+        verticalLayout_2->addWidget(testDownBtn);
 
         verticalSpacer = new QSpacerItem(20, 339, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -299,7 +319,9 @@ public:
         normalBtn->setText(QApplication::translate("PlotWidget", "\350\277\230\345\216\237", 0));
         viewTrueValueBtn->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\277", 0));
         viewTrueValueBtn_2->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\2772", 0));
-        chooseBtn->setText(QApplication::translate("PlotWidget", "\347\247\273\345\212\250\346\265\213\350\257\225", 0));
+        rectBtn->setText(QApplication::translate("PlotWidget", "\347\237\251\345\275\242", 0));
+        testUpBtn->setText(QApplication::translate("PlotWidget", "+", 0));
+        testDownBtn->setText(QApplication::translate("PlotWidget", "-", 0));
         pushButton_3->setText(QApplication::translate("PlotWidget", "\350\256\276\347\275\256", 0));
 #ifndef QT_NO_TOOLTIP
         passageYCombox->setToolTip(QApplication::translate("PlotWidget", "\351\200\232\351\201\223", 0));

@@ -84,17 +84,20 @@ QVector<double>* ICellStaticData::getDataVector(int passage, int valuePos)
 void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  origialDataList, QList < QList < QVector<double>* >*  >* logDataList)
 {
 	mutex.lock();
+	//8个通道
 	for (int i = 0; i < cellFullData->size(); i++)
 	{
 		QList < QVector<double>* > * list = cellFullData->at(i);
 		QList < QVector<double>* > * list1 = origialDataList->at(i);
 		QList < QVector<double>* > * list2 = logDataList->at(i);
-		
+		//3组参数
 		for (int j = 0; j < 3; j++)
 		{
 			QVector<double>* vector = list->at(j);
 			QVector<double>* vector1 = list1->at(j);
 			QVector<double>* vector2 = list2->at(j);
+
+			//递增数据
 			for (int m = vector1->size(); m < vector->size(); m++)//int m = vector1->size()表示从上次数据开始读，不读旧数据，提高筛选概率
 			{
 				origialDataList->at(i)->at(j)->append(vector->at(m));
@@ -113,34 +116,41 @@ void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  ori
 void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  origialDataList, QList < QList < QVector<double>* >*  >* logDataList, QList < QList < QVector<BarStruct>* >*  >* barStructList)
 {
 	mutex.lock();
+	//8个通道
 	for (int i = 0; i < cellFullData->size(); i++)
 	{
-		QList < QVector<double>* > * list = cellFullData->at(i);
-		QList < QVector<double>* > * list1 = origialDataList->at(i);
-		QList < QVector<double>* > * list2 = logDataList->at(i);
-		QList < QVector<BarStruct>* >* list3 = barStructList->at(i);
-
+		QList < QVector<double>* > * list = cellFullData->at(i);//缓冲区
+		QList < QVector<double>* > * list1 = origialDataList->at(i);//原始数据
+		QList < QVector<double>* > * list2 = logDataList->at(i);//log数据
+		QList < QVector<BarStruct>* >* list3 = barStructList->at(i);//条件数据
+		//3组参数
 		for (int j = 0; j < 3; j++)
 		{
-			QVector<double>* vector = list->at(j);
-			QVector<double>* vector1 = list1->at(j);
-			QVector<double>* vector2 = list2->at(j);
-			QVector<BarStruct>* vector3 = list3->at(j);
+			QVector<double>* vector = list->at(j);//缓冲区
+			QVector<double>* vector1 = list1->at(j);//原始数据
+			QVector<double>* vector2 = list2->at(j);//log数据
+			QVector<BarStruct>* vector3 = list3->at(j);//条件数据
+			//递增数据
 			for (int m = vector1->size(); m < vector->size(); m++)//int m = vector1->size()表示从上次数据开始读，不读旧数据，提高筛选概率
 			{
-				origialDataList->at(i)->at(j)->append(vector->at(m));
-				//double value = vector->at(m);
-				double value = qLn(vector->at(m)) / qLn(10);
-				logDataList->at(i)->at(j)->append(value);
-				for (int k = 0; k < vector3->size(); k++)
+				origialDataList->at(i)->at(j)->append(vector->at(m));//追加原始数据
+				//double value = vector->at(m);//原值计算范围1024组不精细
+				double value = qLn(vector->at(m)) / qLn(10);//取log计算范围比较准
+				logDataList->at(i)->at(j)->append(value);//追加log数据
+
+				if (i == 2)//默认3通道,其他通道现场算
 				{
-					BarStruct barStruct = vector3->at(k);
-					if (value >= barStruct.m_point.x() && value < barStruct.m_point.y())
+					for (int k = 0; k < vector3->size(); k++)
 					{
-						barStruct.m_value++;
-						vector3->replace(k, barStruct);
+						BarStruct barStruct = vector3->at(k);
+						if (value >= barStruct.m_point.x() && value < barStruct.m_point.y())
+						{
+							barStruct.m_value++;
+							vector3->replace(k, barStruct);
+						}
 					}
 				}
+
 
 			}
 			//memcpy(cellDataVector->at(i)->at(j), vector, vector->size());

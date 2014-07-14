@@ -224,13 +224,15 @@ void ViewWidget::timerEvent(QTimerEvent *event)
 void ViewWidget::openExpFileSlot()
 {
 	QString file = "20140618_14.fcm";
-
+	QDir dir1;
+	QString absolutePath1 = dir1.absolutePath();
+	QString canonicalPath1 = dir1.canonicalPath();
 	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), "../MatLabData", "");
 	fd->setFileMode(QFileDialog::ExistingFile);
 	fd->setViewMode(QFileDialog::Detail);
 	QStringList nameFilters;
-	nameFilters << "USB files (*.usb *.USB)"
-		<< "matlab files (*.fcm *.FCM *.matlab *.MATLAB)"
+	nameFilters << "matlab files (*.fcm *.FCM *.matlab *.MATLAB)"
+		<< "USB files (*.usb *.USB)"
 		<< "FCS files (*.fcs *.FCS)";
 
 	fd->setNameFilters(nameFilters);//设置文件类型过滤器
@@ -264,6 +266,8 @@ void ViewWidget::openExpFileSlot()
 		readCellThread->setOperate(ReadCellThread::Read_MatLab_FILE);//开始读取MatLab格式本地文件
 	else if (nameFilter == "FCS files (*.fcs *.FCS)")
 		readCellThread->setOperate(ReadCellThread::Read_FCS_FILE);//开始读取FCS格式本地文件
+
+	delete fd;
 	//emit openExpSignal(file,true);//不用发信号
 }
 /**
@@ -305,4 +309,7 @@ void ViewWidget::saveExpFileSlot()
 	else if (list.last() == "matlab" || list.last() == "MATLAB" || list.last() == "fcm" || list.last() == "FCM")
 		fileType = "fcm";
 	emit saveExpFileToPlotwigetSignal(fileName,fileType);
+
+
+	delete fd;
 }

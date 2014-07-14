@@ -80,9 +80,13 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.viewTrueValueBtn, SIGNAL(toggled(bool)), this, SLOT(enableViewTrueValueMode(bool)));
 	//跟踪鼠标显示真值
 	connect(ui.viewTrueValueBtn_2, SIGNAL(toggled(bool)), this, SLOT(enableViewTrueValueMode2(bool)));
+	//矩形设门
+	connect(ui.rectBtn, SIGNAL(toggled(bool)), this, SLOT(enableRectBtn(bool)));
 
-	//测试选择
-	connect(ui.chooseBtn, SIGNAL(toggled(bool)), this, SLOT(chooseBtnMode(bool)));
+	//增加-测试选择
+	connect(ui.testUpBtn, SIGNAL(toggled(bool)), this, SLOT(testUpBtnMode(bool)));
+	//减少测试选择
+	connect(ui.testDownBtn, SIGNAL(toggled(bool)), this, SLOT(testDownBtnMode(bool)));
 	
 	//直方图统计
 	connect(ui.barChatStaticsCheckBox, SIGNAL(clicked(bool)), this, SLOT(setBarStatisticsMode(bool)));
@@ -121,6 +125,7 @@ PlotWidget::~PlotWidget()
 */
 void PlotWidget::init()
 {
+	condition = 1024;//直方图条件划分数目
 	dataMutex.lock();
 	//初始化该绘图的数据结构
 	origialDataList = new QList < QList < QVector<double>* >*  >();//符合条件的原始数据
@@ -144,9 +149,9 @@ void PlotWidget::init()
 			list1->append(vector1);
 			//初始化直方图数据结构
 			QVector<BarStruct>* vector2 = new QVector<BarStruct>();
-			//double internal = 10000000000.00 / 256;
-			double internal = 10.00 / 256;
-			for (int k = 0; k < 256; k++)
+			//double internal = 10000000000.00 / condition;
+			double internal = 10.00/ condition;
+			for (int k = 0; k < condition; k++)
 			{
 				QPointF p(k*internal, (k + 1)*internal);
 				BarStruct barStruct1(k*internal, QString("[%1,%2)").arg(k*internal).arg((k + 1)*internal), 0, QColor("DodgerBlue"), QPointF(k*internal, (k + 1)*internal));
@@ -433,14 +438,28 @@ void PlotWidget::enableViewTrueValueMode2(bool mode)
 	d_plot->enableViewTrueValue2(mode);
 }
 /**
-* @brief 选择测试
+* @brief 启用矩形设门
 */
-void PlotWidget::chooseBtnMode(bool mode)
+void PlotWidget::enableRectBtn(bool mode)
+{
+	d_plot->enableRectPicker(mode);
+}
+/**
+* @brief 减少值-测试
+*/
+void PlotWidget::testUpBtnMode(bool mode)
 {
 
-	d_plot->setChooseBtnMode(mode);
+	d_plot->setUpBtnMode(mode);
 
+}
+/**
+* @brief 减少值-测试
+*/
+void PlotWidget::testDownBtnMode(bool mode)
+{
 
+	d_plot->setDownBtnMode(mode);
 
 }
 
@@ -521,8 +540,9 @@ void PlotWidget::updateStaticsSamples()
 		{
 			barChartDataVector.append(vecotrData->at(i).m_value);
 			//barChartDataVector.append(0);//置隔离值为0，凸显曲线
-			xIndexVectorLog.append(vecotrData->at(i).m_index);
-			xIndexVectorOri.append(qPow(10,vecotrData->at(i).m_index));
+			//xIndexVectorLog.append(vecotrData->at(i).m_index);
+			//xIndexVectorOri.append(vecotrData->at(i).m_index);
+			xIndexVectorOri.append(qPow(10,vecotrData->at(i).m_index));//添加log值，求指数得到原数
 
 			//xIndexVector.append(vecotrData->at(i).m_index+10/256/2);//置隔离值横坐标为中间坐标0.05
 		}
@@ -559,7 +579,7 @@ void PlotWidget::clearPlotSamples()
 		{
 			origialDataList->at(i)->at(j)->clear();
 			logDataList->at(i)->at(j)->clear();
-			for (int k = 0; k < 256; k++)
+			for (int k = 0; k < condition; k++)
 			{
 				BarStruct barstruct = barStructList->at(i)->at(j)->at(k);
 				barstruct.m_value = 0;

@@ -211,6 +211,145 @@ public:
 		return true;
 	}
 
+	
+
+};
+class RectPicker : public QwtPlotPicker
+{
+public:
+	//提供选择类
+	RectPicker(QWidget *canvas) :
+		QwtPlotPicker(canvas)
+	{
+
+		setAxis(QwtPlot::xBottom, QwtPlot::yLeft);
+		setResizeMode(QwtPicker::Stretch);//变形模式
+		//设置一个状态机，并删除上一个
+		setStateMachine(new QwtPickerDragRectMachine());
+		setRubberBandPen(QColor(Qt::red));
+		//设置橡胶圈样式：椭圆
+		setRubberBand(QwtPicker::RectRubberBand);
+		setTrackerPen(QColor(Qt::blue));
+		//设置跟踪模式
+		setTrackerMode(QwtPicker::ActiveOnly);
+		setEnabled(false);
+	}
+	//将位置转换成字符串
+	virtual QwtText trackerTextF(const QPointF &pos) const
+	{
+		QwtText text;
+
+		const QPolygon points = selection();//选择的点
+		if (!points.isEmpty())
+		{
+			QString num;
+			QPoint point = points[0];
+			QPointF point2 = invTransform(point);
+			num = QString("(%1,%2),(,)").arg(point2.x()).arg(point2.y());
+			QColor bg(Qt::white);
+			bg.setAlpha(200);
+			if (points.size() == 2)
+			{
+
+				QPointF point0 = invTransform(points[0]);
+				QPointF point1 = invTransform(points[1]);
+				num = QString("(%1,%2),(%3,%4)").arg(point0.x()).arg(point0.y()).arg(point1.x()).arg(point1.y());
+			}
+			text.setBackgroundBrush(QBrush(bg));
+			text.setText(num);
+		}
+		return text;
+	}
+	virtual void 	move(const QPoint & pos)
+	{
+		QwtPlotPicker::move(pos);
+	}
+	virtual void 	stretchSelection(const QSize &oldSize, const QSize &newSize)
+	{
+		QwtPlotPicker::stretchSelection(oldSize, newSize);//拉伸
+		//if (oldSize.isEmpty())
+		//{
+		//	// avoid division by zero. But scaling for small sizes also
+		//	// doesn't make much sense, because of rounding losses. TODO ...
+		//	return;
+		//}
+		//const double xRatio =
+		//	double(newSize.width()) / double(oldSize.width());
+		//const double yRatio =
+		//	double(newSize.height()) / double(oldSize.height());
+
+		//for (int i = 0; i < int(d_data->pickedPoints.count()); i++)
+		//{
+		//	QPoint &p = d_data->pickedPoints[i];
+		//	p.setX(qRound(p.x() * xRatio));
+		//	p.setY(qRound(p.y() * yRatio));
+
+		//	Q_EMIT changed(d_data->pickedPoints);
+		//}
+		QwtPlotPicker::updateDisplay();//显示
+	}
+	virtual bool 	end(bool ok)
+	{
+		if (!ok)//更改代码处：，正常结束后，并不停止。只有reset时候，end(false)停止选择，重置状态机
+			QwtPlotPicker::end(ok);
+		if (!ok)
+			return false;
+
+		QwtPlot *plot = QwtPlotPicker::plot();
+		if (!plot)
+			return false;
+
+		const QPolygon points = selection();
+		if (points.count() == 0)
+			return false;
+
+		QwtPickerMachine::SelectionType selectionType =
+			QwtPickerMachine::NoSelection;
+
+		if (stateMachine())
+			selectionType = stateMachine()->selectionType();
+
+		switch (selectionType)
+		{
+		case QwtPickerMachine::PointSelection:
+		{
+												 const QPointF pos = invTransform(points.first());
+												 Q_EMIT selected(pos);
+												 break;
+		}
+		case QwtPickerMachine::RectSelection:
+		{
+												if (points.count() >= 2)
+												{
+													const QPoint p1 = points.first();
+													const QPoint p2 = points.last();
+
+													const QRect rect = QRect(p1, p2).normalized();
+													Q_EMIT selected(invTransform(rect));
+												}
+												break;
+		}
+		case QwtPickerMachine::PolygonSelection:
+		{
+												   QVector<QPointF> dpa(points.count());
+												   for (int i = 0; i < points.count(); i++)
+													   dpa[i] = invTransform(points[i]);
+
+												   Q_EMIT selected(dpa);
+		}
+		default:
+			break;
+		}
+		return true;
+	}
+	virtual void reset()
+	{
+		QwtPicker::reset();
+	}
+	virtual void 	remove()
+	{
+		QwtPlotPicker::remove();
+	}
 };
 class Zoomer : public QwtPlotZoomer
 {
@@ -370,6 +509,10 @@ d_curve(NULL)
 	d_zoomer->setTrackerMode(QwtPicker::ActiveOnly);
 	d_zoomer->setTrackerPen(QColor(Qt::white));
 	d_zoomer->setEnabled(false);
+
+	//矩形
+	d_rectPicker = new RectPicker(canvas);
+	//connect(d_rectPicker, SIGNAL(selected(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
 
 }
 
@@ -540,15 +683,50 @@ void Plot::enableViewTrueValue2(bool mode)
 	//d_picker->setStateMachine(new QwtPickerDragPointMachine());
 }
 /**
-* @brief 测试选择
+* @brief 启用矩形设门
 */
-void Plot::setChooseBtnMode(bool mode)
+void Plot::enableRectPicker(bool mode)
 {
-	const QPolygon points = d_picker2->selection();//选择的点
-	QPoint p = points[0];
-	p.setX(p.x() +0);
-	p.setY(p.y()+10);
-	d_picker2->move(p);
+	d_rectPicker->setEnabled(mode);
+	if (!mode)
+	{
+
+
+		d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
+		//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
+		//d_rectPicker->remove();
+		//d_rectPicker->end(true);
+	}
+}
+/**
+* @brief 增加-测试选择
+*/
+void Plot::setUpBtnMode(bool mode)
+{
+	const QPolygon points = d_rectPicker->selection();//选择的点
+	QPoint p0 = points[0];
+	QPoint p1 = points[1];
+	p1.setX(p1.x() + 0);
+	p1.setY(p1.y() + 10);
+	QSize size1(p1.x() - p0.x(), p1.y() - p0.y());
+	QSize size2 = size1 * 1.05;
+	d_rectPicker->stretchSelection(size1, size2);
+	//d_rectPicker->move(p1);//移动最后一点
+}
+/**
+* @brief 减少-测试选择
+*/
+void Plot::setDownBtnMode(bool mode)
+{
+	const QPolygon points = d_rectPicker->selection();//选择的点
+	QPoint p0 = points[0];
+	QPoint p1 = points[1];
+	p1.setX(p1.x() + 0);
+	p1.setY(p1.y() + 10);
+	QSize size1(p1.x() - p0.x(), p1.y() - p0.y());
+	QSize size2 = size1 * 0.05;
+	d_rectPicker->stretchSelection(size1, size2);
+	//d_rectPicker->move(p1);//移动最后一点
 }
 void Plot::selectedCrossPickerSlot(QPointF pointf)
 {

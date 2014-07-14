@@ -99,9 +99,17 @@ public slots:
 	*/
 	void enableViewTrueValueMode2(bool mode);
 	/**
-	* @brief 测试选择
+	* @brief 启用矩形设门
 	*/
-	void chooseBtnMode(bool mode);
+	void enableRectBtn(bool mode);
+	/**
+	* @brief 增加-测试
+	*/
+	void testUpBtnMode(bool mode);
+	/**
+	* @brief 减少-测试
+	*/
+	void testDownBtnMode(bool mode);
 	/**
 	* @brief 更新数据
 	*/
@@ -162,6 +170,9 @@ private:
 	bool logEnable;//是否启动log绘图
 
 	QWidget* m_parent;//临时存储当前窗口的父窗口
+
+
+	int condition;//直方图统计条件数
 };
 
 #endif // PLOTWIDGET_H

@@ -47,7 +47,7 @@ void StackedWidget::init()
 	ui.passageComboBox->addItem("通道6", (int)6);
 	ui.passageComboBox->addItem("通道7", (int)7);
 	ui.passageComboBox->addItem("通道8", (int)8);
-	ui.passageComboBox->setCurrentIndex(3);
+	ui.passageComboBox->setCurrentIndex(2);//默认通道3
 
 	//默认中等速度
 	ui.midRadioButton->setChecked(true);

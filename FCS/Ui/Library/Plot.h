@@ -21,6 +21,7 @@ class QwtSymbol;
 class Zoomer;
 class QwtPlotCanvas;
 class CrossPicker;
+class RectPicker;
 class Plot : public QwtPlot
 {
 	Q_OBJECT
@@ -59,9 +60,17 @@ public slots:
 	*/
 	void enableViewTrueValue2(bool mode);
 	/**
-	* @brief 测试选择
+	* @brief 启用矩形设门
 	*/
-	void setChooseBtnMode(bool mode);
+	void enableRectPicker(bool mode);
+	/**
+	* @brief 增加-测试选择
+	*/
+	void setUpBtnMode(bool mode);
+	/**
+	* @brief 减少-测试选择
+	*/
+	void setDownBtnMode(bool mode);
 	/**
 	* @brief 十字设门
 	*/
@@ -83,6 +92,8 @@ private:
 
 	//十字线设门2
 	CrossPicker* d_picker2;
+	//矩形
+	RectPicker* d_rectPicker;
 };
 
 #endif // PLOT_H
