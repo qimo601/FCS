@@ -55,6 +55,12 @@ public slots:
 	* @brief 设置通道
 	*/
 	void setPassage(int index);
+	/**
+	* @brief 一次性统计直方图
+	* @param passage通道
+	* @param dataUnit数据单元
+	*/
+	void statisticsHistogram(int passage, int dataUnit);
 
 	/**
 	* @brief 设置数据单元类型
@@ -132,7 +138,17 @@ public slots:
 	* @brief 选择的十字坐标
 	*
 	*/
-	void selectedCrosspickerSlot(QPointF pointf1);
+	void selectedCrossPickerSlot(QPointF pointf1);
+	/**
+	* @brief 矩形设门
+	*
+	*/
+	void selectedRectPickerSlot(QRectF rectf);
+	/**
+	* @brief 根据矩形筛选
+	*
+	*/
+	void computeRectPickerSlot(QRectF rectf);
 	/**
 	* @brief 保存文件
 	* @param QString:文件类型

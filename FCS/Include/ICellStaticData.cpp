@@ -133,23 +133,54 @@ void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  ori
 			//递增数据
 			for (int m = vector1->size(); m < vector->size(); m++)//int m = vector1->size()表示从上次数据开始读，不读旧数据，提高筛选概率
 			{
+				double value = vector->at(m);//原值计算范围1024组不精细
+				//double value = qLn(vector->at(m)) / qLn(10);//取log计算范围比较准
+
 				origialDataList->at(i)->at(j)->append(vector->at(m));//追加原始数据
-				//double value = vector->at(m);//原值计算范围1024组不精细
-				double value = qLn(vector->at(m)) / qLn(10);//取log计算范围比较准
 				logDataList->at(i)->at(j)->append(value);//追加log数据
 
-				if (i == 2)//默认3通道,其他通道现场算
+
+				//if (i == 2)//默认3通道,其他通道现场算
+				//{
+				//	for (int k = 0; k < vector3->size(); k++)
+				//	{
+				//		BarStruct barStruct = vector3->at(k);
+				//		if (value >= barStruct.m_point.x() && value < barStruct.m_point.y())
+				//		{
+				//			barStruct.m_value++;
+				//			vector3->replace(k, barStruct);
+				//			break;
+				//		}
+				//	}
+		
+				//}
+				int start = 0;
+				int end = vector3->size() - 1;
+				int mid = start + (end - start) / 2;
+				while (mid > 0)//二分查找
 				{
-					for (int k = 0; k < vector3->size(); k++)
+					BarStruct barStruct = vector3->at(mid);
+					if (value >= barStruct.m_point.x())
 					{
-						BarStruct barStruct = vector3->at(k);
-						if (value >= barStruct.m_point.x() && value < barStruct.m_point.y())
+						if (value < barStruct.m_point.y())
 						{
 							barStruct.m_value++;
-							vector3->replace(k, barStruct);
+							vector3->replace(mid, barStruct);
+							break;
+						}
+						else
+						{
+							start = mid;
 						}
 					}
+					else if (value < barStruct.m_point.x())
+					{
+						end = mid;
+					}
+					mid = start + (end - start) / 2;
+
 				}
+				
 
 
 			}

@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -24,6 +25,8 @@ public:
     QAction *actionC;
     QAction *actionF;
     QAction *actionD;
+    QRadioButton *radioButton;
+    QRadioButton *radioButton_2;
 
     void setupUi(QWidget *TestWidget)
     {
@@ -38,6 +41,14 @@ public:
         actionF->setObjectName(QStringLiteral("actionF"));
         actionD = new QAction(TestWidget);
         actionD->setObjectName(QStringLiteral("actionD"));
+        radioButton = new QRadioButton(TestWidget);
+        radioButton->setObjectName(QStringLiteral("radioButton"));
+        radioButton->setGeometry(QRect(180, 240, 89, 16));
+        radioButton->setChecked(true);
+        radioButton_2 = new QRadioButton(TestWidget);
+        radioButton_2->setObjectName(QStringLiteral("radioButton_2"));
+        radioButton_2->setGeometry(QRect(330, 420, 89, 16));
+        radioButton_2->setChecked(true);
 
         retranslateUi(TestWidget);
 
@@ -50,6 +61,8 @@ public:
         actionC->setText(QApplication::translate("TestWidget", "C", 0));
         actionF->setText(QApplication::translate("TestWidget", "F", 0));
         actionD->setText(QApplication::translate("TestWidget", "D", 0));
+        radioButton->setText(QApplication::translate("TestWidget", "RadioButton", 0));
+        radioButton_2->setText(QApplication::translate("TestWidget", "RadioButton", 0));
     } // retranslateUi
 
 };

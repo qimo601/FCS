@@ -214,6 +214,7 @@ public:
 	
 
 };
+//矩形设门
 class RectPicker : public QwtPlotPicker
 {
 public:
@@ -323,8 +324,15 @@ public:
 												{
 													const QPoint p1 = points.first();
 													const QPoint p2 = points.last();
-
+													QPointF pF1 = invTransform(p1);
+													QPointF pF2 = invTransform(p2);
 													const QRect rect = QRect(p1, p2).normalized();
+													QPoint pp1 = rect.topLeft();
+													QPoint pp2 = rect.bottomRight();
+													//const QRect rect = QRect(p1, p2);
+													QRectF rect1 = invTransform(rect);
+													QPointF topLeft = rect1.topLeft();
+													QPointF bottomRight = rect1.bottomRight();
 													Q_EMIT selected(invTransform(rect));
 												}
 												break;
@@ -512,7 +520,7 @@ d_curve(NULL)
 
 	//矩形
 	d_rectPicker = new RectPicker(canvas);
-	//connect(d_rectPicker, SIGNAL(selected(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
+	connect(d_rectPicker, SIGNAL(selected(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
 
 }
 
@@ -575,8 +583,8 @@ void Plot::setGridEnable(bool checked)
 	d_grid->enableYMin(false);
 	if (checked)
 	{
-		QColor brushColor("#DDE9FD");
-		d_curve->setBrush(brushColor);//设置笔刷
+		//QColor brushColor("#DDE9FD");
+		//d_curve->setBrush(brushColor);//设置笔刷
 	}
 	else
 		d_curve->setBrush(Qt::NoBrush);
@@ -731,4 +739,8 @@ void Plot::setDownBtnMode(bool mode)
 void Plot::selectedCrossPickerSlot(QPointF pointf)
 {
 	emit selectedCrossPicker(pointf);
+}
+void Plot::selectedRectPickerSlot(QRectF rectf)
+{
+	emit selectedRectPicker(rectf);
 }

@@ -62,8 +62,8 @@ int main(int argc, char *argv[])
 	memcpy(&c, da++, 1);
 
 	//ceshi
-	TestWidget testWidget;
-	testWidget.show();
+	/*TestWidget testWidget;
+	testWidget.show();*/
 
 	/*ICellStaticData* iCellStaticData = ICellStaticData::getInstance();
 

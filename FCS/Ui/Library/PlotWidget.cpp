@@ -68,6 +68,7 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.passageXCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(setPassage(int)));
 	//Y轴通道值选择
 	connect(ui.passageYCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(setPassage(int)));
+
 	//Y轴数据单元类型选择
 	connect(ui.dataUnitXCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(setDataUnit(int)));
 	//Y轴数据单元类型选择
@@ -96,7 +97,9 @@ PlotWidget::PlotWidget(QWidget *parent)
 
 
 	//绘图返回值
-	connect(d_plot, SIGNAL(selectedCrossPicker(QPointF)), this, SLOT(selectedCrosspickerSlot(QPointF)));
+	connect(d_plot, SIGNAL(selectedCrossPicker(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
+	//绘图返回值
+	connect(d_plot, SIGNAL(selectedRectPicker(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
 
 	
 	m_timerId = 0;//初始化
@@ -153,8 +156,8 @@ void PlotWidget::init()
 			double internal = 10.00/ condition;
 			for (int k = 0; k < condition; k++)
 			{
-				QPointF p(k*internal, (k + 1)*internal);
-				BarStruct barStruct1(k*internal, QString("[%1,%2)").arg(k*internal).arg((k + 1)*internal), 0, QColor("DodgerBlue"), QPointF(k*internal, (k + 1)*internal));
+				QPointF p(qPow(10,k*internal), qPow(10,(k + 1)*internal));
+				BarStruct barStruct1(p.x(), QString("[%1,%2)").arg(p.x()).arg(p.y()), 0, QColor("DodgerBlue"), p);
 				vector2->append(barStruct1);
 			}
 			list2->append(vector2);//QList不是new的，append只是拷贝，所以必须在最后append
@@ -171,6 +174,8 @@ void PlotWidget::init()
 	initBarData();
 	//初始化坐标
 	setAxisScale();
+	//手动更新一次数据
+	updateSamples();
 }
 
 /**
@@ -250,6 +255,9 @@ double PlotWidget::randomValue()
 */
 void PlotWidget::setPassage(int index)
 {
+	//如果直方图模式选择，先统计一下该通道
+	if (ui.barChatStaticsCheckBox->isChecked())
+		statisticsHistogram(ui.passageYCombox->currentData().toInt(), ui.dataUnitYCombox->currentData().toInt());
 	updateSamples();
 }
 /**
@@ -257,6 +265,9 @@ void PlotWidget::setPassage(int index)
 */
 void PlotWidget::setDataUnit(int index)
 {
+	//如果直方图模式选择，先统计一下该通道
+	if (ui.barChatStaticsCheckBox->isChecked())
+		statisticsHistogram(ui.passageYCombox->currentData().toInt(), ui.dataUnitYCombox->currentData().toInt());
 	updateSamples();
 }
 /**
@@ -541,8 +552,8 @@ void PlotWidget::updateStaticsSamples()
 			barChartDataVector.append(vecotrData->at(i).m_value);
 			//barChartDataVector.append(0);//置隔离值为0，凸显曲线
 			//xIndexVectorLog.append(vecotrData->at(i).m_index);
-			//xIndexVectorOri.append(vecotrData->at(i).m_index);
-			xIndexVectorOri.append(qPow(10,vecotrData->at(i).m_index));//添加log值，求指数得到原数
+			xIndexVectorOri.append(vecotrData->at(i).m_index);
+			//xIndexVectorOri.append(qPow(10,vecotrData->at(i).m_index));//添加log值，求指数得到原数
 
 			//xIndexVector.append(vecotrData->at(i).m_index+10/256/2);//置隔离值横坐标为中间坐标0.05
 		}
@@ -597,11 +608,87 @@ void PlotWidget::clearPlotSamples()
 * @brief 选择的十字坐标
 *
 */
-void PlotWidget::selectedCrosspickerSlot(QPointF pointf1)
+void PlotWidget::selectedCrossPickerSlot(QPointF pointf1)
 {
 	QPointF  pointf = pointf1;
 }
+/**
+* @brief 矩形设门
+*
+*/
+void PlotWidget::selectedRectPickerSlot(QRectF rectf1)
+{
+	QRectF rectf = rectf1;
 
+	computeRectPickerSlot(rectf);
+}
+/**
+* @brief 根据矩形筛选
+*
+*/
+void PlotWidget::computeRectPickerSlot(QRectF rectf)
+{
+	//PlotWidget *plotWidgetRect = qobject_cast<PlotWidget *>(parent);
+	QPointF topLeft = rectf.topLeft();
+	QPointF bottomRight = rectf.bottomRight();
+
+	double top = rectf.top();
+	double left = rectf.left();
+	double right = rectf.right();
+	double bottom = rectf.bottom();
+	PlotWidget * plotWidgetRect = new PlotWidget();//新plot窗口
+
+	int passageY = ui.passageYCombox->currentData().toInt();
+	int dataUnitY = ui.dataUnitYCombox->currentData().toInt();
+	int passageX = ui.passageXCombox->currentData().toInt();
+	int dataUnitX = ui.dataUnitXCombox->currentData().toInt();
+
+	QVector<double>* vectorY = origialDataList->at(passageY)->at(dataUnitY);
+	QVector<double>* vectorX = origialDataList->at(passageX)->at(dataUnitX);
+
+	QVector<int> indexVector;
+	//X轴和Y轴应该是同一个通道的才有意义
+	for (int i = 0; i < vectorY->size(); i++)
+	{
+		if (rectf.contains(vectorX->at(i), vectorY->at(i)))
+		{
+			indexVector.append(i);
+		}
+		////如果Y坐标在矩形内
+		//if (vectorY->at(i) >= topLeft.y() && vectorY->at(i) <= bottomRight.y())
+		//{
+		//	//比较X坐标
+		//	for (int j = 0; j < vectorX->size(); j++)
+		//	{
+		//		//如果X坐标在矩形内
+		//		if (vectorX->at(j) <= bottomRight.x() && vectorX->at(j) >= topLeft.x())
+		//			indexVector.append(j);
+		//	}
+		//}
+
+	}
+
+	for (int t = 0; t < indexVector.size(); t++)
+	{
+		//8个通道
+		for (int i = 0; i < origialDataList->size(); i++)
+		{
+			QList < QVector<double>* > * list1 = plotWidgetRect->origialDataList->at(i);//原始数据
+			QList < QVector<double>* > * list2 = plotWidgetRect->logDataList->at(i);//log数据
+			QList < QVector<BarStruct>* >* list3 = plotWidgetRect->barStructList->at(i);//条件数据
+			//3组参数
+			for (int j = 0; j < 3; j++)
+			{
+				QVector<double>* vector1 = list1->at(j);//原始数据
+				QVector<double>* vector2 = list2->at(j);//log数据
+				QVector<BarStruct>* vector3 = list3->at(j);//条件数据
+				vector1->append(origialDataList->at(i)->at(j)->at(t));
+			}
+		}
+
+	}
+	plotWidgetRect->show();
+}
 /**
 * @brief 保存文件
 * @param QString:文件类型
@@ -680,5 +767,54 @@ void PlotWidget::saveFcmFile(QString fileName)
 */
 void PlotWidget::saveFCSFile(QString fileName)
 {
+
+}
+/**
+* @brief 一次性统计直方图
+* @param passage通道
+* @param dataUnit数据单元
+*/ 
+void PlotWidget::statisticsHistogram(int passage,int dataUnit)
+{
+
+	dataMutex.lock();
+	int i = passage;//第i个通道
+	int j = dataUnit;//第j组参数
+	QVector<double>* originalList = origialDataList->at(i)->at(j);//原始数据
+	QVector<BarStruct>* barList = barStructList->at(i)->at(j);//条件数据
+		//对源数据筛选一次
+	for (int m = 0; m < originalList->size(); m++)
+	{
+
+		double value = originalList->at(m);//原值计算范围1024组不精细
+		int start = 0;
+		int end = barList->size()-1;
+		int mid = start+ (end - start) / 2;
+		while (mid > 0)//二分查找
+		{
+			BarStruct barStruct = barList->at(mid);
+			if (value >= barStruct.m_point.x())
+			{
+				if (value < barStruct.m_point.y())
+				{
+					barStruct.m_value++;
+					barList->replace(mid, barStruct);
+					break;
+				}
+				else
+				{
+					start = mid;
+				}
+			}
+			else if(value < barStruct.m_point.x())
+			{
+				end = mid;
+			}
+			mid = start + (end - start) / 2;
+				
+		}
+			
+	}
+	dataMutex.unlock();
 
 }

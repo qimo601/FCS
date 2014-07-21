@@ -75,8 +75,10 @@ public slots:
 	* @brief 十字设门
 	*/
 	void selectedCrossPickerSlot(QPointF);
+	void selectedRectPickerSlot(QRectF rectf);
 signals:
 	void selectedCrossPicker(QPointF);
+	void selectedRectPicker(QRectF);
 private:
 	QwtPlotCurve *d_curve;
 	//背景方格
