@@ -30,7 +30,6 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include <Ui/Library/ViewWidget.h>
-#include "ui/Library/ReportWidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -103,11 +102,11 @@ public:
     QWidget *toolBtnWidget;
     QHBoxLayout *horizontalLayout_11;
     QSpacerItem *horizontalSpacer_12;
+    QPushButton *reportBtn;
     QPushButton *newPlotBtn;
     QPushButton *delPlotBtn;
     QPushButton *pushButton_4;
     ViewWidget *celllViewWidget;
-    ReportWidget *reportWidget;
     QFrame *bottomFrame;
     QPushButton *pushButton;
     QPushButton *startAcquisitionBtn;
@@ -566,11 +565,14 @@ public:
         dataAnalyPage = new QWidget();
         dataAnalyPage->setObjectName(QStringLiteral("dataAnalyPage"));
         verticalLayout_4 = new QVBoxLayout(dataAnalyPage);
-        verticalLayout_4->setSpacing(6);
+        verticalLayout_4->setSpacing(0);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
+        verticalLayout_4->setContentsMargins(0, 0, 0, 0);
         toolBtnWidget = new QWidget(dataAnalyPage);
         toolBtnWidget->setObjectName(QStringLiteral("toolBtnWidget"));
+        toolBtnWidget->setMaximumSize(QSize(16777215, 30));
+        toolBtnWidget->setStyleSheet(QStringLiteral(""));
         horizontalLayout_11 = new QHBoxLayout(toolBtnWidget);
         horizontalLayout_11->setSpacing(0);
         horizontalLayout_11->setContentsMargins(11, 11, 11, 11);
@@ -579,6 +581,12 @@ public:
         horizontalSpacer_12 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_11->addItem(horizontalSpacer_12);
+
+        reportBtn = new QPushButton(toolBtnWidget);
+        reportBtn->setObjectName(QStringLiteral("reportBtn"));
+        reportBtn->setCheckable(true);
+
+        horizontalLayout_11->addWidget(reportBtn);
 
         newPlotBtn = new QPushButton(toolBtnWidget);
         newPlotBtn->setObjectName(QStringLiteral("newPlotBtn"));
@@ -604,14 +612,8 @@ public:
 
         verticalLayout_4->addWidget(celllViewWidget);
 
-        reportWidget = new ReportWidget(dataAnalyPage);
-        reportWidget->setObjectName(QStringLiteral("reportWidget"));
-
-        verticalLayout_4->addWidget(reportWidget);
-
         verticalLayout_4->setStretch(0, 1);
         verticalLayout_4->setStretch(1, 20);
-        verticalLayout_4->setStretch(2, 4);
         viewStackedWidget->addWidget(dataAnalyPage);
 
         verticalLayout_3->addWidget(viewStackedWidget);
@@ -703,6 +705,7 @@ public:
         setTriggerBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
         label_6->setText(QApplication::translate("StackedWidget", "\351\200\232\351\201\223\345\201\217\345\216\213\357\274\232", 0));
         setChannelBiasBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
+        reportBtn->setText(QApplication::translate("StackedWidget", "\346\212\245\345\221\212", 0));
         newPlotBtn->setText(QApplication::translate("StackedWidget", "\346\226\260\345\273\272\347\224\273\345\270\203", 0));
         delPlotBtn->setText(QApplication::translate("StackedWidget", "\345\210\240\351\231\244\347\224\273\345\270\203", 0));
         pushButton_4->setText(QApplication::translate("StackedWidget", "\344\277\235\345\255\230", 0));

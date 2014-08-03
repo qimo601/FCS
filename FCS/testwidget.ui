@@ -19,38 +19,6 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QRadioButton" name="radioButton">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>240</y>
-     <width>89</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>RadioButton</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="radioButton_2">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>420</y>
-     <width>89</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>RadioButton</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
   <action name="actionC">
    <property name="text">
     <string>C</string>

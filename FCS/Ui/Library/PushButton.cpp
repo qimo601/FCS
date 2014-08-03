@@ -1,4 +1,4 @@
-#include "PushButton.h"
+ï»¿#include "PushButton.h"
 
 PushButton::PushButton(QWidget *parent)
 	:QPushButton(parent)
@@ -26,7 +26,7 @@ void PushButton::enterEvent(QEvent *)
 
 void PushButton::mousePressEvent(QMouseEvent *event)
 {
-	//Èôµã»÷Êó±ê×ó¼ü
+	//è‹¥ç‚¹å‡»é¼ æ ‡å·¦é”®
 	if(event->button() == Qt::LeftButton)
 	{
 		mouse_press = true;
@@ -37,7 +37,7 @@ void PushButton::mousePressEvent(QMouseEvent *event)
 
 void PushButton::mouseReleaseEvent(QMouseEvent *event)
 {
-	//Èôµã»÷Êó±ê×ó¼ü
+	//è‹¥ç‚¹å‡»é¼ æ ‡å·¦é”®
 	if(mouse_press  && this->rect().contains(event->pos()))
 	{
 		mouse_press = false;
@@ -46,7 +46,11 @@ void PushButton::mouseReleaseEvent(QMouseEvent *event)
 		emit clicked();
 	}
 }
-
+void PushButton::mouseMoveEvent(QMouseEvent *event)
+{
+	//æ§åˆ¶åœ¨æ ‡é¢˜æ å†…ï¼Œæ‰å¯ä»¥æ‹–åŠ¨çª—å£
+	setCursor(Qt::ArrowCursor);
+}
 void PushButton::leaveEvent(QEvent *)
 {
 	status = NORMAL;

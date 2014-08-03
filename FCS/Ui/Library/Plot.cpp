@@ -327,12 +327,150 @@ public:
 													QPointF pF1 = invTransform(p1);
 													QPointF pF2 = invTransform(p2);
 													const QRect rect = QRect(p1, p2).normalized();
+													const QRect rect11 = QRect(p1, p2);
 													QPoint pp1 = rect.topLeft();
 													QPoint pp2 = rect.bottomRight();
 													//const QRect rect = QRect(p1, p2);
 													QRectF rect1 = invTransform(rect);
 													QPointF topLeft = rect1.topLeft();
 													QPointF bottomRight = rect1.bottomRight();
+													Q_EMIT selected(invTransform(rect));
+												}
+												break;
+		}
+		case QwtPickerMachine::PolygonSelection:
+		{
+												   QVector<QPointF> dpa(points.count());
+												   for (int i = 0; i < points.count(); i++)
+													   dpa[i] = invTransform(points[i]);
+
+												   Q_EMIT selected(dpa);
+		}
+		default:
+			break;
+		}
+		return true;
+	}
+	virtual void reset()
+	{
+		QwtPicker::reset();
+	}
+	virtual void 	remove()
+	{
+		QwtPlotPicker::remove();
+	}
+};
+//平行线设门
+class ParallelLinePicker : public QwtPlotPicker
+{
+public:
+	//提供选择类
+	ParallelLinePicker(QWidget *canvas) :
+		QwtPlotPicker(canvas)
+	{
+
+		setAxis(QwtPlot::xBottom, QwtPlot::yLeft);
+		setResizeMode(QwtPicker::Stretch);//变形模式
+		//设置一个状态机，并删除上一个
+		setStateMachine(new QwtPickerDragPointMachine());
+		setRubberBandPen(QColor(Qt::red));
+		//设置橡胶圈样式：多边形
+		setRubberBand(QwtPicker::VLineRubberBand);
+		setTrackerPen(QColor(Qt::blue));
+		//设置跟踪模式
+		setTrackerMode(QwtPicker::ActiveOnly);
+		setEnabled(false);
+	}
+	//将位置转换成字符串
+	virtual QwtText trackerTextF(const QPointF &pos) const
+	{
+		QwtText text;
+
+		const QPolygon points = selection();//选择的点
+		if (!points.isEmpty())
+		{
+			QString num;
+			QPoint point = points[0];
+			QPointF point2 = invTransform(point);
+			num = QString("(%1,%2),(,)").arg(point2.x()).arg(point2.y());
+			QColor bg(Qt::white);
+			bg.setAlpha(200);
+			if (points.size() == 2)
+			{
+
+				QPointF point0 = invTransform(points[0]);
+				QPointF point1 = invTransform(points[1]);
+				num = QString("(%1,%2),(%3,%4)").arg(point0.x()).arg(point0.y()).arg(point1.x()).arg(point1.y());
+			}
+			text.setBackgroundBrush(QBrush(bg));
+			text.setText(num);
+		}
+		return text;
+	}
+	virtual void 	move(const QPoint & pos)
+	{
+		QwtPlotPicker::move(pos);
+	}
+	virtual void 	stretchSelection(const QSize &oldSize, const QSize &newSize)
+	{
+		QwtPlotPicker::stretchSelection(oldSize, newSize);//拉伸
+		//if (oldSize.isEmpty())
+		//{
+		//	// avoid division by zero. But scaling for small sizes also
+		//	// doesn't make much sense, because of rounding losses. TODO ...
+		//	return;
+		//}
+		//const double xRatio =
+		//	double(newSize.width()) / double(oldSize.width());
+		//const double yRatio =
+		//	double(newSize.height()) / double(oldSize.height());
+
+		//for (int i = 0; i < int(d_data->pickedPoints.count()); i++)
+		//{
+		//	QPoint &p = d_data->pickedPoints[i];
+		//	p.setX(qRound(p.x() * xRatio));
+		//	p.setY(qRound(p.y() * yRatio));
+
+		//	Q_EMIT changed(d_data->pickedPoints);
+		//}
+		QwtPlotPicker::updateDisplay();//显示
+	}
+	virtual bool 	end(bool ok)
+	{
+		if (!ok)//更改代码处：，正常结束后，并不停止。只有reset时候，end(false)停止选择，重置状态机
+			QwtPlotPicker::end(ok);
+		if (!ok)
+			return false;
+
+		QwtPlot *plot = QwtPlotPicker::plot();
+		if (!plot)
+			return false;
+
+		const QPolygon points = selection();
+		if (points.count() == 0)
+			return false;
+
+		QwtPickerMachine::SelectionType selectionType =
+			QwtPickerMachine::NoSelection;
+
+		if (stateMachine())
+			selectionType = stateMachine()->selectionType();
+
+		switch (selectionType)
+		{
+		case QwtPickerMachine::PointSelection:
+		{
+												 const QPointF pos = invTransform(points.first());
+												 Q_EMIT selected(pos);
+												 break;
+		}
+		case QwtPickerMachine::RectSelection:
+		{
+												if (points.count() >= 2)
+												{
+													const QPoint p1 = points.first();
+													const QPoint p2 = points.last();
+													const QRect rect = QRect(p1, p2).normalized();
 													Q_EMIT selected(invTransform(rect));
 												}
 												break;
@@ -522,6 +660,13 @@ d_curve(NULL)
 	d_rectPicker = new RectPicker(canvas);
 	connect(d_rectPicker, SIGNAL(selected(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
 
+	//平行线设门
+	d_parallelLinePicker_1 = new ParallelLinePicker(canvas);
+	connect(d_parallelLinePicker_1, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
+	//平行线设门
+	d_parallelLinePicker_2 = new ParallelLinePicker(canvas);
+	d_parallelLinePicker_2->setRubberBandPen(QPen(Qt::blue));
+	connect(d_parallelLinePicker_2, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
 }
 
 Plot::~Plot()
@@ -707,6 +852,30 @@ void Plot::enableRectPicker(bool mode)
 	}
 }
 /**
+* @brief 启用平行线设门
+*/
+void Plot::enableParallelLinePicker(bool mode)
+{
+	
+	if (mode)
+	{
+		d_parallelLinePicker_1->setEnabled(true);
+		d_parallelLinePicker_2->setEnabled(false);
+		d_parallelLinePicker_1->setTrackerMode(QwtPicker::ActiveOnly);
+		d_parallelLinePicker_2->setTrackerMode(QwtPicker::AlwaysOff);
+		
+	}
+	else
+	{
+		d_parallelLinePicker_1->setEnabled(false);
+		d_parallelLinePicker_2->setEnabled(false);
+		d_parallelLinePicker_1->setTrackerMode(QwtPicker::AlwaysOff);
+		d_parallelLinePicker_2->setTrackerMode(QwtPicker::AlwaysOff);
+	}
+	
+}
+
+/**
 * @brief 增加-测试选择
 */
 void Plot::setUpBtnMode(bool mode)
@@ -743,4 +912,40 @@ void Plot::selectedCrossPickerSlot(QPointF pointf)
 void Plot::selectedRectPickerSlot(QRectF rectf)
 {
 	emit selectedRectPicker(rectf);
+}
+void Plot::selectedParallelLinePickerSlot(QPointF pointf)
+{
+	//是否有存在的点
+	for (int i = 0; i < parallelLineList.size(); i++)
+	{
+		if (pointf == parallelLineList.at(i))
+		{
+			return;
+		}
+		else
+		{
+			parallelLineList.append(pointf);
+			break;
+		}
+	}
+	//无点
+	if (parallelLineList.size() == 0)
+	{
+		parallelLineList.append(pointf);
+	}
+	//已经有一个点
+	if (parallelLineList.size() == 1)
+	{
+		//d_parallelLinePicker_1->setEnabled(false);
+		d_parallelLinePicker_1->setTrackerMode(QwtPicker::AlwaysOff);
+
+		d_parallelLinePicker_2->setEnabled(true);
+		d_parallelLinePicker_2->setTrackerMode(QwtPicker::ActiveOnly);
+	}
+	//已经有2个点
+	if (parallelLineList.size() >= 2)
+	{
+		emit selectedParallelLinePicker(parallelLineList);
+	}
+
 }

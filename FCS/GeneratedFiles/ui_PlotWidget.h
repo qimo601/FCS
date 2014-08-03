@@ -39,6 +39,8 @@ public:
     QToolButton *viewTrueValueBtn;
     QToolButton *viewTrueValueBtn_2;
     QToolButton *rectBtn;
+    QToolButton *parallelLineBtn;
+    QToolButton *parallelLineBtn_2;
     QToolButton *testUpBtn;
     QToolButton *testDownBtn;
     QSpacerItem *verticalSpacer;
@@ -67,7 +69,7 @@ public:
     {
         if (PlotWidget->objectName().isEmpty())
             PlotWidget->setObjectName(QStringLiteral("PlotWidget"));
-        PlotWidget->resize(763, 642);
+        PlotWidget->resize(623, 496);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -145,10 +147,35 @@ public:
         rectBtn->setObjectName(QStringLiteral("rectBtn"));
         rectBtn->setMinimumSize(QSize(70, 30));
         rectBtn->setMaximumSize(QSize(70, 30));
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Rect.png"), QSize(), QIcon::Normal, QIcon::Off);
+        rectBtn->setIcon(icon);
+        rectBtn->setIconSize(QSize(16, 16));
         rectBtn->setCheckable(true);
         rectBtn->setChecked(false);
 
         verticalLayout_2->addWidget(rectBtn);
+
+        parallelLineBtn = new QToolButton(cellToolFrame);
+        parallelLineBtn->setObjectName(QStringLiteral("parallelLineBtn"));
+        parallelLineBtn->setMinimumSize(QSize(70, 30));
+        parallelLineBtn->setMaximumSize(QSize(70, 30));
+        QIcon icon1;
+        icon1.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Parallel.png"), QSize(), QIcon::Normal, QIcon::Off);
+        parallelLineBtn->setIcon(icon1);
+        parallelLineBtn->setCheckable(true);
+        parallelLineBtn->setChecked(false);
+
+        verticalLayout_2->addWidget(parallelLineBtn);
+
+        parallelLineBtn_2 = new QToolButton(cellToolFrame);
+        parallelLineBtn_2->setObjectName(QStringLiteral("parallelLineBtn_2"));
+        parallelLineBtn_2->setMinimumSize(QSize(70, 30));
+        parallelLineBtn_2->setMaximumSize(QSize(70, 30));
+        parallelLineBtn_2->setCheckable(true);
+        parallelLineBtn_2->setChecked(false);
+
+        verticalLayout_2->addWidget(parallelLineBtn_2);
 
         testUpBtn = new QToolButton(cellToolFrame);
         testUpBtn->setObjectName(QStringLiteral("testUpBtn"));
@@ -227,6 +254,9 @@ public:
         buttonGroup->setObjectName(QStringLiteral("buttonGroup"));
         buttonGroup->addButton(scatterCheckBox);
         scatterCheckBox->setObjectName(QStringLiteral("scatterCheckBox"));
+        QIcon icon2;
+        icon2.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Scatter.png"), QSize(), QIcon::Normal, QIcon::Off);
+        scatterCheckBox->setIcon(icon2);
         scatterCheckBox->setChecked(true);
 
         horizontalLayout->addWidget(scatterCheckBox);
@@ -234,6 +264,9 @@ public:
         barChatStaticsCheckBox = new QCheckBox(cellXFrame);
         buttonGroup->addButton(barChatStaticsCheckBox);
         barChatStaticsCheckBox->setObjectName(QStringLiteral("barChatStaticsCheckBox"));
+        QIcon icon3;
+        icon3.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Histogram.png"), QSize(), QIcon::Normal, QIcon::Off);
+        barChatStaticsCheckBox->setIcon(icon3);
 
         horizontalLayout->addWidget(barChatStaticsCheckBox);
 
@@ -248,7 +281,8 @@ public:
         cellPlotFrame->setObjectName(QStringLiteral("cellPlotFrame"));
         sizePolicy.setHeightForWidth(cellPlotFrame->sizePolicy().hasHeightForWidth());
         cellPlotFrame->setSizePolicy(sizePolicy);
-        cellPlotFrame->setMinimumSize(QSize(600, 600));
+        cellPlotFrame->setMinimumSize(QSize(450, 450));
+        cellPlotFrame->setMaximumSize(QSize(450, 450));
         cellPlotFrame->setFocusPolicy(Qt::NoFocus);
         cellPlotFrame->setFrameShape(QFrame::StyledPanel);
         cellPlotFrame->setFrameShadow(QFrame::Raised);
@@ -320,6 +354,8 @@ public:
         viewTrueValueBtn->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\277", 0));
         viewTrueValueBtn_2->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\2772", 0));
         rectBtn->setText(QApplication::translate("PlotWidget", "\347\237\251\345\275\242", 0));
+        parallelLineBtn->setText(QApplication::translate("PlotWidget", "\345\271\263\350\241\214\347\272\277", 0));
+        parallelLineBtn_2->setText(QApplication::translate("PlotWidget", "\345\244\232\350\276\271\345\275\242", 0));
         testUpBtn->setText(QApplication::translate("PlotWidget", "+", 0));
         testDownBtn->setText(QApplication::translate("PlotWidget", "-", 0));
         pushButton_3->setText(QApplication::translate("PlotWidget", "\350\256\276\347\275\256", 0));

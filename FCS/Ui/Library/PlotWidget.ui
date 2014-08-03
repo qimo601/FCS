@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>763</width>
-    <height>642</height>
+    <width>623</width>
+    <height>496</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -217,6 +217,70 @@
         <property name="text">
          <string>矩形</string>
         </property>
+        <property name="icon">
+         <iconset resource="../../FCS.qrc">
+          <normaloff>:/MainWindow/Resources/Images/MainWindow/Rect.png</normaloff>:/MainWindow/Resources/Images/MainWindow/Rect.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="parallelLineBtn">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>平行线</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../FCS.qrc">
+          <normaloff>:/MainWindow/Resources/Images/MainWindow/Parallel.png</normaloff>:/MainWindow/Resources/Images/MainWindow/Parallel.png</iconset>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="parallelLineBtn_2">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>多边形</string>
+        </property>
         <property name="checkable">
          <bool>true</bool>
         </property>
@@ -408,6 +472,10 @@
           <property name="text">
            <string>散点图</string>
           </property>
+          <property name="icon">
+           <iconset resource="../../FCS.qrc">
+            <normaloff>:/MainWindow/Resources/Images/MainWindow/Scatter.png</normaloff>:/MainWindow/Resources/Images/MainWindow/Scatter.png</iconset>
+          </property>
           <property name="checked">
            <bool>true</bool>
           </property>
@@ -420,6 +488,10 @@
          <widget class="QCheckBox" name="barChatStaticsCheckBox">
           <property name="text">
            <string>直方图统计</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../FCS.qrc">
+            <normaloff>:/MainWindow/Resources/Images/MainWindow/Histogram.png</normaloff>:/MainWindow/Resources/Images/MainWindow/Histogram.png</iconset>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">buttonGroup</string>
@@ -455,8 +527,14 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>600</width>
-         <height>600</height>
+         <width>450</width>
+         <height>450</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>450</width>
+         <height>450</height>
         </size>
        </property>
        <property name="focusPolicy">
@@ -571,7 +649,9 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../../FCS.qrc"/>
+ </resources>
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup"/>

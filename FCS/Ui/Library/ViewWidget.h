@@ -6,6 +6,7 @@
 #include "ui_ViewWidget.h"
 #include "PlotWidget.h"
 #include "Bll/DataCenter/ReadCellThread.h"
+#include "Ui/Report/ReportTree.h"
 class ViewWidget : public QWidget
 {
 	Q_OBJECT
@@ -46,6 +47,7 @@ public slots:
 	* @brief 保存文件
 	*/
 	void saveExpFileSlot();
+	void showReport(bool on);
 signals:
 	void openExpSignal(QString,bool);
 	void getCellDataFromFile();
@@ -67,6 +69,8 @@ private:
 	//真正的定时器
 	int m_timerId;
 	ReadCellThread* readCellThread;
+
+	ReportTree* reportTree;//树形报告
 };
 
 #endif // VIEWWIDGET_H

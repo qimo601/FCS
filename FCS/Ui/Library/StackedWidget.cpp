@@ -14,8 +14,10 @@ StackedWidget::StackedWidget(QWidget *parent)
 	init();//初始化
 	connect(this, SIGNAL(openExpFileSignal()), ui.celllViewWidget, SLOT(openExpFileSlot()));//打开实验文件
 	connect(this, SIGNAL(saveExpFileSignal()), ui.celllViewWidget, SLOT(saveExpFileSlot()));//保存实验文件
+	//报告
+	connect(ui.reportBtn, SIGNAL(toggled(bool)), this, SLOT(showReport(bool)));
 	//测试用-先隐藏报告界面
-	ui.reportWidget->setVisible(false);
+	//ui.reportWidget->setVisible(false);
 }
 
 StackedWidget::~StackedWidget()
@@ -308,4 +310,12 @@ void StackedWidget::on_saveCheckBox_clicked()
 			}
 		}
 	}
+}
+
+/**
+* @brief 报告按钮
+*/
+void StackedWidget::showReport(bool on)
+{
+	ui.celllViewWidget->showReport(on);
 }

@@ -22,6 +22,7 @@ class Zoomer;
 class QwtPlotCanvas;
 class CrossPicker;
 class RectPicker;
+class ParallelLinePicker;
 class Plot : public QwtPlot
 {
 	Q_OBJECT
@@ -64,6 +65,10 @@ public slots:
 	*/
 	void enableRectPicker(bool mode);
 	/**
+	* @brief 启用平行线设门
+	*/
+	void enableParallelLinePicker(bool mode);
+	/**
 	* @brief 增加-测试选择
 	*/
 	void setUpBtnMode(bool mode);
@@ -76,9 +81,12 @@ public slots:
 	*/
 	void selectedCrossPickerSlot(QPointF);
 	void selectedRectPickerSlot(QRectF rectf);
+
+	void selectedParallelLinePickerSlot(QPointF pointf);
 signals:
 	void selectedCrossPicker(QPointF);
 	void selectedRectPicker(QRectF);
+	void selectedParallelLinePicker(QList<QPointF>);
 private:
 	QwtPlotCurve *d_curve;
 	//背景方格
@@ -96,6 +104,11 @@ private:
 	CrossPicker* d_picker2;
 	//矩形
 	RectPicker* d_rectPicker;
+	//平行线1
+	ParallelLinePicker* d_parallelLinePicker_1;
+	//平行线2
+	ParallelLinePicker* d_parallelLinePicker_2;
+	QList<QPointF> parallelLineList;
 };
 
 #endif // PLOT_H

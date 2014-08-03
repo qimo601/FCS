@@ -409,6 +409,15 @@
     <ClCompile Include="Ui\Library\PlotStaticsThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ReportTree.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ReportTree.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\Report\ReportTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FCS.h">
@@ -582,6 +591,12 @@
     <CustomBuild Include="Ui\Library\PlotStaticsThread.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="Ui\Report\ReportTree.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Report\ReportTree.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_FCS.h">
@@ -645,6 +660,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_BarChartWidget.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_ReportTree.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

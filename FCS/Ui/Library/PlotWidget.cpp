@@ -83,6 +83,8 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.viewTrueValueBtn_2, SIGNAL(toggled(bool)), this, SLOT(enableViewTrueValueMode2(bool)));
 	//矩形设门
 	connect(ui.rectBtn, SIGNAL(toggled(bool)), this, SLOT(enableRectBtn(bool)));
+	//矩形设门
+	connect(ui.parallelLineBtn, SIGNAL(toggled(bool)), this, SLOT(enableParallelLineBtn(bool)));
 
 	//增加-测试选择
 	connect(ui.testUpBtn, SIGNAL(toggled(bool)), this, SLOT(testUpBtnMode(bool)));
@@ -96,10 +98,12 @@ PlotWidget::PlotWidget(QWidget *parent)
 
 
 
-	//绘图返回值
+	//绘图-十字线设门-返回值
 	connect(d_plot, SIGNAL(selectedCrossPicker(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
-	//绘图返回值
+	//绘图-矩形设门-返回值
 	connect(d_plot, SIGNAL(selectedRectPicker(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
+	//绘图-平行线设门-返回值
+	connect(d_plot, SIGNAL(selectedParallelLinePicker(QList<QPointF>)), this, SLOT(selectedParallelLinePickerSlot(QList<QPointF>)));
 
 	
 	m_timerId = 0;//初始化
@@ -381,8 +385,10 @@ void PlotWidget::setAxisScale()
 			d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
 			d_plot->setAxisMaxMajor(QwtPlot::xBottom, 10);//大刻度最多10个
 			d_plot->setAxisMaxMinor(QwtPlot::xBottom, 5);//小刻度最多5个
-			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
-			d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
+			d_plot->setAxisScale(QwtPlot::yLeft, 0, 10000);
+			d_plot->setAxisScale(QwtPlot::xBottom, 1,1e6);
+			//d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
+			//d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
 			//d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
 		}
 	}
@@ -396,6 +402,9 @@ void PlotWidget::setBarStatisticsMode(bool mode)
 {
 	if (mode)
 	{
+		//如果直方图模式选择，先统计一下该通道
+		if (ui.barChatStaticsCheckBox->isChecked())
+			statisticsHistogram(ui.passageYCombox->currentData().toInt(), ui.dataUnitYCombox->currentData().toInt());
 		//设置统计曲线样式
 		d_plot->enableStaticsMode();
 		setAxisScale();
@@ -455,6 +464,14 @@ void PlotWidget::enableRectBtn(bool mode)
 {
 	d_plot->enableRectPicker(mode);
 }
+/**
+* @brief 启用平行线设门
+*/
+void PlotWidget::enableParallelLineBtn(bool mode)
+{
+	d_plot->enableParallelLinePicker(mode);
+}
+
 /**
 * @brief 减少值-测试
 */
@@ -623,6 +640,15 @@ void PlotWidget::selectedRectPickerSlot(QRectF rectf1)
 	computeRectPickerSlot(rectf);
 }
 /**
+* @brief 平行线设门
+*
+*/
+void PlotWidget::selectedParallelLinePickerSlot(QList<QPointF> pointFList)
+{
+
+	computeParallelLinePickerSlot(pointFList);
+}
+/**
 * @brief 根据矩形筛选
 *
 */
@@ -682,12 +708,67 @@ void PlotWidget::computeRectPickerSlot(QRectF rectf)
 				QVector<double>* vector1 = list1->at(j);//原始数据
 				QVector<double>* vector2 = list2->at(j);//log数据
 				QVector<BarStruct>* vector3 = list3->at(j);//条件数据
-				vector1->append(origialDataList->at(i)->at(j)->at(t));
+				vector1->append(origialDataList->at(i)->at(j)->at(indexVector.at(t)));
 			}
 		}
 
 	}
+	
 	plotWidgetRect->show();
+	plotWidgetRect->updateSamples();
+}
+/**
+* @brief 根据平行线筛选
+*
+*/
+void PlotWidget::computeParallelLinePickerSlot(QList<QPointF> pointFList)
+{
+	QPointF pointF1 = pointFList.at(0);
+	QPointF pointF2 = pointFList.at(1);
+	PlotWidget * plotWidgetRect = new PlotWidget();//新plot窗口
+
+	int passageY = ui.passageYCombox->currentData().toInt();
+	int dataUnitY = ui.dataUnitYCombox->currentData().toInt();
+	int passageX = ui.passageXCombox->currentData().toInt();
+	int dataUnitX = ui.dataUnitXCombox->currentData().toInt();
+
+	QVector<double>* vectorY = origialDataList->at(passageY)->at(dataUnitY);
+	QVector<double>* vectorX = origialDataList->at(passageX)->at(dataUnitX);
+
+	QVector<int> indexVector;
+	//Y轴当前通道和当前的参数
+	for (int i = 0; i < vectorY->size(); i++)
+	{
+		if (vectorY->at(i) >= pointF1.x() && vectorY->at(i) <= pointF2.x())
+		{
+			indexVector.append(i);
+		}
+		
+	}
+
+	for (int t = 0; t < indexVector.size(); t++)
+	{
+		//8个通道
+		for (int i = 0; i < origialDataList->size(); i++)
+		{
+			QList < QVector<double>* > * list1 = plotWidgetRect->origialDataList->at(i);//原始数据
+			QList < QVector<double>* > * list2 = plotWidgetRect->logDataList->at(i);//log数据
+			QList < QVector<BarStruct>* >* list3 = plotWidgetRect->barStructList->at(i);//条件数据
+			//3组参数
+			for (int j = 0; j < 3; j++)
+			{
+				QVector<double>* vector1 = list1->at(j);//原始数据
+				QVector<double>* vector2 = list2->at(j);//log数据
+				QVector<BarStruct>* vector3 = list3->at(j);//条件数据
+				vector1->append(origialDataList->at(i)->at(j)->at(indexVector.at(t)));//添加当前数据至新plot
+			}
+		}
+
+	}
+
+	plotWidgetRect->show();
+	plotWidgetRect->updateSamples();
+
 }
 /**
 * @brief 保存文件

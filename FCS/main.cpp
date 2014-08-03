@@ -9,6 +9,7 @@
 #include "Ui/Library/OscWidget.h"
 #include "testwidget.h"
 #include <string>
+#include "Ui/Report/ReportTree.h"
 #include "Include/ICellStaticData.h"
 //在VC项目配置里C / C++ / Preprocessor / Preprocessor Definitions属性里面加入宏定义：QT_NO_DEBUG_OUTPUT
 int main(int argc, char *argv[])
@@ -30,13 +31,15 @@ int main(int argc, char *argv[])
 // 	MTitleWidget titleWidget;
 // 	titleWidget.show();
 
+	/*ReportTree reportTree;
+	reportTree.show();*/
 	//toolWidget.resetGeometry(30);
 // 	//主窗口
 // 	OscWidget oscWidget;
 // 	oscWidget.show();
 
 	
-	double n1 =  4000000;
+	/*double n1 =  4000000;
 	double n11 = 6000000;
 	double n12= 7000000;
 	double n2 = 10;
@@ -59,7 +62,7 @@ int main(int argc, char *argv[])
 	char c;
 	memcpy(&c, da++, 1);
 	memcpy(&c, da++, 1);
-	memcpy(&c, da++, 1);
+	memcpy(&c, da++, 1);*/
 
 	//ceshi
 	/*TestWidget testWidget;

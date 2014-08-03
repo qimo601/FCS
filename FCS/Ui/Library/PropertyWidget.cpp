@@ -1,10 +1,10 @@
-#include "PropertyWidget.h"
+ï»¿#include "PropertyWidget.h"
 #include <QPainter>
 PropertyWidget::PropertyWidget(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-	//Òş²ØÔ­±êÌâÀ¸
+	//éšè—åŸæ ‡é¢˜æ 
 	//setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 
 }
@@ -14,21 +14,21 @@ PropertyWidget::~PropertyWidget()
 
 }
 /**
-* @brief ÉèÖÃÍ¨µÀÑÕÉ«²Ëµ¥
+* @brief è®¾ç½®é€šé“é¢œè‰²èœå•
 */
 void PropertyWidget::on_colorBtnProperty_clicked()
 {
 	ui.stackedWidgetProperty->setCurrentIndex(0);
 }
 /**
-* @brief ÉèÖÃÎÄ¼şÃû¸ñÊ½²Ëµ¥
+* @brief è®¾ç½®æ–‡ä»¶åæ ¼å¼èœå•
 */
 void PropertyWidget::on_fileNameBtnProperty_clicked()
 {
 	ui.stackedWidgetProperty->setCurrentIndex(1);
 }
 /**
-* @brief ÉèÖÃÖĞ¼äÖµ²Ëµ¥
+* @brief è®¾ç½®ä¸­é—´å€¼èœå•
 */
 void PropertyWidget::on_midMarkBtnProperty_clicked()
 {

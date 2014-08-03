@@ -32,7 +32,7 @@ protected:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
 	void paintEvent(QPaintEvent *);
-
+	virtual void mouseMoveEvent(QMouseEvent *event);
 private:
 
 	//枚举按钮的几种状态

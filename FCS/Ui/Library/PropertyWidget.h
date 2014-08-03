@@ -1,11 +1,11 @@
-/**
-* Ïî    Ä¿:  FCSÈí¼ş
-* ÎÄ¼şÃû³Æ:   PropertyWidget.h
-* ÎÄ¼şÂ·¾¶£º  Ui/Libary/PropertyWidget.h
-* Õª    Òª:  ÊôĞÔ´°¿Ú
-* ×÷    Õß£º ÁõÕ×°î
-* ÈÕ    ÆÚ£º 2014Äê05ÔÂ23ÈÕ
-* Copyright (c) 2014-2015, ÖĞ¿ÆÔºËÕÖİÒ½¹¤ËùÒ½Ñ§Ó°ÏñÊÒµç×Ó×é.All rights reserved.
+ï»¿/**
+* é¡¹    ç›®:  FCSè½¯ä»¶
+* æ–‡ä»¶åç§°:   PropertyWidget.h
+* æ–‡ä»¶è·¯å¾„ï¼š  Ui/Libary/PropertyWidget.h
+* æ‘˜    è¦:  å±æ€§çª—å£
+* ä½œ    è€…ï¼š åˆ˜å…†é‚¦
+* æ—¥    æœŸï¼š 2014å¹´05æœˆ23æ—¥
+* Copyright (c) 2014-2015, ä¸­ç§‘é™¢è‹å·åŒ»å·¥æ‰€åŒ»å­¦å½±åƒå®¤ç”µå­ç»„.All rights reserved.
 * Version v1.0
 */
 #ifndef PROPERTYWIDGET_H

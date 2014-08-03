@@ -17,6 +17,11 @@
         <file>Resources/Images/MainWindow/unlock.png</file>
         <file>Resources/Images/MainWindow/usb_connected.png</file>
         <file>Resources/Images/MainWindow/usb_disconnected.png</file>
+        <file>Resources/Images/MainWindow/Report.png</file>
+        <file>Resources/Images/MainWindow/Histogram.png</file>
+        <file>Resources/Images/MainWindow/Parallel.png</file>
+        <file>Resources/Images/MainWindow/Rect.png</file>
+        <file>Resources/Images/MainWindow/Scatter.png</file>
     </qresource>
     <qresource prefix="/Qss">
         <file>Resources/StyleSheet.qss</file>

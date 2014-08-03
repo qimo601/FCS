@@ -13,6 +13,7 @@
 
 #include <QWidget>
 #include <QPainter>
+
 #include "ui_ReportWidget.h"
 class ReportWidget : public QWidget
 {
@@ -21,9 +22,8 @@ class ReportWidget : public QWidget
 public:
 	ReportWidget(QWidget *parent = 0);
 	~ReportWidget();
-
 protected:
-	void paintEvent(QPaintEvent *event);
+	virtual void paintEvent(QPaintEvent *event);
 private:
 	Ui::ReportWidget ui;
 };

@@ -312,7 +312,7 @@ QToolButton#usbBtn,#lockBtn{
     padding:0 0px;
 	margin:0 0px;
 }
-QWidget#PropertyWidget{
+QWidget#PropertyWidget,#ReportTree{
 	border: 1px solid #A7B1BF;
 	background-color:#D6D6D6;
 	border-radius:0px;

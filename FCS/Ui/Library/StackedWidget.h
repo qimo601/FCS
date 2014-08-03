@@ -108,6 +108,10 @@ public slots:
 	*/
 	void on_delPlotBtn_clicked();
 	/**
+	* @brief 报告按钮
+	*/
+	void showReport(bool on);
+	/**
 	* @brief 打开实验文件
 	*/
 	void openExpFileSlot();

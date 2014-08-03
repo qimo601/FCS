@@ -105,6 +105,10 @@ public slots:
 	*/
 	void enableViewTrueValueMode2(bool mode);
 	/**
+	* @brief 启用平行线设门
+	*/
+	void enableParallelLineBtn(bool mode);
+	/**
 	* @brief 启用矩形设门
 	*/
 	void enableRectBtn(bool mode);
@@ -145,10 +149,20 @@ public slots:
 	*/
 	void selectedRectPickerSlot(QRectF rectf);
 	/**
+	* @brief 平行线设门
+	*
+	*/
+	void selectedParallelLinePickerSlot(QList<QPointF> pointFList);
+	/**
 	* @brief 根据矩形筛选
 	*
 	*/
 	void computeRectPickerSlot(QRectF rectf);
+	/**
+	* @brief 根据平行线筛选
+	*
+	*/
+	void computeParallelLinePickerSlot(QList<QPointF> pointFList);
 	/**
 	* @brief 保存文件
 	* @param QString:文件类型

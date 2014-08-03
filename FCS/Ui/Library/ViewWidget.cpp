@@ -53,12 +53,27 @@ ViewWidget::ViewWidget(QWidget *parent)
 	//统计线程
 	///////connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_4->staticsThread, SLOT(staticsCellData(bool)));
 	/****线程传递细胞数据****/
+
+
+	//统计报告初始化
+	reportTree = new ReportTree(this);
+	reportTree->setVisible(false);
 	
 }
 
 ViewWidget::~ViewWidget()
 {
 	readCellThread->quit();//线程离开exec循环
+}
+/**
+* @brief 统计报告展示
+*/
+void ViewWidget::showReport(bool on)
+{
+	if (on)
+		reportTree->show();
+	else
+		reportTree->hide();
 }
 void ViewWidget::paintEvent(QPaintEvent *)
 {
