@@ -6,15 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>623</width>
+    <width>665</width>
     <height>496</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>665</width>
+    <height>496</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>665</width>
+    <height>496</height>
+   </size>
   </property>
   <property name="focusPolicy">
    <enum>Qt::StrongFocus</enum>
@@ -66,14 +78,14 @@
        <widget class="QToolButton" name="zoomerBtn">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
@@ -88,20 +100,27 @@
        <widget class="QToolButton" name="pannerBtn">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
          <string>平移</string>
         </property>
+        <property name="icon">
+         <iconset resource="../../FCS.qrc">
+          <normaloff>:/MainWindow/Resources/Images/MainWindow/MoveBtn.png</normaloff>:/MainWindow/Resources/Images/MainWindow/MoveBtn.png</iconset>
+        </property>
         <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
@@ -110,21 +129,28 @@
        <widget class="QToolButton" name="maximizedBtn">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
          <string>最大化</string>
         </property>
+        <property name="icon">
+         <iconset resource="../../FCS.qrc">
+          <normaloff>:/MainWindow/Resources/Images/MainWindow/MaxBtn.png</normaloff>:/MainWindow/Resources/Images/MainWindow/MaxBtn.png</iconset>
+        </property>
         <property name="checkable">
          <bool>false</bool>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -132,21 +158,31 @@
        <widget class="QToolButton" name="normalBtn">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>最小化</string>
         </property>
         <property name="text">
          <string>还原</string>
         </property>
+        <property name="icon">
+         <iconset resource="../../FCS.qrc">
+          <normaloff>:/MainWindow/Resources/Images/MainWindow/MinBTn.png</normaloff>:/MainWindow/Resources/Images/MainWindow/MinBTn.png</iconset>
+        </property>
         <property name="checkable">
          <bool>false</bool>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -154,14 +190,14 @@
        <widget class="QToolButton" name="viewTrueValueBtn">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
@@ -179,14 +215,14 @@
        <widget class="QToolButton" name="viewTrueValueBtn_2">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
@@ -204,14 +240,14 @@
        <widget class="QToolButton" name="rectBtn">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
@@ -233,20 +269,23 @@
         <property name="checked">
          <bool>false</bool>
         </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="parallelLineBtn">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
@@ -262,20 +301,23 @@
         <property name="checked">
          <bool>false</bool>
         </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="parallelLineBtn_2">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
@@ -293,14 +335,14 @@
        <widget class="QToolButton" name="testUpBtn">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
@@ -318,14 +360,14 @@
        <widget class="QToolButton" name="testDownBtn">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>30</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
@@ -400,7 +442,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QToolButton" name="toolButton">
           <property name="minimumSize">
            <size>
             <width>30</width>
@@ -413,16 +455,32 @@
             <height>30</height>
            </size>
           </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
           <property name="text">
-           <string>设置</string>
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../FCS.qrc">
+            <normaloff>:/MainWindow/Resources/Images/MainWindow/settings.png</normaloff>:/MainWindow/Resources/Images/MainWindow/settings.png</iconset>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QComboBox" name="passageYCombox">
+          <property name="minimumSize">
+           <size>
+            <width>69</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>69</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="toolTip">
            <string>通道</string>
           </property>
@@ -436,6 +494,18 @@
         </item>
         <item>
          <widget class="QComboBox" name="dataUnitYCombox">
+          <property name="minimumSize">
+           <size>
+            <width>69</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>69</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="toolTip">
            <string>数据单元类型</string>
           </property>
@@ -449,6 +519,10 @@
           <property name="text">
            <string>背景方格线</string>
           </property>
+          <property name="icon">
+           <iconset resource="../../FCS.qrc">
+            <normaloff>:/MainWindow/Resources/Images/MainWindow/BGGrid.png</normaloff>:/MainWindow/Resources/Images/MainWindow/BGGrid.png</iconset>
+          </property>
           <property name="checked">
            <bool>true</bool>
           </property>
@@ -461,6 +535,10 @@
           </property>
           <property name="text">
            <string>log(10)</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../FCS.qrc">
+            <normaloff>:/MainWindow/Resources/Images/MainWindow/Log.png</normaloff>:/MainWindow/Resources/Images/MainWindow/Log.png</iconset>
           </property>
           <property name="checked">
            <bool>false</bool>
@@ -525,18 +603,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize">
-        <size>
-         <width>450</width>
-         <height>450</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>450</width>
-         <height>450</height>
-        </size>
-       </property>
        <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
        </property>
@@ -556,7 +622,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>0</height>
         </size>
        </property>
       </spacer>
@@ -616,30 +682,34 @@
        </spacer>
       </item>
       <item>
-       <widget class="QComboBox" name="dataUnitXCombox"/>
-      </item>
-      <item>
-       <widget class="QComboBox" name="passageXCombox"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QComboBox" name="dataUnitXCombox">
         <property name="minimumSize">
          <size>
-          <width>30</width>
-          <height>30</height>
+          <width>69</width>
+          <height>20</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>30</width>
-          <height>30</height>
+          <width>69</width>
+          <height>20</height>
          </size>
         </property>
-        <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="passageXCombox">
+        <property name="minimumSize">
+         <size>
+          <width>69</width>
+          <height>20</height>
+         </size>
         </property>
-        <property name="text">
-         <string>设置</string>
+        <property name="maximumSize">
+         <size>
+          <width>69</width>
+          <height>20</height>
+         </size>
         </property>
        </widget>
       </item>

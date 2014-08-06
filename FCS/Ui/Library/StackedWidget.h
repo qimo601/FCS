@@ -16,6 +16,7 @@
 #include "ui_StackedWidget.h"
 #include "Bll/Control/BllControl.h"
 #include "Ui/Library/OscWidget.h"
+#include <QToolBar>
 class StackedWidget : public QStackedWidget
 {
 	Q_OBJECT
@@ -123,6 +124,18 @@ public slots:
 	* @brief 保存细胞数据
 	*/
 	void on_saveCheckBox_clicked();
+	/**
+	* @brief 菜单Action
+	*/
+	void createActions();
+	/**
+	* @brief 创建菜单
+	*/
+	void createMenus();
+	/**
+	* @brief 创建工具栏
+	*/
+	void createToolBars();
 signals:
 	void openExpFileSignal();
 	void saveExpFileSignal();
@@ -133,6 +146,16 @@ private:
 	OscWidget* oscWidgetPage;//示波器显示窗口
 
 	BllControl* bllControl;//采集控制业务类
+
+
+
+
+	QAction* newPlotAct;//新建画布
+	QAction* delPlotAct;//删除画布
+	QAction* savePlotAct;//保存画布
+	QAction* reportAct;//显示报告
+
+	QToolBar* fileToolBar;//菜单
 };
 
 #endif // STACKEDWIDGET_H

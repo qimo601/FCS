@@ -22,6 +22,14 @@
         <file>Resources/Images/MainWindow/Parallel.png</file>
         <file>Resources/Images/MainWindow/Rect.png</file>
         <file>Resources/Images/MainWindow/Scatter.png</file>
+        <file>Resources/Images/MainWindow/newPlot.png</file>
+        <file>Resources/Images/MainWindow/delPlot.png</file>
+        <file>Resources/Images/MainWindow/BGGrid.png</file>
+        <file>Resources/Images/MainWindow/Log.png</file>
+        <file>Resources/Images/MainWindow/MaxBtn.png</file>
+        <file>Resources/Images/MainWindow/MinBTn.png</file>
+        <file>Resources/Images/MainWindow/MoveBtn.png</file>
+        <file>Resources/Images/MainWindow/savePlot.png</file>
     </qresource>
     <qresource prefix="/Qss">
         <file>Resources/StyleSheet.qss</file>

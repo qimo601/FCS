@@ -62,6 +62,11 @@ void StackedWidget::init()
 	//开始采集和停止采集
 	connect(ui.startAcquisitionBtn, SIGNAL(clicked()), ui.celllViewWidget, SLOT(startAcqSlot()));
 	connect(ui.stopAcquisitionBtn, SIGNAL(clicked()), ui.celllViewWidget, SLOT(stopAcqSlot()));
+
+
+
+	createActions();//创建Action
+	createToolBars();//创建工具栏
 	
 }
 /**
@@ -284,6 +289,7 @@ void StackedWidget::saveExpFileSlot()
 */
 void StackedWidget::on_saveCheckBox_clicked()
 {
+	//若是控制处选择保存
 	if (ui.saveCheckBox->isChecked())
 	{
 		//细胞USB格式原始数据
@@ -318,4 +324,92 @@ void StackedWidget::on_saveCheckBox_clicked()
 void StackedWidget::showReport(bool on)
 {
 	ui.celllViewWidget->showReport(on);
+}
+
+/**
+* @brief 菜单Action
+*/
+void StackedWidget::createActions()
+{
+	//隐藏旧的按钮
+	ui.newPlotBtn->setVisible(false);
+	ui.delPlotBtn->setVisible(false);
+	ui.savePlotBtn->setVisible(false);
+	ui.reportBtn->setVisible(false);
+
+	newPlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/newPlot.png"), tr("&新建一个画布"), this);
+	newPlotAct->setShortcut(QKeySequence(tr("Ctrl+N")));
+	newPlotAct->setStatusTip(tr("新建一个画布"));
+	connect(newPlotAct, SIGNAL(triggered()), this, SLOT(on_newPlotBtn_clicked()));
+
+	delPlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/delPlot.png"), tr("&删除一个已有的画布"), this);
+	delPlotAct->setShortcut(QKeySequence(tr("Ctrl+D")));
+	delPlotAct->setStatusTip(tr("删除一个已有的画布"));
+	connect(delPlotAct, SIGNAL(triggered()), this, SLOT(on_delPlotBtn_clicked()));
+
+	savePlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/savePlot.png"), tr("&保存当前画布"), this);
+	delPlotAct->setShortcut(QKeySequence(tr("Ctrl+S")));
+	delPlotAct->setStatusTip(tr("保存当前画布"));
+	connect(delPlotAct, SIGNAL(triggered()), this, SLOT(saveExpFileSlot()));
+
+
+	reportAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/Report.png"), tr("&显示/隐藏设门报告"), this);
+	reportAct->setShortcut(QKeySequence(tr("Ctrl+R")));
+	reportAct->setStatusTip(tr("显示/隐藏设门报告"));
+	reportAct->setCheckable(true);//设置该按钮可选择
+	connect(reportAct, SIGNAL(toggled(bool)), this, SLOT(showReport(bool)));
+
+	delPlotAct->setEnabled(false);
+	//copyAct->setEnabled(false);
+	//connect(textEdit, SIGNAL(copyAvailable(bool)),
+	//	cutAct, SLOT(setEnabled(bool)));
+	//connect(textEdit, SIGNAL(copyAvailable(bool)),
+	//	copyAct, SLOT(setEnabled(bool)));
+}
+/**
+* @brief 创建菜单
+*/
+void StackedWidget::createMenus()
+{
+	//fileMenu = menuBar()->addMenu(tr("&File"));
+	//fileMenu->addAction(newAct);
+	////! [28]
+	//fileMenu->addAction(openAct);
+	////! [28]
+	//fileMenu->addAction(saveAct);
+	////! [26]
+	//fileMenu->addAction(saveAsAct);
+	//fileMenu->addSeparator();
+	//fileMenu->addAction(exitAct);
+
+	//editMenu = menuBar()->addMenu(tr("&Edit"));
+	//editMenu->addAction(cutAct);
+	//editMenu->addAction(copyAct);
+	//editMenu->addAction(pasteAct);
+
+	//menuBar()->addSeparator();
+
+	//helpMenu = menuBar()->addMenu(tr("&Help"));
+	//helpMenu->addAction(aboutAct);
+	//helpMenu->addAction(aboutQtAct);
+}
+/**
+* @brief 创建工具栏
+*/
+void StackedWidget::createToolBars()
+{
+	fileToolBar = new QToolBar(tr("File"), ui.toolBtnWidget);
+	fileToolBar->addAction(newPlotAct);
+	fileToolBar->addAction(delPlotAct);
+	fileToolBar->addAction(savePlotAct);
+	fileToolBar->addSeparator();
+	fileToolBar->addAction(reportAct);
+	ui.horizontalLayout_11->addWidget(fileToolBar);
+
+
+
+	/*QToolBar* editToolBar = new QToolBar(tr("Edit"), ui.toolBtnWidget);
+	
+	editToolBar->addAction(reportAct);
+	ui.horizontalLayout_11->addWidget(editToolBar);*/
 }

@@ -205,6 +205,15 @@ void PlotWidget::initUi()
 	ui.dataUnitXCombox->setCurrentIndex(0);//默认HH数据单元
 	ui.dataUnitYCombox->setCurrentIndex(0);
 
+
+	//隐藏界面不用的按钮
+	ui.zoomerBtn->setVisible(false);
+	ui.viewTrueValueBtn->setVisible(false);
+	ui.viewTrueValueBtn_2->setVisible(false);
+	ui.parallelLineBtn_2->setVisible(false);
+	ui.testUpBtn->setVisible(false);
+	ui.testDownBtn->setVisible(false);
+
 }
 /**
 * @brief 初始化Bar列标题、颜色，模拟数据

@@ -18,7 +18,6 @@
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
@@ -47,7 +46,7 @@ public:
     QVBoxLayout *verticalLayout;
     QFrame *cellXFrame;
     QHBoxLayout *horizontalLayout;
-    QPushButton *pushButton_3;
+    QToolButton *toolButton;
     QComboBox *passageYCombox;
     QComboBox *dataUnitYCombox;
     QCheckBox *gridCheckBox;
@@ -62,19 +61,20 @@ public:
     QSpacerItem *verticalSpacer_2;
     QComboBox *dataUnitXCombox;
     QComboBox *passageXCombox;
-    QPushButton *pushButton_4;
     QButtonGroup *buttonGroup;
 
     void setupUi(QWidget *PlotWidget)
     {
         if (PlotWidget->objectName().isEmpty())
             PlotWidget->setObjectName(QStringLiteral("PlotWidget"));
-        PlotWidget->resize(623, 496);
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        PlotWidget->resize(665, 496);
+        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PlotWidget->sizePolicy().hasHeightForWidth());
         PlotWidget->setSizePolicy(sizePolicy);
+        PlotWidget->setMinimumSize(QSize(665, 496));
+        PlotWidget->setMaximumSize(QSize(665, 496));
         PlotWidget->setFocusPolicy(Qt::StrongFocus);
         PlotWidget->setAcceptDrops(false);
         horizontalLayout_2 = new QHBoxLayout(PlotWidget);
@@ -95,40 +95,52 @@ public:
         verticalLayout_2->setContentsMargins(9, -1, 9, -1);
         zoomerBtn = new QToolButton(cellToolFrame);
         zoomerBtn->setObjectName(QStringLiteral("zoomerBtn"));
-        zoomerBtn->setMinimumSize(QSize(70, 30));
-        zoomerBtn->setMaximumSize(QSize(70, 30));
+        zoomerBtn->setMinimumSize(QSize(32, 32));
+        zoomerBtn->setMaximumSize(QSize(32, 32));
         zoomerBtn->setCheckable(true);
 
         verticalLayout_2->addWidget(zoomerBtn);
 
         pannerBtn = new QToolButton(cellToolFrame);
         pannerBtn->setObjectName(QStringLiteral("pannerBtn"));
-        pannerBtn->setMinimumSize(QSize(70, 30));
-        pannerBtn->setMaximumSize(QSize(70, 30));
+        pannerBtn->setMinimumSize(QSize(32, 32));
+        pannerBtn->setMaximumSize(QSize(32, 32));
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/MoveBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pannerBtn->setIcon(icon);
         pannerBtn->setCheckable(true);
+        pannerBtn->setAutoRaise(true);
 
         verticalLayout_2->addWidget(pannerBtn);
 
         maximizedBtn = new QToolButton(cellToolFrame);
         maximizedBtn->setObjectName(QStringLiteral("maximizedBtn"));
-        maximizedBtn->setMinimumSize(QSize(70, 30));
-        maximizedBtn->setMaximumSize(QSize(70, 30));
+        maximizedBtn->setMinimumSize(QSize(32, 32));
+        maximizedBtn->setMaximumSize(QSize(32, 32));
+        QIcon icon1;
+        icon1.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/MaxBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        maximizedBtn->setIcon(icon1);
         maximizedBtn->setCheckable(false);
+        maximizedBtn->setAutoRaise(true);
 
         verticalLayout_2->addWidget(maximizedBtn);
 
         normalBtn = new QToolButton(cellToolFrame);
         normalBtn->setObjectName(QStringLiteral("normalBtn"));
-        normalBtn->setMinimumSize(QSize(70, 30));
-        normalBtn->setMaximumSize(QSize(70, 30));
+        normalBtn->setMinimumSize(QSize(32, 32));
+        normalBtn->setMaximumSize(QSize(32, 32));
+        QIcon icon2;
+        icon2.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/MinBTn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        normalBtn->setIcon(icon2);
         normalBtn->setCheckable(false);
+        normalBtn->setAutoRaise(true);
 
         verticalLayout_2->addWidget(normalBtn);
 
         viewTrueValueBtn = new QToolButton(cellToolFrame);
         viewTrueValueBtn->setObjectName(QStringLiteral("viewTrueValueBtn"));
-        viewTrueValueBtn->setMinimumSize(QSize(70, 30));
-        viewTrueValueBtn->setMaximumSize(QSize(70, 30));
+        viewTrueValueBtn->setMinimumSize(QSize(32, 32));
+        viewTrueValueBtn->setMaximumSize(QSize(32, 32));
         viewTrueValueBtn->setCheckable(true);
         viewTrueValueBtn->setChecked(false);
 
@@ -136,8 +148,8 @@ public:
 
         viewTrueValueBtn_2 = new QToolButton(cellToolFrame);
         viewTrueValueBtn_2->setObjectName(QStringLiteral("viewTrueValueBtn_2"));
-        viewTrueValueBtn_2->setMinimumSize(QSize(70, 30));
-        viewTrueValueBtn_2->setMaximumSize(QSize(70, 30));
+        viewTrueValueBtn_2->setMinimumSize(QSize(32, 32));
+        viewTrueValueBtn_2->setMaximumSize(QSize(32, 32));
         viewTrueValueBtn_2->setCheckable(true);
         viewTrueValueBtn_2->setChecked(false);
 
@@ -145,33 +157,35 @@ public:
 
         rectBtn = new QToolButton(cellToolFrame);
         rectBtn->setObjectName(QStringLiteral("rectBtn"));
-        rectBtn->setMinimumSize(QSize(70, 30));
-        rectBtn->setMaximumSize(QSize(70, 30));
-        QIcon icon;
-        icon.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Rect.png"), QSize(), QIcon::Normal, QIcon::Off);
-        rectBtn->setIcon(icon);
+        rectBtn->setMinimumSize(QSize(32, 32));
+        rectBtn->setMaximumSize(QSize(32, 32));
+        QIcon icon3;
+        icon3.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Rect.png"), QSize(), QIcon::Normal, QIcon::Off);
+        rectBtn->setIcon(icon3);
         rectBtn->setIconSize(QSize(16, 16));
         rectBtn->setCheckable(true);
         rectBtn->setChecked(false);
+        rectBtn->setAutoRaise(true);
 
         verticalLayout_2->addWidget(rectBtn);
 
         parallelLineBtn = new QToolButton(cellToolFrame);
         parallelLineBtn->setObjectName(QStringLiteral("parallelLineBtn"));
-        parallelLineBtn->setMinimumSize(QSize(70, 30));
-        parallelLineBtn->setMaximumSize(QSize(70, 30));
-        QIcon icon1;
-        icon1.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Parallel.png"), QSize(), QIcon::Normal, QIcon::Off);
-        parallelLineBtn->setIcon(icon1);
+        parallelLineBtn->setMinimumSize(QSize(32, 32));
+        parallelLineBtn->setMaximumSize(QSize(32, 32));
+        QIcon icon4;
+        icon4.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Parallel.png"), QSize(), QIcon::Normal, QIcon::Off);
+        parallelLineBtn->setIcon(icon4);
         parallelLineBtn->setCheckable(true);
         parallelLineBtn->setChecked(false);
+        parallelLineBtn->setAutoRaise(true);
 
         verticalLayout_2->addWidget(parallelLineBtn);
 
         parallelLineBtn_2 = new QToolButton(cellToolFrame);
         parallelLineBtn_2->setObjectName(QStringLiteral("parallelLineBtn_2"));
-        parallelLineBtn_2->setMinimumSize(QSize(70, 30));
-        parallelLineBtn_2->setMaximumSize(QSize(70, 30));
+        parallelLineBtn_2->setMinimumSize(QSize(32, 32));
+        parallelLineBtn_2->setMaximumSize(QSize(32, 32));
         parallelLineBtn_2->setCheckable(true);
         parallelLineBtn_2->setChecked(false);
 
@@ -179,8 +193,8 @@ public:
 
         testUpBtn = new QToolButton(cellToolFrame);
         testUpBtn->setObjectName(QStringLiteral("testUpBtn"));
-        testUpBtn->setMinimumSize(QSize(70, 30));
-        testUpBtn->setMaximumSize(QSize(70, 30));
+        testUpBtn->setMinimumSize(QSize(32, 32));
+        testUpBtn->setMaximumSize(QSize(32, 32));
         testUpBtn->setCheckable(true);
         testUpBtn->setChecked(false);
 
@@ -188,8 +202,8 @@ public:
 
         testDownBtn = new QToolButton(cellToolFrame);
         testDownBtn->setObjectName(QStringLiteral("testDownBtn"));
-        testDownBtn->setMinimumSize(QSize(70, 30));
-        testDownBtn->setMaximumSize(QSize(70, 30));
+        testDownBtn->setMinimumSize(QSize(32, 32));
+        testDownBtn->setMaximumSize(QSize(32, 32));
         testDownBtn->setCheckable(true);
         testDownBtn->setChecked(false);
 
@@ -217,27 +231,37 @@ public:
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        pushButton_3 = new QPushButton(cellXFrame);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        pushButton_3->setMinimumSize(QSize(30, 30));
-        pushButton_3->setMaximumSize(QSize(30, 30));
-        pushButton_3->setFocusPolicy(Qt::NoFocus);
+        toolButton = new QToolButton(cellXFrame);
+        toolButton->setObjectName(QStringLiteral("toolButton"));
+        toolButton->setMinimumSize(QSize(30, 30));
+        toolButton->setMaximumSize(QSize(30, 30));
+        QIcon icon5;
+        icon5.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
+        toolButton->setIcon(icon5);
+        toolButton->setAutoRaise(true);
 
-        horizontalLayout->addWidget(pushButton_3);
+        horizontalLayout->addWidget(toolButton);
 
         passageYCombox = new QComboBox(cellXFrame);
         passageYCombox->setObjectName(QStringLiteral("passageYCombox"));
+        passageYCombox->setMinimumSize(QSize(69, 20));
+        passageYCombox->setMaximumSize(QSize(69, 20));
 
         horizontalLayout->addWidget(passageYCombox);
 
         dataUnitYCombox = new QComboBox(cellXFrame);
         dataUnitYCombox->setObjectName(QStringLiteral("dataUnitYCombox"));
+        dataUnitYCombox->setMinimumSize(QSize(69, 20));
+        dataUnitYCombox->setMaximumSize(QSize(69, 20));
 
         horizontalLayout->addWidget(dataUnitYCombox);
 
         gridCheckBox = new QCheckBox(cellXFrame);
         gridCheckBox->setObjectName(QStringLiteral("gridCheckBox"));
         gridCheckBox->setFocusPolicy(Qt::NoFocus);
+        QIcon icon6;
+        icon6.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/BGGrid.png"), QSize(), QIcon::Normal, QIcon::Off);
+        gridCheckBox->setIcon(icon6);
         gridCheckBox->setChecked(true);
 
         horizontalLayout->addWidget(gridCheckBox);
@@ -245,6 +269,9 @@ public:
         logCheckBox = new QCheckBox(cellXFrame);
         logCheckBox->setObjectName(QStringLiteral("logCheckBox"));
         logCheckBox->setFocusPolicy(Qt::NoFocus);
+        QIcon icon7;
+        icon7.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Log.png"), QSize(), QIcon::Normal, QIcon::Off);
+        logCheckBox->setIcon(icon7);
         logCheckBox->setChecked(false);
 
         horizontalLayout->addWidget(logCheckBox);
@@ -254,9 +281,9 @@ public:
         buttonGroup->setObjectName(QStringLiteral("buttonGroup"));
         buttonGroup->addButton(scatterCheckBox);
         scatterCheckBox->setObjectName(QStringLiteral("scatterCheckBox"));
-        QIcon icon2;
-        icon2.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Scatter.png"), QSize(), QIcon::Normal, QIcon::Off);
-        scatterCheckBox->setIcon(icon2);
+        QIcon icon8;
+        icon8.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Scatter.png"), QSize(), QIcon::Normal, QIcon::Off);
+        scatterCheckBox->setIcon(icon8);
         scatterCheckBox->setChecked(true);
 
         horizontalLayout->addWidget(scatterCheckBox);
@@ -264,9 +291,9 @@ public:
         barChatStaticsCheckBox = new QCheckBox(cellXFrame);
         buttonGroup->addButton(barChatStaticsCheckBox);
         barChatStaticsCheckBox->setObjectName(QStringLiteral("barChatStaticsCheckBox"));
-        QIcon icon3;
-        icon3.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Histogram.png"), QSize(), QIcon::Normal, QIcon::Off);
-        barChatStaticsCheckBox->setIcon(icon3);
+        QIcon icon9;
+        icon9.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Histogram.png"), QSize(), QIcon::Normal, QIcon::Off);
+        barChatStaticsCheckBox->setIcon(icon9);
 
         horizontalLayout->addWidget(barChatStaticsCheckBox);
 
@@ -279,17 +306,18 @@ public:
 
         cellPlotFrame = new QFrame(PlotWidget);
         cellPlotFrame->setObjectName(QStringLiteral("cellPlotFrame"));
-        sizePolicy.setHeightForWidth(cellPlotFrame->sizePolicy().hasHeightForWidth());
-        cellPlotFrame->setSizePolicy(sizePolicy);
-        cellPlotFrame->setMinimumSize(QSize(450, 450));
-        cellPlotFrame->setMaximumSize(QSize(450, 450));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(cellPlotFrame->sizePolicy().hasHeightForWidth());
+        cellPlotFrame->setSizePolicy(sizePolicy1);
         cellPlotFrame->setFocusPolicy(Qt::NoFocus);
         cellPlotFrame->setFrameShape(QFrame::StyledPanel);
         cellPlotFrame->setFrameShadow(QFrame::Raised);
 
         verticalLayout->addWidget(cellPlotFrame);
 
-        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer_3 = new QSpacerItem(20, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer_3);
 
@@ -316,21 +344,17 @@ public:
 
         dataUnitXCombox = new QComboBox(cellYFrame);
         dataUnitXCombox->setObjectName(QStringLiteral("dataUnitXCombox"));
+        dataUnitXCombox->setMinimumSize(QSize(69, 20));
+        dataUnitXCombox->setMaximumSize(QSize(69, 20));
 
         verticalLayout_3->addWidget(dataUnitXCombox);
 
         passageXCombox = new QComboBox(cellYFrame);
         passageXCombox->setObjectName(QStringLiteral("passageXCombox"));
+        passageXCombox->setMinimumSize(QSize(69, 20));
+        passageXCombox->setMaximumSize(QSize(69, 20));
 
         verticalLayout_3->addWidget(passageXCombox);
-
-        pushButton_4 = new QPushButton(cellYFrame);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
-        pushButton_4->setMinimumSize(QSize(30, 30));
-        pushButton_4->setMaximumSize(QSize(30, 30));
-        pushButton_4->setFocusPolicy(Qt::NoFocus);
-
-        verticalLayout_3->addWidget(pushButton_4);
 
 
         horizontalLayout_2->addWidget(cellYFrame);
@@ -350,6 +374,9 @@ public:
         zoomerBtn->setText(QApplication::translate("PlotWidget", "\346\224\276\345\244\247/\347\274\251\345\260\217", 0));
         pannerBtn->setText(QApplication::translate("PlotWidget", "\345\271\263\347\247\273", 0));
         maximizedBtn->setText(QApplication::translate("PlotWidget", "\346\234\200\345\244\247\345\214\226", 0));
+#ifndef QT_NO_TOOLTIP
+        normalBtn->setToolTip(QApplication::translate("PlotWidget", "\346\234\200\345\260\217\345\214\226", 0));
+#endif // QT_NO_TOOLTIP
         normalBtn->setText(QApplication::translate("PlotWidget", "\350\277\230\345\216\237", 0));
         viewTrueValueBtn->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\277", 0));
         viewTrueValueBtn_2->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\2772", 0));
@@ -358,7 +385,7 @@ public:
         parallelLineBtn_2->setText(QApplication::translate("PlotWidget", "\345\244\232\350\276\271\345\275\242", 0));
         testUpBtn->setText(QApplication::translate("PlotWidget", "+", 0));
         testDownBtn->setText(QApplication::translate("PlotWidget", "-", 0));
-        pushButton_3->setText(QApplication::translate("PlotWidget", "\350\256\276\347\275\256", 0));
+        toolButton->setText(QApplication::translate("PlotWidget", "...", 0));
 #ifndef QT_NO_TOOLTIP
         passageYCombox->setToolTip(QApplication::translate("PlotWidget", "\351\200\232\351\201\223", 0));
 #endif // QT_NO_TOOLTIP
@@ -370,7 +397,6 @@ public:
         logCheckBox->setText(QApplication::translate("PlotWidget", "log(10)", 0));
         scatterCheckBox->setText(QApplication::translate("PlotWidget", "\346\225\243\347\202\271\345\233\276", 0));
         barChatStaticsCheckBox->setText(QApplication::translate("PlotWidget", "\347\233\264\346\226\271\345\233\276\347\273\237\350\256\241", 0));
-        pushButton_4->setText(QApplication::translate("PlotWidget", "\350\256\276\347\275\256", 0));
     } // retranslateUi
 
 };
