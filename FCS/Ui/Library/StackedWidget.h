@@ -17,6 +17,7 @@
 #include "Bll/Control/BllControl.h"
 #include "Ui/Library/OscWidget.h"
 #include <QToolBar>
+#include "Ui/Library/GateStorage.h"
 class StackedWidget : public QStackedWidget
 {
 	Q_OBJECT
@@ -31,6 +32,9 @@ public:
 	* @date    2014-5-15
 	*/
 	void init();
+	//静态变量：设门数组
+	static QList<GateStorage> gatingDataList;
+
 public slots:
 
 	/**

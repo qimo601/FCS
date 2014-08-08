@@ -24,6 +24,8 @@ StackedWidget::~StackedWidget()
 {
 	delete oscWidgetPage;
 }
+//静态变量：设门数组
+QList<GateStorage> StackedWidget::gatingDataList;
 void StackedWidget::paintEvent(QPaintEvent *)
 {
 	QStyleOption opt;

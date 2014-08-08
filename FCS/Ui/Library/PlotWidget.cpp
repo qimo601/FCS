@@ -214,6 +214,10 @@ void PlotWidget::initUi()
 	ui.testUpBtn->setVisible(false);
 	ui.testDownBtn->setVisible(false);
 
+
+	//默认设门
+	ui.rectBtn->setEnabled(true);//矩形设门显示
+	ui.parallelLineBtn->setEnabled(false);//平行设门隐藏
 }
 /**
 * @brief 初始化Bar列标题、颜色，模拟数据
@@ -422,6 +426,9 @@ void PlotWidget::setBarStatisticsMode(bool mode)
 		//直方图没有x轴
 		ui.passageXCombox->setEnabled(false);
 		ui.dataUnitXCombox->setEnabled(false);
+
+		ui.parallelLineBtn->setEnabled(true);//显示平行设门
+		ui.rectBtn->setEnabled(false);//隐藏矩形设门
 	}
 }
 /**
@@ -440,6 +447,10 @@ void PlotWidget::setScatterMode(bool mode)
 		//散点图有x轴
 		ui.passageXCombox->setEnabled(true);
 		ui.dataUnitXCombox->setEnabled(true);
+
+
+		ui.parallelLineBtn->setEnabled(false);//隐藏平行设门
+		ui.rectBtn->setEnabled(true);//显示矩形设门
 	}
 }
 /**
