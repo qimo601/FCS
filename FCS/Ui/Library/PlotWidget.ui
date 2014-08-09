@@ -544,7 +544,7 @@
             <normaloff>:/MainWindow/Resources/Images/MainWindow/Log.png</normaloff>:/MainWindow/Resources/Images/MainWindow/Log.png</iconset>
           </property>
           <property name="checked">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>

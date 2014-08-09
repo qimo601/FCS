@@ -77,10 +77,15 @@ void ReadCellThread::startReadCellDataFromCircleBuffer()
 	{
 		
 		getCellData(false);
-		emit cellReadySignal(false);
+		//降低新数据发送频率，减少界面卡死
+		if (step >= 4)
+		{
+			emit cellReadySignal(false);
+			step = 0;
+		}
 		step++;
 		//qDebug() << "【ReadCellThread】step:" <<step;
-		msleep(10);
+		msleep(50);
 	}
 	m_opertaeEnum = NORMAL;//回复默认状态
 }

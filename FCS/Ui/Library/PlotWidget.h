@@ -83,7 +83,10 @@ public slots:
 	* @brief 启动log数据显示
 	*/
 	void setLogEnable(bool enable);
-
+	/**
+	* @brief 启动背景方格线
+	*/
+	void setGridEnable(bool enable);
 	/**
 	* @brief 设置直方图统计显示模式
 	*/
@@ -183,8 +186,45 @@ public slots:
 	* @param QString 文件名称，QString:文件类型
 	*/
 	void saveFCSFile(QString fileName);
+	/**
+	* @brief 更新参数数据
+	*/
+	void updateParamsStatics();
+	/**
+	* @brief 更新参数-细胞个数
+	*/
+	double computerEvents();
+	/**
+	* @brief 更新参数-%Parent:当前设门的细胞数目，占父类的百分比
+	*/
+	double computerPercentageParent();
+	/**
+	* @brief 更新参数-%Total:当前设门的细胞数目，占源数据细胞总数的百分比
+	*/
+	double computerPercentageTotal();
+	/**
+	* @brief 更新参数-平均值（x1+x2+x3+...+xn）/n
+	*/
+	double computerAverageValue();
+	/**
+	* @brief 更新参数-中间值（排序后，中间的值）
+	*/
+	double computerMidValue();
+	/**
+	* @brief 更新参数-变异系数 CV(Coefficient of Variance):标准差与均值的比率
+	*/
+	double computerCvValue();
+	/**
+	* @brief 获取界面控件的状态
+	*/
+	QMap<QString, int>  getStatusControl();
+	/**
+	* @brief 设置界面控件的状态
+	*/
+	void setStatusControl(QMap<QString, int> map);
 signals:
 	void normalPlot();//正常显示信号
+
 protected:
 	virtual void paintEvent(QPaintEvent * event);
 	virtual void timerEvent(QTimerEvent * event);
@@ -203,6 +243,7 @@ private:
 
 
 	int condition;//直方图统计条件数
+	
 };
 
 #endif // PLOTWIDGET_H

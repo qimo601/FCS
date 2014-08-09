@@ -269,11 +269,11 @@ public:
         logCheckBox = new QCheckBox(cellXFrame);
         logCheckBox->setObjectName(QStringLiteral("logCheckBox"));
         logCheckBox->setFocusPolicy(Qt::NoFocus);
-        logCheckBox->setAutoFillBackground(true);
+        logCheckBox->setAutoFillBackground(false);
         QIcon icon7;
         icon7.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Log.png"), QSize(), QIcon::Normal, QIcon::Off);
         logCheckBox->setIcon(icon7);
-        logCheckBox->setChecked(false);
+        logCheckBox->setChecked(true);
 
         horizontalLayout->addWidget(logCheckBox);
 

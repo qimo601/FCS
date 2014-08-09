@@ -2,6 +2,7 @@
 #include <QScrollBar>
 #include <QFileDialog>
 #include <QDir>
+#include <QMessageBox>
 ViewWidget::ViewWidget(QWidget *parent)
 	: QWidget(parent)
 {
@@ -36,14 +37,14 @@ ViewWidget::ViewWidget(QWidget *parent)
 	
 
 	/****线程传递细胞数据****/
-	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_1, SLOT(updateSamples()));
 	//统计线程
 	connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_1->staticsThread, SLOT(staticsCellData(bool)));
-	//统计线程
+	//保存文件信号
 	connect(this, SIGNAL(saveExpFileToPlotwigetSignal(QString, QString)), ui.plotWidget_1, SLOT(saveExpFileSlot(QString,QString)));
 
 	//直方图统计，这个速度有点卡
-	//connect(readCellThread, SIGNAL(cellReadySignal()), &ui.plotWidget_2->staticsThread, SLOT(staticsCellData()));
+	connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_2->staticsThread, SLOT(staticsCellData(bool)));
+
 	//统计线程
 	///////connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_2->staticsThread, SLOT(staticsCellData(bool)));
 	//connect(readCellThread, SIGNAL(cellReadySignal()), ui.plotWidget_3, SLOT(updateSamples()));
@@ -58,6 +59,13 @@ ViewWidget::ViewWidget(QWidget *parent)
 	//统计报告初始化
 	reportTree = new ReportTree(this);
 	reportTree->setVisible(false);
+	//配置第一个plot用来实时显示散点图
+	ui.plotWidget_1->setScatterMode(true);
+	//配置第二个直方图用来实时显示直方图
+	ui.plotWidget_2->setBarStatisticsMode(true);
+	//先隐藏画布3和画布4，用来实时显示其他类型图
+	ui.plotWidget_3->setVisible(false);
+	ui.plotWidget_4->setVisible(false);
 	
 }
 
@@ -119,7 +127,7 @@ void ViewWidget::stopAcqSlot()
 	/****测试线程获取示波器数据****/
 }
 /**
-* @brief 新建画布
+* @brief 新建画布-会实时统计
 */
 void ViewWidget::addNewPlot()
 {
@@ -151,24 +159,37 @@ void ViewWidget::addNewPlot()
 */
 void ViewWidget::delPlot()
 {
-	//删除选中的画布
-	for (int i = 0; i < plotWidgetList.size(); i++)
+
+	QMessageBox msgBox;
+	msgBox.setIcon(QMessageBox::Warning);
+	msgBox.setWindowTitle(tr("警告！"));
+	msgBox.setText(tr("警告，您确定删除当前选中的画布吗？"));
+	QPushButton *Button1 = msgBox.addButton(tr("确定"), QMessageBox::AcceptRole);
+	QPushButton *Button2 = msgBox.addButton(tr("取消"), QMessageBox::RejectRole);
+	msgBox.exec();
+
+	if (msgBox.clickedButton() == Button1)
 	{
-		if (focusPlotWidget == plotWidgetList.at(i))
+		//删除选中的画布
+		for (int i = 0; i < plotWidgetList.size(); i++)
 		{
+			if (focusPlotWidget == plotWidgetList.at(i))
+			{
 
-			ui.gridLayout->removeWidget(focusPlotWidget);
-			plotWidgetList.takeAt(i);
-			delete focusPlotWidget;//删除
-			focusPlotWidget = 0;//选中的为空
+				ui.gridLayout->removeWidget(focusPlotWidget);
+				plotWidgetList.takeAt(i);
+				delete focusPlotWidget;//删除
+				focusPlotWidget = 0;//选中的为空
 
+			}
 		}
-	}
 
 
 	
-	clearPlotWidget();//清空所有画布
-	relayoutPlotWidget();//重新布局画布
+		clearPlotWidget();//清空所有画布
+		relayoutPlotWidget();//重新布局画布
+	}
+
 }
 
 void ViewWidget::mouseMoveEvent(QMouseEvent * e)
@@ -190,10 +211,12 @@ void ViewWidget::mousePressEvent(QMouseEvent * event)
 
 		{
 			focusPlotWidget = focusWidget();//当期plot控件
+			emit haveFocusPlotWidgetSignal(true);
 			return;
 		}
 	}
 	focusPlotWidget = 0;//否则为空
+	emit haveFocusPlotWidgetSignal(false);
 }
 
 /**

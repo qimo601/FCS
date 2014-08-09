@@ -30,7 +30,7 @@ public:
     QWidget *scrollAreaWidgetContents;
     QGridLayout *gridLayout;
     PlotWidget *plotWidget_1;
-    QWidget *plotWidget_2;
+    PlotWidget *plotWidget_2;
     QWidget *plotWidget_3;
     QWidget *plotWidget_4;
 
@@ -66,7 +66,7 @@ public:
 
         gridLayout->addWidget(plotWidget_1, 0, 0, 1, 1);
 
-        plotWidget_2 = new QWidget(scrollAreaWidgetContents);
+        plotWidget_2 = new PlotWidget(scrollAreaWidgetContents);
         plotWidget_2->setObjectName(QStringLiteral("plotWidget_2"));
 
         gridLayout->addWidget(plotWidget_2, 0, 1, 1, 1);

@@ -53,7 +53,7 @@ PlotWidget::PlotWidget(QWidget *parent)
 
 
 	//设置背景线是否显示
-	connect(ui.gridCheckBox, SIGNAL(clicked(bool)), d_plot, SLOT(setGridEnable(bool)));
+	connect(ui.gridCheckBox, SIGNAL(clicked(bool)), this, SLOT(setGridEnable(bool)));
 	//设置是否显示log值
 	connect(ui.logCheckBox, SIGNAL(clicked(bool)), this, SLOT(setLogEnable(bool)));
 	//设置放大/缩小按钮可选择
@@ -115,9 +115,8 @@ PlotWidget::PlotWidget(QWidget *parent)
 	//设置统计线程
 	staticsThread.setDataWidget(this);
 	staticsThread.start();
-	//绑定统计线程更新数据
+	//绑定统计线程更新数据（有新数据拷贝至plot，更新散点图、直方图等）
 	connect(&staticsThread, SIGNAL(staticsFinished()), this, SLOT(updateSamples()));
-
 
 	init();//初始化
 
@@ -127,6 +126,11 @@ PlotWidget::~PlotWidget()
 {
 
 }
+
+
+
+
+
 /**
 * @brief 初始化
 */
@@ -349,6 +353,15 @@ void PlotWidget::setLogEnable(bool enable)
 	updateSamples();
 }
 /**
+* @brief 启动背景方格线
+*/
+void PlotWidget::setGridEnable(bool enable)
+{
+	//如果是直方图模式，需要背景刷色彩。否则背景刷为空
+	bool barMode = ui.barChatStaticsCheckBox->isChecked();
+	d_plot->setGridEnable(enable, barMode);
+}
+/**
 * @brief 重新设置刻度
 */
 void PlotWidget::setAxisScale()
@@ -413,11 +426,14 @@ void PlotWidget::setAxisScale()
 */
 void PlotWidget::setBarStatisticsMode(bool mode)
 {
+	//若是直方图模式
 	if (mode)
 	{
+		//若是初始化时，mode为true，可以配置一下当前界面
+		if (!ui.barChatStaticsCheckBox->isChecked())
+			ui.barChatStaticsCheckBox->setChecked(true);
 		//如果直方图模式选择，先统计一下该通道
-		if (ui.barChatStaticsCheckBox->isChecked())
-			statisticsHistogram(ui.passageYCombox->currentData().toInt(), ui.dataUnitYCombox->currentData().toInt());
+		statisticsHistogram(ui.passageYCombox->currentData().toInt(), ui.dataUnitYCombox->currentData().toInt());
 		//设置统计曲线样式
 		d_plot->enableStaticsMode();
 		setAxisScale();
@@ -438,6 +454,9 @@ void PlotWidget::setScatterMode(bool mode)
 {
 	if (mode)
 	{
+		//若是初始化时，mode为true，可以配置一下当前界面
+		if (!ui.scatterCheckBox->isChecked())
+			ui.scatterCheckBox->setChecked(true);
 		//设置散点图样式
 		d_plot->enableScatterMode();
 		setAxisScale();//自动设置坐标，判断是否需要log显示
@@ -612,6 +631,65 @@ void PlotWidget::updateStaticsSamples()
 		d_plot->replot(); 
 	}
 }
+
+/**
+* @brief 更新参数数据
+*/
+void PlotWidget::updateParamsStatics()
+{
+
+}
+/**
+* @brief 更新参数-细胞个数
+*/
+double PlotWidget::computerEvents()
+{
+	double events = origialDataList->at(0)->at(0)->size();
+	return events;
+}
+/**
+* @brief 更新参数-%Parent:当前设门的细胞数目，占父类的百分比
+*/
+double PlotWidget::computerPercentageParent()
+{
+	return 0;
+
+}
+/**
+* @brief 更新参数-%Total:当前设门的细胞数目，占源数据细胞总数的百分比
+*/
+double PlotWidget::computerPercentageTotal()
+{
+	return 0;
+
+}
+/**
+* @brief 更新参数-平均值（x1+x2+x3+...+xn）/n
+*/
+double PlotWidget::computerAverageValue()
+{
+	return 0;
+
+}
+/**
+* @brief 更新参数-中间值（排序后，中间的值）
+*/
+double PlotWidget::computerMidValue()
+{
+	return 0;
+
+}
+/**
+* @brief 更新参数-变异系数 CV(Coefficient of Variance):标准差与均值的比率
+*/
+double PlotWidget::computerCvValue()
+{
+	return 0;
+
+}
+
+
+
 /**
 * @brief 清楚plot旧数据
 *
@@ -667,6 +745,72 @@ void PlotWidget::selectedParallelLinePickerSlot(QList<QPointF> pointFList)
 {
 
 	computeParallelLinePickerSlot(pointFList);
+}
+/**
+* @brief 获取界面控件的状态
+*/
+QMap<QString, int>  PlotWidget::getStatusControl()
+{
+	QMap<QString, int> map;
+	int passageYCombox = ui.passageYCombox->currentData().toInt();
+	int dataUnitYCombox = ui.dataUnitYCombox->currentData().toInt();
+	int passageXCombox = ui.passageXCombox->currentData().toInt();
+	int dataUnitXCombox = ui.dataUnitXCombox->currentData().toInt();
+	int gridCheckBox = ui.gridCheckBox->isChecked();
+	int logCheckBox = ui.logCheckBox->isChecked();
+	int scatterCheckBox = ui.scatterCheckBox->isChecked();
+	int barChatStaticsCheckBox = ui.barChatStaticsCheckBox->isChecked();
+	map.insert("passageYCombox", passageYCombox);
+	map.insert("dataUnitYCombox", dataUnitYCombox);
+	map.insert("passageXCombox", passageXCombox);
+	map.insert("dataUnitXCombox", dataUnitXCombox);
+	map.insert("gridCheckBox", gridCheckBox);
+	map.insert("logCheckBox", logCheckBox);
+	map.insert("scatterCheckBox", scatterCheckBox);
+	map.insert("barChatStaticsCheckBox", barChatStaticsCheckBox);
+	return map;
+}
+/**
+* @brief 设置界面控件的状态
+*/
+void PlotWidget::setStatusControl(QMap<QString,int> map)
+{
+	//设置Y通道
+	int index = ui.passageYCombox->findData(map.value("passageYCombox"));
+	ui.passageYCombox->setCurrentIndex(index);
+	setPassage(ui.passageYCombox->currentData().toInt());//更新显示当前通道数据
+
+	//设置Y通道数据单元
+	index = ui.dataUnitYCombox->findData(map.value("dataUnitYCombox"));
+	ui.dataUnitYCombox->setCurrentIndex(index);
+	setDataUnit(ui.dataUnitYCombox->currentData().toInt());//更新显示当前通道当前参数数据
+
+
+
+	//设置X通道
+	index = ui.passageXCombox->findData(map.value("passageXCombox"));
+	ui.passageXCombox->setCurrentIndex(index);
+	setPassage(ui.passageYCombox->currentData().toInt());//更新显示当前通道数据
+
+	//设置X通道数据单元
+	index = ui.dataUnitXCombox->findData(map.value("dataUnitXCombox"));
+	ui.dataUnitXCombox->setCurrentIndex(index);
+	setDataUnit(ui.dataUnitYCombox->currentData().toInt());//更新显示当前通道当前参数数据
+
+	//设置背景方格线
+	ui.gridCheckBox->setChecked(map.value("gridCheckBox"));
+	setGridEnable(map.value("gridCheckBox"));
+
+	//设置log状态
+	ui.logCheckBox->setChecked(map.value("logCheckBox"));
+	setLogEnable(map.value("logCheckBox"));
+	//设置散点图状态
+	ui.scatterCheckBox->setChecked(map.value("scatterCheckBox"));
+	setScatterMode(map.value("scatterCheckBox"));
+	//设置直方图状态
+	ui.barChatStaticsCheckBox->setChecked(map.value("barChatStaticsCheckBox"));
+	setBarStatisticsMode(map.value("barChatStaticsCheckBox"));
+
 }
 /**
 * @brief 根据矩形筛选
@@ -733,7 +877,9 @@ void PlotWidget::computeRectPickerSlot(QRectF rectf)
 		}
 
 	}
-	
+	//传递控件状态参数
+	plotWidgetRect->setStatusControl(getStatusControl());
+
 	plotWidgetRect->show();
 	plotWidgetRect->updateSamples();
 }
@@ -785,7 +931,8 @@ void PlotWidget::computeParallelLinePickerSlot(QList<QPointF> pointFList)
 		}
 
 	}
-
+	//传递控件状态参数
+	plotWidgetRect->setStatusControl(getStatusControl());
 	plotWidgetRect->show();
 	plotWidgetRect->updateSamples();
 

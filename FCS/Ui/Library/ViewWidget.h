@@ -56,6 +56,10 @@ signals:
 	* @brief 保存文件信号
 	*/
 	void saveExpFileToPlotwigetSignal(QString fileName,QString filetype);
+	/**
+	* @brief 是否有选中的画布窗口
+	*/
+	void haveFocusPlotWidgetSignal(bool focus);
 protected:
 	virtual void paintEvent(QPaintEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent * event);
@@ -71,6 +75,10 @@ private:
 	ReadCellThread* readCellThread;
 
 	ReportTree* reportTree;//树形报告
+	//当前窗口被选中
+	bool m_focusing;
+	//鼠标最后选中位置
+	double m_lastPoint;
 };
 
 #endif // VIEWWIDGET_H

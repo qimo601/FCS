@@ -140,6 +140,10 @@ public slots:
 	* @brief 创建工具栏
 	*/
 	void createToolBars();
+	/**
+	* @brief 设置删除画布按钮状态
+	*/
+	void setDelPlotActSlot(bool focus);
 signals:
 	void openExpFileSignal();
 	void saveExpFileSignal();
@@ -154,12 +158,12 @@ private:
 
 
 
-	QAction* newPlotAct;//新建画布
-	QAction* delPlotAct;//删除画布
-	QAction* savePlotAct;//保存画布
-	QAction* reportAct;//显示报告
+	QAction* m_newPlotAct;//新建画布
+	QAction* m_delPlotAct;//删除画布
+	QAction* m_savePlotAct;//保存画布
+	QAction* m_reportAct;//显示报告
 
-	QToolBar* fileToolBar;//菜单
+	QToolBar* m_fileToolBar;//菜单
 };
 
 #endif // STACKEDWIDGET_H

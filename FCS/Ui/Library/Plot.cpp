@@ -580,9 +580,9 @@ d_curve(NULL)
 	d_panner = new QwtPlotPanner(canvas);
 	d_panner->setEnabled(false);
 
-	//支持滑轮放大缩小zoom in/out with the wheel
-	QwtPlotMagnifier *magnifier = new QwtPlotMagnifier(canvas);
-	magnifier->setMouseButton(Qt::RightButton);//默认就是右键鼠标
+	////支持滑轮放大缩小zoom in/out with the wheel
+	//QwtPlotMagnifier *magnifier = new QwtPlotMagnifier(canvas);
+	//magnifier->setMouseButton(Qt::RightButton);//默认就是右键鼠标
 
 	//右键测量 distanve measurement with the right mouse button
 	DistancePicker *picker = new DistancePicker(canvas);
@@ -719,7 +719,7 @@ void Plot::setRawSamples(const double * xData,	const double * 	yData,	int size)
 /**
 * @brief 设置背景线是否显示
 */
-void Plot::setGridEnable(bool checked)
+void Plot::setGridEnable(bool checked, bool barMode)
 {
 	
 	d_grid->enableX(checked);
@@ -730,9 +730,27 @@ void Plot::setGridEnable(bool checked)
 	{
 		//QColor brushColor("#DDE9FD");
 		//d_curve->setBrush(brushColor);//设置笔刷
+		
+		//设置统计曲线样式
+		//设置颜色
+		//若是直方图统计模式，设置画布样式
+		if (barMode)
+		{
+			enableStaticsMode();
+		}
+		else
+			enableScatterMode();
 	}
 	else
-		d_curve->setBrush(Qt::NoBrush);
+	{
+		//若是直方图统计模式，设置画布样式
+		if (barMode)
+		{
+			enableStaticsMode();
+		}
+		else
+			enableScatterMode();
+	}
 	replot();
 }
 /**
@@ -793,7 +811,7 @@ void Plot::enableScatterMode()
 	d_curve->setPen(penColor,2);
 	d_curve->setBrush(Qt::NoBrush);
 	d_curve->setStyle(QwtPlotCurve::Dots);
-
+	d_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
 	//坐标轴刻度修饰
 	this->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小
 	this->setAxisScale(QwtPlot::yLeft, 0, 1e6);//设置y轴坐标刻度大小

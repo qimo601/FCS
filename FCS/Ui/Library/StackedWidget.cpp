@@ -14,6 +14,9 @@ StackedWidget::StackedWidget(QWidget *parent)
 	init();//初始化
 	connect(this, SIGNAL(openExpFileSignal()), ui.celllViewWidget, SLOT(openExpFileSlot()));//打开实验文件
 	connect(this, SIGNAL(saveExpFileSignal()), ui.celllViewWidget, SLOT(saveExpFileSlot()));//保存实验文件
+	//设置删除画布按钮状态
+	connect(ui.celllViewWidget, SIGNAL(haveFocusPlotWidgetSignal(bool)), this, SLOT(setDelPlotActSlot(bool)));
+
 	//报告
 	connect(ui.reportBtn, SIGNAL(toggled(bool)), this, SLOT(showReport(bool)));
 	//测试用-先隐藏报告界面
@@ -339,29 +342,29 @@ void StackedWidget::createActions()
 	ui.savePlotBtn->setVisible(false);
 	ui.reportBtn->setVisible(false);
 
-	newPlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/newPlot.png"), tr("&新建一个画布"), this);
-	newPlotAct->setShortcut(QKeySequence(tr("Ctrl+N")));
-	newPlotAct->setStatusTip(tr("新建一个画布"));
-	connect(newPlotAct, SIGNAL(triggered()), this, SLOT(on_newPlotBtn_clicked()));
+	m_newPlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/newPlot.png"), tr("&新建一个画布"), this);
+	m_newPlotAct->setShortcut(QKeySequence(tr("Ctrl+N")));
+	m_newPlotAct->setStatusTip(tr("新建一个画布"));
+	connect(m_newPlotAct, SIGNAL(triggered()), this, SLOT(on_newPlotBtn_clicked()));
 
-	delPlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/delPlot.png"), tr("&删除一个已有的画布"), this);
-	delPlotAct->setShortcut(QKeySequence(tr("Ctrl+D")));
-	delPlotAct->setStatusTip(tr("删除一个已有的画布"));
-	connect(delPlotAct, SIGNAL(triggered()), this, SLOT(on_delPlotBtn_clicked()));
+	m_delPlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/delPlot.png"), tr("&删除一个已有的画布"), this);
+	m_delPlotAct->setShortcut(QKeySequence(tr("Ctrl+D")));
+	m_delPlotAct->setStatusTip(tr("删除一个已有的画布"));
+	connect(m_delPlotAct, SIGNAL(triggered()), this, SLOT(on_delPlotBtn_clicked()));
 
-	savePlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/savePlot.png"), tr("&保存当前画布"), this);
-	delPlotAct->setShortcut(QKeySequence(tr("Ctrl+S")));
-	delPlotAct->setStatusTip(tr("保存当前画布"));
-	connect(delPlotAct, SIGNAL(triggered()), this, SLOT(saveExpFileSlot()));
+	m_savePlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/savePlot.png"), tr("&保存当前画布"), this);
+	m_delPlotAct->setShortcut(QKeySequence(tr("Ctrl+S")));
+	m_delPlotAct->setStatusTip(tr("保存当前画布"));
+	connect(m_savePlotAct, SIGNAL(triggered()), this, SLOT(saveExpFileSlot()));
 
 
-	reportAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/Report.png"), tr("&显示/隐藏设门报告"), this);
-	reportAct->setShortcut(QKeySequence(tr("Ctrl+R")));
-	reportAct->setStatusTip(tr("显示/隐藏设门报告"));
-	reportAct->setCheckable(true);//设置该按钮可选择
-	connect(reportAct, SIGNAL(toggled(bool)), this, SLOT(showReport(bool)));
+	m_reportAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/Report.png"), tr("&显示/隐藏设门报告"), this);
+	m_reportAct->setShortcut(QKeySequence(tr("Ctrl+R")));
+	m_reportAct->setStatusTip(tr("显示/隐藏设门报告"));
+	m_reportAct->setCheckable(true);//设置该按钮可选择
+	connect(m_reportAct, SIGNAL(toggled(bool)), this, SLOT(showReport(bool)));
 
-	delPlotAct->setEnabled(false);
+	m_delPlotAct->setEnabled(false);
 	//copyAct->setEnabled(false);
 	//connect(textEdit, SIGNAL(copyAvailable(bool)),
 	//	cutAct, SLOT(setEnabled(bool)));
@@ -400,13 +403,13 @@ void StackedWidget::createMenus()
 */
 void StackedWidget::createToolBars()
 {
-	fileToolBar = new QToolBar(tr("File"), ui.toolBtnWidget);
-	fileToolBar->addAction(newPlotAct);
-	fileToolBar->addAction(delPlotAct);
-	fileToolBar->addAction(savePlotAct);
-	fileToolBar->addSeparator();
-	fileToolBar->addAction(reportAct);
-	ui.horizontalLayout_11->addWidget(fileToolBar);
+	m_fileToolBar = new QToolBar(tr("File"), ui.toolBtnWidget);
+	m_fileToolBar->addAction(m_newPlotAct);
+	m_fileToolBar->addAction(m_delPlotAct);
+	m_fileToolBar->addAction(m_savePlotAct);
+	m_fileToolBar->addSeparator();
+	m_fileToolBar->addAction(m_reportAct);
+	ui.horizontalLayout_11->addWidget(m_fileToolBar);
 
 
 
@@ -414,4 +417,14 @@ void StackedWidget::createToolBars()
 	
 	editToolBar->addAction(reportAct);
 	ui.horizontalLayout_11->addWidget(editToolBar);*/
+}
+/**
+* @brief 设置删除画布按钮状态
+*/
+void StackedWidget::setDelPlotActSlot(bool focus)
+{
+	if (focus)
+		m_delPlotAct->setEnabled(true);
+	else
+		m_delPlotAct->setEnabled(false);
 }

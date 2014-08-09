@@ -35,7 +35,16 @@ public:
 	void setSamples(const QVector< double > & xData, const QVector< double > & 	yData);
 	void setRawSamples(const double * xData, const double * yData, int size);
 public slots:
-	void setGridEnable(bool checked);
+
+	/**  
+	 * @brief  启动背景方格线 
+	 * 
+	 * @param   bool::checked   是否启动背景方格线
+	 * @return  bool::needBrush  是否是直方图模式，如果是背景刷填充色彩，如果不是，背景刷无色。 
+	 * @author  Liuzhaobang 
+	 * @date    2014/08/09 
+	 */ 
+void setGridEnable(bool checked, bool barMode);
 	/**
 	* @brief 设置放大/缩小按钮功能启用
 	*/
