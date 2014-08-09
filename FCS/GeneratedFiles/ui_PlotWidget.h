@@ -67,14 +67,14 @@ public:
     {
         if (PlotWidget->objectName().isEmpty())
             PlotWidget->setObjectName(QStringLiteral("PlotWidget"));
-        PlotWidget->resize(665, 496);
+        PlotWidget->resize(606, 493);
         QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PlotWidget->sizePolicy().hasHeightForWidth());
         PlotWidget->setSizePolicy(sizePolicy);
-        PlotWidget->setMinimumSize(QSize(665, 496));
-        PlotWidget->setMaximumSize(QSize(665, 496));
+        PlotWidget->setMinimumSize(QSize(606, 493));
+        PlotWidget->setMaximumSize(QSize(606, 493));
         PlotWidget->setFocusPolicy(Qt::StrongFocus);
         PlotWidget->setAcceptDrops(false);
         horizontalLayout_2 = new QHBoxLayout(PlotWidget);
@@ -92,7 +92,7 @@ public:
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        verticalLayout_2->setContentsMargins(9, -1, 9, -1);
+        verticalLayout_2->setContentsMargins(0, -1, 0, -1);
         zoomerBtn = new QToolButton(cellToolFrame);
         zoomerBtn->setObjectName(QStringLiteral("zoomerBtn"));
         zoomerBtn->setMinimumSize(QSize(32, 32));
@@ -244,14 +244,14 @@ public:
 
         passageYCombox = new QComboBox(cellXFrame);
         passageYCombox->setObjectName(QStringLiteral("passageYCombox"));
-        passageYCombox->setMinimumSize(QSize(69, 20));
+        passageYCombox->setMinimumSize(QSize(55, 20));
         passageYCombox->setMaximumSize(QSize(69, 20));
 
         horizontalLayout->addWidget(passageYCombox);
 
         dataUnitYCombox = new QComboBox(cellXFrame);
         dataUnitYCombox->setObjectName(QStringLiteral("dataUnitYCombox"));
-        dataUnitYCombox->setMinimumSize(QSize(69, 20));
+        dataUnitYCombox->setMinimumSize(QSize(55, 20));
         dataUnitYCombox->setMaximumSize(QSize(69, 20));
 
         horizontalLayout->addWidget(dataUnitYCombox);
@@ -263,12 +263,14 @@ public:
         icon6.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/BGGrid.png"), QSize(), QIcon::Normal, QIcon::Off);
         gridCheckBox->setIcon(icon6);
         gridCheckBox->setChecked(true);
+        gridCheckBox->setTristate(false);
 
         horizontalLayout->addWidget(gridCheckBox);
 
         logCheckBox = new QCheckBox(cellXFrame);
         logCheckBox->setObjectName(QStringLiteral("logCheckBox"));
         logCheckBox->setFocusPolicy(Qt::NoFocus);
+        logCheckBox->setLayoutDirection(Qt::LeftToRight);
         logCheckBox->setAutoFillBackground(false);
         QIcon icon7;
         icon7.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Log.png"), QSize(), QIcon::Normal, QIcon::Off);
@@ -345,14 +347,14 @@ public:
 
         dataUnitXCombox = new QComboBox(cellYFrame);
         dataUnitXCombox->setObjectName(QStringLiteral("dataUnitXCombox"));
-        dataUnitXCombox->setMinimumSize(QSize(69, 20));
+        dataUnitXCombox->setMinimumSize(QSize(55, 20));
         dataUnitXCombox->setMaximumSize(QSize(69, 20));
 
         verticalLayout_3->addWidget(dataUnitXCombox);
 
         passageXCombox = new QComboBox(cellYFrame);
         passageXCombox->setObjectName(QStringLiteral("passageXCombox"));
-        passageXCombox->setMinimumSize(QSize(69, 20));
+        passageXCombox->setMinimumSize(QSize(55, 20));
         passageXCombox->setMaximumSize(QSize(69, 20));
 
         verticalLayout_3->addWidget(passageXCombox);
@@ -394,10 +396,22 @@ public:
 #ifndef QT_NO_TOOLTIP
         dataUnitYCombox->setToolTip(QApplication::translate("PlotWidget", "\346\225\260\346\215\256\345\215\225\345\205\203\347\261\273\345\236\213", 0));
 #endif // QT_NO_TOOLTIP
-        gridCheckBox->setText(QApplication::translate("PlotWidget", "\350\203\214\346\231\257\346\226\271\346\240\274\347\272\277", 0));
-        logCheckBox->setText(QApplication::translate("PlotWidget", "log(10)", 0));
-        scatterCheckBox->setText(QApplication::translate("PlotWidget", "\346\225\243\347\202\271\345\233\276", 0));
-        barChatStaticsCheckBox->setText(QApplication::translate("PlotWidget", "\347\233\264\346\226\271\345\233\276\347\273\237\350\256\241", 0));
+#ifndef QT_NO_TOOLTIP
+        gridCheckBox->setToolTip(QApplication::translate("PlotWidget", "\350\203\214\346\231\257\346\226\271\346\240\274\347\272\277", 0));
+#endif // QT_NO_TOOLTIP
+        gridCheckBox->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        logCheckBox->setToolTip(QApplication::translate("PlotWidget", "LOG(10)", 0));
+#endif // QT_NO_TOOLTIP
+        logCheckBox->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        scatterCheckBox->setToolTip(QApplication::translate("PlotWidget", "\346\225\243\347\202\271\345\233\276", 0));
+#endif // QT_NO_TOOLTIP
+        scatterCheckBox->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        barChatStaticsCheckBox->setToolTip(QApplication::translate("PlotWidget", "\347\233\264\346\226\271\345\233\276", 0));
+#endif // QT_NO_TOOLTIP
+        barChatStaticsCheckBox->setText(QString());
     } // retranslateUi
 
 };

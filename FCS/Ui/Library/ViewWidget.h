@@ -68,6 +68,7 @@ protected:
 private:
 	Ui::ViewWidget ui;
 	//PlotWidget* plotWidget;
+	//在gridLayout中的画布
 	QList<QWidget*> plotWidgetList;
 	QWidget* focusPlotWidget;
 	//真正的定时器

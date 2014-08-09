@@ -83,7 +83,7 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.viewTrueValueBtn_2, SIGNAL(toggled(bool)), this, SLOT(enableViewTrueValueMode2(bool)));
 	//矩形设门
 	connect(ui.rectBtn, SIGNAL(toggled(bool)), this, SLOT(enableRectBtn(bool)));
-	//矩形设门
+	//平行线设门
 	connect(ui.parallelLineBtn, SIGNAL(toggled(bool)), this, SLOT(enableParallelLineBtn(bool)));
 
 	//增加-测试选择
@@ -97,13 +97,13 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.scatterCheckBox, SIGNAL(clicked(bool)), this, SLOT(setScatterMode(bool)));
 
 
-
-	//绘图-十字线设门-返回值
-	connect(d_plot, SIGNAL(selectedCrossPicker(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
-	//绘图-矩形设门-返回值
-	connect(d_plot, SIGNAL(selectedRectPicker(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
-	//绘图-平行线设门-返回值
-	connect(d_plot, SIGNAL(selectedParallelLinePicker(QList<QPointF>)), this, SLOT(selectedParallelLinePickerSlot(QList<QPointF>)));
+	//************临时设门测试*******************//
+	////绘图-十字线设门-返回值
+	//connect(d_plot, SIGNAL(selectedCrossPicker(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
+	////绘图-矩形设门-返回值
+	//connect(d_plot, SIGNAL(selectedRectPicker(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
+	////绘图-平行线设门-返回值
+	//connect(d_plot, SIGNAL(selectedParallelLinePicker(QList<QPointF>)), this, SLOT(selectedParallelLinePickerSlot(QList<QPointF>)));
 
 	
 	m_timerId = 0;//初始化
@@ -430,8 +430,11 @@ void PlotWidget::setBarStatisticsMode(bool mode)
 	if (mode)
 	{
 		//若是初始化时，mode为true，可以配置一下当前界面
-		if (!ui.barChatStaticsCheckBox->isChecked())
-			ui.barChatStaticsCheckBox->setChecked(true);
+		ui.barChatStaticsCheckBox->setChecked(true);
+		d_plot->setTitle("直方图");
+
+
+
 		//如果直方图模式选择，先统计一下该通道
 		statisticsHistogram(ui.passageYCombox->currentData().toInt(), ui.dataUnitYCombox->currentData().toInt());
 		//设置统计曲线样式
@@ -455,8 +458,9 @@ void PlotWidget::setScatterMode(bool mode)
 	if (mode)
 	{
 		//若是初始化时，mode为true，可以配置一下当前界面
-		if (!ui.scatterCheckBox->isChecked())
-			ui.scatterCheckBox->setChecked(true);
+		ui.scatterCheckBox->setChecked(true);
+		d_plot->setTitle("散点图");
+
 		//设置散点图样式
 		d_plot->enableScatterMode();
 		setAxisScale();//自动设置坐标，判断是否需要log显示
@@ -501,14 +505,53 @@ void PlotWidget::enableViewTrueValueMode2(bool mode)
 */
 void PlotWidget::enableRectBtn(bool mode)
 {
-	d_plot->enableRectPicker(mode);
+	//矩形
+	d_rectPicker = new RectPicker(d_plot->canvas);
+	//矩形设门-返回值
+	connect(d_rectPicker, SIGNAL(selected(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
+	d_rectPicker->setEnabled(mode);
+	if (!mode)
+	{
+		d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
+		//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
+		//d_rectPicker->remove();
+		//d_rectPicker->end(true);
+	}
+	//暂时不用了
+	//d_plot->enableRectPicker(mode);
 }
 /**
 * @brief 启用平行线设门
 */
 void PlotWidget::enableParallelLineBtn(bool mode)
 {
-	d_plot->enableParallelLinePicker(mode);
+	//平行线设门
+	d_parallelLinePicker_1 = new ParallelLinePicker(d_plot->canvas);
+	connect(d_parallelLinePicker_1, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
+	//平行线设门
+	d_parallelLinePicker_2 = new ParallelLinePicker(d_plot->canvas);
+	d_parallelLinePicker_2->setRubberBandPen(QPen(Qt::blue));
+	connect(d_parallelLinePicker_2, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
+
+
+
+	if (mode)
+	{
+		d_parallelLinePicker_1->setEnabled(true);
+		d_parallelLinePicker_2->setEnabled(false);
+		d_parallelLinePicker_1->setTrackerMode(QwtPicker::ActiveOnly);
+		d_parallelLinePicker_2->setTrackerMode(QwtPicker::AlwaysOff);
+
+	}
+	else
+	{
+		d_parallelLinePicker_1->setEnabled(false);
+		d_parallelLinePicker_2->setEnabled(false);
+		d_parallelLinePicker_1->setTrackerMode(QwtPicker::AlwaysOff);
+		d_parallelLinePicker_2->setTrackerMode(QwtPicker::AlwaysOff);
+	}
+	//暂时不用
+	//d_plot->enableParallelLinePicker(mode);
 }
 
 /**
@@ -668,6 +711,7 @@ double PlotWidget::computerPercentageTotal()
 */
 double PlotWidget::computerAverageValue()
 {
+
 	return 0;
 
 }
@@ -736,6 +780,50 @@ void PlotWidget::selectedRectPickerSlot(QRectF rectf1)
 	QRectF rectf = rectf1;
 
 	computeRectPickerSlot(rectf);
+}
+
+/**
+* @brief 平行线设门,判断是否有两个点
+*
+*/
+void PlotWidget::selectedParallelLinePickerSlot(QPointF pointf)
+{
+	//是否有存在的点
+	for (int i = 0; i < parallelLineList.size(); i++)
+	{
+		if (pointf == parallelLineList.at(i))
+		{
+			return;
+		}
+		else
+		{
+			parallelLineList.append(pointf);
+			break;
+		}
+	}
+	//无点
+	if (parallelLineList.size() == 0)
+	{
+		parallelLineList.append(pointf);
+	}
+	//已经有一个点
+	if (parallelLineList.size() == 1)
+	{
+		//d_parallelLinePicker_1->setEnabled(false);
+		d_parallelLinePicker_1->setTrackerMode(QwtPicker::AlwaysOff);
+
+		d_parallelLinePicker_2->setEnabled(true);
+		d_parallelLinePicker_2->setTrackerMode(QwtPicker::ActiveOnly);
+	}
+	//已经有2个点
+	if (parallelLineList.size() >= 2)
+	{
+		
+		//emit selectedParallelLinePicker(parallelLineList);
+		//修改处
+		selectedParallelLinePickerSlot(parallelLineList);
+	}
+
 }
 /**
 * @brief 平行线设门
@@ -827,6 +915,8 @@ void PlotWidget::computeRectPickerSlot(QRectF rectf)
 	double right = rectf.right();
 	double bottom = rectf.bottom();
 	PlotWidget * plotWidgetRect = new PlotWidget();//新plot窗口
+	//****设门GateStorage gateStorage;
+
 
 	int passageY = ui.passageYCombox->currentData().toInt();
 	int dataUnitY = ui.dataUnitYCombox->currentData().toInt();

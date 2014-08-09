@@ -17,6 +17,11 @@
 #include "Bll/DataCenter/BllDataCenter.h"
 #include "PlotStaticsThread.h"
 #include "plot.h"
+#include "Ui/Library/GateStorage.h"
+#include "Ui/QwtCustom/RectPicker.h"
+#include "Ui/QwtCustom/CrossPicker.h"
+#include "Ui/QwtCustom/CrossPicker.h"
+#include "Ui/QwtCustom/ParallelLinePicker.h"
 class Plot;
 class BarStruct;
 class PlotWidget : public QWidget
@@ -48,6 +53,10 @@ public:
 
 	PlotStaticsThread staticsThread;//统计线程
 
+
+
+
+	QList<GateStorage> m_gateStorageList;//当前画布的所有设门
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
@@ -152,6 +161,11 @@ public slots:
 	*/
 	void selectedRectPickerSlot(QRectF rectf);
 	/**
+	* @brief 平行线设门,判断是否有两个点
+	*
+	*/
+	void selectedParallelLinePickerSlot(QPointF pointf);
+	/**
 	* @brief 平行线设门
 	*
 	*/
@@ -222,6 +236,7 @@ public slots:
 	* @brief 设置界面控件的状态
 	*/
 	void setStatusControl(QMap<QString, int> map);
+
 signals:
 	void normalPlot();//正常显示信号
 
@@ -243,6 +258,15 @@ private:
 
 
 	int condition;//直方图统计条件数
+
+	//矩形
+	RectPicker* d_rectPicker;
+	//平行线1
+	ParallelLinePicker* d_parallelLinePicker_1;
+	//平行线2
+	ParallelLinePicker* d_parallelLinePicker_2;
+	QList<QPointF> parallelLineList;
+
 	
 };
 

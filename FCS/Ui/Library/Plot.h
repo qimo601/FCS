@@ -16,13 +16,14 @@
 #include <qwt_plot_panner.h>
 #include <qwt_plot_picker.h>
 #include "Include/Global.h"
+#include "Ui/QwtCustom/RectPicker.h"
+#include "Ui/QwtCustom/CrossPicker.h"
+#include "Ui/QwtCustom/ParallelLinePicker.h"
 class QwtPlotCurve;
 class QwtSymbol;
 class Zoomer;
 class QwtPlotCanvas;
-class CrossPicker;
-class RectPicker;
-class ParallelLinePicker;
+
 class Plot : public QwtPlot
 {
 	Q_OBJECT
@@ -34,6 +35,9 @@ public:
 	void setSamples(const QVector<QPointF> &samples);
 	void setSamples(const QVector< double > & xData, const QVector< double > & 	yData);
 	void setRawSamples(const double * xData, const double * yData, int size);
+
+	//设置画布
+	QwtPlotCanvas *canvas;
 public slots:
 
 	/**  
@@ -104,8 +108,7 @@ private:
 	Zoomer* d_zoomer;
 	// 平移画布，根据鼠标左键
 	QwtPlotPanner* d_panner;
-	//设置画布
-	QwtPlotCanvas *canvas;
+	
 	//十字线设门
 	CrossPicker* d_picker;
 

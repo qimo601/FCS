@@ -9,15 +9,25 @@ class GateStorage : public QObject
 	Q_OBJECT
 
 public:
-	GateStorage(QObject *parent);
+	GateStorage(QObject *parent = 0);
 	~GateStorage();
-	//获取画布指针
+	//获取设门所在父类画布指针
+	QObject* getParentWidget() const
+	{
+		return m_parentWidget;
+	}
+	//设定设门所在父类画布画布指针
+	void setParentWidget(QObject* parentWidget)
+	{
+		m_parentWidget = parentWidget;
+	}
+	//获取新画布指针
 	QObject* getPlotWidget() const
 	{
 		return m_plotWidget;
 	}
-	//设定画布指针
-	void setTubeCurrent(QObject* plotWidget)
+	//设定新画布指针
+	void setPlotWidget(QObject* plotWidget)
 	{
 		m_plotWidget = plotWidget;
 	}
@@ -114,8 +124,12 @@ public:
 		m_cvValue = cvValue;
 	}
 private:
-	QObject* m_plotWidget;//画布指针
+
+	QObject* m_parentWidget;//设门父类画布
+
+	QObject* m_plotWidget;//设门对应的新画布
 	QObject* m_gatePointer;//设门指针
+
 	QString m_gateName;//设门名称
 	QString m_gateType;//设门类型
 	double m_events;//细胞个数
