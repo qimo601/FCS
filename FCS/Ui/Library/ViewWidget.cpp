@@ -11,14 +11,6 @@ ViewWidget::ViewWidget(QWidget *parent)
 	ui.gridLayout->addWidget(plotWidget, 1, 0, 1, 1);*/
 
 	//barChartWidget = new BarChartWidget(ui.scrollAreaWidgetContents);
-
-	//初始化当前plot数组
-	plotWidgetList.append(ui.plotWidget_1);
-	plotWidgetList.append(ui.plotWidget_2);
-	plotWidgetList.append(ui.plotWidget_3);
-	plotWidgetList.append(ui.plotWidget_4);
-
-	connect(ui.plotWidget_1, SIGNAL(normalPlot()), this, SLOT(relayoutPlotWidget()));
 	//初始化当前焦点plot
 	focusPlotWidget = 0;
 	m_timerId = 0;//初始化
@@ -32,18 +24,38 @@ ViewWidget::ViewWidget(QWidget *parent)
 	connect(this, SIGNAL(startReadCellDataFromCircleBuffer()), readCellThread, SLOT(startReadCellDataFromCircleBuffer()));
 	//读取本地文件--已经没用了
 	connect(this, SIGNAL(openExpSignal(QString, bool)), readCellThread, SLOT(getCellDataFromFile(QString, bool)));
-
 	/****线程读取细胞数据****/
-	
 
-	/****线程传递细胞数据****/
-	//统计线程
+	//初始化当前gridlayout中的plot数组
+	plotWidgetList.append(ui.plotWidget_1);
+	plotWidgetList.append(ui.plotWidget_2);
+	plotWidgetList.append(ui.plotWidget_3);
+	plotWidgetList.append(ui.plotWidget_4);
+	//初始化全局有效细胞数据的plot窗口
+	m_plotWidgetList.append(ui.plotWidget_1);
+	m_plotWidgetList.append(ui.plotWidget_2);
+
+
+
+	/****plotWidget_1配置****/
+	//还原窗口
+	connect(ui.plotWidget_1, SIGNAL(normalPlot()), this, SLOT(relayoutPlotWidget()));
+	//新添加设门窗口
+	connect(ui.plotWidget_1, SIGNAL(addGateSignal(QWidget*)), this, SLOT(addGateSlot(QWidget*)));
+	//plotWidget_1统计线程
 	connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_1->staticsThread, SLOT(staticsCellData(bool)));
-	//保存文件信号
+	//plotWidget_1保存文件信号
 	connect(this, SIGNAL(saveExpFileToPlotwigetSignal(QString, QString)), ui.plotWidget_1, SLOT(saveExpFileSlot(QString,QString)));
 
-	//直方图统计，这个速度有点卡
+
+	/****plotWidget_2配置****/
+	//统计线程直方图统计，这个速度有点卡
 	connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_2->staticsThread, SLOT(staticsCellData(bool)));
+	//还原窗口
+	connect(ui.plotWidget_2, SIGNAL(normalPlot()), this, SLOT(relayoutPlotWidget()));
+	//新添加设门窗口
+	connect(ui.plotWidget_2, SIGNAL(addGateSignal(QWidget*)), this, SLOT(addGateSlot(QWidget*)));
+
 
 	//统计线程
 	///////connect(readCellThread, SIGNAL(cellReadySignal(bool)), &ui.plotWidget_2->staticsThread, SLOT(staticsCellData(bool)));
@@ -73,6 +85,10 @@ ViewWidget::~ViewWidget()
 {
 	readCellThread->quit();//线程离开exec循环
 }
+
+
+//全局所有画布数组
+QList<QWidget*> ViewWidget::m_plotWidgetList;
 /**
 * @brief 统计报告展示
 */
@@ -127,15 +143,41 @@ void ViewWidget::stopAcqSlot()
 	/****测试线程获取示波器数据****/
 }
 /**
+* @brief 新建画布-新建按钮
+*/
+void ViewWidget::addNewPlotFromUi()
+{
+	addNewPlot();
+}
+/**
+* @brief 新建画布-新加设门
+*/
+void ViewWidget::addNewPlotFromGate(PlotWidget* widget)
+{
+	addNewPlot(widget);
+}
+/**
 * @brief 新建画布-会实时统计
 */
-void ViewWidget::addNewPlot()
+void ViewWidget::addNewPlot(PlotWidget* widget)
 {
 	
 
 	int m = ui.gridLayout->count();
-	PlotWidget* plotWidget_0 = new PlotWidget(ui.scrollAreaWidgetContents);
-	plotWidget_0->setObjectName(QStringLiteral("plotWidget_1"));
+	PlotWidget* plotWidget_0 = 0;
+	//如果新增设门指定窗口
+	if (widget != 0)
+	{
+		plotWidget_0 = widget;
+		plotWidget_0->setParent(ui.scrollAreaWidgetContents);
+	}
+	//新增空白窗口
+	else
+	{
+		plotWidget_0 = new PlotWidget(ui.scrollAreaWidgetContents);
+	}
+
+	plotWidget_0->setObjectName(QStringLiteral("plotWidget_0"));
 	plotWidget_0->setCursor(QCursor(Qt::ArrowCursor));
 
 	ui.gridLayout->addWidget(plotWidget_0);
@@ -145,15 +187,22 @@ void ViewWidget::addNewPlot()
 	int rowSpan;
 	int columnSpan;
 	ui.gridLayout->getItemPosition(2, &row, &column, &rowSpan, &columnSpan);
-	plotWidgetList.append(plotWidget_0);
 
+	plotWidgetList.append(plotWidget_0);//gridlayout中的所有数组
+	m_plotWidgetList.append(widget);//全局数组添加该窗口
 
-	//统计线程
-	QObject::connect(readCellThread, SIGNAL(cellReadySignal(bool)), &plotWidget_0->staticsThread, SLOT(staticsCellData(bool)));
+	//统计线程-暂时不支持新建画布更新数据：2014-8-10
+	//QObject::connect(readCellThread, SIGNAL(cellReadySignal(bool)), &plotWidget_0->staticsThread, SLOT(staticsCellData(bool)));
+	//还原窗口
+	connect(plotWidget_0, SIGNAL(normalPlot()), this, SLOT(relayoutPlotWidget()));
+	//新添加设门窗口
+	connect(plotWidget_0, SIGNAL(addGateSignal(QWidget*)), this, SLOT(addGateSlot(QWidget*)));
+
 	clearPlotWidget();
 	relayoutPlotWidget();
 
 }
+
 /**
 * @brief 删除画布
 */
@@ -170,7 +219,21 @@ void ViewWidget::delPlot()
 
 	if (msgBox.clickedButton() == Button1)
 	{
-		//删除选中的画布
+		PlotWidget * plotWidget = 0;
+		//在全局有效细胞数据中删除选中的画布
+		for (int i = 0; i < m_plotWidgetList.size(); i++)
+		{
+			if (focusPlotWidget == m_plotWidgetList.at(i))
+			{
+
+				plotWidget = (PlotWidget*)m_plotWidgetList.takeAt(i);
+
+			}
+		}
+
+
+
+		//在grid中删除选中的画布
 		for (int i = 0; i < plotWidgetList.size(); i++)
 		{
 			if (focusPlotWidget == plotWidgetList.at(i))
@@ -183,7 +246,7 @@ void ViewWidget::delPlot()
 
 			}
 		}
-
+		
 
 	
 		clearPlotWidget();//清空所有画布
@@ -265,7 +328,8 @@ void ViewWidget::openExpFileSlot()
 	QDir dir1;
 	QString absolutePath1 = dir1.absolutePath();
 	QString canonicalPath1 = dir1.canonicalPath();
-	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), "../MatLabData", "");
+	dir1.setCurrent("D:/VS2013WorkSpace/FCS/Win32/Debug");
+	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), "../../MatLabData", "");
 	fd->setFileMode(QFileDialog::ExistingFile);
 	fd->setViewMode(QFileDialog::Detail);
 	QStringList nameFilters;
@@ -351,4 +415,12 @@ void ViewWidget::saveExpFileSlot()
 
 	delete fd;
 }
-
+/**
+* @brief 新增加设门窗口槽函数
+*/
+void ViewWidget::addGateSlot(QWidget* widget)
+{
+	
+	addNewPlotFromGate((PlotWidget*)widget);//界面布局上新添加该窗口
+	reportTree->updateReport();//更新报告界面
+}

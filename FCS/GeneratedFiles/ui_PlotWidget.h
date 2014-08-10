@@ -373,9 +373,15 @@ public:
 
     void retranslateUi(QWidget *PlotWidget)
     {
-        PlotWidget->setWindowTitle(QApplication::translate("PlotWidget", "PlotWidget", 0));
+        PlotWidget->setWindowTitle(QApplication::translate("PlotWidget", "All", 0));
         zoomerBtn->setText(QApplication::translate("PlotWidget", "\346\224\276\345\244\247/\347\274\251\345\260\217", 0));
+#ifndef QT_NO_TOOLTIP
+        pannerBtn->setToolTip(QApplication::translate("PlotWidget", "\345\271\263\347\247\273", 0));
+#endif // QT_NO_TOOLTIP
         pannerBtn->setText(QApplication::translate("PlotWidget", "\345\271\263\347\247\273", 0));
+#ifndef QT_NO_TOOLTIP
+        maximizedBtn->setToolTip(QApplication::translate("PlotWidget", "\346\234\200\345\244\247\345\214\226", 0));
+#endif // QT_NO_TOOLTIP
         maximizedBtn->setText(QApplication::translate("PlotWidget", "\346\234\200\345\244\247\345\214\226", 0));
 #ifndef QT_NO_TOOLTIP
         normalBtn->setToolTip(QApplication::translate("PlotWidget", "\346\234\200\345\260\217\345\214\226", 0));
@@ -383,7 +389,13 @@ public:
         normalBtn->setText(QApplication::translate("PlotWidget", "\350\277\230\345\216\237", 0));
         viewTrueValueBtn->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\277", 0));
         viewTrueValueBtn_2->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\2772", 0));
+#ifndef QT_NO_TOOLTIP
+        rectBtn->setToolTip(QApplication::translate("PlotWidget", "\347\237\251\345\275\242\350\256\276\351\227\250", 0));
+#endif // QT_NO_TOOLTIP
         rectBtn->setText(QApplication::translate("PlotWidget", "\347\237\251\345\275\242", 0));
+#ifndef QT_NO_TOOLTIP
+        parallelLineBtn->setToolTip(QApplication::translate("PlotWidget", "\345\271\263\350\241\214\347\272\277\350\256\276\351\227\250", 0));
+#endif // QT_NO_TOOLTIP
         parallelLineBtn->setText(QApplication::translate("PlotWidget", "\345\271\263\350\241\214\347\272\277", 0));
         parallelLineBtn_2->setText(QApplication::translate("PlotWidget", "\345\244\232\350\276\271\345\275\242", 0));
         testUpBtn->setText(QApplication::translate("PlotWidget", "+", 0));

@@ -60,6 +60,10 @@ public:
 	* @brief 直方图读取数据方法
 	*/
 	void getDataVector(QList < QList < QVector<double>* > * >*  origialDataList, QList < QList < QVector<double>* >*  >* logDataList, QList < QList < QVector<BarStruct>* >*  >* barStructList);
+	/**
+	* @brief 获取细胞数目
+	*/
+	double getAllEvents();
 };
 
 #endif // ICELLSTATICDATA_H

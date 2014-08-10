@@ -264,7 +264,7 @@ void StackedWidget::on_stopAcquisitionBtn_clicked()
 */
 void StackedWidget::on_newPlotBtn_clicked()
 {
-	ui.celllViewWidget->addNewPlot();
+	ui.celllViewWidget->addNewPlotFromUi();//界面按钮新添加空白窗口
 }
 /**
 * @brief 删除plot

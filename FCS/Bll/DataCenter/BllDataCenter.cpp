@@ -163,3 +163,10 @@ void BllDataCenter::getCellDataVector(QList < QList < QVector<double>* > * >* or
 {
 	iCellStaticData->getDataVector(origialDataList, logDataList, barStructList);
 }
+/**
+* @brief 获取源数据细胞总数
+*/
+double BllDataCenter::getAllEvents()
+{
+	return iCellStaticData->getAllEvents();
+}

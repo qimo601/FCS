@@ -191,3 +191,13 @@ void ICellStaticData::getDataVector(QList < QList < QVector<double>* > * >*  ori
 	mutex.unlock();
 
 }
+/**
+* @brief 获取细胞数目
+*/
+double ICellStaticData::getAllEvents()
+{
+	 mutex.lock();
+	 double events = cellFullData->at(0)->at(0)->size();
+	 mutex.unlock();
+	 return events;
+}

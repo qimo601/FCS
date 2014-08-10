@@ -24,6 +24,7 @@
 #include "Ui/QwtCustom/ParallelLinePicker.h"
 class Plot;
 class BarStruct;
+class ViewWidget;
 class PlotWidget : public QWidget
 {
 	Q_OBJECT
@@ -56,7 +57,7 @@ public:
 
 
 
-	QList<GateStorage> m_gateStorageList;//当前画布的所有设门
+	QList<GateStorage*> m_gateStorageList;//当前画布的所有设门
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
@@ -236,10 +237,19 @@ public slots:
 	* @brief 设置界面控件的状态
 	*/
 	void setStatusControl(QMap<QString, int> map);
+	/**
+	* @brief 添加设门
+	* @param type:设门类型 RECT:矩形，PARALLEL: 平行线设门
+	*/
+	void addGate(GateStorage::GateType type);
+	/**
+	* @brief 删除指定设门
+	*/
+	void deleteGate(GateStorage* gateStorage);
 
 signals:
 	void normalPlot();//正常显示信号
-
+	void addGateSignal(QWidget*);
 protected:
 	virtual void paintEvent(QPaintEvent * event);
 	virtual void timerEvent(QTimerEvent * event);
@@ -266,6 +276,11 @@ private:
 	//平行线2
 	ParallelLinePicker* d_parallelLinePicker_2;
 	QList<QPointF> parallelLineList;
+
+
+
+	//当前设门生成的窗口
+	PlotWidget* d_plotWidgetGate;
 
 	
 };

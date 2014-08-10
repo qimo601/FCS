@@ -11,6 +11,18 @@ class GateStorage : public QObject
 public:
 	GateStorage(QObject *parent = 0);
 	~GateStorage();
+	enum GateType {
+		//矩形设门
+		RECT = 0x0001,
+		//平行线设门
+		PARALLEL = 0x0002,
+		//CT-Acquisition System(CT采集重建子系统)
+		CT_ARS = 0x0003,
+		//PET-Acquisition System(PET采集重建子系统)
+		PET_ARS = 0x0004,
+		//Control Box(控制盒)
+		CB = 0x0005
+	};
 	//获取设门所在父类画布指针
 	QObject* getParentWidget() const
 	{
@@ -54,12 +66,12 @@ public:
 		m_gateName = gateName;
 	}
 	//获取设门类型
-	QString getGateType() const
+	GateType getGateType() const
 	{
 		return m_gateType;
 	}
 	//设定设门类型
-	void setGateType(QString gateType)
+	void setGateType(GateType gateType)
 	{
 		m_gateType = gateType;
 	}
@@ -131,7 +143,7 @@ private:
 	QObject* m_gatePointer;//设门指针
 
 	QString m_gateName;//设门名称
-	QString m_gateType;//设门类型
+	GateType m_gateType;//设门类型
 	double m_events;//细胞个数
 	double m_percentageParent;//%Parent:当前设门的细胞数目，占父类的百分比
 	double m_percentageTotal;//%Total:当前设门的细胞数目，占源数据细胞总数的百分比

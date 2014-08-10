@@ -14,6 +14,8 @@ class ViewWidget : public QWidget
 public:
 	ViewWidget(QWidget *parent = 0);
 	~ViewWidget();
+	//全局所有画布数组
+	static QList<QWidget*> m_plotWidgetList;
 public slots:
 	/**
 	* @brief 开始采集
@@ -24,9 +26,22 @@ public slots:
 	*/
 	void stopAcqSlot();
 	/**
-	* @brief 新添加plot
+	* @brief 新建画布-新建按钮
 	*/
-	void addNewPlot();
+	void addNewPlotFromUi();
+	/**
+	* @brief 新建画布-新加设门
+	*/
+	void addNewPlotFromGate(PlotWidget* widget);
+	/**
+	* @brief 新增加设门窗口槽函数
+	*/
+	void addGateSlot(QWidget* widget);
+	/**
+	* @brief 新添加plot
+	* @param PlotWidget* widget:新增窗口指针
+	*/
+	void addNewPlot(PlotWidget* widget=0);
 	/**
 	* @brief 删除plot
 	*/

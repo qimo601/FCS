@@ -29,7 +29,7 @@ public:
 	//示波器Y轴显示数据
 	static QList<QVector<double>> oscYData;
 
-	/**/
+	
 
 	///全局初始化
 	void init();

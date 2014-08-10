@@ -31,6 +31,9 @@ void PlotStaticsThread::run()
 	this->exec();
 
 }
+/**
+* @brief 设置该统计线程负责统计的PlotWidget
+*/
 void PlotStaticsThread::setDataWidget(PlotWidget* dataWidget)
 {
 	m_dataWidgetParent = dataWidget;

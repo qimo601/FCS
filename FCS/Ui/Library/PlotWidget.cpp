@@ -6,7 +6,7 @@
 #include "BarStruct.h"
 #include <qwt_scale_engine.h>
 #include <qwt_scale_draw.h>
-
+#include "Ui/Library/ViewWidget.h"
 //按照log值绘制标签
 class LogScaleDraw : public QwtScaleDraw
 {
@@ -385,8 +385,10 @@ void PlotWidget::setAxisScale()
 			d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLogScaleEngine);
 			//d_plot->setAxisScale(QwtPlot::xBottom, 0, 6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
 			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
-			d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
-			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
+			d_plot->setAxisScale(QwtPlot::xBottom, 1, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+			d_plot->setAxisScale(QwtPlot::yLeft, 1, 1e6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+			/*d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
+			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);*/
 		}
 
 	}
@@ -406,7 +408,6 @@ void PlotWidget::setAxisScale()
 			
 			d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
 			d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
-			//d_plot->setAxisScale(QwtPlot::xBottom, 1, 1e10);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
 			d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());//每次改变坐标值，都会重新绘制刻度标签和刻度样式
 			d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
 			d_plot->setAxisMaxMajor(QwtPlot::xBottom, 10);//大刻度最多10个
@@ -778,8 +779,9 @@ void PlotWidget::selectedCrossPickerSlot(QPointF pointf1)
 void PlotWidget::selectedRectPickerSlot(QRectF rectf1)
 {
 	QRectF rectf = rectf1;
-
+	//生成设门窗口
 	computeRectPickerSlot(rectf);
+	
 }
 
 /**
@@ -901,6 +903,54 @@ void PlotWidget::setStatusControl(QMap<QString,int> map)
 
 }
 /**
+* @brief 添加设门
+*/
+void PlotWidget::addGate(GateStorage::GateType type)
+{
+	GateStorage* gateStorage = new GateStorage();
+	gateStorage->setParentWidget((QObject*)this);//当前父窗口
+	gateStorage->setPlotWidget(d_plotWidgetGate);//设门新生成的窗口
+	gateStorage->setGatePointer(d_rectPicker);//当前设门指针
+	gateStorage->setGateName(QString("P%1").arg(ViewWidget::m_plotWidgetList.size() + 1));//设门名字
+	gateStorage->setGateType(type);//设门类型
+	m_gateStorageList.append(gateStorage);//添加设门
+
+	emit addGateSignal((QWidget*)d_plotWidgetGate);
+}
+/**
+* @brief 删除指定设门
+*/
+void PlotWidget::deleteGate(GateStorage* gateStorage)
+{
+	for (int i = 0; i < m_gateStorageList.size(); i++)
+	{
+		GateStorage* gate = m_gateStorageList.at(i);
+		//找到设门
+		if (gate == gateStorage)
+		{
+			//设门类型
+			GateStorage::GateType m_gateType = gate->getGateType();
+			//矩形设门
+			if (m_gateType == GateStorage::RECT)
+			{
+				RectPicker* rectPicker = (RectPicker*)gate->getGatePointer();
+				rectPicker->setEnabled(false);
+				delete rectPicker;
+			}
+			//平行线设门
+			else if (m_gateType == GateStorage::PARALLEL)
+			{
+				ParallelLinePicker* parallLinePicker = (ParallelLinePicker*)gate->getGatePointer();
+				parallLinePicker->setEnabled(false);
+				delete parallLinePicker;
+			}
+			//设门数组删除该设门
+			m_gateStorageList.removeAt(i);
+		}
+	}
+	
+}
+/**
 * @brief 根据矩形筛选
 *
 */
@@ -914,9 +964,7 @@ void PlotWidget::computeRectPickerSlot(QRectF rectf)
 	double left = rectf.left();
 	double right = rectf.right();
 	double bottom = rectf.bottom();
-	PlotWidget * plotWidgetRect = new PlotWidget();//新plot窗口
-	//****设门GateStorage gateStorage;
-
+	d_plotWidgetGate = new PlotWidget();//新plot窗口
 
 	int passageY = ui.passageYCombox->currentData().toInt();
 	int dataUnitY = ui.dataUnitYCombox->currentData().toInt();
@@ -953,9 +1001,9 @@ void PlotWidget::computeRectPickerSlot(QRectF rectf)
 		//8个通道
 		for (int i = 0; i < origialDataList->size(); i++)
 		{
-			QList < QVector<double>* > * list1 = plotWidgetRect->origialDataList->at(i);//原始数据
-			QList < QVector<double>* > * list2 = plotWidgetRect->logDataList->at(i);//log数据
-			QList < QVector<BarStruct>* >* list3 = plotWidgetRect->barStructList->at(i);//条件数据
+			QList < QVector<double>* > * list1 = d_plotWidgetGate->origialDataList->at(i);//原始数据
+			QList < QVector<double>* > * list2 = d_plotWidgetGate->logDataList->at(i);//log数据
+			QList < QVector<BarStruct>* >* list3 = d_plotWidgetGate->barStructList->at(i);//条件数据
 			//3组参数
 			for (int j = 0; j < 3; j++)
 			{
@@ -968,10 +1016,13 @@ void PlotWidget::computeRectPickerSlot(QRectF rectf)
 
 	}
 	//传递控件状态参数
-	plotWidgetRect->setStatusControl(getStatusControl());
+	d_plotWidgetGate->setStatusControl(getStatusControl());
 
-	plotWidgetRect->show();
-	plotWidgetRect->updateSamples();
+	d_plotWidgetGate->show();
+	d_plotWidgetGate->updateSamples();
+
+	//添加至设门数组
+	addGate(GateStorage::RECT);
 }
 /**
 * @brief 根据平行线筛选
@@ -981,7 +1032,7 @@ void PlotWidget::computeParallelLinePickerSlot(QList<QPointF> pointFList)
 {
 	QPointF pointF1 = pointFList.at(0);
 	QPointF pointF2 = pointFList.at(1);
-	PlotWidget * plotWidgetRect = new PlotWidget();//新plot窗口
+	d_plotWidgetGate = new PlotWidget();//新plot窗口
 
 	int passageY = ui.passageYCombox->currentData().toInt();
 	int dataUnitY = ui.dataUnitYCombox->currentData().toInt();
@@ -1007,9 +1058,9 @@ void PlotWidget::computeParallelLinePickerSlot(QList<QPointF> pointFList)
 		//8个通道
 		for (int i = 0; i < origialDataList->size(); i++)
 		{
-			QList < QVector<double>* > * list1 = plotWidgetRect->origialDataList->at(i);//原始数据
-			QList < QVector<double>* > * list2 = plotWidgetRect->logDataList->at(i);//log数据
-			QList < QVector<BarStruct>* >* list3 = plotWidgetRect->barStructList->at(i);//条件数据
+			QList < QVector<double>* > * list1 = d_plotWidgetGate->origialDataList->at(i);//原始数据
+			QList < QVector<double>* > * list2 = d_plotWidgetGate->logDataList->at(i);//log数据
+			QList < QVector<BarStruct>* >* list3 = d_plotWidgetGate->barStructList->at(i);//条件数据
 			//3组参数
 			for (int j = 0; j < 3; j++)
 			{
@@ -1022,10 +1073,12 @@ void PlotWidget::computeParallelLinePickerSlot(QList<QPointF> pointFList)
 
 	}
 	//传递控件状态参数
-	plotWidgetRect->setStatusControl(getStatusControl());
-	plotWidgetRect->show();
-	plotWidgetRect->updateSamples();
+	d_plotWidgetGate->setStatusControl(getStatusControl());
+	d_plotWidgetGate->show();
+	d_plotWidgetGate->updateSamples();
 
+	//添加至设门数组
+	addGate(GateStorage::PARALLEL);
 }
 /**
 * @brief 保存文件
