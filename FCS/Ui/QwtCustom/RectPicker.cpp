@@ -6,7 +6,7 @@ RectPicker::RectPicker(QWidget *canvas)
 :QwtPlotPicker(canvas)
 {
 	setAxis(QwtPlot::xBottom, QwtPlot::yLeft);
-	setResizeMode(QwtPicker::Stretch);//变形模式
+	setResizeMode(QwtPicker::KeepSize);//变形模式
 	//设置一个状态机，并删除上一个
 	setStateMachine(new QwtPickerDragRectMachine());
 	setRubberBandPen(QColor(Qt::red));
@@ -77,8 +77,9 @@ void RectPicker::stretchSelection(const QSize &oldSize, const QSize &newSize)
 }
 bool RectPicker::end(bool ok)
 {
+	
 	if (!ok)//更改代码处：，正常结束后，并不停止。只有reset时候，end(false)停止选择，重置状态机
-		QwtPlotPicker::end(ok);
+		QwtPicker::end(ok);
 	if (!ok)
 		return false;
 
@@ -135,13 +136,13 @@ bool RectPicker::end(bool ok)
 	default:
 		break;
 	}
-	return true;
+	return ok;
 }
  void RectPicker::reset()
 {
-	QwtPicker::reset();
+	 QwtPlotPicker::reset();
 }
  void RectPicker::remove()
 {
-	QwtPlotPicker::remove();
+	 QwtPlotPicker::remove();
 }

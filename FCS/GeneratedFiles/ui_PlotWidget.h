@@ -42,6 +42,7 @@ public:
     QToolButton *parallelLineBtn_2;
     QToolButton *testUpBtn;
     QToolButton *testDownBtn;
+    QToolButton *testLastBtn;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout;
     QFrame *cellXFrame;
@@ -67,14 +68,14 @@ public:
     {
         if (PlotWidget->objectName().isEmpty())
             PlotWidget->setObjectName(QStringLiteral("PlotWidget"));
-        PlotWidget->resize(606, 493);
+        PlotWidget->resize(502, 446);
         QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PlotWidget->sizePolicy().hasHeightForWidth());
         PlotWidget->setSizePolicy(sizePolicy);
-        PlotWidget->setMinimumSize(QSize(606, 493));
-        PlotWidget->setMaximumSize(QSize(606, 493));
+        PlotWidget->setMinimumSize(QSize(502, 446));
+        PlotWidget->setMaximumSize(QSize(502, 446));
         PlotWidget->setFocusPolicy(Qt::StrongFocus);
         PlotWidget->setAcceptDrops(false);
         horizontalLayout_2 = new QHBoxLayout(PlotWidget);
@@ -89,7 +90,7 @@ public:
         cellToolFrame->setFrameShape(QFrame::StyledPanel);
         cellToolFrame->setFrameShadow(QFrame::Raised);
         verticalLayout_2 = new QVBoxLayout(cellToolFrame);
-        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setSpacing(2);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, -1, 0, -1);
@@ -208,6 +209,15 @@ public:
         testDownBtn->setChecked(false);
 
         verticalLayout_2->addWidget(testDownBtn);
+
+        testLastBtn = new QToolButton(cellToolFrame);
+        testLastBtn->setObjectName(QStringLiteral("testLastBtn"));
+        testLastBtn->setMinimumSize(QSize(32, 32));
+        testLastBtn->setMaximumSize(QSize(32, 32));
+        testLastBtn->setCheckable(true);
+        testLastBtn->setChecked(false);
+
+        verticalLayout_2->addWidget(testLastBtn);
 
         verticalSpacer = new QSpacerItem(20, 339, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -400,6 +410,7 @@ public:
         parallelLineBtn_2->setText(QApplication::translate("PlotWidget", "\345\244\232\350\276\271\345\275\242", 0));
         testUpBtn->setText(QApplication::translate("PlotWidget", "+", 0));
         testDownBtn->setText(QApplication::translate("PlotWidget", "-", 0));
+        testLastBtn->setText(QApplication::translate("PlotWidget", "Test", 0));
         toolButton->setText(QApplication::translate("PlotWidget", "...", 0));
 #ifndef QT_NO_TOOLTIP
         passageYCombox->setToolTip(QApplication::translate("PlotWidget", "\351\200\232\351\201\223", 0));

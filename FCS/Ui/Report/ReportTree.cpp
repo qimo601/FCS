@@ -250,7 +250,7 @@ void ReportTree::getTreeChildReport(QTreeWidgetItem* currentItem, PlotWidget* pa
 		GateStorage* gateStorage = parentPlotWidget->m_gateStorageList.at(j);
 		//每个设门对应的窗口
 		PlotWidget* childPlotWidget = (PlotWidget*)gateStorage->getPlotWidget();
-		double parentEvents = childPlotWidget->computerEvents();
+		double parentEvents = parentPlotWidget->computerEvents();
 		double totalEvents = bllDataCenter.getAllEvents();
 		double events = childPlotWidget->computerEvents();
 		gateStorage->setEvents(events);

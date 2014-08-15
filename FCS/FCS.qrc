@@ -30,6 +30,7 @@
         <file>Resources/Images/MainWindow/MinBTn.png</file>
         <file>Resources/Images/MainWindow/MoveBtn.png</file>
         <file>Resources/Images/MainWindow/savePlot.png</file>
+        <file>Resources/Images/MainWindow/PdfBtn.png</file>
     </qresource>
     <qresource prefix="/Qss">
         <file>Resources/StyleSheet.qss</file>

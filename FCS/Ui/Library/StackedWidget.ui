@@ -1122,19 +1122,6 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton">
-       <property name="geometry">
-        <rect>
-         <x>240</x>
-         <y>20</y>
-         <width>91</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>载入参数</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="startAcquisitionBtn">
        <property name="geometry">
         <rect>
@@ -1157,12 +1144,12 @@
         <rect>
          <x>480</x>
          <y>40</y>
-         <width>71</width>
+         <width>101</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>保存文件</string>
+        <string>保存</string>
        </property>
       </widget>
       <widget class="QPushButton" name="stopAcquisitionBtn">
@@ -1177,75 +1164,202 @@
        <property name="text">
         <string>停止</string>
        </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBox_2">
-       <property name="geometry">
-        <rect>
-         <x>880</x>
-         <y>10</y>
-         <width>41</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>时间</string>
+       <property name="icon">
+        <iconset resource="../../FCS.qrc">
+         <normaloff>:/MainWindow/Resources/Images/MainWindow/stop.png</normaloff>:/MainWindow/Resources/Images/MainWindow/stop.png</iconset>
        </property>
       </widget>
-      <widget class="QSpinBox" name="spinBox_4">
+      <widget class="QWidget" name="">
        <property name="geometry">
         <rect>
-         <x>930</x>
+         <x>870</x>
          <y>0</y>
-         <width>71</width>
-         <height>22</height>
+         <width>141</width>
+         <height>86</height>
         </rect>
        </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBox_3">
-       <property name="geometry">
-        <rect>
-         <x>880</x>
-         <y>70</y>
-         <width>51</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>数量</string>
-       </property>
-      </widget>
-      <widget class="QSpinBox" name="spinBox_5">
-       <property name="geometry">
-        <rect>
-         <x>930</x>
-         <y>60</y>
-         <width>71</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBox_4">
-       <property name="geometry">
-        <rect>
-         <x>880</x>
-         <y>40</y>
-         <width>41</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>流量</string>
-       </property>
-      </widget>
-      <widget class="QSpinBox" name="spinBox_6">
-       <property name="geometry">
-        <rect>
-         <x>930</x>
-         <y>30</y>
-         <width>71</width>
-         <height>22</height>
-        </rect>
-       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <widget class="QCheckBox" name="timeCheckBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>60</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>时间</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="timeSpinBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>71</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>71</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="suffix">
+             <string>s</string>
+            </property>
+            <property name="maximum">
+             <number>3600</number>
+            </property>
+            <property name="value">
+             <number>60</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <widget class="QCheckBox" name="eventsCheckBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>60</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>数量</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="eventsSpinBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>71</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>71</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="suffix">
+             <string>个</string>
+            </property>
+            <property name="maximum">
+             <number>50000</number>
+            </property>
+            <property name="value">
+             <number>10000</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <item>
+           <widget class="QCheckBox" name="flowCheckBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>60</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>流量</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="flowSpinBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>71</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>71</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="suffix">
+             <string>L</string>
+            </property>
+            <property name="maximum">
+             <number>1000</number>
+            </property>
+            <property name="value">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

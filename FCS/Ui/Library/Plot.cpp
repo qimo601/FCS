@@ -588,6 +588,7 @@ d_curve(NULL)
 	DistancePicker *picker = new DistancePicker(canvas);
 	picker->setMousePattern(QwtPlotPicker::MouseSelect1, Qt::RightButton);
 	picker->setRubberBandPen(QPen(Qt::blue));
+	picker->setEnabled(false);
 
 	//十字线
 	d_picker = new CrossPicker(canvas);
@@ -813,8 +814,8 @@ void Plot::enableScatterMode()
 	d_curve->setStyle(QwtPlotCurve::Dots);
 	d_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
 	//坐标轴刻度修饰
-	this->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小
-	this->setAxisScale(QwtPlot::yLeft, 0, 1e6);//设置y轴坐标刻度大小
+	this->setAxisScale(QwtPlot::xBottom, 1, 1e6);//设置x轴坐标刻度大小
+	this->setAxisScale(QwtPlot::yLeft, 1, 1e6);//设置y轴坐标刻度大小
 	replot();
 }
 /**

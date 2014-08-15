@@ -412,9 +412,9 @@ void PlotWidget::setAxisScale()
 			d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
 			d_plot->setAxisMaxMajor(QwtPlot::xBottom, 10);//大刻度最多10个
 			d_plot->setAxisMaxMinor(QwtPlot::xBottom, 5);//小刻度最多5个
-			d_plot->setAxisScale(QwtPlot::yLeft, 0, 10000);
+			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 10000);
 			d_plot->setAxisScale(QwtPlot::xBottom, 1,1e6);
-			//d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
+			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
 			//d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
 			//d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
 		}
@@ -501,22 +501,56 @@ void PlotWidget::enableViewTrueValueMode2(bool mode)
 
 	d_plot->enableViewTrueValue2(mode);
 }
+
+///**
+//* @brief 矩形设门事件
+//*/
+//void PlotWidget::on_rectBtn_toggled(bool mode)
+//{
+//
+//	enableRectBtn(mode);
+//}
+
+
+/**
+* @brief 启用矩形设门
+*/
+void PlotWidget::on_testLastBtn_toggled(bool mode)
+{
+	////矩形
+	//RectPicker* d_rectPickerTest = new RectPicker(d_plot->canvas);
+	////矩形设门-返回值
+	//connect(d_rectPickerTest, SIGNAL(selected(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
+	//d_rectPickerTest->setEnabled(mode);
+	//d_rectPickerTest->setTrackerMode(QwtPicker::ActiveOnly);
+	d_rectPicker->end(mode);
+}
 /**
 * @brief 启用矩形设门
 */
 void PlotWidget::enableRectBtn(bool mode)
 {
-	//矩形
-	d_rectPicker = new RectPicker(d_plot->canvas);
-	//矩形设门-返回值
-	connect(d_rectPicker, SIGNAL(selected(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
-	d_rectPicker->setEnabled(mode);
-	if (!mode)
+	//启用新设门
+	if (mode)
 	{
-		d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
+		//矩形
+		d_rectPicker = new RectPicker(d_plot->canvas);
+		//矩形设门-返回值
+		connect(d_rectPicker, SIGNAL(selected(QRectF)), this, SLOT(selectedRectPickerSlot(QRectF)));
+		d_rectPicker->setEnabled(mode);
+		d_rectPicker->setTrackerMode(QwtPicker::ActiveOnly);
+
+	}
+	//停止旧设门
+	else
+	{
+
+		//d_rectPicker->setEnabled(false);
+		//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
 		//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
 		//d_rectPicker->remove();
-		//d_rectPicker->end(true);
+		//d_rectPicker->end(false);
+		d_rectPicker->setTrackerMode(QwtPicker::AlwaysOff);
 	}
 	//暂时不用了
 	//d_plot->enableRectPicker(mode);
@@ -526,28 +560,30 @@ void PlotWidget::enableRectBtn(bool mode)
 */
 void PlotWidget::enableParallelLineBtn(bool mode)
 {
-	//平行线设门
-	d_parallelLinePicker_1 = new ParallelLinePicker(d_plot->canvas);
-	connect(d_parallelLinePicker_1, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
-	//平行线设门
-	d_parallelLinePicker_2 = new ParallelLinePicker(d_plot->canvas);
-	d_parallelLinePicker_2->setRubberBandPen(QPen(Qt::blue));
-	connect(d_parallelLinePicker_2, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
-
-
-
+	//启用新设门
 	if (mode)
 	{
+		//平行线设门
+		d_parallelLinePicker_1 = new ParallelLinePicker(d_plot->canvas);
+		connect(d_parallelLinePicker_1, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
+		//平行线设门
+		d_parallelLinePicker_2 = new ParallelLinePicker(d_plot->canvas);
+		d_parallelLinePicker_2->setRubberBandPen(QPen(Qt::blue));
+		connect(d_parallelLinePicker_2, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
+
 		d_parallelLinePicker_1->setEnabled(true);
 		d_parallelLinePicker_2->setEnabled(false);
 		d_parallelLinePicker_1->setTrackerMode(QwtPicker::ActiveOnly);
 		d_parallelLinePicker_2->setTrackerMode(QwtPicker::AlwaysOff);
 
 	}
+	//停止旧设门
 	else
 	{
-		d_parallelLinePicker_1->setEnabled(false);
-		d_parallelLinePicker_2->setEnabled(false);
+		//d_parallelLinePicker_1->setEnabled(false);
+		//d_parallelLinePicker_2->setEnabled(false);
+		//d_parallelLinePicker_1->reset();
+		//d_parallelLinePicker_2->reset();
 		d_parallelLinePicker_1->setTrackerMode(QwtPicker::AlwaysOff);
 		d_parallelLinePicker_2->setTrackerMode(QwtPicker::AlwaysOff);
 	}
@@ -1023,6 +1059,10 @@ void PlotWidget::computeRectPickerSlot(QRectF rectf)
 
 	//添加至设门数组
 	addGate(GateStorage::RECT);
+	//矩形设门完成
+	//enableRectBtn(false);
+	//置假
+	ui.rectBtn->setChecked(false);//会自动调用槽函数enableRectBtn(false);
 }
 /**
 * @brief 根据平行线筛选
@@ -1079,6 +1119,9 @@ void PlotWidget::computeParallelLinePickerSlot(QList<QPointF> pointFList)
 
 	//添加至设门数组
 	addGate(GateStorage::PARALLEL);
+	//平行线设门完成
+	//enableParallelLineBtn(false);
+	ui.parallelLineBtn->setChecked(false);//会自动调用槽函数enableParallelLineBtn(false);
 }
 /**
 * @brief 保存文件

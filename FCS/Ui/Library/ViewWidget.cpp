@@ -384,17 +384,23 @@ void ViewWidget::saveExpFileSlot()
 	fd->setViewMode(QFileDialog::Detail);//文件以详细的形式显示，显示文件名，大小，创建日期等信息；
 	//还有另一种形式QFileDialog::List，这个只是把文件的文件名以列表的形式显示出来
 	fd->setGeometry(10, 30, 300, 200);//设置文件对话框的显示位置
-	fd->setDirectory("../USBData");
+	fd->setDirectory("../MatLabData");
 	QStringList nameFilters;
-	nameFilters << "USB files (*.usb *.USB)"
-		<< "matlab files (*.fcm *.FCM *.matlab *.MATLAB)"
+	nameFilters << "matlab files (*.fcm *.FCM *.matlab *.MATLAB)"
 		<< "FCS files (*.fcs *.FCS)";
+	/*nameFilters << "USB files (*.usb *.USB)"
+		<< "matlab files (*.fcm *.FCM *.matlab *.MATLAB)"
+		<< "FCS files (*.fcs *.FCS)";*/
 	fd->setNameFilters(nameFilters);//设置文件类型过滤器
 
 	QStringList fileNamesList;
-	if (fd->exec() == QDialog::Accepted) {
+	if (fd->exec() == QDialog::Accepted) // 取消则是：QDialog::Rejected
+	{
 		fileNamesList = fd->selectedFiles();
-		}
+	}
+	else{
+		return;
+	}
 
 
 	QString fileName = fileNamesList.at(0).toLocal8Bit().constData();

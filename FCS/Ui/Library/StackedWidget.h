@@ -117,6 +117,10 @@ public slots:
 	*/
 	void showReport(bool on);
 	/**
+	* @brief 导出PDF
+	*/
+	void exportPDF();
+	/**
 	* @brief 打开实验文件
 	*/
 	void openExpFileSlot();
@@ -162,6 +166,7 @@ private:
 	QAction* m_delPlotAct;//删除画布
 	QAction* m_savePlotAct;//保存画布
 	QAction* m_reportAct;//显示报告
+	QAction* m_pdfAct;//导出pdf
 
 	QToolBar* m_fileToolBar;//菜单
 };

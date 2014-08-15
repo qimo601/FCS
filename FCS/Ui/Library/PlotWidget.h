@@ -121,6 +121,14 @@ public slots:
 	* @brief 启用平行线设门
 	*/
 	void enableParallelLineBtn(bool mode);
+	///**
+	//* @brief 矩形设门事件
+	//*/
+	//void on_rectBtn_toggled(bool mode);
+	/**
+	* @brief 测试按钮
+	*/
+	void on_testLastBtn_toggled(bool mode);
 	/**
 	* @brief 启用矩形设门
 	*/

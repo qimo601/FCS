@@ -73,14 +73,31 @@ void ReadCellThread::startReadCellDataFromCircleBuffer()
 	qint64 step = 0;
 	//必须先清空原先的全局数据;
 	clearCellStaticData();
+	bool clear = false;
 	while (m_goOn)
 	{
 		
-		getCellData(false);
-		//降低新数据发送频率，减少界面卡死
+		if (saveTag)
+			clear = false;
+		else
+			clear = true;
+		//先清空循环缓冲
+		if (clear)
+		{
+			////清空每个通道
+			//for (int i = 0; i < 8; i++)
+			//	iCellStaticData->clear(i);
+
+			clearCellStaticData();
+		}
+		//再读取USB至循环缓冲区
+		getCellData(clear);//clear = true,缓冲区清空
+		
+		//最后更新界面数据，降低新数据发送频率，减少界面卡死
 		if (step >= 4)
 		{
-			emit cellReadySignal(false);
+			
+			emit cellReadySignal(clear);//clear = true,界面清空
 			step = 0;
 		}
 		step++;
@@ -111,13 +128,7 @@ void ReadCellThread::getCellData(bool clear)
 	//添加至环形缓冲区:示波器一个数据包大小512Byte
 	if (Global::S_CCycleBuffer->getUsedSize() >= 512)
 	{
-		//如果需要清空
-		if (clear)
-		{
-			//清空每个通道
-			for (int i = 0; i < 8; i++)
-				iCellStaticData->clear(i);
-		}
+		
 		char * buffer = m_buffer;//指向临时数组
 		memset(buffer, 0, 512);//清空数组
 		Global::S_CCycleBuffer->read(m_buffer, 512);//一次读8个细胞的数据

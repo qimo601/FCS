@@ -6,6 +6,13 @@
 #include "Vo/VoSample.h"
 #include "Vo/VoChannelBias.h"
 #include "Vo/VoTrigger.h"
+#include <qwt_plot_renderer.h>
+#include <QTextStream>
+#include <QTextDocument>
+#include <QPrinter>
+#include <QTextBlock>
+#include <QPdfWriter>
+#include <QFileDialog>
 StackedWidget::StackedWidget(QWidget *parent)
 	: QStackedWidget(parent)
 {
@@ -330,6 +337,54 @@ void StackedWidget::showReport(bool on)
 {
 	ui.celllViewWidget->showReport(on);
 }
+/**
+* @brief 导出PDF
+*/
+void StackedWidget::exportPDF()
+{
+
+	QFileDialog *fd = new QFileDialog(this);//创建一个QFileDialog对象，构造函数中的参数可以有所添加。
+	fd->setWindowTitle(tr("保存为"));//设置文件保存对话框的标题
+	fd->setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
+	fd->setFileMode(QFileDialog::AnyFile);//设置文件对话框弹出的时候显示任何文件，不论是文件夹还是文件
+	fd->setViewMode(QFileDialog::Detail);//文件以详细的形式显示，显示文件名，大小，创建日期等信息；
+	//还有另一种形式QFileDialog::List，这个只是把文件的文件名以列表的形式显示出来
+	fd->setGeometry(10, 30, 300, 200);//设置文件对话框的显示位置
+	fd->setDirectory("../USBData");
+	QStringList nameFilters;
+	nameFilters << "PDF files (*.pdf *.PDF)";
+	fd->setNameFilters(nameFilters);//设置文件类型过滤器
+
+	QStringList fileNamesList;
+	if (fd->exec() == QDialog::Accepted) // 取消则是：QDialog::Rejected
+	{
+		fileNamesList = fd->selectedFiles();
+	}
+	else{
+		return;
+	}
+
+
+	QString fileName = fileNamesList.at(0).toLocal8Bit().constData();
+
+	//图片生成pdf
+	QPrinter printerPixmap(QPrinter::HighResolution);
+	printerPixmap.setPageSize(QPrinter::A4);  //设置纸张大小为A4
+	printerPixmap.setOutputFormat(QPrinter::PdfFormat);  //设置输出格式为pdf
+	printerPixmap.setOutputFileName(fileName);   //设置输出路径
+	QPixmap pixmap = QPixmap::grabWidget(ui.celllViewWidget, ui.celllViewWidget->rect());  //获取界面的图片
+
+	QPainter painterPixmap;
+	painterPixmap.begin(&printerPixmap);
+	QRect rect = painterPixmap.viewport();
+	int multiple = rect.width() / pixmap.width();
+	painterPixmap.scale(multiple, multiple); //将图像(所有要画的东西)在pdf上放大multiple-1倍
+	painterPixmap.drawPixmap(0, 0, pixmap);  //画图
+	painterPixmap.end();
+
+
+}
+
 
 /**
 * @brief 菜单Action
@@ -363,6 +418,12 @@ void StackedWidget::createActions()
 	m_reportAct->setStatusTip(tr("显示/隐藏设门报告"));
 	m_reportAct->setCheckable(true);//设置该按钮可选择
 	connect(m_reportAct, SIGNAL(toggled(bool)), this, SLOT(showReport(bool)));
+
+
+	m_pdfAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/PdfBtn.png"), tr("&导出PDF"), this);
+	m_pdfAct->setShortcut(QKeySequence(tr("Ctrl+P")));
+	m_pdfAct->setStatusTip(tr("导出PDF"));
+	connect(m_pdfAct, SIGNAL(triggered()), this, SLOT(exportPDF()));
 
 	m_delPlotAct->setEnabled(false);
 	//copyAct->setEnabled(false);
@@ -409,6 +470,7 @@ void StackedWidget::createToolBars()
 	m_fileToolBar->addAction(m_savePlotAct);
 	m_fileToolBar->addSeparator();
 	m_fileToolBar->addAction(m_reportAct);
+	m_fileToolBar->addAction(m_pdfAct);
 	ui.horizontalLayout_11->addWidget(m_fileToolBar);
 
 
