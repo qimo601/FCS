@@ -15,6 +15,8 @@
 #include <QTranslator>
 #include "Bll/DataCenter/CCycleBuffer.h"
 #include <qt_windows.h>
+
+#define Gobal_CircleBuffer_Size 512*10240
 class Global : public QObject
 {    
 	Q_OBJECT
@@ -28,8 +30,8 @@ public:
 	static QVector<double> oscXData;
 	//示波器Y轴显示数据
 	static QList<QVector<double>> oscYData;
-
-	
+	//细胞总数
+	static qint32 s_cellEvents;
 
 	///全局初始化
 	void init();
@@ -45,7 +47,7 @@ public:
 	* @author  Liuzhaobang
 	* @date    2014-5-10
 	*/
-	bool initCCycleBuffer(int size);
+	static bool initCCycleBuffer(int size);
 public slots:
 
 private:	

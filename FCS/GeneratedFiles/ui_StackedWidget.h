@@ -19,6 +19,7 @@
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
@@ -111,12 +112,20 @@ public:
     QPushButton *startAcquisitionBtn;
     QCheckBox *saveCheckBox;
     QPushButton *stopAcquisitionBtn;
-    QCheckBox *checkBox_2;
-    QSpinBox *spinBox_4;
-    QCheckBox *checkBox_3;
-    QSpinBox *spinBox_5;
-    QCheckBox *checkBox_4;
-    QSpinBox *spinBox_6;
+    QWidget *layoutWidget;
+    QVBoxLayout *verticalLayout_8;
+    QHBoxLayout *horizontalLayout_14;
+    QCheckBox *timeCheckBox;
+    QSpinBox *timeSpinBox;
+    QLCDNumber *timeLCD;
+    QHBoxLayout *horizontalLayout_13;
+    QCheckBox *eventsCheckBox;
+    QSpinBox *eventsSpinBox;
+    QLCDNumber *eventsLCD;
+    QHBoxLayout *horizontalLayout_15;
+    QCheckBox *flowCheckBox;
+    QSpinBox *flowSpinBox;
+    QLCDNumber *flowLCD;
     QButtonGroup *buttonGroup;
 
     void setupUi(QStackedWidget *StackedWidget)
@@ -167,6 +176,9 @@ public:
         icon.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/usb_disconnected.png"), QSize(), QIcon::Normal, QIcon::Off);
         usbBtn->setIcon(icon);
         usbBtn->setIconSize(QSize(64, 32));
+        usbBtn->setCheckable(true);
+        usbBtn->setChecked(false);
+        usbBtn->setAutoRaise(true);
 
         horizontalLayout_9->addWidget(usbBtn);
 
@@ -651,24 +663,122 @@ public:
         QIcon icon4;
         icon4.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
         stopAcquisitionBtn->setIcon(icon4);
-        checkBox_2 = new QCheckBox(bottomFrame);
-        checkBox_2->setObjectName(QStringLiteral("checkBox_2"));
-        checkBox_2->setGeometry(QRect(880, 10, 41, 16));
-        spinBox_4 = new QSpinBox(bottomFrame);
-        spinBox_4->setObjectName(QStringLiteral("spinBox_4"));
-        spinBox_4->setGeometry(QRect(930, 0, 71, 22));
-        checkBox_3 = new QCheckBox(bottomFrame);
-        checkBox_3->setObjectName(QStringLiteral("checkBox_3"));
-        checkBox_3->setGeometry(QRect(880, 70, 51, 16));
-        spinBox_5 = new QSpinBox(bottomFrame);
-        spinBox_5->setObjectName(QStringLiteral("spinBox_5"));
-        spinBox_5->setGeometry(QRect(930, 60, 71, 22));
-        checkBox_4 = new QCheckBox(bottomFrame);
-        checkBox_4->setObjectName(QStringLiteral("checkBox_4"));
-        checkBox_4->setGeometry(QRect(880, 40, 41, 16));
-        spinBox_6 = new QSpinBox(bottomFrame);
-        spinBox_6->setObjectName(QStringLiteral("spinBox_6"));
-        spinBox_6->setGeometry(QRect(930, 30, 71, 22));
+        layoutWidget = new QWidget(bottomFrame);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(870, 0, 211, 89));
+        verticalLayout_8 = new QVBoxLayout(layoutWidget);
+        verticalLayout_8->setSpacing(6);
+        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
+        verticalLayout_8->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_14 = new QHBoxLayout();
+        horizontalLayout_14->setSpacing(6);
+        horizontalLayout_14->setObjectName(QStringLiteral("horizontalLayout_14"));
+        timeCheckBox = new QCheckBox(layoutWidget);
+        timeCheckBox->setObjectName(QStringLiteral("timeCheckBox"));
+        QSizePolicy sizePolicy5(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(timeCheckBox->sizePolicy().hasHeightForWidth());
+        timeCheckBox->setSizePolicy(sizePolicy5);
+        timeCheckBox->setMinimumSize(QSize(60, 16));
+        timeCheckBox->setMaximumSize(QSize(60, 16));
+
+        horizontalLayout_14->addWidget(timeCheckBox);
+
+        timeSpinBox = new QSpinBox(layoutWidget);
+        timeSpinBox->setObjectName(QStringLiteral("timeSpinBox"));
+        sizePolicy5.setHeightForWidth(timeSpinBox->sizePolicy().hasHeightForWidth());
+        timeSpinBox->setSizePolicy(sizePolicy5);
+        timeSpinBox->setMinimumSize(QSize(71, 22));
+        timeSpinBox->setMaximumSize(QSize(71, 22));
+        timeSpinBox->setMaximum(3600);
+        timeSpinBox->setValue(60);
+
+        horizontalLayout_14->addWidget(timeSpinBox);
+
+        timeLCD = new QLCDNumber(layoutWidget);
+        timeLCD->setObjectName(QStringLiteral("timeLCD"));
+        timeLCD->setMaximumSize(QSize(64, 23));
+        timeLCD->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
+"font: 75 14pt \"\345\215\216\346\226\207\344\270\255\345\256\213\";\n"
+"color: rgb(62, 166, 30);"));
+
+        horizontalLayout_14->addWidget(timeLCD);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_14);
+
+        horizontalLayout_13 = new QHBoxLayout();
+        horizontalLayout_13->setSpacing(6);
+        horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
+        eventsCheckBox = new QCheckBox(layoutWidget);
+        eventsCheckBox->setObjectName(QStringLiteral("eventsCheckBox"));
+        sizePolicy5.setHeightForWidth(eventsCheckBox->sizePolicy().hasHeightForWidth());
+        eventsCheckBox->setSizePolicy(sizePolicy5);
+        eventsCheckBox->setMinimumSize(QSize(60, 16));
+        eventsCheckBox->setMaximumSize(QSize(60, 16));
+
+        horizontalLayout_13->addWidget(eventsCheckBox);
+
+        eventsSpinBox = new QSpinBox(layoutWidget);
+        eventsSpinBox->setObjectName(QStringLiteral("eventsSpinBox"));
+        sizePolicy5.setHeightForWidth(eventsSpinBox->sizePolicy().hasHeightForWidth());
+        eventsSpinBox->setSizePolicy(sizePolicy5);
+        eventsSpinBox->setMinimumSize(QSize(71, 22));
+        eventsSpinBox->setMaximumSize(QSize(71, 22));
+        eventsSpinBox->setMaximum(50000);
+        eventsSpinBox->setValue(10000);
+
+        horizontalLayout_13->addWidget(eventsSpinBox);
+
+        eventsLCD = new QLCDNumber(layoutWidget);
+        eventsLCD->setObjectName(QStringLiteral("eventsLCD"));
+        eventsLCD->setMaximumSize(QSize(64, 23));
+        eventsLCD->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
+"font: 75 14pt \"\345\215\216\346\226\207\344\270\255\345\256\213\";\n"
+"color: rgb(62, 166, 30);"));
+
+        horizontalLayout_13->addWidget(eventsLCD);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_13);
+
+        horizontalLayout_15 = new QHBoxLayout();
+        horizontalLayout_15->setSpacing(6);
+        horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
+        flowCheckBox = new QCheckBox(layoutWidget);
+        flowCheckBox->setObjectName(QStringLiteral("flowCheckBox"));
+        sizePolicy5.setHeightForWidth(flowCheckBox->sizePolicy().hasHeightForWidth());
+        flowCheckBox->setSizePolicy(sizePolicy5);
+        flowCheckBox->setMinimumSize(QSize(60, 16));
+        flowCheckBox->setMaximumSize(QSize(60, 16));
+
+        horizontalLayout_15->addWidget(flowCheckBox);
+
+        flowSpinBox = new QSpinBox(layoutWidget);
+        flowSpinBox->setObjectName(QStringLiteral("flowSpinBox"));
+        sizePolicy5.setHeightForWidth(flowSpinBox->sizePolicy().hasHeightForWidth());
+        flowSpinBox->setSizePolicy(sizePolicy5);
+        flowSpinBox->setMinimumSize(QSize(71, 22));
+        flowSpinBox->setMaximumSize(QSize(71, 22));
+        flowSpinBox->setMaximum(1000);
+        flowSpinBox->setValue(5);
+
+        horizontalLayout_15->addWidget(flowSpinBox);
+
+        flowLCD = new QLCDNumber(layoutWidget);
+        flowLCD->setObjectName(QStringLiteral("flowLCD"));
+        flowLCD->setMaximumSize(QSize(64, 23));
+        flowLCD->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
+"font: 75 14pt \"\345\215\216\346\226\207\344\270\255\345\256\213\";\n"
+"color: rgb(62, 166, 30);"));
+
+        horizontalLayout_15->addWidget(flowLCD);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_15);
+
 
         verticalLayout->addWidget(bottomFrame);
 
@@ -719,9 +829,12 @@ public:
         startAcquisitionBtn->setText(QApplication::translate("StackedWidget", "\345\274\200\345\247\213\351\207\207\351\233\206", 0));
         saveCheckBox->setText(QApplication::translate("StackedWidget", "\344\277\235\345\255\230", 0));
         stopAcquisitionBtn->setText(QApplication::translate("StackedWidget", "\345\201\234\346\255\242", 0));
-        checkBox_2->setText(QApplication::translate("StackedWidget", "\346\227\266\351\227\264", 0));
-        checkBox_3->setText(QApplication::translate("StackedWidget", "\346\225\260\351\207\217", 0));
-        checkBox_4->setText(QApplication::translate("StackedWidget", "\346\265\201\351\207\217", 0));
+        timeCheckBox->setText(QApplication::translate("StackedWidget", "\346\227\266\351\227\264", 0));
+        timeSpinBox->setSuffix(QApplication::translate("StackedWidget", "s", 0));
+        eventsCheckBox->setText(QApplication::translate("StackedWidget", "\346\225\260\351\207\217", 0));
+        eventsSpinBox->setSuffix(QApplication::translate("StackedWidget", "\344\270\252", 0));
+        flowCheckBox->setText(QApplication::translate("StackedWidget", "\346\265\201\351\207\217", 0));
+        flowSpinBox->setSuffix(QApplication::translate("StackedWidget", "L", 0));
     } // retranslateUi
 
 };

@@ -3,7 +3,7 @@
 BllControl::BllControl(QObject *parent)
 	: QObject(parent)
 {
-	initUSBControl();
+	initUSBControl();//不默认启动，开始启动时，菜启动
 }
 
 BllControl::~BllControl()
@@ -15,6 +15,7 @@ BllControl::~BllControl()
 */
 void BllControl::initUSBControl()
 {
+	
 	//判断是否USB是否已经打开
 	if (USBDriver::usbControl == 0)
 		USBDriver::usbControl = new USBControl();
@@ -42,6 +43,9 @@ void BllControl::initUSBControl()
 */
 void BllControl::openUSBControl()
 {
+	//判断是否USB是否已经打开
+	if (USBDriver::usbControl == 0)
+		USBDriver::usbControl = new USBControl();
 	USBDriver::usbControl->openDevice();
 }
 /**
@@ -50,6 +54,7 @@ void BllControl::openUSBControl()
 void BllControl::closeUSBControl()
 {
 	USBDriver::usbControl->closeDevice();
+	USBDriver::usbControl = 0;
 }
 /**
 * @brief USB开始监听（持续读数据，非阻塞）

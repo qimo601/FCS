@@ -83,6 +83,15 @@
                    <height>32</height>
                   </size>
                  </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item>
@@ -1169,13 +1178,13 @@
          <normaloff>:/MainWindow/Resources/Images/MainWindow/stop.png</normaloff>:/MainWindow/Resources/Images/MainWindow/stop.png</iconset>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>870</x>
          <y>0</y>
-         <width>141</width>
-         <height>86</height>
+         <width>211</width>
+         <height>89</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1234,6 +1243,21 @@
             </property>
             <property name="value">
              <number>60</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="timeLCD">
+            <property name="maximumSize">
+             <size>
+              <width>64</width>
+              <height>23</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 0, 0);
+font: 75 14pt &quot;华文中宋&quot;;
+color: rgb(62, 166, 30);</string>
             </property>
            </widget>
           </item>
@@ -1297,6 +1321,21 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QLCDNumber" name="eventsLCD">
+            <property name="maximumSize">
+             <size>
+              <width>64</width>
+              <height>23</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 0, 0);
+font: 75 14pt &quot;华文中宋&quot;;
+color: rgb(62, 166, 30);</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -1354,6 +1393,21 @@
             </property>
             <property name="value">
              <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="flowLCD">
+            <property name="maximumSize">
+             <size>
+              <width>64</width>
+              <height>23</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 0, 0);
+font: 75 14pt &quot;华文中宋&quot;;
+color: rgb(62, 166, 30);</string>
             </property>
            </widget>
           </item>

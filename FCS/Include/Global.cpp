@@ -29,7 +29,7 @@ void Global::init()
 	//初始化翻译
 	//initLanguage();
 	//初始化环形缓冲区大小
-	initCCycleBuffer(512*10240);
+	initCCycleBuffer(Gobal_CircleBuffer_Size);
 	//初始化示波器缓冲区结构
 	for (int i = 0; i < 8; i++)//8个通道
 	{
@@ -46,7 +46,8 @@ CCycleBuffer* Global::S_CCycleBuffer = 0;
 QVector<double> Global::oscXData;
 QList<QVector<double>> Global::oscYData;
 
-
+//细胞总数
+qint32 Global::s_cellEvents = 0;
 
 /**
 * @brief qss初始化
@@ -89,7 +90,13 @@ void Global::initLanguage()
 */
 bool Global::initCCycleBuffer(int size)
 {
-
+	//删除旧的缓冲区
+	if (S_CCycleBuffer != 0)
+	{
+		delete S_CCycleBuffer;
+		S_CCycleBuffer = 0;
+	}
+	//开辟新的缓存区
 	S_CCycleBuffer = new CCycleBuffer(size);
 	if (!S_CCycleBuffer)
 		return false;
@@ -97,3 +104,4 @@ bool Global::initCCycleBuffer(int size)
 		return true;
 		
 }
+

@@ -26,8 +26,26 @@ StackedWidget::StackedWidget(QWidget *parent)
 
 	//报告
 	connect(ui.reportBtn, SIGNAL(toggled(bool)), this, SLOT(showReport(bool)));
+
+	m_timer = new QTimer(this);
+	connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTime()));
+
 	//测试用-先隐藏报告界面
 	//ui.reportWidget->setVisible(false);
+	//连上USB
+	ui.usbBtn->setChecked(true);
+	//默认停止按钮不可用
+	ui.stopAcquisitionBtn->setEnabled(false);
+
+	//细胞个数
+	m_timerEvents = new QTimer(this);
+	m_cellEvents = 0;
+	connect(m_timerEvents, SIGNAL(timeout()), this, SLOT(updateEvents()));
+
+
+	//流量测试，暂时不实现
+	ui.flowSpinBox->setEnabled(false);
+	ui.flowCheckBox->setEnabled(false);
 }
 
 StackedWidget::~StackedWidget()
@@ -185,19 +203,21 @@ void StackedWidget::on_setTriggerBtn_clicked()
 	bllControl->setTrigger(vo);
 }
 /**
-* @brief 打开USB设备
+* @brief 打开/关闭USB设备
 */
-void StackedWidget::on_openUsbBtn_clicked()
+void StackedWidget::on_usbBtn_toggled(bool toggled)
 {
-	bllControl->openUSBControl();
-}
-/**
-* @brief 关闭USB设备
-*/
-void StackedWidget::on_closeUsbBtn_clicked()
-{
+	if (toggled)
+	{
+		bllControl->initUSBControl();
+		ui.usbBtn->setIcon(QIcon(":/MainWindow/Resources/Images/MainWindow/usb_connected.png"));
+	}
 
-	bllControl->closeUSBControl();
+	else
+	{
+		bllControl->closeUSBControl();
+		ui.usbBtn->setIcon(QIcon(":/MainWindow/Resources/Images/MainWindow/usb_disconnected.png"));
+	}
 }
 /**
 * @brief 设置样品流速-中档
@@ -240,31 +260,91 @@ void StackedWidget::sendCmd()
 */
 void StackedWidget::on_startAcquisitionBtn_clicked()
 {
-	//停止采集命令
-	VoCmd voCmd;
-	voCmd.setCmd(5);
-	voCmd.setLength(0);
-	bllControl->sendCmd(voCmd);
-	ui.startAcquisitionBtn->setEnabled(false);
-	ui.stopAcquisitionBtn->setEnabled(true);
+	//如果USB打开，可以启动采集
+	if (ui.usbBtn->isChecked())
+	{
+		//初始化USB控制-启动监听线程
+		//bllControl->initUSBControl();
+		//初始化环形缓冲区大小
+		Global::initCCycleBuffer(Gobal_CircleBuffer_Size);
+		//开始采集命令
+		VoCmd voCmd;
+		voCmd.setCmd(5);
+		voCmd.setLength(0);
+		bllControl->sendCmd(voCmd);
+		ui.startAcquisitionBtn->setEnabled(false);
+		ui.stopAcquisitionBtn->setEnabled(true);
+		//开始计时
+		if (ui.timeCheckBox->isChecked())
+		{
+			m_timer->start(1000);//1s一次
+		}
+
+		//开始计数
+		if (ui.eventsCheckBox->isChecked())
+		{
+			m_timerEvents->start(10);//1s一次
+		}
+		//禁止继续设置停止条件
+		ui.timeCheckBox->setEnabled(false);
+		ui.eventsCheckBox->setEnabled(false);
+		//ui.flowCheckBox->setEnabled(false);
+
+	}
+	else
+		return;
+
+	
+
 }
 /**
 * @brief 下发停止采集命令
 */
 void StackedWidget::on_stopAcquisitionBtn_clicked()
 {
-	//停止采集命令
-	VoCmd voCmd;
-	voCmd.setCmd(6);
-	voCmd.setLength(0);
-	bllControl->sendCmd(voCmd);
+	//如果已经开启，才可以停
+	if (!ui.startAcquisitionBtn->isEnabled())
+	{
+		//停止采集命令
+		VoCmd voCmd;
+		voCmd.setCmd(6);
+		voCmd.setLength(0);
+		bllControl->sendCmd(voCmd);
 
-	ui.startAcquisitionBtn->setEnabled(true);
-	ui.stopAcquisitionBtn->setEnabled(false);
+		ui.startAcquisitionBtn->setEnabled(true);
+		ui.stopAcquisitionBtn->setEnabled(false);
 
-	//关闭文件
-	ui.saveCheckBox->setChecked(false);
-	on_saveCheckBox_clicked();
+		//关闭文件
+		ui.saveCheckBox->setChecked(false);//通过该属性判断文件关闭否
+		on_saveCheckBox_clicked();
+
+		//停止计时
+		if (ui.timeCheckBox->isChecked())
+		{
+			ui.timeCheckBox->setChecked(false);
+			ui.timeSpinBox->setEnabled(true);
+			m_timer->stop();
+
+		}
+		//停止计数
+		if (ui.eventsCheckBox->isChecked())
+		{
+			ui.eventsCheckBox->setChecked(false);
+			ui.eventsSpinBox->setEnabled(true);
+			m_timerEvents->stop();
+
+		}
+		//关闭USB
+		//bllControl->closeUSBControl();
+
+		//允许继续设置停止条件
+		ui.timeCheckBox->setEnabled(true);
+		ui.eventsCheckBox->setEnabled(true);
+		//ui.flowCheckBox->setEnabled(true);
+	}
+	else
+		return;
+
 }
 /**
 * @brief 新建plot
@@ -306,7 +386,7 @@ void StackedWidget::on_saveCheckBox_clicked()
 	{
 		//细胞USB格式原始数据
 		ReadCellThread::fileName = QString("OriFile_%1.usb").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd--HH-mm-ss"));
-		QDir dir("../USBData");
+		QDir dir("D:/VS2013WorkSpace/FCS/USBData");
 		
 		QString absolutePath = dir.absolutePath();
 		if (!dir.exists())
@@ -330,6 +410,56 @@ void StackedWidget::on_saveCheckBox_clicked()
 	}
 }
 
+/**
+* @brief 时间计时
+*/
+void StackedWidget::on_timeCheckBox_clicked()
+{
+	m_timeCount = ui.timeSpinBox->value();
+	ui.timeSpinBox->setEnabled(false);
+}
+
+/**
+* @brief 更新时间
+*/
+void StackedWidget::updateTime()
+{
+	
+	m_timeCount--;
+	ui.timeLCD->display(m_timeCount);
+	if (m_timeCount <= 0)
+		ui.stopAcquisitionBtn->click();
+}
+
+
+
+/**
+* @brief 细胞计数
+*/
+void StackedWidget::on_eventsCheckBox_clicked()
+{
+	m_cellEvents = ui.eventsSpinBox->value();
+	ui.eventsSpinBox->setEnabled(false);
+}
+/**
+* @brief 更新细胞个数
+*/
+void StackedWidget::updateEvents()
+{
+	//细胞数目
+	m_cellEvents = (qint32)bllDataCenter.getAllEvents();
+	ui.eventsLCD->display(m_cellEvents);
+	//如果超过上限，停止采集
+	if (m_cellEvents >=ui.eventsSpinBox->value())
+		ui.stopAcquisitionBtn->click();
+}
+
+/**
+* @brief 流量统计
+*/
+void StackedWidget::on_flowCheckBox_clicked()
+{
+}
 /**
 * @brief 报告按钮
 */

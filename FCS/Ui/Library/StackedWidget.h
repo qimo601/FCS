@@ -18,6 +18,8 @@
 #include "Ui/Library/OscWidget.h"
 #include <QToolBar>
 #include "Ui/Library/GateStorage.h"
+#include "Bll/DataCenter/BllDataCenter.h"
+#include <QTimer>
 class StackedWidget : public QStackedWidget
 {
 	Q_OBJECT
@@ -38,14 +40,10 @@ public:
 public slots:
 
 	/**
-	* @brief 打开USB设备
+	* @brief 打开/关闭USB设备
 	*/
-	void on_openUsbBtn_clicked();
+	void on_usbBtn_toggled(bool toggled);
 
-	/**
-	* @brief 关闭USB设备
-	*/
-	void on_closeUsbBtn_clicked();
 	/**
 	* @brief 测试下发命令
 	*/
@@ -133,6 +131,22 @@ public slots:
 	*/
 	void on_saveCheckBox_clicked();
 	/**
+	* @brief 时间计时
+	*/
+	void on_timeCheckBox_clicked();
+	/**
+	* @brief 细胞计数
+	*/
+	void on_eventsCheckBox_clicked();
+	/**
+	* @brief 更新细胞个数
+	*/
+	void updateEvents();
+	/**
+	* @brief 流量统计
+	*/
+	void on_flowCheckBox_clicked();
+	/**
 	* @brief 菜单Action
 	*/
 	void createActions();
@@ -148,6 +162,10 @@ public slots:
 	* @brief 设置删除画布按钮状态
 	*/
 	void setDelPlotActSlot(bool focus);
+	/**
+	* @brief 更新时间
+	*/
+	void updateTime();
 signals:
 	void openExpFileSignal();
 	void saveExpFileSignal();
@@ -169,6 +187,14 @@ private:
 	QAction* m_pdfAct;//导出pdf
 
 	QToolBar* m_fileToolBar;//菜单
+
+	QTimer* m_timer;//时间计时
+	qint32 m_timeCount;//时间长短单位s
+
+	QTimer* m_timerEvents;//时间计时
+	BllDataCenter bllDataCenter;//数据采集业务类
+	qint32 m_cellEvents;//细胞个数
+
 };
 
 #endif // STACKEDWIDGET_H

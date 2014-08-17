@@ -23,6 +23,8 @@ ReportTree::ReportTree(QWidget *parent)
 	//窗口关闭按钮
 	ui.closeBtn->setPicName(":/sysButton/Resources/Images/SysButton/close");
 	connect(ui.closeBtn, SIGNAL(clicked()), this, SLOT(close()));
+	//初始化一下表
+	updateReport();
 }
 
 ReportTree::~ReportTree()

@@ -104,6 +104,7 @@ void ReadCellThread::startReadCellDataFromCircleBuffer()
 		//qDebug() << "【ReadCellThread】step:" <<step;
 		msleep(50);
 	}
+	emit cellReadySignal(false);//将最后一组数据更新至界面，step<4的时候积累的数据
 	m_opertaeEnum = NORMAL;//回复默认状态
 }
 /**
