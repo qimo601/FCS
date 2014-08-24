@@ -7,6 +7,11 @@ GateStorage::GateStorage(QObject *parent)
 
 	m_plotWidget = 0;//设门对应的新画布
 	m_gatePointer = 0;//设门指针
+
+
+
+	
+
 }
 
 GateStorage::~GateStorage()

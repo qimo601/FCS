@@ -746,10 +746,84 @@ double PlotWidget::computerPercentageTotal()
 /**
 * @brief 更新参数-平均值（x1+x2+x3+...+xn）/n
 */
-double PlotWidget::computerAverageValue()
+void PlotWidget::computerAverageValue(QList<QList<double>>& averageList, QList<QList<double>>& midList, QList<QList<double>>& cvList)
 {
+	int passage = 0;
+	int dataUnit = 0;
+	double averageValue =0;
 
-	return 0;
+	//一共24个平均值
+	for (int i = 0; i < origialDataList->size(); i++)
+	{
+		QList<double> list;
+		for (int j = 0; j < origialDataList->at(i)->size(); j++)
+		{
+			for (int k = 0; k < origialDataList->at(i)->at(j)->size(); k++)
+			{
+				averageValue += origialDataList->at(i)->at(j)->at(k);
+			}
+			//如果为空
+			if (origialDataList->at(i)->at(j)->size() != 0)
+				averageValue = averageValue / origialDataList->at(i)->at(j)->size();
+			else
+				averageValue = 0;
+			list.append(averageValue);
+		}
+		
+		averageList.append(list);
+	}
+
+
+	double midValue = 0;//中间值
+	//一共24个中间值
+	for (int i = 0; i < origialDataList->size(); i++)
+	{
+		QList<double> list;
+		for (int j = 0; j < origialDataList->at(i)->size(); j++)
+		{
+			list.append(midValue);
+		}
+
+		midList.append(list);
+	}
+
+	double stdEv = 0;//标准方差
+	double cvValue = 0;//CV值
+	double sum = 0;
+	//一共24个CV值
+	for (int i = 0; i < origialDataList->size(); i++)
+	{
+		QList<double> list;
+		for (int j = 0; j < origialDataList->at(i)->size(); j++)
+		{
+
+			for (int k = 0; k < origialDataList->at(i)->at(j)->size(); k++)
+			{
+				double diff = origialDataList->at(i)->at(j)->at(k) - averageList.at(i).at(j);
+				sum += diff*diff;//累加所有平方差
+			}
+			//如果为空
+			if (origialDataList->at(i)->at(j)->size() != 0)
+			{
+				sum = sum / (origialDataList->at(i)->at(j)->size() - 1);//
+				stdEv = qSqrt(sum);//标准方差
+				cvValue = stdEv / averageList.at(i).at(j);
+				
+			}
+			else
+			{
+				cvValue = 0;
+			}
+				list.append(cvValue);
+		}
+
+		cvList.append(list);
+
+	}
+
+
+
+
 
 }
 /**
@@ -762,9 +836,11 @@ double PlotWidget::computerMidValue()
 }
 /**
 * @brief 更新参数-变异系数 CV(Coefficient of Variance):标准差与均值的比率
+*CV=σ/|μ|，其中 σ=√∑(xi-u)^2/(n-1)，u=(∑xi)/n
 */
 double PlotWidget::computerCvValue()
 {
+	
 	return 0;
 
 }

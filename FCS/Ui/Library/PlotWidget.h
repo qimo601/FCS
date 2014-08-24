@@ -228,7 +228,7 @@ public slots:
 	/**
 	* @brief 更新参数-平均值（x1+x2+x3+...+xn）/n
 	*/
-	double computerAverageValue();
+	void computerAverageValue(QList<QList<double>>& averageList, QList<QList<double>>& midList, QList<QList<double>>& cvList);
 	/**
 	* @brief 更新参数-中间值（排序后，中间的值）
 	*/

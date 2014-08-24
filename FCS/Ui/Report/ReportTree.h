@@ -83,6 +83,11 @@ private:
 
 
 	BllDataCenter bllDataCenter;
+	//永远只有两个根目录
+	//根节点的假设设门1
+	GateStorage* gateStorageRoot1;
+	//根节点的假设设门1
+	GateStorage* gateStorageRoot2;
 };
 
 #endif // REPORTTREE_H

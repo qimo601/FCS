@@ -19,6 +19,10 @@ ReportTree::ReportTree(QWidget *parent)
 	//setAttribute(Qt::WA_TranslucentBackground);
 	//初始化为未按下鼠标左键
 	mouse_press = false;
+	//根节点的假设设门1
+	gateStorageRoot1 = new GateStorage();
+	//根节点的假设设门2
+	gateStorageRoot2 = new GateStorage();
 
 	//窗口关闭按钮
 	ui.closeBtn->setPicName(":/sysButton/Resources/Images/SysButton/close");
@@ -212,8 +216,14 @@ void ReportTree::getTreeReport(PlotWidget* plotWidget,int i)
 */
 void ReportTree::getTreeRootReport(PlotWidget* plotWidget,int i)
 {
-	//先计算根目录,假设根目录就是一个最大的设门
-	GateStorage* gateStorageRoot = new GateStorage();
+	GateStorage* gateStorageRoot = 0;
+	//先计算根目录,假设根目录就是一个最大的设门,永远只有两个根目录
+	
+	if (i == 0)
+		gateStorageRoot = gateStorageRoot1;
+	else if (i==1)
+		gateStorageRoot = gateStorageRoot2;
+
 	gateStorageRoot->setGateName(QString("All%1").arg(i));
 	gateStorageRoot->setPlotWidget(plotWidget);
 	double parentEvents = plotWidget->computerEvents();
@@ -225,12 +235,35 @@ void ReportTree::getTreeRootReport(PlotWidget* plotWidget,int i)
 	gateStorageRoot->setPercentageParent(percentageParent);
 	double percentageTotal = events / parentEvents;
 	gateStorageRoot->setPercentageTotal(percentageTotal);
-	double averageValue = plotWidget->computerAverageValue();
-	gateStorageRoot->setAverageValue(averageValue);
-	double midValue = plotWidget->computerMidValue();
-	gateStorageRoot->setMidValue(midValue);
-	double cvValue = plotWidget->computerCvValue();
-	gateStorageRoot->setCvValue(cvValue);
+	QList<QList<double>> averageValueList;
+	QList<QList<double>> midValueList;
+	QList<QList<double>> cvValueList;
+	
+	/*******************************减少计算次数********************/
+	//如果参数不为空，但值为0，也需要计算
+	if (gateStorageRoot->getAverageValue().size() != 0)
+	{
+		if (gateStorageRoot->getAverageValue().at(0).at(0) == 0)
+		{
+			//计算所有的值，平均值，中间值和CV值
+			plotWidget->computerAverageValue(averageValueList, midValueList, cvValueList);
+
+			gateStorageRoot->setAverageValue(averageValueList);
+			gateStorageRoot->setMidValue(midValueList);
+			gateStorageRoot->setCvValue(cvValueList);
+		}
+
+	}
+	//如果参数为空，需要计算
+	else if(gateStorageRoot->getAverageValue().size() == 0)
+	{
+		//计算所有的值，平均值，中间值和CV值
+		plotWidget->computerAverageValue(averageValueList, midValueList, cvValueList);
+
+		gateStorageRoot->setAverageValue(averageValueList);
+		gateStorageRoot->setMidValue(midValueList);
+		gateStorageRoot->setCvValue(cvValueList);
+	}
 
 	if (i == 0)
 		//插入根目录
@@ -261,12 +294,39 @@ void ReportTree::getTreeChildReport(QTreeWidgetItem* currentItem, PlotWidget* pa
 		gateStorage->setPercentageParent(percentageParent);
 		double percentageTotal = events / totalEvents;
 		gateStorage->setPercentageTotal(percentageTotal);
-		double averageValue = childPlotWidget->computerAverageValue();
-		gateStorage->setAverageValue(averageValue);
-		double midValue = childPlotWidget->computerMidValue();
-		gateStorage->setMidValue(midValue);
-		double cvValue = childPlotWidget->computerCvValue();
-		gateStorage->setCvValue(cvValue);
+
+		QList<QList<double>> averageValueList;
+		QList<QList<double>> midValueList;
+		QList<QList<double>> cvValueList;
+
+
+		/*******************************减少计算次数********************/
+		//如果参数不为空，但值为0，也需要计算
+		if (gateStorage->getAverageValue().size() != 0)
+		{
+			if (gateStorage->getAverageValue().at(0).at(0) == 0)
+			{
+				//计算所有的值，平均值，中间值和CV值
+				childPlotWidget->computerAverageValue(averageValueList, midValueList, cvValueList);
+
+				gateStorage->setAverageValue(averageValueList);
+				gateStorage->setMidValue(midValueList);
+				gateStorage->setCvValue(cvValueList);
+			}
+
+		}
+		//如果参数为空，需要计算
+		else if (gateStorage->getAverageValue().size() == 0)
+		{
+			//计算所有的值，平均值，中间值和CV值
+			childPlotWidget->computerAverageValue(averageValueList, midValueList, cvValueList);
+
+			gateStorage->setAverageValue(averageValueList);
+			gateStorage->setMidValue(midValueList);
+			gateStorage->setCvValue(cvValueList);
+		}
+
+		
 		if (i == 0)
 
 		{
@@ -299,7 +359,31 @@ void ReportTree::insertRootReport(QTreeWidgetItem* &rootItem, GateStorage* gateS
 {
 	//根节点的数据项
 	QStringList itemStringlist;
-	itemStringlist << gateStorage->getGateName() << QString::number(gateStorage->getEvents()) << QString::number(gateStorage->getPercentageParent()) << QString::number(gateStorage->getPercentageTotal()) << QString::number(gateStorage->getAverageValue()) << QString::number(gateStorage->getMidValue()) << QString::number(gateStorage->getCvValue());
+	itemStringlist.append(gateStorage->getGateName());
+	itemStringlist.append(QString::number(gateStorage->getEvents()));
+	itemStringlist.append(QString::number(gateStorage->getPercentageParent()));
+	itemStringlist.append(QString::number(gateStorage->getPercentageTotal()));
+	//获取设门的计算参数
+	QList<QList<double>> averageValueList = gateStorage->getAverageValue();
+	QList<QList<double>> midValueList = gateStorage->getMidValue();
+	QList<QList<double>> cvValueList = gateStorage->getCvValue();
+	double averageValue = 0;
+	double midValue = 0;
+	double cvValue = 0;
+	//如果平均值不为空
+	if (averageValueList.at(0).at(0)!= 0)
+		averageValue = averageValueList.at(0).at(0);
+	itemStringlist.append(QString::number(averageValue));
+	//如果Mid值不为空
+	if (midValueList.at(0).at(0) != 0)
+		midValue = midValueList.at(0).at(0);
+	itemStringlist.append(QString::number(midValue));
+	//如果Cv值不为空
+	if (cvValueList.at(0).at(0) != 0)
+		cvValue = cvValueList.at(0).at(0);
+	itemStringlist.append(QString::number(cvValue));
+
+	//itemStringlist << gateStorage->getGateName() << QString::number(gateStorage->getEvents()) << QString::number(gateStorage->getPercentageParent()) << QString::number(gateStorage->getPercentageTotal()) << QString::number(gateStorage->getAverageValue()) << QString::number(gateStorage->getMidValue()) << QString::number(gateStorage->getCvValue());
 	rootItem = new QTreeWidgetItem(ui.treeWidget, itemStringlist);
 	QPixmap pixmap(10, 10);//新建一个Pixmap图
 	pixmap.fill(QColor(Qt::black));//填充色
@@ -313,7 +397,33 @@ void ReportTree::insertChildReport(QTreeWidgetItem* parentItem, QTreeWidgetItem*
 {
 	//根节点的孩子节点1
 	QStringList leafStringList1;
-	leafStringList1 << gateStorage->getGateName() << QString::number(gateStorage->getEvents()) << QString::number(gateStorage->getPercentageParent()) << QString::number(gateStorage->getPercentageTotal()) << QString::number(gateStorage->getAverageValue()) << QString::number(gateStorage->getMidValue()) << QString::number(gateStorage->getCvValue());
+	leafStringList1.append(gateStorage->getGateName());
+	leafStringList1.append(QString::number(gateStorage->getEvents()));
+	leafStringList1.append(QString::number(gateStorage->getPercentageParent()));
+	leafStringList1.append(QString::number(gateStorage->getPercentageTotal()));
+
+
+	//获取设门的计算参数
+	QList<QList<double>> averageValueList = gateStorage->getAverageValue();
+	QList<QList<double>> midValueList = gateStorage->getMidValue();
+	QList<QList<double>> cvValueList = gateStorage->getCvValue();
+	double averageValue = 0;
+	double midValue = 0;
+	double cvValue = 0;
+	//如果平均值不为空
+	if (averageValueList.at(0).at(0) != 0)
+		averageValue = averageValueList.at(0).at(0);
+	leafStringList1.append(QString::number(averageValue));
+	//如果Mid值不为空
+	if (midValueList.at(0).at(0) != 0)
+		midValue = midValueList.at(0).at(0);
+	leafStringList1.append(QString::number(midValue));
+	//如果Cv值不为空
+	if (cvValueList.at(0).at(0) != 0)
+		cvValue = cvValueList.at(0).at(0);
+	leafStringList1.append(QString::number(cvValue));
+	//leafStringList1 << gateStorage->getGateName() << QString::number(gateStorage->getEvents()) << QString::number(gateStorage->getPercentageParent()) << QString::number(gateStorage->getPercentageTotal()) << QString::number(gateStorage->getAverageValue()) << QString::number(gateStorage->getMidValue()) << QString::number(gateStorage->getCvValue());
+	
 	currentItem = new QTreeWidgetItem(parentItem, leafStringList1);
 	QPixmap pixmap(10, 10);//新建一个Pixmap图
 	QColor color(qrand() % 255, qrand() % 255, qrand() % 255);

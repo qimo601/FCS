@@ -105,35 +105,36 @@ public:
 	{
 		m_percentageTotal = percentageTotal;
 	}
+	
 	//获取平均值
-	double getAverageValue() const
+	QList<QList<double>> getAverageValue() const
 	{
-		return m_averageValue;
+		return m_averageValueList;
 	}
 	//设定平均值
-	void setAverageValue(double averageValue)
+	void setAverageValue(QList<QList<double>> averageValueList)
 	{
-		m_averageValue = averageValue;
+		m_averageValueList = averageValueList;
 	}
 	//获取中间值
-	double getMidValue() const
+	QList<QList<double>> getMidValue() const
 	{
-		return m_midValue;
+		return m_midValueList;
 	}
 	//设定中间值
-	void setMidValue(double midValue)
+	void setMidValue(QList<QList<double>> midValueList)
 	{
-		m_midValue = midValue;
+		m_midValueList = midValueList;
 	}
 	//获取变异系数
-	double getCvValue() const
+	QList<QList<double>> getCvValue() const
 	{
-		return m_cvValue;
+		return m_cvValueList;
 	}
 	//设定变异系数
-	void setCvValue(double cvValue)
+	void setCvValue(QList<QList<double>> cvValueList)
 	{
-		m_cvValue = cvValue;
+		m_cvValueList = cvValueList;
 	}
 private:
 
@@ -147,8 +148,11 @@ private:
 	double m_events;//细胞个数
 	double m_percentageParent;//%Parent:当前设门的细胞数目，占父类的百分比
 	double m_percentageTotal;//%Total:当前设门的细胞数目，占源数据细胞总数的百分比
+	QList<QList<double>> m_averageValueList;
 	double m_averageValue;//平均值（x1+x2+x3+...+xn）/n
+	QList<QList<double>> m_midValueList;
 	double m_midValue;//中间值（排序后，中间的值）
+	QList<QList<double>> m_cvValueList;
 	double m_cvValue;//变异系数 CV(Coefficient of Variance):标准差与均值的比率
 	/*
 	CV=σ/|μ|，其中 σ=√∑(xi-u)^2/(n-1)，u=(∑xi)/n
