@@ -927,7 +927,20 @@ void PlotWidget::computerAverageValue(QList<QList<double>>& averageList, QList<Q
 
 			qSort(valueVector.begin(), valueVector.end());
 			if (valueVector.size()>0)
-				midValue = valueVector.at(valueVector.size() / 2);
+			{
+				//如果是偶数项
+				if (valueVector.size() % 2 == 0)
+				{
+					midValue = (valueVector.at(valueVector.size() / 2) + valueVector.at(valueVector.size() / 2 -1))/2;
+				}
+				//如果是奇数项
+				else
+				{
+					midValue = valueVector.at(valueVector.size() / 2 );
+				}
+
+			}
+				
 			else
 				midValue = 0;
 			list.append(midValue);
@@ -942,8 +955,9 @@ void PlotWidget::computerAverageValue(QList<QList<double>>& averageList, QList<Q
 
 	/*
 	CV=σ/|μ|，其中 σ=√∑(xi-u)^2/(n-1)，u=(∑xi)/n
+	测试代码
 	*/
-	QList<double> testList;
+	/*QList<double> testList;
 	testList.append(2);
 	testList.append(5);
 	testList.append(6);
@@ -966,7 +980,7 @@ void PlotWidget::computerAverageValue(QList<QList<double>>& averageList, QList<Q
 	}
 	bTest = bTest / (testList.size() - 1);
 	bTest = qSqrt(bTest);
-	cvTest = bTest / qAbs(uTest);
+	cvTest = bTest / qAbs(uTest);*/
 
 	//一共24个CV值
 	for (int i = 0; i < origialDataList->size(); i++)
