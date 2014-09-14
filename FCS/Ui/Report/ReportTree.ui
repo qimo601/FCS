@@ -134,7 +134,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QFrame" name="deleteBtn">
+    <widget class="QFrame" name="menuFrame">
      <property name="mouseTracking">
       <bool>true</bool>
      </property>
@@ -174,7 +174,35 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="plotBtn">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>51</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>51</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>绘图</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="delGateBtn">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -249,45 +277,88 @@
     </widget>
    </item>
    <item>
-    <widget class="QTreeWidget" name="treeWidget">
-     <property name="mouseTracking">
-      <bool>true</bool>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <column>
-      <property name="text">
-       <string>Population</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>#Events</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>%Parent</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>%Total</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>#Average</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>#MidValue</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>#CV</string>
-      </property>
-     </column>
+     <widget class="QWidget" name="page_5">
+      <widget class="QTreeWidget" name="treeWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>10</y>
+         <width>462</width>
+         <height>271</height>
+        </rect>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <column>
+        <property name="text">
+         <string>Population</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>#Events</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>%Parent</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>%Total</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>#Average</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>#MidValue</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>#CV</string>
+        </property>
+       </column>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_6">
+      <widget class="QCheckBox" name="checkBox">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>30</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>显示</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_2">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>50</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>通道1</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </item>
   </layout>

@@ -145,7 +145,7 @@ QWidget#toolWidget{
 	background: #838383;
 	height:30px;
 }
-QPushButton#fileBrowserBtn{
+QPushButton#oscAcqBtn{
 	border: 1px solid #AAAAAA;
 	background-color:#AAAAAA;
 	border-radius:0px;
@@ -173,7 +173,7 @@ QPushButton#analyBtn{
 	margin:0 0px;
 }
 
-QPushButton#analyBtn:hover,#acqBtn:hover,#fileBrowserBtn:hover{
+QPushButton#analyBtn:hover,#acqBtn:hover,#oscAcqBtn:hover{
 	border: 1px solid #E3C46F;
 	background-color:#FEF4BF;
 	border-radius:2px;
@@ -181,7 +181,7 @@ QPushButton#analyBtn:hover,#acqBtn:hover,#fileBrowserBtn:hover{
 	height:20px;
     padding:0 0px;
 }
-QPushButton#analyBtn:flat,#acqBtn:flat,#fileBrowserBtn:flat{
+QPushButton#analyBtn:flat,#acqBtn:flat,#oscAcqBtn:flat{
 	border: 1px solid #E3C46F;
 	background-color:red;
 	border-radius:2px;
@@ -265,7 +265,7 @@ QDockWidget#statusDockWidget::title{
 	padding:0 0px;
 	margin:0 0px;
 }
-QWidget#controlDockWidgetContents{
+/*QWidget#controlDockWidgetContents{
 	border: 1px solid #D4D3CC;
 	background-color: rgb(212, 211, 204);
 	border-radius:0px;
@@ -273,6 +273,35 @@ QWidget#controlDockWidgetContents{
 	margin:0 0px;
 }
 QDockWidget#controlDockWidget::title{
+	border: 0px solid #595859;
+	background-color:#595859;
+	border-radius:0px;
+	padding:0 0px;
+	margin:0 0px;
+}
+*/
+QWidget#dockWidgetContents{
+	border: 1px solid #D4D3CC;
+	background-color: rgb(212, 211, 204);
+	border-radius:0px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QDockWidget#dockWidget::title{
+	border: 0px solid #595859;
+	background-color:#595859;
+	border-radius:0px;
+	padding:0 0px;
+	margin:0 0px;
+}
+QWidget#fileBrowserDockWidgetContents{
+	border: 1px solid #D4D3CC;
+	background-color: rgb(212, 211, 204);
+	border-radius:0px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QDockWidget#fileBrowserDockWidget::title{
 	border: 0px solid #595859;
 	background-color:#595859;
 	border-radius:0px;
@@ -454,4 +483,42 @@ QFrame#cellPlotFrame
     padding:0 0px;
 	margin-right: 10px;
 
+}
+
+/*reportTree报告，删除设门按钮**/
+/*QPushButton#delGateBtn{
+	border: 1px solid #949494;
+	background-color:#E1E1E1;
+	border-radius:2px;
+    width: 75px;
+	height:23px;
+    padding:0 0px;
+	margin:0 0px;
+}*/
+QPushButton#delGateBtn:hover{
+	border: 1px solid #ff7881;
+	background-color:#ff7881;
+	border-radius:2px;
+    width: 75px;
+	height:23px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QPushButton#delGateBtn:pressed{
+	border: 2px solid #C2C6C5;
+	background-color:#DA3610;
+	border-radius:2px;
+    width: 75px;
+	height:23px;
+    padding:0 0px;
+	margin:0 0px;
+}
+QPushButton#delGateBtn:checked{
+	border: 1px solid #3399FE;
+	background-color:#3399FE;
+	border-radius:2px;
+    width: 75px;
+	height:23px;
+    padding:0 0px;
+	margin:0 0px;
 }

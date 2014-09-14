@@ -20,6 +20,9 @@
 #include "Ui/Library/GateStorage.h"
 #include "Bll/DataCenter/BllDataCenter.h"
 #include <QTimer>
+#include <QFileSystemModel>
+#include <QTreeView>
+#include <QMenu>
 class StackedWidget : public QStackedWidget
 {
 	Q_OBJECT
@@ -48,44 +51,7 @@ public slots:
 	* @brief 测试下发命令
 	*/
 	void on_loadCmdBtn_clicked();
-	/**
-	* @brief 设置激光
-	*/
-	void on_setLaserBtn_clicked();
-	/**
-	* @brief 设置鞘液
-	*/
-	void on_setFluidBtn_clicked();
-	/**
-	* @brief 设置样本流速
-	*/
-	void on_setSampleBtn_clicked();
-	/**
-	* @brief 设置通道偏压
-	*/
-	void on_setChannelBiasBtn_clicked();
-	/**
-	* @brief 设置触发值
-	*/
-	void on_setTriggerBtn_clicked();
-	/**
-	* @brief 示波器显示处理槽函数
-	*/
-	void oscHandle();
-	/**
-	* @brief 设置样品流速-中档
-	*/
-	void on_midRadioButton_clicked();
-
-	/**
-	* @brief 设置样品流速-高档
-	*/
-	void on_hightRadioButton_clicked();
-
-	/**
-	* @brief 设置样品流速-低档
-	*/
-	void on_lowRadioButton_clicked();
+	
 	/**
 	* @brief 下发开始采集命令
 	*/
@@ -95,9 +61,17 @@ public slots:
 	*/
 	void on_stopAcquisitionBtn_clicked();
 	/**
+	* @brief 示波器显示处理槽函数
+	*/
+	void oscHandle();
+	/**
 	* @brief 数据分析与报告处理
 	*/
 	void dataAnalyHandle();
+	/**
+	* @brief 细胞数据采集
+	*/
+	void acqHandle();
 	/**
 	* @brief 下发命令
 	*/
@@ -119,6 +93,10 @@ public slots:
 	*/
 	void exportPDF();
 	/**
+	* @brief 新建实验
+	*/
+	void newExpSlot();
+	/**
 	* @brief 打开实验文件
 	*/
 	void openExpFileSlot();
@@ -133,11 +111,11 @@ public slots:
 	/**
 	* @brief 时间计时
 	*/
-	void on_timeCheckBox_clicked();
+	void on_timeCheckBox_toggled(bool checked);
 	/**
 	* @brief 细胞计数
 	*/
-	void on_eventsCheckBox_clicked();
+	void on_eventsCheckBox_toggled(bool checked);
 	/**
 	* @brief 更新细胞个数
 	*/
@@ -166,7 +144,29 @@ public slots:
 	* @brief 更新时间
 	*/
 	void updateTime();
+
+	/**
+	* @brief创建文件管理目录
+	*/
+	void createTreeFileDir();
+	/**
+	* @brief 右键菜单
+	*/
+	void onCustomContextMenuRequested(const QPoint& pos);
+	/**
+	* @brief 打开文件目录
+	*/
+	void on_openFileBtn_clicked();
+	/**
+	* @brief 右键菜单
+	*/
+	void oepnExpFileFromRight(bool enable);
+	/**
+	* @brief 设置报告按钮状态
+	*/
+	void setCloseReportActSlot();
 signals:
+	void newExpSignal();
 	void openExpFileSignal();
 	void saveExpFileSignal();
 protected:
@@ -179,7 +179,7 @@ private:
 
 
 
-
+	QAction* m_newExpAct;//新建实验
 	QAction* m_newPlotAct;//新建画布
 	QAction* m_delPlotAct;//删除画布
 	QAction* m_savePlotAct;//保存画布
@@ -195,6 +195,12 @@ private:
 	BllDataCenter bllDataCenter;//数据采集业务类
 	qint32 m_cellEvents;//细胞个数
 
+
+	QFileSystemModel* model;//文件目录模型
+	QTreeView* treeView;//树形视图
+	QString m_currentMatLabPath;//当前实验路径
+	QMenu* m_menu;
+	QString m_fileName;//选中的文件名
 };
 
 #endif // STACKEDWIDGET_H

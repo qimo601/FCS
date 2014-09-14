@@ -532,7 +532,7 @@ d_curve(NULL)
 	//	"margin-right: 10px;"
 	//	"background-color:#FFFFFF;"
 	//	);//画布背景色
-	setTitle("散点图显示");//画布标题
+	//setTitle("散点图显示");//画布标题
 
 	//设置画布
 	canvas = new QwtPlotCanvas();

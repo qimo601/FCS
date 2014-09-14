@@ -13,16 +13,21 @@
 #include <QTextBlock>
 #include <QPdfWriter>
 #include <QFileDialog>
+#include <QMessageBox>
 StackedWidget::StackedWidget(QWidget *parent)
 	: QStackedWidget(parent)
 {
 	ui.setupUi(this);
 	
 	init();//初始化
+	connect(this, SIGNAL(newExpSignal()), ui.celllViewWidget, SLOT(newExpSlot()));//新建实验
 	connect(this, SIGNAL(openExpFileSignal()), ui.celllViewWidget, SLOT(openExpFileSlot()));//打开实验文件
 	connect(this, SIGNAL(saveExpFileSignal()), ui.celllViewWidget, SLOT(saveExpFileSlot()));//保存实验文件
+	
 	//设置删除画布按钮状态
 	connect(ui.celllViewWidget, SIGNAL(haveFocusPlotWidgetSignal(bool)), this, SLOT(setDelPlotActSlot(bool)));
+	//设置报告按钮状态
+	connect(ui.celllViewWidget, SIGNAL(reportTreeWidgetClose()), this, SLOT(setCloseReportActSlot()));//保存实验文件
 
 	//报告
 	connect(ui.reportBtn, SIGNAL(toggled(bool)), this, SLOT(showReport(bool)));
@@ -46,6 +51,8 @@ StackedWidget::StackedWidget(QWidget *parent)
 	//流量测试，暂时不实现
 	ui.flowSpinBox->setEnabled(false);
 	ui.flowCheckBox->setEnabled(false);
+	//初始化进入数据分析界面
+	dataAnalyHandle();
 }
 
 StackedWidget::~StackedWidget()
@@ -66,24 +73,13 @@ void StackedWidget::paintEvent(QPaintEvent *)
 */
 void StackedWidget::init()
 {
+	m_menu = 0;
+
 	//将示波器窗口加入显示队列
 	oscWidgetPage = new OscWidget();
 	ui.viewStackedWidget->addWidget(oscWidgetPage);
 
-	//初始化通道默认数值
-	ui.passageComboBox->addItem("通道1", (int)1);
-	ui.passageComboBox->addItem("通道2", (int)2);
-	ui.passageComboBox->addItem("通道3", (int)3);
-	ui.passageComboBox->addItem("通道4", (int)4);
-	ui.passageComboBox->addItem("通道5", (int)5);
-	ui.passageComboBox->addItem("通道6", (int)6);
-	ui.passageComboBox->addItem("通道7", (int)7);
-	ui.passageComboBox->addItem("通道8", (int)8);
-	ui.passageComboBox->setCurrentIndex(2);//默认通道3
-
-	//默认中等速度
-	ui.midRadioButton->setChecked(true);
-	ui.midRadioButton->clicked();
+	
 
 	//初始化采集控制业务
 	bllControl = new BllControl();
@@ -97,6 +93,10 @@ void StackedWidget::init()
 
 	createActions();//创建Action
 	createToolBars();//创建工具栏
+
+	createTreeFileDir();//创建文件管理目录
+
+
 	
 }
 /**
@@ -106,7 +106,10 @@ void StackedWidget::oscHandle()
 {
 	ui.viewStackedWidget->setCurrentWidget(oscWidgetPage);
 	ui.bottomFrame->setEnabled(false);//屏蔽正常采集功能
-
+	ui.bottomFrame->setVisible(false);//采集功能显示
+	ui.statusDockWidget->setVisible(true);//状态面板显示
+	ui.controlDockWidget->setVisible(true);//控制面板显示
+	ui.fileBrowserDockWidget->setVisible(false);//文件面板隐藏
 
 }
 /**
@@ -115,7 +118,24 @@ void StackedWidget::oscHandle()
 void StackedWidget::dataAnalyHandle()
 {
 	ui.viewStackedWidget->setCurrentWidget(ui.dataAnalyPage);
+	ui.bottomFrame->setEnabled(false);//屏蔽正常采集功能
+	ui.bottomFrame->setVisible(false);//隐藏采集功能
+	ui.statusDockWidget->setVisible(false);//隐藏状态面板
+	ui.controlDockWidget->setVisible(false);//隐藏控制面板
+	ui.fileBrowserDockWidget->setVisible(true);//显示文件面板
+
+}
+/**
+* @brief 细胞数据采集
+*/
+void StackedWidget::acqHandle()
+{
+	ui.viewStackedWidget->setCurrentWidget(ui.dataAnalyPage);
 	ui.bottomFrame->setEnabled(true);//开启正常采集功能
+	ui.bottomFrame->setVisible(true);//显示采集功能
+	ui.statusDockWidget->setVisible(true);//显示状态面板
+	ui.controlDockWidget->setVisible(true);//显示控制面板
+	ui.fileBrowserDockWidget->setVisible(false);//隐藏文件面板
 
 }
 
@@ -134,75 +154,6 @@ void StackedWidget::on_loadCmdBtn_clicked()
 }
 
 /**
-* @brief 设置激光强度
-*/
-void StackedWidget::on_setLaserBtn_clicked()
-{
-	int passage = ui.passageComboBox->currentData().toInt();
-	int strength = ui.strengthSpin->value();
-	VoLaser vo;
-	vo.setCmd(1);
-	vo.setLength(2);
-	vo.setPassage(passage);
-	vo.setStrength(strength);
-	bllControl->setLaser(vo);
-}
-/**
-* @brief 设置鞘液
-*/
-void StackedWidget::on_setFluidBtn_clicked()
-{
-	int velocity = ui.fluidSpin->value();
-	VoFluid vo;
-	vo.setCmd(2);
-	vo.setLength(2);
-	vo.setVelocity(velocity);
-	bllControl->setFluid(vo);
-}
-/**
-* @brief 设置样品流
-*/
-void StackedWidget::on_setSampleBtn_clicked()
-{
-	int velocity = ui.sampleSpin->value();
-	VoSample vo;
-	vo.setCmd(3);
-	vo.setLength(2);
-	vo.setVelocity(velocity);
-	bllControl->setSample(vo);
-}
-/**
-* @brief 设置通道偏压
-*/
-void StackedWidget::on_setChannelBiasBtn_clicked()
-{
-	int passage = ui.passageComboBox->currentData().toInt();
-	int voltage = ui.voltageSpin->value();
-	VoChannelBias vo;
-	vo.setCmd(4);
-	vo.setLength(2);
-	vo.setChannel(passage);
-	vo.setVoltage(voltage);
-	bllControl->setChannelBias(vo);
-
-}
-
-/**
-* @brief 设置触发值
-*/
-void StackedWidget::on_setTriggerBtn_clicked()
-{
-	int trigger = ui.triggerSpin->value();
-	int passage = ui.passageComboBox->currentData().toInt();
-	VoTrigger vo;
-	vo.setCmd(7);
-	vo.setLength(4);
-	vo.setChannel1(0);//暂时不支持
-	vo.setChannel2(passage);
-	vo.setTriggerValue(trigger);
-	bllControl->setTrigger(vo);
-}
-/**
 * @brief 打开/关闭USB设备
 */
 void StackedWidget::on_usbBtn_toggled(bool toggled)
@@ -219,31 +170,7 @@ void StackedWidget::on_usbBtn_toggled(bool toggled)
 		ui.usbBtn->setIcon(QIcon(":/MainWindow/Resources/Images/MainWindow/usb_disconnected.png"));
 	}
 }
-/**
-* @brief 设置样品流速-中档
-*/
-void StackedWidget::on_midRadioButton_clicked()
-{
-	ui.sampleSpin->setValue(800);
-}
 
-/**
-* @brief 设置样品流速-高档
-*/
-void StackedWidget::on_hightRadioButton_clicked()
-{
-
-	ui.sampleSpin->setValue(3000);
-}
-
-/**
-* @brief 设置样品流速-低档
-*/
-void StackedWidget::on_lowRadioButton_clicked()
-{
-
-	ui.sampleSpin->setValue(100);
-}
 /**
 * @brief 下发命令
 */
@@ -360,7 +287,13 @@ void StackedWidget::on_delPlotBtn_clicked()
 {
 	ui.celllViewWidget->delPlot();
 }
-
+/**
+* @brief 新建实验
+*/
+void StackedWidget::newExpSlot()
+{
+	emit newExpSignal();
+}
 /**
 * @brief 打开实验文件
 */
@@ -413,10 +346,17 @@ void StackedWidget::on_saveCheckBox_clicked()
 /**
 * @brief 时间计时
 */
-void StackedWidget::on_timeCheckBox_clicked()
+void StackedWidget::on_timeCheckBox_toggled(bool checked)
 {
-	m_timeCount = ui.timeSpinBox->value();
-	ui.timeSpinBox->setEnabled(false);
+	if (checked)
+	{
+		m_timeCount = ui.timeSpinBox->value();
+		ui.timeSpinBox->setEnabled(false);
+	}
+	else
+	{
+		ui.timeSpinBox->setEnabled(true);
+	}
 }
 
 /**
@@ -436,10 +376,17 @@ void StackedWidget::updateTime()
 /**
 * @brief 细胞计数
 */
-void StackedWidget::on_eventsCheckBox_clicked()
+void StackedWidget::on_eventsCheckBox_toggled(bool checked)
 {
-	m_cellEvents = ui.eventsSpinBox->value();
-	ui.eventsSpinBox->setEnabled(false);
+	if (checked)
+	{
+		m_cellEvents = ui.eventsSpinBox->value();
+		ui.eventsSpinBox->setEnabled(false);
+	}
+	else
+	{
+		ui.eventsSpinBox->setEnabled(true);
+	}
 }
 /**
 * @brief 更新细胞个数
@@ -527,6 +474,12 @@ void StackedWidget::createActions()
 	ui.savePlotBtn->setVisible(false);
 	ui.reportBtn->setVisible(false);
 
+	m_newExpAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/newExpoBtn.png"), tr("&新建实验"), this);
+	m_newExpAct->setShortcut(QKeySequence(tr("Ctrl+E")));
+	m_newExpAct->setStatusTip(tr("新建实验"));
+	connect(m_newExpAct, SIGNAL(triggered()), ui.celllViewWidget, SLOT(newExpSlot()));
+
+
 	m_newPlotAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/newPlot.png"), tr("&新建一个画布"), this);
 	m_newPlotAct->setShortcut(QKeySequence(tr("Ctrl+N")));
 	m_newPlotAct->setStatusTip(tr("新建一个画布"));
@@ -595,6 +548,7 @@ void StackedWidget::createMenus()
 void StackedWidget::createToolBars()
 {
 	m_fileToolBar = new QToolBar(tr("File"), ui.toolBtnWidget);
+	m_fileToolBar->addAction(m_newExpAct);
 	m_fileToolBar->addAction(m_newPlotAct);
 	m_fileToolBar->addAction(m_delPlotAct);
 	m_fileToolBar->addAction(m_savePlotAct);
@@ -619,4 +573,140 @@ void StackedWidget::setDelPlotActSlot(bool focus)
 		m_delPlotAct->setEnabled(true);
 	else
 		m_delPlotAct->setEnabled(false);
+}
+/**
+* @brief创建文件管理目录
+*/
+void StackedWidget::createTreeFileDir()
+{
+	m_currentMatLabPath = "D:/VS2013WorkSpace/FCS/MatLabData/";
+	QString currentMatLabPath = m_currentMatLabPath;
+	model = new QFileSystemModel(this);//文件数据源
+	model->setRootPath(currentMatLabPath);//数据源的根目录
+	treeView = new QTreeView(ui.fileWidget);//设置view的显示空间
+	treeView->setModel(model);//设置view的数据源
+	treeView->setRootIndex(model->index(currentMatLabPath));//设置显示的第一层根目录
+
+	treeView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	
+	QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+	sizePolicy.setHorizontalStretch(0);
+	sizePolicy.setVerticalStretch(0);
+	sizePolicy.setHeightForWidth(treeView->sizePolicy().hasHeightForWidth());
+	treeView->setSizePolicy(sizePolicy);
+	//treeView->setMinimumSize(QSize(640, 480));
+
+	treeView->setAlternatingRowColors(true);//颜色交替
+	treeView->setSelectionBehavior(QAbstractItemView::SelectRows);//选择行
+	treeView->setSelectionMode(QAbstractItemView::SingleSelection);//选择单个
+	treeView->setContextMenuPolicy(Qt::CustomContextMenu);//设置右键菜单类型
+	connect(treeView, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(onCustomContextMenuRequested(const QPoint&)));
+
+	QVBoxLayout* verticalLayout_10 = new QVBoxLayout(ui.fileWidget);//给这文件布局一下
+	verticalLayout_10->setSpacing(6);
+	verticalLayout_10->setContentsMargins(11, 11, 11, 11);
+	verticalLayout_10->setObjectName(QStringLiteral("verticalLayout_10"));
+
+	verticalLayout_10->addWidget(treeView);
+//	treeView->setAnimated(false);
+//	treeView->setIndentation(20);
+//	treeView->setSortingEnabled(true);
+//
+//	treeView->setWindowTitle(QObject::tr("Dir View"));
+//	treeView->resize(640, 480);
+}
+/**
+* @brief 右键菜单
+*/
+void StackedWidget::onCustomContextMenuRequested(const QPoint& pos)
+{
+	if (m_menu)//保证同时只存在一个menu，及时释放内存  
+	{
+		delete m_menu;
+		m_menu = 0;
+	}
+	QModelIndex index = treeView->currentIndex();
+	QModelIndex parent = index.parent();
+	QModelIndex indexCurrent = model->index(index.row(), 0, parent);
+	m_fileName = model->data(indexCurrent).toString();
+	m_fileName = model->rootPath() +"/"+m_fileName;
+
+	
+	m_menu = new QMenu(treeView);
+
+	QAction *openAction = m_menu->addAction(QIcon(":/MainWindow/Resources/Images/MainWindow/Check_Black.png"),"打开");
+	connect(openAction, SIGNAL(triggered(bool)),this, SLOT(oepnExpFileFromRight(bool)));
+	m_menu->exec(QCursor::pos());//在当前鼠标位置显示 
+}
+/**
+* @brief 右键菜单
+*/
+void StackedWidget::oepnExpFileFromRight(bool enable)
+{
+	QDir dir;
+	if (!dir.exists(m_fileName))
+	{
+		int ret = QMessageBox::warning(this, tr("警告"),
+			QString("无法打开该文件，磁盘中，找不到该文件。\n文件路径：%1").arg(m_fileName),
+			QMessageBox::Ok,
+			QMessageBox::Ok);
+		return;
+	}
+	ui.celllViewWidget->openExpFileFromRightSlot(m_fileName);
+}
+/**
+* @brief 打开文件目录
+*/
+void StackedWidget::on_openFileBtn_clicked()
+{
+	QDir dir1;
+	QString absolutePath1 = dir1.absolutePath();
+	QString canonicalPath1 = dir1.canonicalPath();
+	dir1.setCurrent("D:/VS2013WorkSpace/FCS/Win32/Debug");
+	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), "../../MatLabData", "");
+	fd->setFileMode(QFileDialog::Directory);
+	fd->setViewMode(QFileDialog::Detail);
+	//QStringList nameFilters;
+	//nameFilters << "matlab files (*.fcm *.FCM *.matlab *.MATLAB)"
+	//	<< "USB files (*.usb *.USB)"
+	//	<< "FCS files (*.fcs *.FCS)";
+
+	//fd->setNameFilters(nameFilters);//设置文件类型过滤器
+	QStringList fileNamesList;
+	if (fd->exec() == QDialog::Accepted) // 取消则是：QDialog::Rejected
+	{
+		fileNamesList = fd->selectedFiles();
+	}
+	else{
+		return;
+	}
+	QString fileName = fileNamesList.at(0).toLocal8Bit().constData();
+	QDir dir = fd->directory();
+	QString absolutePath = dir.absolutePath();
+	QString canonicalPath = dir.canonicalPath();
+	m_currentMatLabPath = absolutePath;
+
+	model->setRootPath("D:/VS2013WorkSpace/FCS/MatLabData/");
+
+	treeView->setModel(model);//设置view的数据源
+	treeView->setRootIndex(model->index(m_currentMatLabPath));//设置显示的第一层根目录
+
+	treeView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+	QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+	sizePolicy.setHorizontalStretch(0);
+	sizePolicy.setVerticalStretch(0);
+	sizePolicy.setHeightForWidth(treeView->sizePolicy().hasHeightForWidth());
+	treeView->setSizePolicy(sizePolicy);
+	//treeView->setMinimumSize(QSize(640, 480));
+
+}
+/**
+* @brief 设置报告按钮状态
+*/
+void StackedWidget::setCloseReportActSlot()
+{
+	m_reportAct->setChecked(false);
 }

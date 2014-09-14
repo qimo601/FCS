@@ -16,13 +16,13 @@ MainForm::MainForm(QWidget *parent)
 	connect(ui.titleWidget, SIGNAL(closeWidget()), this, SLOT(close()));
 
 
-
-	connect(ui.toolWidget, SIGNAL(acqBtnClicked()), ui.stackedWidget, SLOT(oscHandle()));//示波器采集按钮
+	connect(ui.toolWidget, SIGNAL(oscAcqBtnClicked()), ui.stackedWidget, SLOT(oscHandle()));//示波器采集按钮
+	connect(ui.toolWidget, SIGNAL(acqBtnClicked()), ui.stackedWidget, SLOT(acqHandle()));//细胞采集按钮
 	connect(ui.toolWidget, SIGNAL(analyBtnClicked()), ui.stackedWidget, SLOT(dataAnalyHandle()));//细胞绘图分析与报告按钮
-
-
+	
+	connect(ui.menuWidget, SIGNAL(newExpSignal()), ui.stackedWidget, SLOT(newExpSlot()));//新建实验文件
 	connect(ui.menuWidget, SIGNAL(openExpFileSignal()), ui.stackedWidget, SLOT(openExpFileSlot()));//打开本地文件
-	connect(ui.menuWidget, SIGNAL(saveExpFileSignal()), ui.stackedWidget, SLOT(saveExpFileSlot()));//打开本地文件
+	connect(ui.menuWidget, SIGNAL(saveExpFileSignal()), ui.stackedWidget, SLOT(saveExpFileSlot()));//保存本地文件
 }
 
 MainForm::~MainForm()

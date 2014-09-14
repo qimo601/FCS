@@ -96,6 +96,7 @@ void setGridEnable(bool checked, bool barMode);
 	void selectedRectPickerSlot(QRectF rectf);
 
 	void selectedParallelLinePickerSlot(QPointF pointf);
+
 signals:
 	void selectedCrossPicker(QPointF);
 	void selectedRectPicker(QRectF);

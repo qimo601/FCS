@@ -16,12 +16,12 @@ public:
 		RECT = 0x0001,
 		//平行线设门
 		PARALLEL = 0x0002,
-		//CT-Acquisition System(CT采集重建子系统)
-		CT_ARS = 0x0003,
-		//PET-Acquisition System(PET采集重建子系统)
-		PET_ARS = 0x0004,
-		//Control Box(控制盒)
-		CB = 0x0005
+		//椭圆
+		ELLIPSE = 0x0003,
+		//十字线
+		CROSS = 0x0004,
+		//多边形
+		POLYGON = 0x0005
 	};
 	//获取设门所在父类画布指针
 	QObject* getParentWidget() const

@@ -1,6 +1,6 @@
 ﻿#include "ReportTree.h"
 #include "Ui/Library/ViewWidget.h"
-
+#include <QMessageBox>
 #include <QIcon>
 ReportTree::ReportTree(QWidget *parent)
 	: QWidget(parent)
@@ -27,6 +27,16 @@ ReportTree::ReportTree(QWidget *parent)
 	//窗口关闭按钮
 	ui.closeBtn->setPicName(":/sysButton/Resources/Images/SysButton/close");
 	connect(ui.closeBtn, SIGNAL(clicked()), this, SLOT(close()));
+
+	//显示设门的绘图按钮
+	ui.plotBtn->setEnabled(false);
+	ui.delGateBtn->setEnabled(false);
+	connect(ui.treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(enablePlotBtn(QTreeWidgetItem*, int)));
+
+	//内容窗口自适应
+	ui.treeWidget->resizeColumnToContents(0);
+	ui.treeWidget->resizeColumnToContents(1);
+	ui.treeWidget->resizeColumnToContents(2);
 	//初始化一下表
 	updateReport();
 }
@@ -224,16 +234,20 @@ void ReportTree::getTreeRootReport(PlotWidget* plotWidget,int i)
 	else if (i==1)
 		gateStorageRoot = gateStorageRoot2;
 
-	gateStorageRoot->setGateName(QString("All%1").arg(i));
+	gateStorageRoot->setGateName(plotWidget->getTitle());
 	gateStorageRoot->setPlotWidget(plotWidget);
 	double parentEvents = plotWidget->computerEvents();
 	double totalEvents = bllDataCenter.getAllEvents();
 	double events = plotWidget->computerEvents();
 	gateStorageRoot->setEvents(events);
 
-	double percentageParent = events / parentEvents;
+	double percentageParent = 0;
+	if(parentEvents!=0)
+		percentageParent = events / parentEvents;
 	gateStorageRoot->setPercentageParent(percentageParent);
-	double percentageTotal = events / parentEvents;
+	double percentageTotal = 0;
+	if (parentEvents != 0)
+		percentageTotal = events / parentEvents;
 	gateStorageRoot->setPercentageTotal(percentageTotal);
 	QList<QList<double>> averageValueList;
 	QList<QList<double>> midValueList;
@@ -243,15 +257,15 @@ void ReportTree::getTreeRootReport(PlotWidget* plotWidget,int i)
 	//如果参数不为空，但值为0，也需要计算
 	if (gateStorageRoot->getAverageValue().size() != 0)
 	{
-		if (gateStorageRoot->getAverageValue().at(0).at(0) == 0)
-		{
+		/*if (gateStorageRoot->getAverageValue().at(0).at(0) == 0)
+		{*/
 			//计算所有的值，平均值，中间值和CV值
 			plotWidget->computerAverageValue(averageValueList, midValueList, cvValueList);
 
 			gateStorageRoot->setAverageValue(averageValueList);
 			gateStorageRoot->setMidValue(midValueList);
 			gateStorageRoot->setCvValue(cvValueList);
-		}
+		//}
 
 	}
 	//如果参数为空，需要计算
@@ -290,9 +304,13 @@ void ReportTree::getTreeChildReport(QTreeWidgetItem* currentItem, PlotWidget* pa
 		double events = childPlotWidget->computerEvents();
 		gateStorage->setEvents(events);
 
-		double percentageParent = events / parentEvents;
+		double percentageParent = 0;
+		if (parentEvents!=0)
+			percentageParent = events / parentEvents;
 		gateStorage->setPercentageParent(percentageParent);
-		double percentageTotal = events / totalEvents;
+		double percentageTotal = 0;
+		if (totalEvents != 0)
+			percentageTotal = events / totalEvents;
 		gateStorage->setPercentageTotal(percentageTotal);
 
 		QList<QList<double>> averageValueList;
@@ -381,7 +399,7 @@ void ReportTree::insertRootReport(QTreeWidgetItem* &rootItem, GateStorage* gateS
 	//如果Cv值不为空
 	if (cvValueList.at(0).at(0) != 0)
 		cvValue = cvValueList.at(0).at(0);
-	itemStringlist.append(QString::number(cvValue));
+	itemStringlist.append(QString("%1%").arg(cvValue * 100));
 
 	//itemStringlist << gateStorage->getGateName() << QString::number(gateStorage->getEvents()) << QString::number(gateStorage->getPercentageParent()) << QString::number(gateStorage->getPercentageTotal()) << QString::number(gateStorage->getAverageValue()) << QString::number(gateStorage->getMidValue()) << QString::number(gateStorage->getCvValue());
 	rootItem = new QTreeWidgetItem(ui.treeWidget, itemStringlist);
@@ -421,7 +439,7 @@ void ReportTree::insertChildReport(QTreeWidgetItem* parentItem, QTreeWidgetItem*
 	//如果Cv值不为空
 	if (cvValueList.at(0).at(0) != 0)
 		cvValue = cvValueList.at(0).at(0);
-	leafStringList1.append(QString::number(cvValue));
+	leafStringList1.append(QString("%1%").arg(cvValue*100));
 	//leafStringList1 << gateStorage->getGateName() << QString::number(gateStorage->getEvents()) << QString::number(gateStorage->getPercentageParent()) << QString::number(gateStorage->getPercentageTotal()) << QString::number(gateStorage->getAverageValue()) << QString::number(gateStorage->getMidValue()) << QString::number(gateStorage->getCvValue());
 	
 	currentItem = new QTreeWidgetItem(parentItem, leafStringList1);
@@ -429,4 +447,88 @@ void ReportTree::insertChildReport(QTreeWidgetItem* parentItem, QTreeWidgetItem*
 	QColor color(qrand() % 255, qrand() % 255, qrand() % 255);
 	pixmap.fill(color);
 	currentItem->setIcon(0, pixmap);
+}
+
+/**
+* @brief 显示设门对应的画布窗口
+*/
+void ReportTree::on_plotBtn_clicked()
+{
+	QTreeWidgetItem *treeItem = ui.treeWidget->currentItem();
+	if (treeItem != 0)
+	{
+
+		QString gateName = treeItem->text(0);//获得当前tree节点第一个值，GateName
+		emit viewGateWidget(gateName);
+	}
+}
+/**
+* @brief 删除该设门对应的窗口
+*/
+void ReportTree::on_delGateBtn_clicked()
+{
+	QTreeWidgetItem *treeItem = ui.treeWidget->currentItem();
+	//根节点不可以删除
+	if (treeItem == rootItem0 || treeItem == rootItem1)
+	{
+		int ret = QMessageBox::warning(this, tr("警告"),
+			QString("不可以删除根节点！"),
+			QMessageBox::Ok,
+			QMessageBox::Ok);
+		return;
+	}
+
+	QMessageBox msgBox;
+	msgBox.setIcon(QMessageBox::Warning);
+	msgBox.setWindowTitle(tr("警告！"));
+	msgBox.setText(tr("警告，您确定删除当前选中的设门吗？"));
+	QPushButton *Button1 = msgBox.addButton(tr("确定"), QMessageBox::AcceptRole);
+	QPushButton *Button2 = msgBox.addButton(tr("取消"), QMessageBox::RejectRole);
+	msgBox.exec();
+
+	if (msgBox.clickedButton() == Button1)
+	{
+		if (treeItem != 0)
+		{
+			QString gateName = treeItem->text(0);//获得当前tree节点第一个值，GateName
+			emit delGateWidget(gateName);
+		}
+	}
+	
+}
+/**
+* @brief 使能绘图按钮
+*/
+void ReportTree::enablePlotBtn(QTreeWidgetItem * item, int column)
+{
+	if (item != rootItem0&&item != rootItem1)
+
+	{
+		ui.plotBtn->setEnabled(true);
+		ui.delGateBtn->setEnabled(true);
+	}
+	else
+	{
+		ui.plotBtn->setEnabled(false);
+		ui.delGateBtn->setEnabled(false);
+	}
+
+}
+/**
+* @brief 关闭事件
+*/
+void ReportTree::closeEvent(QCloseEvent *event)
+{
+	ui.plotBtn->setEnabled(false);
+	updateReport();
+	event->accept();
+	emit willClose();
+
+	/*if (maybeSave()) {
+		writeSettings();
+		event->accept();
+		}
+		else {
+		event->ignore();
+		}*/
 }

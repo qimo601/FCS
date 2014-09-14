@@ -166,7 +166,7 @@ void ReadCellThread::getCellData(bool clear)
 
 				//继续转换
 				valueAA = valueAA - 32768 * valueWW;
-				valueHH = valueHH - 32768 * 4;
+				valueHH = valueHH - 32768 * 8;
 
 				iCellStaticData->insert(j, valueHH, valueAA, valueWW);
 			}
@@ -218,11 +218,16 @@ void ReadCellThread::getCellDataFromMatlabFile(QString filePath, bool clear)
 	QByteArray pathByteArray = filePath.toLocal8Bit();
 	if ((stream = fopen(pathByteArray.data(), "rb")) != NULL)
 	{
+		qint32 m = 0;
 		while (!feof(stream))
 		{
 			buffer = tmp;
 			//读取原始数据文件头
-			fread(buffer, sizeof(char), 4 * 3 * 8 * 8, stream);
+			int count = fread(buffer, sizeof(char), 4 * 3 * 8 * 8, stream);
+			//防止最后一组数据为空
+			if (count <= 0)
+				break;
+			m = m + 8;
 			//一次8个细胞
 			for (int i = 0; i < 8; i++)
 			{
@@ -231,17 +236,19 @@ void ReadCellThread::getCellDataFromMatlabFile(QString filePath, bool clear)
 				for (int j = 0; j < 8; j++)
 				{
 					QVector<double> vector;
-					memcpy(&valueAA, buffer, 4);//格式有错，必须先读valueAA后读valueHH，其他USB和FCS格式顺序正常
-					buffer = buffer + 4;
+					//memcpy(&valueAA, buffer, 4);//格式有错，必须先读valueAA后读valueHH，其他USB和FCS格式顺序正常
+					//buffer = buffer + 4;
 					memcpy(&valueHH, buffer, 4);
+					buffer = buffer + 4;
+					memcpy(&valueAA, buffer, 4);//正确顺序HH、AA、WW
 					buffer = buffer + 4;
 					memcpy(&valueWW, buffer, 4);
 					buffer = buffer + 4;
 
 
 					//继续转换
-					valueAA = valueAA - 32813 * valueWW;
-					valueHH = valueHH - 32813 * 4;
+					valueAA = valueAA - 32768 * valueWW;
+					valueHH = valueHH - 32768 * 8;
 
 
 					double valueH = valueHH;
@@ -260,11 +267,13 @@ void ReadCellThread::getCellDataFromMatlabFile(QString filePath, bool clear)
 					//8个通道
 					for (int k = 0; k < 8; k++)
 					{
-						for (int i = 0; i < 3; i++)
+						/*for (int i = 0; i < 3; i++)
 						{
-							QVector<double> vector = list.at(k);
-							iCellStaticData->insert(k, vector.at(0), vector.at(1), vector.at(2));
-						}
+							*/
+						//插入了3倍，for循环取消。
+						QVector<double> vector = list.at(k);
+						iCellStaticData->insert(k, vector.at(0), vector.at(1), vector.at(2));
+						//}
 
 					}
 
@@ -363,7 +372,7 @@ void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 
 					//继续转换
 					valueAA = valueAA - 32768 * valueWW;
-					valueHH = valueHH - 32768 * 4;
+					valueHH = valueHH - 32768 * 8;
 
 
 					iCellStaticData->insert(j, valueHH, valueAA, valueWW);

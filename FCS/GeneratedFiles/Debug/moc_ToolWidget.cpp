@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_ToolWidget_t {
     QByteArrayData data[8];
-    char stringdata[128];
+    char stringdata[118];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,14 +33,14 @@ QT_MOC_LITERAL(0, 0, 10),
 QT_MOC_LITERAL(1, 11, 13),
 QT_MOC_LITERAL(2, 25, 0),
 QT_MOC_LITERAL(3, 26, 15),
-QT_MOC_LITERAL(4, 42, 21),
-QT_MOC_LITERAL(5, 64, 17),
-QT_MOC_LITERAL(6, 82, 19),
-QT_MOC_LITERAL(7, 102, 25)
+QT_MOC_LITERAL(4, 42, 16),
+QT_MOC_LITERAL(5, 59, 17),
+QT_MOC_LITERAL(6, 77, 19),
+QT_MOC_LITERAL(7, 97, 20)
     },
     "ToolWidget\0acqBtnClicked\0\0analyBtnClicked\0"
-    "fileBrowserBtnClicked\0on_acqBtn_clicked\0"
-    "on_analyBtn_clicked\0on_fileBrowserBtn_clicked"
+    "oscAcqBtnClicked\0on_acqBtn_clicked\0"
+    "on_analyBtn_clicked\0on_oscAcqBtn_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -87,10 +87,10 @@ void ToolWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->acqBtnClicked(); break;
         case 1: _t->analyBtnClicked(); break;
-        case 2: _t->fileBrowserBtnClicked(); break;
+        case 2: _t->oscAcqBtnClicked(); break;
         case 3: _t->on_acqBtn_clicked(); break;
         case 4: _t->on_analyBtn_clicked(); break;
-        case 5: _t->on_fileBrowserBtn_clicked(); break;
+        case 5: _t->on_oscAcqBtn_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -110,7 +110,7 @@ void ToolWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         }
         {
             typedef void (ToolWidget::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ToolWidget::fileBrowserBtnClicked)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ToolWidget::oscAcqBtnClicked)) {
                 *result = 2;
             }
         }
@@ -167,7 +167,7 @@ void ToolWidget::analyBtnClicked()
 }
 
 // SIGNAL 2
-void ToolWidget::fileBrowserBtnClicked()
+void ToolWidget::oscAcqBtnClicked()
 {
     QMetaObject::activate(this, &staticMetaObject, 2, 0);
 }

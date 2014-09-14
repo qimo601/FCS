@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_StackedWidget_t {
-    QByteArrayData data[38];
-    char stringdata[685];
+    QByteArrayData data[41];
+    char stringdata[647];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,64 +30,66 @@ struct qt_meta_stringdata_StackedWidget_t {
 static const qt_meta_stringdata_StackedWidget_t qt_meta_stringdata_StackedWidget = {
     {
 QT_MOC_LITERAL(0, 0, 13),
-QT_MOC_LITERAL(1, 14, 17),
-QT_MOC_LITERAL(2, 32, 0),
-QT_MOC_LITERAL(3, 33, 17),
-QT_MOC_LITERAL(4, 51, 17),
-QT_MOC_LITERAL(5, 69, 7),
-QT_MOC_LITERAL(6, 77, 21),
-QT_MOC_LITERAL(7, 99, 22),
-QT_MOC_LITERAL(8, 122, 22),
-QT_MOC_LITERAL(9, 145, 23),
-QT_MOC_LITERAL(10, 169, 28),
-QT_MOC_LITERAL(11, 198, 24),
-QT_MOC_LITERAL(12, 223, 9),
-QT_MOC_LITERAL(13, 233, 25),
-QT_MOC_LITERAL(14, 259, 27),
-QT_MOC_LITERAL(15, 287, 25),
-QT_MOC_LITERAL(16, 313, 30),
-QT_MOC_LITERAL(17, 344, 29),
-QT_MOC_LITERAL(18, 374, 15),
-QT_MOC_LITERAL(19, 390, 7),
-QT_MOC_LITERAL(20, 398, 21),
-QT_MOC_LITERAL(21, 420, 21),
-QT_MOC_LITERAL(22, 442, 10),
-QT_MOC_LITERAL(23, 453, 2),
-QT_MOC_LITERAL(24, 456, 9),
-QT_MOC_LITERAL(25, 466, 15),
-QT_MOC_LITERAL(26, 482, 15),
-QT_MOC_LITERAL(27, 498, 23),
-QT_MOC_LITERAL(28, 522, 23),
-QT_MOC_LITERAL(29, 546, 25),
-QT_MOC_LITERAL(30, 572, 12),
-QT_MOC_LITERAL(31, 585, 23),
-QT_MOC_LITERAL(32, 609, 13),
-QT_MOC_LITERAL(33, 623, 11),
-QT_MOC_LITERAL(34, 635, 14),
-QT_MOC_LITERAL(35, 650, 17),
-QT_MOC_LITERAL(36, 668, 5),
-QT_MOC_LITERAL(37, 674, 10)
+QT_MOC_LITERAL(1, 14, 12),
+QT_MOC_LITERAL(2, 27, 0),
+QT_MOC_LITERAL(3, 28, 17),
+QT_MOC_LITERAL(4, 46, 17),
+QT_MOC_LITERAL(5, 64, 17),
+QT_MOC_LITERAL(6, 82, 7),
+QT_MOC_LITERAL(7, 90, 21),
+QT_MOC_LITERAL(8, 112, 30),
+QT_MOC_LITERAL(9, 143, 29),
+QT_MOC_LITERAL(10, 173, 9),
+QT_MOC_LITERAL(11, 183, 15),
+QT_MOC_LITERAL(12, 199, 9),
+QT_MOC_LITERAL(13, 209, 7),
+QT_MOC_LITERAL(14, 217, 21),
+QT_MOC_LITERAL(15, 239, 21),
+QT_MOC_LITERAL(16, 261, 10),
+QT_MOC_LITERAL(17, 272, 2),
+QT_MOC_LITERAL(18, 275, 9),
+QT_MOC_LITERAL(19, 285, 10),
+QT_MOC_LITERAL(20, 296, 15),
+QT_MOC_LITERAL(21, 312, 15),
+QT_MOC_LITERAL(22, 328, 23),
+QT_MOC_LITERAL(23, 352, 23),
+QT_MOC_LITERAL(24, 376, 7),
+QT_MOC_LITERAL(25, 384, 25),
+QT_MOC_LITERAL(26, 410, 12),
+QT_MOC_LITERAL(27, 423, 23),
+QT_MOC_LITERAL(28, 447, 13),
+QT_MOC_LITERAL(29, 461, 11),
+QT_MOC_LITERAL(30, 473, 14),
+QT_MOC_LITERAL(31, 488, 17),
+QT_MOC_LITERAL(32, 506, 5),
+QT_MOC_LITERAL(33, 512, 10),
+QT_MOC_LITERAL(34, 523, 17),
+QT_MOC_LITERAL(35, 541, 28),
+QT_MOC_LITERAL(36, 570, 3),
+QT_MOC_LITERAL(37, 574, 22),
+QT_MOC_LITERAL(38, 597, 20),
+QT_MOC_LITERAL(39, 618, 6),
+QT_MOC_LITERAL(40, 625, 21)
     },
-    "StackedWidget\0openExpFileSignal\0\0"
-    "saveExpFileSignal\0on_usbBtn_toggled\0"
-    "toggled\0on_loadCmdBtn_clicked\0"
-    "on_setLaserBtn_clicked\0on_setFluidBtn_clicked\0"
-    "on_setSampleBtn_clicked\0"
-    "on_setChannelBiasBtn_clicked\0"
-    "on_setTriggerBtn_clicked\0oscHandle\0"
-    "on_midRadioButton_clicked\0"
-    "on_hightRadioButton_clicked\0"
-    "on_lowRadioButton_clicked\0"
+    "StackedWidget\0newExpSignal\0\0"
+    "openExpFileSignal\0saveExpFileSignal\0"
+    "on_usbBtn_toggled\0toggled\0"
+    "on_loadCmdBtn_clicked\0"
     "on_startAcquisitionBtn_clicked\0"
-    "on_stopAcquisitionBtn_clicked\0"
-    "dataAnalyHandle\0sendCmd\0on_newPlotBtn_clicked\0"
-    "on_delPlotBtn_clicked\0showReport\0on\0"
-    "exportPDF\0openExpFileSlot\0saveExpFileSlot\0"
-    "on_saveCheckBox_clicked\0on_timeCheckBox_clicked\0"
-    "on_eventsCheckBox_clicked\0updateEvents\0"
-    "on_flowCheckBox_clicked\0createActions\0"
-    "createMenus\0createToolBars\0setDelPlotActSlot\0"
-    "focus\0updateTime"
+    "on_stopAcquisitionBtn_clicked\0oscHandle\0"
+    "dataAnalyHandle\0acqHandle\0sendCmd\0"
+    "on_newPlotBtn_clicked\0on_delPlotBtn_clicked\0"
+    "showReport\0on\0exportPDF\0newExpSlot\0"
+    "openExpFileSlot\0saveExpFileSlot\0"
+    "on_saveCheckBox_clicked\0on_timeCheckBox_toggled\0"
+    "checked\0on_eventsCheckBox_toggled\0"
+    "updateEvents\0on_flowCheckBox_clicked\0"
+    "createActions\0createMenus\0createToolBars\0"
+    "setDelPlotActSlot\0focus\0updateTime\0"
+    "createTreeFileDir\0onCustomContextMenuRequested\0"
+    "pos\0on_openFileBtn_clicked\0"
+    "oepnExpFileFromRight\0enable\0"
+    "setCloseReportActSlot"
 };
 #undef QT_MOC_LITERAL
 
@@ -102,15 +104,15 @@ static const uint qt_meta_data_StackedWidget[] = {
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       2,       // signalCount
+       3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
        1,    0,  179,    2, 0x06 /* Public */,
        3,    0,  180,    2, 0x06 /* Public */,
+       4,    0,  181,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    1,  181,    2, 0x0a /* Public */,
-       6,    0,  184,    2, 0x0a /* Public */,
+       5,    1,  182,    2, 0x0a /* Public */,
        7,    0,  185,    2, 0x0a /* Public */,
        8,    0,  186,    2, 0x0a /* Public */,
        9,    0,  187,    2, 0x0a /* Public */,
@@ -120,33 +122,34 @@ static const uint qt_meta_data_StackedWidget[] = {
       13,    0,  191,    2, 0x0a /* Public */,
       14,    0,  192,    2, 0x0a /* Public */,
       15,    0,  193,    2, 0x0a /* Public */,
-      16,    0,  194,    2, 0x0a /* Public */,
-      17,    0,  195,    2, 0x0a /* Public */,
-      18,    0,  196,    2, 0x0a /* Public */,
-      19,    0,  197,    2, 0x0a /* Public */,
-      20,    0,  198,    2, 0x0a /* Public */,
-      21,    0,  199,    2, 0x0a /* Public */,
-      22,    1,  200,    2, 0x0a /* Public */,
-      24,    0,  203,    2, 0x0a /* Public */,
-      25,    0,  204,    2, 0x0a /* Public */,
-      26,    0,  205,    2, 0x0a /* Public */,
-      27,    0,  206,    2, 0x0a /* Public */,
-      28,    0,  207,    2, 0x0a /* Public */,
-      29,    0,  208,    2, 0x0a /* Public */,
-      30,    0,  209,    2, 0x0a /* Public */,
-      31,    0,  210,    2, 0x0a /* Public */,
-      32,    0,  211,    2, 0x0a /* Public */,
-      33,    0,  212,    2, 0x0a /* Public */,
-      34,    0,  213,    2, 0x0a /* Public */,
-      35,    1,  214,    2, 0x0a /* Public */,
-      37,    0,  217,    2, 0x0a /* Public */,
+      16,    1,  194,    2, 0x0a /* Public */,
+      18,    0,  197,    2, 0x0a /* Public */,
+      19,    0,  198,    2, 0x0a /* Public */,
+      20,    0,  199,    2, 0x0a /* Public */,
+      21,    0,  200,    2, 0x0a /* Public */,
+      22,    0,  201,    2, 0x0a /* Public */,
+      23,    1,  202,    2, 0x0a /* Public */,
+      25,    1,  205,    2, 0x0a /* Public */,
+      26,    0,  208,    2, 0x0a /* Public */,
+      27,    0,  209,    2, 0x0a /* Public */,
+      28,    0,  210,    2, 0x0a /* Public */,
+      29,    0,  211,    2, 0x0a /* Public */,
+      30,    0,  212,    2, 0x0a /* Public */,
+      31,    1,  213,    2, 0x0a /* Public */,
+      33,    0,  216,    2, 0x0a /* Public */,
+      34,    0,  217,    2, 0x0a /* Public */,
+      35,    1,  218,    2, 0x0a /* Public */,
+      37,    0,  221,    2, 0x0a /* Public */,
+      38,    1,  222,    2, 0x0a /* Public */,
+      40,    0,  225,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Bool,    5,
+    QMetaType::Void, QMetaType::Bool,    6,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -156,26 +159,25 @@ static const uint qt_meta_data_StackedWidget[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   17,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   23,
-    QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   24,
+    QMetaType::Void, QMetaType::Bool,   24,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   32,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QPoint,   36,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   36,
+    QMetaType::Void, QMetaType::Bool,   39,
     QMetaType::Void,
 
        0        // eod
@@ -186,39 +188,39 @@ void StackedWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
     if (_c == QMetaObject::InvokeMetaMethod) {
         StackedWidget *_t = static_cast<StackedWidget *>(_o);
         switch (_id) {
-        case 0: _t->openExpFileSignal(); break;
-        case 1: _t->saveExpFileSignal(); break;
-        case 2: _t->on_usbBtn_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 3: _t->on_loadCmdBtn_clicked(); break;
-        case 4: _t->on_setLaserBtn_clicked(); break;
-        case 5: _t->on_setFluidBtn_clicked(); break;
-        case 6: _t->on_setSampleBtn_clicked(); break;
-        case 7: _t->on_setChannelBiasBtn_clicked(); break;
-        case 8: _t->on_setTriggerBtn_clicked(); break;
-        case 9: _t->oscHandle(); break;
-        case 10: _t->on_midRadioButton_clicked(); break;
-        case 11: _t->on_hightRadioButton_clicked(); break;
-        case 12: _t->on_lowRadioButton_clicked(); break;
-        case 13: _t->on_startAcquisitionBtn_clicked(); break;
-        case 14: _t->on_stopAcquisitionBtn_clicked(); break;
-        case 15: _t->dataAnalyHandle(); break;
-        case 16: _t->sendCmd(); break;
-        case 17: _t->on_newPlotBtn_clicked(); break;
-        case 18: _t->on_delPlotBtn_clicked(); break;
-        case 19: _t->showReport((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 20: _t->exportPDF(); break;
-        case 21: _t->openExpFileSlot(); break;
-        case 22: _t->saveExpFileSlot(); break;
-        case 23: _t->on_saveCheckBox_clicked(); break;
-        case 24: _t->on_timeCheckBox_clicked(); break;
-        case 25: _t->on_eventsCheckBox_clicked(); break;
-        case 26: _t->updateEvents(); break;
-        case 27: _t->on_flowCheckBox_clicked(); break;
-        case 28: _t->createActions(); break;
-        case 29: _t->createMenus(); break;
-        case 30: _t->createToolBars(); break;
-        case 31: _t->setDelPlotActSlot((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 32: _t->updateTime(); break;
+        case 0: _t->newExpSignal(); break;
+        case 1: _t->openExpFileSignal(); break;
+        case 2: _t->saveExpFileSignal(); break;
+        case 3: _t->on_usbBtn_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 4: _t->on_loadCmdBtn_clicked(); break;
+        case 5: _t->on_startAcquisitionBtn_clicked(); break;
+        case 6: _t->on_stopAcquisitionBtn_clicked(); break;
+        case 7: _t->oscHandle(); break;
+        case 8: _t->dataAnalyHandle(); break;
+        case 9: _t->acqHandle(); break;
+        case 10: _t->sendCmd(); break;
+        case 11: _t->on_newPlotBtn_clicked(); break;
+        case 12: _t->on_delPlotBtn_clicked(); break;
+        case 13: _t->showReport((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 14: _t->exportPDF(); break;
+        case 15: _t->newExpSlot(); break;
+        case 16: _t->openExpFileSlot(); break;
+        case 17: _t->saveExpFileSlot(); break;
+        case 18: _t->on_saveCheckBox_clicked(); break;
+        case 19: _t->on_timeCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 20: _t->on_eventsCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 21: _t->updateEvents(); break;
+        case 22: _t->on_flowCheckBox_clicked(); break;
+        case 23: _t->createActions(); break;
+        case 24: _t->createMenus(); break;
+        case 25: _t->createToolBars(); break;
+        case 26: _t->setDelPlotActSlot((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 27: _t->updateTime(); break;
+        case 28: _t->createTreeFileDir(); break;
+        case 29: _t->onCustomContextMenuRequested((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 30: _t->on_openFileBtn_clicked(); break;
+        case 31: _t->oepnExpFileFromRight((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 32: _t->setCloseReportActSlot(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -226,14 +228,20 @@ void StackedWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         void **func = reinterpret_cast<void **>(_a[1]);
         {
             typedef void (StackedWidget::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&StackedWidget::openExpFileSignal)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&StackedWidget::newExpSignal)) {
                 *result = 0;
             }
         }
         {
             typedef void (StackedWidget::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&StackedWidget::saveExpFileSignal)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&StackedWidget::openExpFileSignal)) {
                 *result = 1;
+            }
+        }
+        {
+            typedef void (StackedWidget::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&StackedWidget::saveExpFileSignal)) {
+                *result = 2;
             }
         }
     }
@@ -276,14 +284,20 @@ int StackedWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void StackedWidget::openExpFileSignal()
+void StackedWidget::newExpSignal()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, 0);
 }
 
 // SIGNAL 1
-void StackedWidget::saveExpFileSignal()
+void StackedWidget::openExpFileSignal()
 {
     QMetaObject::activate(this, &staticMetaObject, 1, 0);
+}
+
+// SIGNAL 2
+void StackedWidget::saveExpFileSignal()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, 0);
 }
 QT_END_MOC_NAMESPACE

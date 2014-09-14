@@ -26,7 +26,7 @@ public:
 public slots:
 
 	/**
-	* @brief 示波器采集窗口
+	* @brief 细胞数据采集
 	*/
 	void on_acqBtn_clicked();
 	/**
@@ -34,14 +34,14 @@ public slots:
 	*/
 	void on_analyBtn_clicked();
 	/**
-	* @brief 文件浏览器窗口
+	* @brief 示波器采集
 	*/
-	void on_fileBrowserBtn_clicked();
+	void on_oscAcqBtn_clicked();
 signals:
 	void acqBtnClicked();
 	void analyBtnClicked();
-	void fileBrowserBtnClicked();
-
+	void oscAcqBtnClicked();
+	
 protected:
 	void paintEvent(QPaintEvent *event);
 	void resizeEvent(QResizeEvent * event);

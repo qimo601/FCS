@@ -35,14 +35,14 @@ public:
     QToolButton *pannerBtn;
     QToolButton *maximizedBtn;
     QToolButton *normalBtn;
-    QToolButton *viewTrueValueBtn;
+    QToolButton *crossBtn;
     QToolButton *viewTrueValueBtn_2;
     QToolButton *rectBtn;
     QToolButton *parallelLineBtn;
-    QToolButton *parallelLineBtn_2;
+    QToolButton *ellipseBtn;
+    QToolButton *polygonBtn;
     QToolButton *testUpBtn;
     QToolButton *testDownBtn;
-    QToolButton *testLastBtn;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout;
     QFrame *cellXFrame;
@@ -138,14 +138,19 @@ public:
 
         verticalLayout_2->addWidget(normalBtn);
 
-        viewTrueValueBtn = new QToolButton(cellToolFrame);
-        viewTrueValueBtn->setObjectName(QStringLiteral("viewTrueValueBtn"));
-        viewTrueValueBtn->setMinimumSize(QSize(32, 32));
-        viewTrueValueBtn->setMaximumSize(QSize(32, 32));
-        viewTrueValueBtn->setCheckable(true);
-        viewTrueValueBtn->setChecked(false);
+        crossBtn = new QToolButton(cellToolFrame);
+        crossBtn->setObjectName(QStringLiteral("crossBtn"));
+        crossBtn->setMinimumSize(QSize(32, 32));
+        crossBtn->setMaximumSize(QSize(32, 32));
+        QIcon icon3;
+        icon3.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/crossBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        crossBtn->setIcon(icon3);
+        crossBtn->setIconSize(QSize(20, 20));
+        crossBtn->setCheckable(true);
+        crossBtn->setChecked(false);
+        crossBtn->setAutoRaise(true);
 
-        verticalLayout_2->addWidget(viewTrueValueBtn);
+        verticalLayout_2->addWidget(crossBtn);
 
         viewTrueValueBtn_2 = new QToolButton(cellToolFrame);
         viewTrueValueBtn_2->setObjectName(QStringLiteral("viewTrueValueBtn_2"));
@@ -160,10 +165,10 @@ public:
         rectBtn->setObjectName(QStringLiteral("rectBtn"));
         rectBtn->setMinimumSize(QSize(32, 32));
         rectBtn->setMaximumSize(QSize(32, 32));
-        QIcon icon3;
-        icon3.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Rect.png"), QSize(), QIcon::Normal, QIcon::Off);
-        rectBtn->setIcon(icon3);
-        rectBtn->setIconSize(QSize(16, 16));
+        QIcon icon4;
+        icon4.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Rect.png"), QSize(), QIcon::Normal, QIcon::Off);
+        rectBtn->setIcon(icon4);
+        rectBtn->setIconSize(QSize(20, 20));
         rectBtn->setCheckable(true);
         rectBtn->setChecked(false);
         rectBtn->setAutoRaise(true);
@@ -174,23 +179,43 @@ public:
         parallelLineBtn->setObjectName(QStringLiteral("parallelLineBtn"));
         parallelLineBtn->setMinimumSize(QSize(32, 32));
         parallelLineBtn->setMaximumSize(QSize(32, 32));
-        QIcon icon4;
-        icon4.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Parallel.png"), QSize(), QIcon::Normal, QIcon::Off);
-        parallelLineBtn->setIcon(icon4);
+        QIcon icon5;
+        icon5.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Parallel.png"), QSize(), QIcon::Normal, QIcon::Off);
+        parallelLineBtn->setIcon(icon5);
+        parallelLineBtn->setIconSize(QSize(20, 20));
         parallelLineBtn->setCheckable(true);
         parallelLineBtn->setChecked(false);
         parallelLineBtn->setAutoRaise(true);
 
         verticalLayout_2->addWidget(parallelLineBtn);
 
-        parallelLineBtn_2 = new QToolButton(cellToolFrame);
-        parallelLineBtn_2->setObjectName(QStringLiteral("parallelLineBtn_2"));
-        parallelLineBtn_2->setMinimumSize(QSize(32, 32));
-        parallelLineBtn_2->setMaximumSize(QSize(32, 32));
-        parallelLineBtn_2->setCheckable(true);
-        parallelLineBtn_2->setChecked(false);
+        ellipseBtn = new QToolButton(cellToolFrame);
+        ellipseBtn->setObjectName(QStringLiteral("ellipseBtn"));
+        ellipseBtn->setMinimumSize(QSize(32, 32));
+        ellipseBtn->setMaximumSize(QSize(32, 32));
+        QIcon icon6;
+        icon6.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/ellipseBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        ellipseBtn->setIcon(icon6);
+        ellipseBtn->setIconSize(QSize(20, 20));
+        ellipseBtn->setCheckable(true);
+        ellipseBtn->setChecked(false);
+        ellipseBtn->setAutoRaise(true);
 
-        verticalLayout_2->addWidget(parallelLineBtn_2);
+        verticalLayout_2->addWidget(ellipseBtn);
+
+        polygonBtn = new QToolButton(cellToolFrame);
+        polygonBtn->setObjectName(QStringLiteral("polygonBtn"));
+        polygonBtn->setMinimumSize(QSize(32, 32));
+        polygonBtn->setMaximumSize(QSize(32, 32));
+        QIcon icon7;
+        icon7.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/PolygonBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        polygonBtn->setIcon(icon7);
+        polygonBtn->setIconSize(QSize(20, 20));
+        polygonBtn->setCheckable(true);
+        polygonBtn->setChecked(false);
+        polygonBtn->setAutoRaise(true);
+
+        verticalLayout_2->addWidget(polygonBtn);
 
         testUpBtn = new QToolButton(cellToolFrame);
         testUpBtn->setObjectName(QStringLiteral("testUpBtn"));
@@ -209,15 +234,6 @@ public:
         testDownBtn->setChecked(false);
 
         verticalLayout_2->addWidget(testDownBtn);
-
-        testLastBtn = new QToolButton(cellToolFrame);
-        testLastBtn->setObjectName(QStringLiteral("testLastBtn"));
-        testLastBtn->setMinimumSize(QSize(32, 32));
-        testLastBtn->setMaximumSize(QSize(32, 32));
-        testLastBtn->setCheckable(true);
-        testLastBtn->setChecked(false);
-
-        verticalLayout_2->addWidget(testLastBtn);
 
         verticalSpacer = new QSpacerItem(20, 339, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -245,9 +261,9 @@ public:
         toolButton->setObjectName(QStringLiteral("toolButton"));
         toolButton->setMinimumSize(QSize(30, 30));
         toolButton->setMaximumSize(QSize(30, 30));
-        QIcon icon5;
-        icon5.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
-        toolButton->setIcon(icon5);
+        QIcon icon8;
+        icon8.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
+        toolButton->setIcon(icon8);
         toolButton->setAutoRaise(true);
 
         horizontalLayout->addWidget(toolButton);
@@ -269,9 +285,9 @@ public:
         gridCheckBox = new QCheckBox(cellXFrame);
         gridCheckBox->setObjectName(QStringLiteral("gridCheckBox"));
         gridCheckBox->setFocusPolicy(Qt::NoFocus);
-        QIcon icon6;
-        icon6.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/BGGrid.png"), QSize(), QIcon::Normal, QIcon::Off);
-        gridCheckBox->setIcon(icon6);
+        QIcon icon9;
+        icon9.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/BGGrid.png"), QSize(), QIcon::Normal, QIcon::Off);
+        gridCheckBox->setIcon(icon9);
         gridCheckBox->setChecked(true);
         gridCheckBox->setTristate(false);
 
@@ -282,9 +298,9 @@ public:
         logCheckBox->setFocusPolicy(Qt::NoFocus);
         logCheckBox->setLayoutDirection(Qt::LeftToRight);
         logCheckBox->setAutoFillBackground(false);
-        QIcon icon7;
-        icon7.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Log.png"), QSize(), QIcon::Normal, QIcon::Off);
-        logCheckBox->setIcon(icon7);
+        QIcon icon10;
+        icon10.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Log.png"), QSize(), QIcon::Normal, QIcon::Off);
+        logCheckBox->setIcon(icon10);
         logCheckBox->setChecked(true);
 
         horizontalLayout->addWidget(logCheckBox);
@@ -294,9 +310,9 @@ public:
         buttonGroup->setObjectName(QStringLiteral("buttonGroup"));
         buttonGroup->addButton(scatterCheckBox);
         scatterCheckBox->setObjectName(QStringLiteral("scatterCheckBox"));
-        QIcon icon8;
-        icon8.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Scatter.png"), QSize(), QIcon::Normal, QIcon::Off);
-        scatterCheckBox->setIcon(icon8);
+        QIcon icon11;
+        icon11.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Scatter.png"), QSize(), QIcon::Normal, QIcon::Off);
+        scatterCheckBox->setIcon(icon11);
         scatterCheckBox->setChecked(true);
 
         horizontalLayout->addWidget(scatterCheckBox);
@@ -304,9 +320,9 @@ public:
         barChatStaticsCheckBox = new QCheckBox(cellXFrame);
         buttonGroup->addButton(barChatStaticsCheckBox);
         barChatStaticsCheckBox->setObjectName(QStringLiteral("barChatStaticsCheckBox"));
-        QIcon icon9;
-        icon9.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Histogram.png"), QSize(), QIcon::Normal, QIcon::Off);
-        barChatStaticsCheckBox->setIcon(icon9);
+        QIcon icon12;
+        icon12.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/Histogram.png"), QSize(), QIcon::Normal, QIcon::Off);
+        barChatStaticsCheckBox->setIcon(icon12);
 
         horizontalLayout->addWidget(barChatStaticsCheckBox);
 
@@ -397,7 +413,10 @@ public:
         normalBtn->setToolTip(QApplication::translate("PlotWidget", "\346\234\200\345\260\217\345\214\226", 0));
 #endif // QT_NO_TOOLTIP
         normalBtn->setText(QApplication::translate("PlotWidget", "\350\277\230\345\216\237", 0));
-        viewTrueValueBtn->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\277", 0));
+#ifndef QT_NO_TOOLTIP
+        crossBtn->setToolTip(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\277", 0));
+#endif // QT_NO_TOOLTIP
+        crossBtn->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\277", 0));
         viewTrueValueBtn_2->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\2772", 0));
 #ifndef QT_NO_TOOLTIP
         rectBtn->setToolTip(QApplication::translate("PlotWidget", "\347\237\251\345\275\242\350\256\276\351\227\250", 0));
@@ -407,10 +426,13 @@ public:
         parallelLineBtn->setToolTip(QApplication::translate("PlotWidget", "\345\271\263\350\241\214\347\272\277\350\256\276\351\227\250", 0));
 #endif // QT_NO_TOOLTIP
         parallelLineBtn->setText(QApplication::translate("PlotWidget", "\345\271\263\350\241\214\347\272\277", 0));
-        parallelLineBtn_2->setText(QApplication::translate("PlotWidget", "\345\244\232\350\276\271\345\275\242", 0));
+#ifndef QT_NO_TOOLTIP
+        ellipseBtn->setToolTip(QApplication::translate("PlotWidget", "\346\244\255\345\234\206\350\256\276\351\227\250", 0));
+#endif // QT_NO_TOOLTIP
+        ellipseBtn->setText(QApplication::translate("PlotWidget", "\346\244\255\345\234\206", 0));
+        polygonBtn->setText(QApplication::translate("PlotWidget", "\345\244\232\350\276\271\345\275\242", 0));
         testUpBtn->setText(QApplication::translate("PlotWidget", "+", 0));
         testDownBtn->setText(QApplication::translate("PlotWidget", "-", 0));
-        testLastBtn->setText(QApplication::translate("PlotWidget", "Test", 0));
         toolButton->setText(QApplication::translate("PlotWidget", "...", 0));
 #ifndef QT_NO_TOOLTIP
         passageYCombox->setToolTip(QApplication::translate("PlotWidget", "\351\200\232\351\201\223", 0));

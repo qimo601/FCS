@@ -14,7 +14,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDockWidget>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
@@ -22,7 +21,6 @@
 #include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStackedWidget>
@@ -30,6 +28,7 @@
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <Ui/Library/ParamWidget.h>
 #include <Ui/Library/ViewWidget.h>
 
 QT_BEGIN_NAMESPACE
@@ -53,47 +52,13 @@ public:
     QLabel *label_10;
     QSpacerItem *horizontalSpacer_10;
     QTextBrowser *textBrowser;
-    QDockWidget *controlDockWidget;
-    QWidget *controlDockWidgetContents;
-    QVBoxLayout *verticalLayout_6;
-    QHBoxLayout *horizontalLayout_8;
-    QLabel *label_11;
-    QSpinBox *fluidSpin;
-    QPushButton *setFluidBtn;
-    QSpacerItem *horizontalSpacer_5;
-    QFrame *line_2;
-    QHBoxLayout *horizontalLayout_5;
-    QLabel *label_8;
-    QSpinBox *sampleSpin;
-    QPushButton *setSampleBtn;
-    QSpacerItem *horizontalSpacer_6;
-    QHBoxLayout *horizontalLayout_7;
-    QSpacerItem *horizontalSpacer;
-    QVBoxLayout *verticalLayout_5;
-    QRadioButton *midRadioButton;
-    QRadioButton *hightRadioButton;
-    QRadioButton *lowRadioButton;
-    QSpacerItem *horizontalSpacer_2;
-    QFrame *line;
-    QHBoxLayout *horizontalLayout_6;
-    QLabel *label_7;
-    QComboBox *passageComboBox;
-    QSpacerItem *horizontalSpacer_3;
-    QHBoxLayout *horizontalLayout_2;
-    QLabel *label;
-    QSpinBox *strengthSpin;
-    QPushButton *setLaserBtn;
-    QSpacerItem *horizontalSpacer_4;
-    QHBoxLayout *horizontalLayout_4;
-    QLabel *label_9;
-    QSpinBox *triggerSpin;
-    QPushButton *setTriggerBtn;
-    QSpacerItem *horizontalSpacer_7;
-    QHBoxLayout *horizontalLayout_3;
-    QLabel *label_6;
-    QSpinBox *voltageSpin;
-    QPushButton *setChannelBiasBtn;
-    QSpacerItem *horizontalSpacer_8;
+    ParamWidget *controlDockWidget;
+    QDockWidget *fileBrowserDockWidget;
+    QWidget *fileBrowserDockWidgetContents;
+    QVBoxLayout *verticalLayout_9;
+    QWidget *fileWidget;
+    QWidget *widget;
+    QToolButton *openFileBtn;
     QSpacerItem *verticalSpacer;
     QFrame *rightFrame;
     QVBoxLayout *verticalLayout_3;
@@ -132,7 +97,7 @@ public:
     {
         if (StackedWidget->objectName().isEmpty())
             StackedWidget->setObjectName(QStringLiteral("StackedWidget"));
-        StackedWidget->resize(1150, 915);
+        StackedWidget->resize(1150, 700);
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
         verticalLayout = new QVBoxLayout(page);
@@ -232,327 +197,63 @@ public:
 
         verticalLayout_2->addWidget(statusDockWidget);
 
-        controlDockWidget = new QDockWidget(leftFrame);
+        controlDockWidget = new ParamWidget(leftFrame);
         controlDockWidget->setObjectName(QStringLiteral("controlDockWidget"));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(controlDockWidget->sizePolicy().hasHeightForWidth());
-        controlDockWidget->setSizePolicy(sizePolicy2);
-        controlDockWidget->setMinimumSize(QSize(250, 320));
-        controlDockWidget->setMaximumSize(QSize(250, 524287));
-        controlDockWidget->setStyleSheet(QStringLiteral(""));
-        controlDockWidgetContents = new QWidget();
-        controlDockWidgetContents->setObjectName(QStringLiteral("controlDockWidgetContents"));
-        controlDockWidgetContents->setStyleSheet(QStringLiteral(""));
-        verticalLayout_6 = new QVBoxLayout(controlDockWidgetContents);
-        verticalLayout_6->setSpacing(7);
-        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
-        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_8 = new QHBoxLayout();
-        horizontalLayout_8->setSpacing(7);
-        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
-        horizontalLayout_8->setContentsMargins(-1, 0, -1, 0);
-        label_11 = new QLabel(controlDockWidgetContents);
-        label_11->setObjectName(QStringLiteral("label_11"));
-        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
-        label_11->setSizePolicy(sizePolicy3);
-        label_11->setMinimumSize(QSize(81, 16));
-        label_11->setMaximumSize(QSize(81, 16));
-        QFont font;
-        font.setFamily(QString::fromUtf8("\345\256\213\344\275\223"));
-        font.setPointSize(9);
-        font.setBold(false);
-        font.setUnderline(false);
-        font.setWeight(50);
-        label_11->setFont(font);
-        label_11->setStyleSheet(QStringLiteral(""));
-
-        horizontalLayout_8->addWidget(label_11);
-
-        fluidSpin = new QSpinBox(controlDockWidgetContents);
-        fluidSpin->setObjectName(QStringLiteral("fluidSpin"));
-        fluidSpin->setMinimumSize(QSize(59, 23));
-        fluidSpin->setMaximumSize(QSize(59, 23));
-        QFont font1;
-        font1.setFamily(QStringLiteral("Times New Roman"));
-        fluidSpin->setFont(font1);
-        fluidSpin->setMaximum(4095);
-
-        horizontalLayout_8->addWidget(fluidSpin);
-
-        setFluidBtn = new QPushButton(controlDockWidgetContents);
-        setFluidBtn->setObjectName(QStringLiteral("setFluidBtn"));
-        setFluidBtn->setMinimumSize(QSize(40, 23));
-        setFluidBtn->setMaximumSize(QSize(40, 23));
-        QIcon icon2;
-        icon2.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/start.png"), QSize(), QIcon::Normal, QIcon::Off);
-        setFluidBtn->setIcon(icon2);
-
-        horizontalLayout_8->addWidget(setFluidBtn);
-
-        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_8->addItem(horizontalSpacer_5);
-
-
-        verticalLayout_6->addLayout(horizontalLayout_8);
-
-        line_2 = new QFrame(controlDockWidgetContents);
-        line_2->setObjectName(QStringLiteral("line_2"));
-        line_2->setStyleSheet(QStringLiteral(""));
-        line_2->setFrameShadow(QFrame::Plain);
-        line_2->setLineWidth(2);
-        line_2->setFrameShape(QFrame::HLine);
-
-        verticalLayout_6->addWidget(line_2);
-
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setSpacing(6);
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        label_8 = new QLabel(controlDockWidgetContents);
-        label_8->setObjectName(QStringLiteral("label_8"));
-        sizePolicy3.setHeightForWidth(label_8->sizePolicy().hasHeightForWidth());
-        label_8->setSizePolicy(sizePolicy3);
-        label_8->setMinimumSize(QSize(81, 16));
-        label_8->setMaximumSize(QSize(81, 16));
-        label_8->setFont(font);
-        label_8->setStyleSheet(QStringLiteral(""));
-
-        horizontalLayout_5->addWidget(label_8);
-
-        sampleSpin = new QSpinBox(controlDockWidgetContents);
-        sampleSpin->setObjectName(QStringLiteral("sampleSpin"));
-        sampleSpin->setMinimumSize(QSize(59, 23));
-        sampleSpin->setMaximumSize(QSize(59, 23));
-        sampleSpin->setFont(font1);
-        sampleSpin->setMaximum(4095);
-
-        horizontalLayout_5->addWidget(sampleSpin);
-
-        setSampleBtn = new QPushButton(controlDockWidgetContents);
-        setSampleBtn->setObjectName(QStringLiteral("setSampleBtn"));
-        setSampleBtn->setMinimumSize(QSize(40, 23));
-        setSampleBtn->setMaximumSize(QSize(40, 23));
-        setSampleBtn->setIcon(icon2);
-
-        horizontalLayout_5->addWidget(setSampleBtn);
-
-        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_5->addItem(horizontalSpacer_6);
-
-
-        verticalLayout_6->addLayout(horizontalLayout_5);
-
-        horizontalLayout_7 = new QHBoxLayout();
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_7->addItem(horizontalSpacer);
-
-        verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setSpacing(6);
-        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
-        midRadioButton = new QRadioButton(controlDockWidgetContents);
-        buttonGroup = new QButtonGroup(StackedWidget);
-        buttonGroup->setObjectName(QStringLiteral("buttonGroup"));
-        buttonGroup->addButton(midRadioButton);
-        midRadioButton->setObjectName(QStringLiteral("midRadioButton"));
-        QFont font2;
-        font2.setFamily(QString::fromUtf8("\345\256\213\344\275\223"));
-        midRadioButton->setFont(font2);
-
-        verticalLayout_5->addWidget(midRadioButton);
-
-        hightRadioButton = new QRadioButton(controlDockWidgetContents);
-        buttonGroup->addButton(hightRadioButton);
-        hightRadioButton->setObjectName(QStringLiteral("hightRadioButton"));
-        hightRadioButton->setFont(font2);
-
-        verticalLayout_5->addWidget(hightRadioButton);
-
-        lowRadioButton = new QRadioButton(controlDockWidgetContents);
-        buttonGroup->addButton(lowRadioButton);
-        lowRadioButton->setObjectName(QStringLiteral("lowRadioButton"));
-        lowRadioButton->setFont(font2);
-
-        verticalLayout_5->addWidget(lowRadioButton);
-
-
-        horizontalLayout_7->addLayout(verticalLayout_5);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_7->addItem(horizontalSpacer_2);
-
-
-        verticalLayout_6->addLayout(horizontalLayout_7);
-
-        line = new QFrame(controlDockWidgetContents);
-        line->setObjectName(QStringLiteral("line"));
-        line->setStyleSheet(QStringLiteral(""));
-        line->setFrameShadow(QFrame::Plain);
-        line->setLineWidth(2);
-        line->setFrameShape(QFrame::HLine);
-
-        verticalLayout_6->addWidget(line);
-
-        horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setSpacing(6);
-        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        label_7 = new QLabel(controlDockWidgetContents);
-        label_7->setObjectName(QStringLiteral("label_7"));
-        sizePolicy3.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
-        label_7->setSizePolicy(sizePolicy3);
-        label_7->setMinimumSize(QSize(81, 16));
-        label_7->setMaximumSize(QSize(81, 16));
-        label_7->setFont(font);
-        label_7->setStyleSheet(QStringLiteral(""));
-
-        horizontalLayout_6->addWidget(label_7);
-
-        passageComboBox = new QComboBox(controlDockWidgetContents);
-        passageComboBox->setObjectName(QStringLiteral("passageComboBox"));
-        QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(59);
-        sizePolicy4.setVerticalStretch(18);
-        sizePolicy4.setHeightForWidth(passageComboBox->sizePolicy().hasHeightForWidth());
-        passageComboBox->setSizePolicy(sizePolicy4);
-        passageComboBox->setMinimumSize(QSize(59, 23));
-        passageComboBox->setMaximumSize(QSize(59, 23));
-        passageComboBox->setFont(font2);
-
-        horizontalLayout_6->addWidget(passageComboBox);
-
-        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_6->addItem(horizontalSpacer_3);
-
-
-        verticalLayout_6->addLayout(horizontalLayout_6);
-
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        label = new QLabel(controlDockWidgetContents);
-        label->setObjectName(QStringLiteral("label"));
-        sizePolicy3.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy3);
-        label->setMinimumSize(QSize(81, 16));
-        label->setMaximumSize(QSize(81, 16));
-        label->setFont(font);
-        label->setStyleSheet(QStringLiteral(""));
-
-        horizontalLayout_2->addWidget(label);
-
-        strengthSpin = new QSpinBox(controlDockWidgetContents);
-        strengthSpin->setObjectName(QStringLiteral("strengthSpin"));
-        strengthSpin->setMinimumSize(QSize(59, 23));
-        strengthSpin->setMaximumSize(QSize(59, 23));
-        strengthSpin->setFont(font1);
-
-        horizontalLayout_2->addWidget(strengthSpin);
-
-        setLaserBtn = new QPushButton(controlDockWidgetContents);
-        setLaserBtn->setObjectName(QStringLiteral("setLaserBtn"));
-        setLaserBtn->setMinimumSize(QSize(40, 23));
-        setLaserBtn->setMaximumSize(QSize(40, 23));
-        setLaserBtn->setIcon(icon2);
-
-        horizontalLayout_2->addWidget(setLaserBtn);
-
-        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer_4);
-
-
-        verticalLayout_6->addLayout(horizontalLayout_2);
-
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setSpacing(6);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        label_9 = new QLabel(controlDockWidgetContents);
-        label_9->setObjectName(QStringLiteral("label_9"));
-        sizePolicy3.setHeightForWidth(label_9->sizePolicy().hasHeightForWidth());
-        label_9->setSizePolicy(sizePolicy3);
-        label_9->setMinimumSize(QSize(81, 16));
-        label_9->setMaximumSize(QSize(81, 16));
-        label_9->setFont(font);
-        label_9->setStyleSheet(QStringLiteral(""));
-
-        horizontalLayout_4->addWidget(label_9);
-
-        triggerSpin = new QSpinBox(controlDockWidgetContents);
-        triggerSpin->setObjectName(QStringLiteral("triggerSpin"));
-        triggerSpin->setMinimumSize(QSize(59, 23));
-        triggerSpin->setMaximumSize(QSize(59, 23));
-        triggerSpin->setFont(font1);
-        triggerSpin->setMaximum(65536);
-        triggerSpin->setValue(35000);
-
-        horizontalLayout_4->addWidget(triggerSpin);
-
-        setTriggerBtn = new QPushButton(controlDockWidgetContents);
-        setTriggerBtn->setObjectName(QStringLiteral("setTriggerBtn"));
-        setTriggerBtn->setMinimumSize(QSize(40, 23));
-        setTriggerBtn->setMaximumSize(QSize(40, 23));
-        setTriggerBtn->setIcon(icon2);
-
-        horizontalLayout_4->addWidget(setTriggerBtn);
-
-        horizontalSpacer_7 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_4->addItem(horizontalSpacer_7);
-
-
-        verticalLayout_6->addLayout(horizontalLayout_4);
-
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        label_6 = new QLabel(controlDockWidgetContents);
-        label_6->setObjectName(QStringLiteral("label_6"));
-        sizePolicy3.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
-        label_6->setSizePolicy(sizePolicy3);
-        label_6->setMinimumSize(QSize(81, 16));
-        label_6->setMaximumSize(QSize(81, 16));
-        label_6->setFont(font);
-        label_6->setStyleSheet(QStringLiteral(""));
-
-        horizontalLayout_3->addWidget(label_6);
-
-        voltageSpin = new QSpinBox(controlDockWidgetContents);
-        voltageSpin->setObjectName(QStringLiteral("voltageSpin"));
-        voltageSpin->setMinimumSize(QSize(59, 23));
-        voltageSpin->setMaximumSize(QSize(59, 23));
-        voltageSpin->setFont(font1);
-
-        horizontalLayout_3->addWidget(voltageSpin);
-
-        setChannelBiasBtn = new QPushButton(controlDockWidgetContents);
-        setChannelBiasBtn->setObjectName(QStringLiteral("setChannelBiasBtn"));
-        setChannelBiasBtn->setMinimumSize(QSize(40, 23));
-        setChannelBiasBtn->setMaximumSize(QSize(40, 23));
-        setChannelBiasBtn->setIcon(icon2);
-
-        horizontalLayout_3->addWidget(setChannelBiasBtn);
-
-        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer_8);
-
-
-        verticalLayout_6->addLayout(horizontalLayout_3);
-
-        controlDockWidget->setWidget(controlDockWidgetContents);
 
         verticalLayout_2->addWidget(controlDockWidget);
+
+        fileBrowserDockWidget = new QDockWidget(leftFrame);
+        fileBrowserDockWidget->setObjectName(QStringLiteral("fileBrowserDockWidget"));
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(fileBrowserDockWidget->sizePolicy().hasHeightForWidth());
+        fileBrowserDockWidget->setSizePolicy(sizePolicy2);
+        fileBrowserDockWidget->setMinimumSize(QSize(250, 320));
+        fileBrowserDockWidget->setMaximumSize(QSize(250, 524287));
+        fileBrowserDockWidget->setStyleSheet(QStringLiteral(""));
+        fileBrowserDockWidgetContents = new QWidget();
+        fileBrowserDockWidgetContents->setObjectName(QStringLiteral("fileBrowserDockWidgetContents"));
+        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(fileBrowserDockWidgetContents->sizePolicy().hasHeightForWidth());
+        fileBrowserDockWidgetContents->setSizePolicy(sizePolicy3);
+        fileBrowserDockWidgetContents->setStyleSheet(QStringLiteral(""));
+        verticalLayout_9 = new QVBoxLayout(fileBrowserDockWidgetContents);
+        verticalLayout_9->setSpacing(7);
+        verticalLayout_9->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_9->setObjectName(QStringLiteral("verticalLayout_9"));
+        verticalLayout_9->setContentsMargins(11, 11, 11, 11);
+        fileWidget = new QWidget(fileBrowserDockWidgetContents);
+        fileWidget->setObjectName(QStringLiteral("fileWidget"));
+        sizePolicy3.setHeightForWidth(fileWidget->sizePolicy().hasHeightForWidth());
+        fileWidget->setSizePolicy(sizePolicy3);
+        fileWidget->setStyleSheet(QStringLiteral(""));
+
+        verticalLayout_9->addWidget(fileWidget);
+
+        widget = new QWidget(fileBrowserDockWidgetContents);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setMinimumSize(QSize(0, 60));
+        widget->setMaximumSize(QSize(16777215, 60));
+        openFileBtn = new QToolButton(widget);
+        openFileBtn->setObjectName(QStringLiteral("openFileBtn"));
+        openFileBtn->setGeometry(QRect(80, 0, 80, 60));
+        QIcon icon2;
+        icon2.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/NewExpBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        openFileBtn->setIcon(icon2);
+        openFileBtn->setIconSize(QSize(32, 32));
+        openFileBtn->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+        openFileBtn->setAutoRaise(true);
+
+        verticalLayout_9->addWidget(widget);
+
+        verticalLayout_9->setStretch(0, 5);
+        verticalLayout_9->setStretch(1, 1);
+        fileBrowserDockWidget->setWidget(fileBrowserDockWidgetContents);
+
+        verticalLayout_2->addWidget(fileBrowserDockWidget);
 
         verticalSpacer = new QSpacerItem(20, 1, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -628,11 +329,13 @@ public:
 
         celllViewWidget = new ViewWidget(dataAnalyPage);
         celllViewWidget->setObjectName(QStringLiteral("celllViewWidget"));
+        sizePolicy2.setHeightForWidth(celllViewWidget->sizePolicy().hasHeightForWidth());
+        celllViewWidget->setSizePolicy(sizePolicy2);
 
         verticalLayout_4->addWidget(celllViewWidget);
 
-        verticalLayout_4->setStretch(0, 1);
-        verticalLayout_4->setStretch(1, 20);
+        verticalLayout_4->setStretch(0, 10);
+        verticalLayout_4->setStretch(1, 1);
         viewStackedWidget->addWidget(dataAnalyPage);
 
         verticalLayout_3->addWidget(viewStackedWidget);
@@ -648,21 +351,30 @@ public:
         bottomFrame = new QFrame(page);
         bottomFrame->setObjectName(QStringLiteral("bottomFrame"));
         bottomFrame->setEnabled(true);
+        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Minimum);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(bottomFrame->sizePolicy().hasHeightForWidth());
+        bottomFrame->setSizePolicy(sizePolicy4);
+        bottomFrame->setMinimumSize(QSize(0, 116));
+        bottomFrame->setMaximumSize(QSize(16777215, 116));
         bottomFrame->setFrameShape(QFrame::StyledPanel);
         bottomFrame->setFrameShadow(QFrame::Raised);
         startAcquisitionBtn = new QPushButton(bottomFrame);
         startAcquisitionBtn->setObjectName(QStringLiteral("startAcquisitionBtn"));
         startAcquisitionBtn->setGeometry(QRect(380, 20, 91, 41));
-        startAcquisitionBtn->setIcon(icon2);
+        QIcon icon4;
+        icon4.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/start.png"), QSize(), QIcon::Normal, QIcon::Off);
+        startAcquisitionBtn->setIcon(icon4);
         saveCheckBox = new QCheckBox(bottomFrame);
         saveCheckBox->setObjectName(QStringLiteral("saveCheckBox"));
         saveCheckBox->setGeometry(QRect(480, 40, 101, 16));
         stopAcquisitionBtn = new QPushButton(bottomFrame);
         stopAcquisitionBtn->setObjectName(QStringLiteral("stopAcquisitionBtn"));
         stopAcquisitionBtn->setGeometry(QRect(740, 20, 91, 41));
-        QIcon icon4;
-        icon4.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
-        stopAcquisitionBtn->setIcon(icon4);
+        QIcon icon5;
+        icon5.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
+        stopAcquisitionBtn->setIcon(icon5);
         layoutWidget = new QWidget(bottomFrame);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
         layoutWidget->setGeometry(QRect(870, 0, 211, 89));
@@ -782,15 +494,9 @@ public:
 
         verticalLayout->addWidget(bottomFrame);
 
-        verticalLayout->setStretch(0, 9);
-        verticalLayout->setStretch(1, 1);
+        verticalLayout->setStretch(0, 7);
+        verticalLayout->setStretch(1, 3);
         StackedWidget->addWidget(page);
-#ifndef QT_NO_SHORTCUT
-        label_11->setBuddy(strengthSpin);
-        label->setBuddy(strengthSpin);
-        label_9->setBuddy(triggerSpin);
-        label_6->setBuddy(voltageSpin);
-#endif // QT_NO_SHORTCUT
 
         retranslateUi(StackedWidget);
 
@@ -807,21 +513,11 @@ public:
         usbBtn->setText(QApplication::translate("StackedWidget", "...", 0));
         lockBtn->setText(QApplication::translate("StackedWidget", "...", 0));
         label_10->setText(QApplication::translate("StackedWidget", "\350\277\220\350\241\214\347\212\266\346\200\201\357\274\232", 0));
-        controlDockWidget->setWindowTitle(QApplication::translate("StackedWidget", "\346\216\247\345\210\266\351\235\242\346\235\277", 0));
-        label_11->setText(QApplication::translate("StackedWidget", "\351\236\230\346\266\262\357\274\232", 0));
-        setFluidBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
-        label_8->setText(QApplication::translate("StackedWidget", "\346\240\267\345\223\201\346\265\201\351\200\237\357\274\232", 0));
-        setSampleBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
-        midRadioButton->setText(QApplication::translate("StackedWidget", "\344\270\255", 0));
-        hightRadioButton->setText(QApplication::translate("StackedWidget", "\351\253\230", 0));
-        lowRadioButton->setText(QApplication::translate("StackedWidget", "\344\275\216", 0));
-        label_7->setText(QApplication::translate("StackedWidget", "\351\207\207\351\233\206\351\200\232\351\201\223\350\256\276\347\275\256\357\274\232", 0));
-        label->setText(QApplication::translate("StackedWidget", "\346\277\200\345\205\211\345\274\272\345\272\246\357\274\232", 0));
-        setLaserBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
-        label_9->setText(QApplication::translate("StackedWidget", "\350\247\246\345\217\221\345\200\274\357\274\232", 0));
-        setTriggerBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
-        label_6->setText(QApplication::translate("StackedWidget", "\351\200\232\351\201\223\345\201\217\345\216\213\357\274\232", 0));
-        setChannelBiasBtn->setText(QApplication::translate("StackedWidget", "\350\256\276\347\275\256", 0));
+        fileBrowserDockWidget->setWindowTitle(QApplication::translate("StackedWidget", "\345\256\236\351\252\214\346\226\207\344\273\266", 0));
+#ifndef QT_NO_TOOLTIP
+        openFileBtn->setToolTip(QApplication::translate("StackedWidget", "\346\211\223\345\274\200\345\256\236\351\252\214\347\233\256\345\275\225", 0));
+#endif // QT_NO_TOOLTIP
+        openFileBtn->setText(QApplication::translate("StackedWidget", "\346\211\223\345\274\200\345\256\236\351\252\214\347\233\256\345\275\225", 0));
         newPlotBtn->setText(QApplication::translate("StackedWidget", "...", 0));
         delPlotBtn->setText(QApplication::translate("StackedWidget", "\345\210\240\351\231\244\347\224\273\345\270\203", 0));
         savePlotBtn->setText(QApplication::translate("StackedWidget", "\344\277\235\345\255\230", 0));

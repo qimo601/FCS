@@ -67,6 +67,11 @@ public:
         if (OscWidget->objectName().isEmpty())
             OscWidget->setObjectName(QStringLiteral("OscWidget"));
         OscWidget->resize(907, 562);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(OscWidget->sizePolicy().hasHeightForWidth());
+        OscWidget->setSizePolicy(sizePolicy);
         verticalLayout_4 = new QVBoxLayout(OscWidget);
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -98,11 +103,11 @@ public:
 
         startOscAcqBtn = new QPushButton(oscLeftFrame);
         startOscAcqBtn->setObjectName(QStringLiteral("startOscAcqBtn"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(startOscAcqBtn->sizePolicy().hasHeightForWidth());
-        startOscAcqBtn->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(startOscAcqBtn->sizePolicy().hasHeightForWidth());
+        startOscAcqBtn->setSizePolicy(sizePolicy1);
         startOscAcqBtn->setMinimumSize(QSize(80, 40));
         startOscAcqBtn->setMaximumSize(QSize(91, 51));
         startOscAcqBtn->setFocusPolicy(Qt::StrongFocus);
@@ -120,8 +125,8 @@ public:
 
         stopOscAcqBtn = new QPushButton(oscLeftFrame);
         stopOscAcqBtn->setObjectName(QStringLiteral("stopOscAcqBtn"));
-        sizePolicy.setHeightForWidth(stopOscAcqBtn->sizePolicy().hasHeightForWidth());
-        stopOscAcqBtn->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(stopOscAcqBtn->sizePolicy().hasHeightForWidth());
+        stopOscAcqBtn->setSizePolicy(sizePolicy1);
         stopOscAcqBtn->setMinimumSize(QSize(80, 40));
         stopOscAcqBtn->setMaximumSize(QSize(91, 51));
         stopOscAcqBtn->setFocusPolicy(Qt::StrongFocus);

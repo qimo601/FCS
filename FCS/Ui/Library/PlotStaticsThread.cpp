@@ -51,7 +51,6 @@ void PlotStaticsThread::staticsCellData(bool newData)
 		m_bllDataCenter.getCellDataVector(m_dataWidgetParent->origialDataList, m_dataWidgetParent->logDataList, m_dataWidgetParent->barStructList);//更新最新的数据给当前plot
 		m_dataWidgetParent->dataMutex.unlock();
 		emit staticsFinished();
-		emit staticsFinished();
 		return;
 	}
 	else

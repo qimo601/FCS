@@ -56,7 +56,7 @@ void ToolWidget::resetGeometry(int x)
  	//ui.analyBtn->setGeometry(rect);
 }
 /**
-* @brief 采集按钮-示波器采集窗口
+* @brief 细胞数据采集窗口
 */
 void ToolWidget::on_acqBtn_clicked()
 {
@@ -66,8 +66,8 @@ void ToolWidget::on_acqBtn_clicked()
 	ui.analyBtn->setStyleSheet(QLatin1String("QPushButton#analyBtn{border: 1px solid #AAAAAA;background-color:#AAAAAA;border-radius:2px;width: 40px;height:20px;padding:0 0px;} \n"
 		"QPushButton#analyBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
 		));
-	ui.fileBrowserBtn->setStyleSheet(QLatin1String("QPushButton#fileBrowserBtn{border: 1px solid #AAAAAA;background-color:#AAAAAA;border-radius:2px;width: 40px;height:20px;padding:0 0px;} \n"
-		"QPushButton#fileBrowserBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
+	ui.oscAcqBtn->setStyleSheet(QLatin1String("QPushButton#oscAcqBtn{border: 1px solid #AAAAAA;background-color:#AAAAAA;border-radius:2px;width: 40px;height:20px;padding:0 0px;} \n"
+		"QPushButton#oscAcqBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
 		));
 	
 	emit acqBtnClicked();
@@ -83,18 +83,18 @@ void ToolWidget::on_analyBtn_clicked()
 	ui.acqBtn->setStyleSheet(QLatin1String("QPushButton#acqBtn{border: 1px solid #AAAAAA;background-color:#AAAAAA;border-radius:2px;width: 40px;height:20px;padding:0 0px;} \n"
 		"QPushButton#acqBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
 		));
-	ui.fileBrowserBtn->setStyleSheet(QLatin1String("QPushButton#fileBrowserBtn{border: 1px solid #AAAAAA;background-color:#AAAAAA;border-radius:2px;width: 40px;height:20px;padding:0 0px;} \n"
-		"QPushButton#fileBrowserBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
+	ui.oscAcqBtn->setStyleSheet(QLatin1String("QPushButton#oscAcqBtn{border: 1px solid #AAAAAA;background-color:#AAAAAA;border-radius:2px;width: 40px;height:20px;padding:0 0px;} \n"
+		"QPushButton#oscAcqBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
 		));
 	emit analyBtnClicked();
 }
 /**
-* @brief 文件浏览器窗口
+* @brief 示波器
 */
-void ToolWidget::on_fileBrowserBtn_clicked()
+void ToolWidget::on_oscAcqBtn_clicked()
 {
-	ui.fileBrowserBtn->setStyleSheet(QLatin1String("QPushButton#fileBrowserBtn{border: 1px solid #D4D3CC;background-color:#D4D3CC;border-radius:0px;width: 40px;height:20px;padding:0 0px;} \n"
-		"QPushButton#fileBrowserBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
+	ui.oscAcqBtn->setStyleSheet(QLatin1String("QPushButton#oscAcqBtn{border: 1px solid #D4D3CC;background-color:#D4D3CC;border-radius:0px;width: 40px;height:20px;padding:0 0px;} \n"
+		"QPushButton#oscAcqBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
 		));
 	ui.analyBtn->setStyleSheet(QLatin1String("QPushButton#analyBtn{border: 1px solid #AAAAAA;background-color:#AAAAAA;border-radius:2px;width: 40px;height:20px;padding:0 0px;} \n"
 		"QPushButton#analyBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
@@ -103,7 +103,7 @@ void ToolWidget::on_fileBrowserBtn_clicked()
 		"QPushButton#acqBtn:hover{ border: 1px solid #E3C46F; background-color:#FEF4BF;border-radius:2px; width:40px;height:20px; padding:0 0px;}"
 		));
 	
-	emit fileBrowserBtnClicked();
+	emit oscAcqBtnClicked();
 }
 
 void ToolWidget::resizeEvent(QResizeEvent * event)

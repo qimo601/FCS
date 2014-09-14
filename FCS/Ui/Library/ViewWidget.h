@@ -18,6 +18,14 @@ public:
 	static QList<QWidget*> m_plotWidgetList;
 public slots:
 	/**
+	* @brief 注销界面，清空所有数据
+	*/
+	void uninstall();
+	/**
+	* @brief 初始化
+	*/
+	void init();
+	/**
 	* @brief 开始采集
 	*/
 	void startAcqSlot();
@@ -55,6 +63,10 @@ public slots:
 	*/
 	void relayoutPlotWidget();
 	/**
+	* @brief 新建实验
+	*/
+	void newExpSlot();
+	/**
 	* @brief 打开文件
 	*/
 	void openExpFileSlot();
@@ -63,10 +75,31 @@ public slots:
 	*/
 	void saveExpFileSlot();
 	void showReport(bool on);
+	/**
+	* @brief 右键打开文件
+	*/
+	void openExpFileFromRightSlot(QString fileName);
+	/**
+	* @brief 显示指定的设门窗口
+	*/
+	void viewGateSlot(QString gateName);
+	/**
+	* @brief 递归查找设门窗口
+	*/
+	PlotWidget* findGate(GateStorage* gate, QString gateName);
+	/**
+	* @brief 关闭报告窗口槽函数
+	*/
+	void closeReportSlot();
+	/**
+	* @brief 删除画布对应的窗口
+	*/
+	void delGateSlot(QString gateName);
 signals:
-	void openExpSignal(QString,bool);
-	void getCellDataFromFile();
-	void startReadCellDataFromCircleBuffer();
+	void openExpSignal(QString,bool);//打开实验文件
+	void getCellDataFromFile();//读本地文件
+	void startReadCellDataFromCircleBuffer();//读循环缓冲用去
+	void reportTreeWidgetClose();//关闭报告窗口
 	/**
 	* @brief 保存文件信号
 	*/

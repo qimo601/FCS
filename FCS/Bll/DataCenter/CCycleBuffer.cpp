@@ -133,7 +133,8 @@ int CCycleBuffer::write(char* buf, int count)
 			return leftcount;  
 		}  
 	}  
-}  
+} 
+
 /*
  *	函数介绍  从缓冲区读数据，返回实际读取的字节数 
  */

@@ -269,20 +269,24 @@ void OscWidget::updateOscPlot()
 	QVector<double> oscYData;
 	bllDataCenter.getOscData(oscXData, oscYData);//定时获取示波器源数据
 	//OscDataCenter::setLock();//测试-线程获取数据
-	for (int i = 0; i < Global::oscYData.count(); i++)
-
+	if (Global::oscXData.size() > 0)
 	{
-		oscCurve = m_curveList[i];
-		if (Global::oscYData.at(i).size() != 0 && Global::oscXData.size() != 0)
+		for (int i = 0; i < Global::oscYData.count(); i++)
+
 		{
-			double * oxcX = Global::oscXData.data();
-			QVector<double> oxYData = Global::oscYData.at(i);
-			double * oxcY = oxYData.data();
-			oscCurve->setSamples(oxcX, oxcY, Global::oscXData.size());
+			oscCurve = m_curveList[i];
+			if (Global::oscYData.at(i).size() != 0 && Global::oscXData.size() != 0)
+			{
+				double * oxcX = Global::oscXData.data();
+				QVector<double> oxYData = Global::oscYData.at(i);
+				double * oxcY = oxYData.data();
+				oscCurve->setSamples(oxcX, oxcY, Global::oscXData.size());
 			
+			}
 		}
+		ui.oscPlot->replot();
 	}
-	ui.oscPlot->replot();
+
 	//OscDataCenter::setUnlock();//测试-线程获取数据
 	
 }
@@ -308,6 +312,12 @@ void OscWidget::on_startOscAcqBtn_clicked()
 
 	ui.startOscAcqBtn->setEnabled(false);
 	ui.stopOscAcqBtn->setEnabled(true);
+
+	int bufSize = Global::S_CCycleBuffer->getBufSize();
+	char*buf = new char[bufSize];
+	Global::S_CCycleBuffer->read(buf, bufSize);
+	delete[] buf;
+	qDebug() << "【USBThread】清空一次。";
 }
 
 /**

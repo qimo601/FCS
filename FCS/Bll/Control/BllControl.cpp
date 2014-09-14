@@ -81,12 +81,25 @@ bool BllControl::setLaser(VoLaser& vo)
 
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
-		qDebug("【BllControl】设置激光参数，失败!");
+		QMessageBox msgBox;
+		msgBox.setText("设置激光参数,失败.");
+		msgBox.setInformativeText("具体函数：\n"\
+			"BllControl::setLaser(VoLaser& vo)");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Critical);
+		int ret = msgBox.exec();
 		return false;
 	}
 	else
 	{
-		qDebug("【BllControl】设置激光参数，成功!");
+		QMessageBox msgBox;
+		msgBox.setText("设置激光参数，成功!");
+		msgBox.setInformativeText("设置激光参数，成功!\n");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Information);
+		int ret = msgBox.exec();
 		return true;
 	}
 
@@ -109,12 +122,25 @@ bool BllControl::setFluid(VoFluid& vo)
 
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
-		qDebug("【BllControl】设置鞘液参数，失败!");
+		QMessageBox msgBox;
+		msgBox.setText("设置鞘液参数，失败!");
+		msgBox.setInformativeText("具体函数：\n"\
+			"bool BllControl::setFluid(VoFluid& vo)");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Critical);
+		int ret = msgBox.exec();
 		return false;
 	}
 	else
 	{
-		qDebug("设置鞘液参数，成功!");
+		QMessageBox msgBox;
+		msgBox.setText("设置鞘液参数，成功!");
+		msgBox.setInformativeText("设置鞘液参数，成功!\n");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Information);
+		int ret = msgBox.exec();
 		return true;
 	}
 
@@ -136,12 +162,25 @@ bool BllControl::setSample(VoSample& vo)
 
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
-		qDebug("【BllControl】设置样本流，失败!");
+		QMessageBox msgBox;
+		msgBox.setText("设置样本流，失败!");
+		msgBox.setInformativeText("【BllControl】设置样本流，失败!具体函数：\n"\
+			"bool BllControl::setSample(VoSample& vo)");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Critical);
+		int ret = msgBox.exec();
 		return false;
 	}
 	else
 	{
-		qDebug("【BllControl】设置样本流，成功!");
+		QMessageBox msgBox;
+		msgBox.setText("设置样本流，成功!!");
+		msgBox.setInformativeText("设置样本流，成功!!\n");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Information);
+		int ret = msgBox.exec();
 		return true;
 	}
 }
@@ -164,12 +203,25 @@ bool BllControl::setChannelBias(VoChannelBias& vo)
 
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
-		qDebug("【BllControl】设置通道偏压，失败!");
+		QMessageBox msgBox;
+		msgBox.setText("设置通道偏压，失败!");
+		msgBox.setInformativeText("【BllControl】设置通道偏压，失败!具体函数：\n"\
+			"bool BllControl::setChannelBias(VoChannelBias& vo)");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Critical);
+		int ret = msgBox.exec();
 		return false;
 	}
 	else
 	{
-		qDebug("【BllControl】设置通道偏压，成功!");
+		QMessageBox msgBox;
+		msgBox.setText("设置通道偏压，成功!");
+		msgBox.setInformativeText("设置通道偏压，成功!\n");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Information);
+		int ret = msgBox.exec();
 		return true;
 	}
 }
@@ -194,12 +246,26 @@ bool BllControl::setTrigger(VoTrigger& vo)
 
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
-		qDebug("【BllControl】设置触发值，失败!");
+
+		QMessageBox msgBox;
+		msgBox.setText("设置触发值，失败!是否USB已经断开。!");
+		msgBox.setInformativeText("【设置触发值，失败!是否USB已经断开。!具体函数：\n"\
+			"bool BllControl::setTrigger(VoTrigger& vo)");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Critical);
+		int ret = msgBox.exec();
 		return false;
 	}
 	else
 	{
-		qDebug("【BllControl】设置触发值，成功!");
+		QMessageBox msgBox;
+		msgBox.setText("设置触发值，成功!");
+		msgBox.setInformativeText("设置触发值，成功!\n");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Information);
+		int ret = msgBox.exec();
 		return true;
 	}
 }
@@ -217,12 +283,12 @@ bool BllControl::sendCmd(VoCmd& vo)
 
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
-		qDebug() << "【BllControl】下发命令：" << buffer[0] << (",失败!");
+		qDebug() << QString("【BllControl】下发命令：%1，失败!是否USB已经断开").arg(buffer[0]);
 		return false;
 	}
 	else
 	{
-		qDebug() << "【BllControl】下发命令：" << buffer[0] << (",成功!");
+		qDebug() << QString("【BllControl】下发命令：%1，成功!").arg(buffer[0]);
 		return true;
 	}
 

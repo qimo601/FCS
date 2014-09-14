@@ -315,7 +315,13 @@ void USBThread::onButtonRd1()
 	else//如果没有这个等待，会有很多空循环，CPU会很高
 	{
 		//qDebug() << "【USBThread】循环缓冲区已满，等待中....";
-		Global::S_CCycleBuffer->waitNotFull();
+		//Global::S_CCycleBuffer->waitNotFull();
+
+		int bufSize = Global::S_CCycleBuffer->getBufSize();
+		char*buf = new char[bufSize];
+		Global::S_CCycleBuffer->read(buf, bufSize);
+		delete[] buf;
+		qDebug() << "【USBThread】循环缓冲区已满，清空一次。";
 	}
 
 	delete buffer;

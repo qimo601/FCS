@@ -206,9 +206,13 @@ void USBControl::onButtonRd()
 */
 void USBControl::listen()
 {
-	//必须先将USB句柄传给读线程
-	usbThread->setHdevice(m_hDevice);
-	usbThread->start();
+	//判断是否已经监听
+	if (!usbThread->isRunning())
+	{
+		//必须先将USB句柄传给读线程
+		usbThread->setHdevice(m_hDevice);
+		usbThread->start();
+	}
 
 }
 /**

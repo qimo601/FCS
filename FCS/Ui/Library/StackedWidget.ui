@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1150</width>
-    <height>915</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>StackedWidget</string>
   </property>
   <widget class="QWidget" name="page">
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="9,1">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="7,3">
     <property name="spacing">
      <number>5</number>
     </property>
@@ -183,9 +183,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDockWidget" name="controlDockWidget">
+          <widget class="ParamWidget" name="controlDockWidget" native="true"/>
+         </item>
+         <item>
+          <widget class="QDockWidget" name="fileBrowserDockWidget">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -206,13 +209,19 @@
             <string notr="true"/>
            </property>
            <property name="windowTitle">
-            <string>控制面板</string>
+            <string>实验文件</string>
            </property>
-           <widget class="QWidget" name="controlDockWidgetContents">
+           <widget class="QWidget" name="fileBrowserDockWidgetContents">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
+            <layout class="QVBoxLayout" name="verticalLayout_9" stretch="5,1">
              <property name="spacing">
               <number>7</number>
              </property>
@@ -229,719 +238,65 @@
               <number>11</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_8">
-               <property name="spacing">
-                <number>7</number>
+              <widget class="QWidget" name="fileWidget" native="true">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_11">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>宋体</family>
-                   <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>鞘液：</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>strengthSpin</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="fluidSpin">
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                  </font>
-                 </property>
-                 <property name="maximum">
-                  <number>4095</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="setFluidBtn">
-                 <property name="minimumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>设置</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../FCS.qrc">
-                   <normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_5">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="Line" name="line_2">
                <property name="styleSheet">
                 <string notr="true"/>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <property name="lineWidth">
-                <number>2</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
                </property>
               </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
-               <item>
-                <widget class="QLabel" name="label_8">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>宋体</family>
-                   <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>样品流速：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="sampleSpin">
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                  </font>
-                 </property>
-                 <property name="maximum">
-                  <number>4095</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="setSampleBtn">
-                 <property name="minimumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>设置</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../FCS.qrc">
-                   <normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_6">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_7">
-               <item>
-                <spacer name="horizontalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_5">
-                 <item>
-                  <widget class="QRadioButton" name="midRadioButton">
-                   <property name="font">
-                    <font>
-                     <family>宋体</family>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>中</string>
-                   </property>
-                   <attribute name="buttonGroup">
-                    <string notr="true">buttonGroup</string>
-                   </attribute>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="hightRadioButton">
-                   <property name="font">
-                    <font>
-                     <family>宋体</family>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>高</string>
-                   </property>
-                   <attribute name="buttonGroup">
-                    <string notr="true">buttonGroup</string>
-                   </attribute>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="lowRadioButton">
-                   <property name="font">
-                    <font>
-                     <family>宋体</family>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>低</string>
-                   </property>
-                   <attribute name="buttonGroup">
-                    <string notr="true">buttonGroup</string>
-                   </attribute>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="Line" name="line">
-               <property name="styleSheet">
-                <string notr="true"/>
+              <widget class="QWidget" name="widget" native="true">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>60</height>
+                </size>
                </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>60</height>
+                </size>
                </property>
-               <property name="lineWidth">
-                <number>2</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
+               <widget class="QToolButton" name="openFileBtn">
+                <property name="geometry">
+                 <rect>
+                  <x>80</x>
+                  <y>0</y>
+                  <width>80</width>
+                  <height>60</height>
+                 </rect>
+                </property>
+                <property name="toolTip">
+                 <string>打开实验目录</string>
+                </property>
+                <property name="text">
+                 <string>打开实验目录</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../FCS.qrc">
+                  <normaloff>:/MainWindow/Resources/Images/MainWindow/NewExpBtn.png</normaloff>:/MainWindow/Resources/Images/MainWindow/NewExpBtn.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextUnderIcon</enum>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_6">
-               <item>
-                <widget class="QLabel" name="label_7">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>宋体</family>
-                   <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>采集通道设置：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="passageComboBox">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>59</horstretch>
-                   <verstretch>18</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>宋体</family>
-                  </font>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_3">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <item>
-                <widget class="QLabel" name="label">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>宋体</family>
-                   <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>激光强度：</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>strengthSpin</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="strengthSpin">
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                  </font>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="setLaserBtn">
-                 <property name="minimumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>设置</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../FCS.qrc">
-                   <normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
-               <item>
-                <widget class="QLabel" name="label_9">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>宋体</family>
-                   <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>触发值：</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>triggerSpin</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="triggerSpin">
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                  </font>
-                 </property>
-                 <property name="maximum">
-                  <number>65536</number>
-                 </property>
-                 <property name="value">
-                  <number>35000</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="setTriggerBtn">
-                 <property name="minimumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>设置</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../FCS.qrc">
-                   <normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_7">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <item>
-                <widget class="QLabel" name="label_6">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>81</width>
-                   <height>16</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>宋体</family>
-                   <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>通道偏压：</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>voltageSpin</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="voltageSpin">
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                  </font>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="setChannelBiasBtn">
-                 <property name="minimumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>23</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>设置</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../FCS.qrc">
-                   <normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</normaloff>:/MainWindow/Resources/Images/MainWindow/start.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_8">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
              </item>
             </layout>
            </widget>
@@ -984,7 +339,7 @@
             <number>0</number>
            </property>
            <widget class="QWidget" name="dataAnalyPage">
-            <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,20">
+            <layout class="QVBoxLayout" name="verticalLayout_4" stretch="10,1">
              <property name="spacing">
               <number>0</number>
              </property>
@@ -1109,7 +464,14 @@
               </widget>
              </item>
              <item>
-              <widget class="ViewWidget" name="celllViewWidget" native="true"/>
+              <widget class="ViewWidget" name="celllViewWidget" native="true">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -1124,6 +486,24 @@
      <widget class="QFrame" name="bottomFrame">
       <property name="enabled">
        <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>116</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>116</height>
+       </size>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -1426,6 +806,12 @@ color: rgb(62, 166, 30);</string>
    <class>ViewWidget</class>
    <extends>QWidget</extends>
    <header location="global">Ui/Library/ViewWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ParamWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">Ui/Library/ParamWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

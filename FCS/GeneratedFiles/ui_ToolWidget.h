@@ -28,7 +28,7 @@ public:
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout;
-    QPushButton *fileBrowserBtn;
+    QPushButton *oscAcqBtn;
     QPushButton *acqBtn;
     QPushButton *analyBtn;
     QSpacerItem *horizontalSpacer;
@@ -53,12 +53,12 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        fileBrowserBtn = new QPushButton(ToolWidget);
-        fileBrowserBtn->setObjectName(QStringLiteral("fileBrowserBtn"));
-        fileBrowserBtn->setMinimumSize(QSize(75, 30));
-        fileBrowserBtn->setMaximumSize(QSize(75, 30));
+        oscAcqBtn = new QPushButton(ToolWidget);
+        oscAcqBtn->setObjectName(QStringLiteral("oscAcqBtn"));
+        oscAcqBtn->setMinimumSize(QSize(75, 30));
+        oscAcqBtn->setMaximumSize(QSize(75, 30));
 
-        horizontalLayout->addWidget(fileBrowserBtn);
+        horizontalLayout->addWidget(oscAcqBtn);
 
         acqBtn = new QPushButton(ToolWidget);
         acqBtn->setObjectName(QStringLiteral("acqBtn"));
@@ -94,8 +94,8 @@ public:
     void retranslateUi(QWidget *ToolWidget)
     {
         ToolWidget->setWindowTitle(QApplication::translate("ToolWidget", "ToolWidget", 0));
-        fileBrowserBtn->setText(QApplication::translate("ToolWidget", "\346\226\207\344\273\266\346\265\217\350\247\210\345\231\250", 0));
-        acqBtn->setText(QApplication::translate("ToolWidget", "\347\244\272\346\263\242\345\231\250\351\207\207\351\233\206", 0));
+        oscAcqBtn->setText(QApplication::translate("ToolWidget", "\347\244\272\346\263\242\345\231\250", 0));
+        acqBtn->setText(QApplication::translate("ToolWidget", "\346\225\260\346\215\256\351\207\207\351\233\206", 0));
         analyBtn->setText(QApplication::translate("ToolWidget", "\346\225\260\346\215\256\345\210\206\346\236\220\344\270\216\347\273\237\350\256\241", 0));
     } // retranslateUi
 

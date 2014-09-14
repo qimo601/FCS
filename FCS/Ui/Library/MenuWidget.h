@@ -23,6 +23,10 @@ public:
 	~MenuWidget();
 public slots:
 	/**
+	* @brief 新建实验
+	*/
+	void newExp();
+	/**
 	* @brief 打开实验文件
 	*/
 	void openExpFile();
@@ -31,6 +35,7 @@ public slots:
 	*/
 	void saveExpFile();
 signals:
+	void newExpSignal();//新建实验信号
 	void openExpFileSignal();//打开实验文件信号
 	void saveExpFileSignal();//保存实验文件信号
 protected:

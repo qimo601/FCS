@@ -31,6 +31,13 @@
         <file>Resources/Images/MainWindow/MoveBtn.png</file>
         <file>Resources/Images/MainWindow/savePlot.png</file>
         <file>Resources/Images/MainWindow/PdfBtn.png</file>
+        <file>Resources/Images/MainWindow/Check_Black.png</file>
+        <file>Resources/Images/MainWindow/Check_Dark.png</file>
+        <file>Resources/Images/MainWindow/NewExpBtn.png</file>
+        <file>Resources/Images/MainWindow/newExpoBtn.png</file>
+        <file>Resources/Images/MainWindow/ellipseBtn.png</file>
+        <file>Resources/Images/MainWindow/PolygonBtn.png</file>
+        <file>Resources/Images/MainWindow/crossBtn.png</file>
     </qresource>
     <qresource prefix="/Qss">
         <file>Resources/StyleSheet.qss</file>

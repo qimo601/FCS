@@ -19,6 +19,50 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QDockWidget" name="dockWidget_2">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(198, 193, 255);</string>
+     </property>
+     <widget class="QWidget" name="dockWidgetContents_2"/>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDockWidget" name="dockWidget">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 194, 234);</string>
+     </property>
+     <widget class="QWidget" name="dockWidgetContents">
+      <widget class="QTreeWidget" name="treeWidget">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>80</y>
+         <width>256</width>
+         <height>192</height>
+        </rect>
+       </property>
+       <column>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>lie</string>
+        </property>
+       </column>
+       <item>
+        <property name="text">
+         <string>232</string>
+        </property>
+       </item>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+  </layout>
   <action name="actionC">
    <property name="text">
     <string>C</string>

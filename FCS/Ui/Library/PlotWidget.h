@@ -22,6 +22,8 @@
 #include "Ui/QwtCustom/CrossPicker.h"
 #include "Ui/QwtCustom/CrossPicker.h"
 #include "Ui/QwtCustom/ParallelLinePicker.h"
+#include "Ui/QwtCustom/EllipsePicker.h"
+#include "Ui/QwtCustom/PolygonPicker.h"
 class Plot;
 class BarStruct;
 class ViewWidget;
@@ -58,6 +60,26 @@ public:
 
 
 	QList<GateStorage*> m_gateStorageList;//当前画布的所有设门
+
+
+
+
+	//矩形
+	RectPicker* d_rectPicker;
+	//平行线1
+	ParallelLinePicker* d_parallelLinePicker_1;
+	//平行线2
+	ParallelLinePicker* d_parallelLinePicker_2;
+	QList<QPointF> parallelLineList;
+
+	//椭圆设门
+	EllipsePicker* d_ellipsePicker;
+	//十字线设门
+	CrossPicker* d_crossPicker_1;
+	CrossPicker* d_crossPicker_2;
+	QList<QPointF> crossPickerList;
+	//多边形
+	PolygonPicker* d_polygonPicker;
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
@@ -110,9 +132,9 @@ public slots:
 	*/
 	void enableZoomMode(bool mode);
 	/**
-	* @brief 显示鼠标指向的点的真值
+	* @brief 启用十字线设门
 	*/
-	void enableViewTrueValueMode(bool mode);
+	void enableCrossBtnMode(bool mode);
 	/**
 	* @brief 显示鼠标指向的点的真值
 	*/
@@ -126,13 +148,17 @@ public slots:
 	//*/
 	//void on_rectBtn_toggled(bool mode);
 	/**
-	* @brief 测试按钮
+	* @brief 启用椭圆形设门
 	*/
-	void on_testLastBtn_toggled(bool mode);
+	void enableEllipseBtn(bool mode);
 	/**
 	* @brief 启用矩形设门
 	*/
 	void enableRectBtn(bool mode);
+	/**
+	* @brief 启用多边形设门
+	*/
+	void enablePolygonBtn(bool mode);
 	/**
 	* @brief 增加-测试
 	*/
@@ -165,6 +191,11 @@ public slots:
 	*/
 	void selectedCrossPickerSlot(QPointF pointf1);
 	/**
+	* @brief 选择的十字坐标
+	*
+	*/
+	void selectedCrossPickerSlot(QList<QPointF> crossPickerList);
+	/**
 	* @brief 矩形设门
 	*
 	*/
@@ -180,15 +211,49 @@ public slots:
 	*/
 	void selectedParallelLinePickerSlot(QList<QPointF> pointFList);
 	/**
+	* @brief 椭圆设门
+	*
+	*/
+	void selectedEllipsePickerSlot(QRectF rectf);
+	/**
 	* @brief 根据矩形筛选
 	*
 	*/
 	void computeRectPickerSlot(QRectF rectf);
 	/**
+	* @brief 多边形设门
+	*
+	*/
+	void selectedPolygonPickerSlot(QVector<QPointF> vector1);
+	/**
 	* @brief 根据平行线筛选
 	*
 	*/
 	void computeParallelLinePickerSlot(QList<QPointF> pointFList);
+	/**
+	* @brief 根据椭圆筛选
+	*
+	*/
+	void computeEllipsePickerSlot(QRectF rectf);
+	/**
+	* @brief 根据十字线筛选
+	*
+	*/
+	//void computeCrossPickerSlot(QPointF pointF);
+	/**
+	* @brief 根据十字线筛选
+	*
+	*/
+	void computeCrossPickerSlot(QList<QPointF> pointFList);
+	/**
+	* @brief 根据多边形筛选
+	*
+	*/
+	void computePolygonPickerSlot(QVector<QPointF> vector);
+	/**
+	* @brief 判断点是否在多边形内部
+	*/
+	bool pointInPolygon(QPointF pointF, float* polyX, float* polyY, int polySides);
 	/**
 	* @brief 保存文件
 	* @param QString:文件类型
@@ -245,6 +310,7 @@ public slots:
 	* @brief 设置界面控件的状态
 	*/
 	void setStatusControl(QMap<QString, int> map);
+
 	/**
 	* @brief 添加设门
 	* @param type:设门类型 RECT:矩形，PARALLEL: 平行线设门
@@ -255,6 +321,22 @@ public slots:
 	*/
 	void deleteGate(GateStorage* gateStorage);
 
+	/**
+	* @brief 清空该窗口所有数据-恢复空数据
+	*/
+	void unistall();
+	/**
+	* @brief 设置画布标题
+	*/
+	void setTitle(QString title);
+	/**
+	* @brief 设置画布标题
+	*/
+	QString getTitle();
+	/**
+	* @brief 拷贝数据至新控件
+	*/
+	void copyData(QVector<int> indexVector);
 signals:
 	void normalPlot();//正常显示信号
 	void addGateSignal(QWidget*);
@@ -277,20 +359,14 @@ private:
 
 	int condition;//直方图统计条件数
 
-	//矩形
-	RectPicker* d_rectPicker;
-	//平行线1
-	ParallelLinePicker* d_parallelLinePicker_1;
-	//平行线2
-	ParallelLinePicker* d_parallelLinePicker_2;
-	QList<QPointF> parallelLineList;
+	
 
 
 
 	//当前设门生成的窗口
 	PlotWidget* d_plotWidgetGate;
-
-	
+	//当前窗口右键菜单
+	QMenu* m_menu;
 };
 
 #endif // PLOTWIDGET_H
