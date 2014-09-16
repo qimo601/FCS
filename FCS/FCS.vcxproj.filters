@@ -481,6 +481,15 @@
     <ClCompile Include="Ui\QwtCustom\PolygonPicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BllSettings.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BllSettings.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Bll\DataCenter\BllSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FCS.h">
@@ -682,6 +691,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Ui\QwtCustom\PolygonPicker.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Bll\DataCenter\BllSettings.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

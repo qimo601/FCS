@@ -47,7 +47,7 @@ public slots:
 
 protected:
 	void paintEvent(QPaintEvent *);
-
+	void resizeEvent(QResizeEvent *event);
 private:
 	Ui::ParamWidget ui;
 

@@ -408,8 +408,8 @@ void PlotWidget::setAxisScale()
 	{
 		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
 		d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
-		d_plot->setAxisScale(QwtPlot::xBottom, 0, 1e8);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
-		d_plot->setAxisScale(QwtPlot::yLeft, 0, 1e8);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+		d_plot->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+		d_plot->setAxisScale(QwtPlot::yLeft, 0, 1e6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
 		d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLinearScaleEngine);
 		d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
 		if (ui.logCheckBox->isChecked())
@@ -422,8 +422,8 @@ void PlotWidget::setAxisScale()
 			d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLogScaleEngine);
 			//d_plot->setAxisScale(QwtPlot::xBottom, 0, 6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
 			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
-			d_plot->setAxisScale(QwtPlot::xBottom, 1, 1e8);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
-			d_plot->setAxisScale(QwtPlot::yLeft, 1, 1e8);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+			d_plot->setAxisScale(QwtPlot::xBottom, 1, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+			d_plot->setAxisScale(QwtPlot::yLeft, 1, 1e6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
 			/*d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
 			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);*/
 		}
@@ -928,7 +928,7 @@ void PlotWidget::computerAverageValue(QList<QList<double>>& averageList, QList<Q
 			qSort(valueVector.begin(), valueVector.end());
 			if (valueVector.size()>0)
 			{
-				//如果是偶数项
+				//如果是偶数项，数组是从0开始的
 				if (valueVector.size() % 2 == 0)
 				{
 					midValue = (valueVector.at(valueVector.size() / 2) + valueVector.at(valueVector.size() / 2 -1))/2;

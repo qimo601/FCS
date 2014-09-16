@@ -160,3 +160,8 @@ void ParamWidget::on_lowRadioButton_clicked()
 
 	ui.sampleSpin->setValue(100);
 }
+
+void ParamWidget::resizeEvent(QResizeEvent *event)
+{
+	QWidget::resizeEvent(event);
+}

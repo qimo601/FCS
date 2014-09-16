@@ -53,6 +53,7 @@ StackedWidget::StackedWidget(QWidget *parent)
 	ui.flowCheckBox->setEnabled(false);
 	//初始化进入数据分析界面
 	dataAnalyHandle();
+	//oscHandle();
 }
 
 StackedWidget::~StackedWidget()
@@ -105,8 +106,12 @@ void StackedWidget::init()
 void StackedWidget::oscHandle()
 {
 	ui.viewStackedWidget->setCurrentWidget(oscWidgetPage);
-	ui.bottomFrame->setEnabled(false);//屏蔽正常采集功能
+
+	//leftFrame切换到数据采集
+	ui.leftStackedWidget->setCurrentIndex(0);
 	ui.bottomFrame->setVisible(false);//采集功能显示
+	//ui.bottomFrame->setEnabled(true);//屏蔽正常采集功能
+
 	ui.statusDockWidget->setVisible(true);//状态面板显示
 	ui.controlDockWidget->setVisible(true);//控制面板显示
 	ui.fileBrowserDockWidget->setVisible(false);//文件面板隐藏
@@ -117,26 +122,32 @@ void StackedWidget::oscHandle()
 */
 void StackedWidget::dataAnalyHandle()
 {
+	
 	ui.viewStackedWidget->setCurrentWidget(ui.dataAnalyPage);
-	ui.bottomFrame->setEnabled(false);//屏蔽正常采集功能
+	//leftFrame切换到文件浏览
+	ui.leftStackedWidget->setCurrentIndex(1);
 	ui.bottomFrame->setVisible(false);//隐藏采集功能
+	//ui.bottomFrame->setEnabled(true);//屏蔽正常采集功能
 	ui.statusDockWidget->setVisible(false);//隐藏状态面板
 	ui.controlDockWidget->setVisible(false);//隐藏控制面板
 	ui.fileBrowserDockWidget->setVisible(true);//显示文件面板
-
 }
 /**
 * @brief 细胞数据采集
 */
 void StackedWidget::acqHandle()
 {
+	
 	ui.viewStackedWidget->setCurrentWidget(ui.dataAnalyPage);
-	ui.bottomFrame->setEnabled(true);//开启正常采集功能
+
+	//leftFrame切换到数据采集
+	ui.leftStackedWidget->setCurrentIndex(0);
+	//ui.bottomFrame->setEnabled(true);//开启正常采集功能
 	ui.bottomFrame->setVisible(true);//显示采集功能
 	ui.statusDockWidget->setVisible(true);//显示状态面板
 	ui.controlDockWidget->setVisible(true);//显示控制面板
+	
 	ui.fileBrowserDockWidget->setVisible(false);//隐藏文件面板
-
 }
 
 /**

@@ -281,6 +281,7 @@ void OscWidget::updateOscPlot()
 				QVector<double> oxYData = Global::oscYData.at(i);
 				double * oxcY = oxYData.data();
 				oscCurve->setSamples(oxcX, oxcY, Global::oscXData.size());
+
 			
 			}
 		}

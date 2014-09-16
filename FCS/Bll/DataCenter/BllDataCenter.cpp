@@ -40,13 +40,14 @@ void BllDataCenter::getOscData(QVector<double>& oscXData, QVector<double>& oscYD
 			Global::oscXData.append(stepValue);
 			for (int j = 0; j < 8; j++)
 			{
-			memcpy((char *)&valueA, buffer++,1);
-			memcpy((char *)&valueB, buffer++, 1);
-			//Global::S_CCycleBuffer->read((char *)&valueA, 1);
-			//Global::S_CCycleBuffer->read((char *)&valueB, 1);
-			value = (valueB * 256 + valueA);//高低位
+				memcpy((char *)&valueA, buffer++,1);
+				memcpy((char *)&valueB, buffer++, 1);
+				//Global::S_CCycleBuffer->read((char *)&valueA, 1);
+				//Global::S_CCycleBuffer->read((char *)&valueB, 1);
+				value = (valueB * 256 + valueA);//高低位
 			
-			Global::oscYData[j].append(value);
+				Global::oscYData[j].append(value);
+
 			}
 
 

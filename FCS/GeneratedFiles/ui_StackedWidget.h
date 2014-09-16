@@ -41,6 +41,9 @@ public:
     QHBoxLayout *horizontalLayout;
     QFrame *leftFrame;
     QVBoxLayout *verticalLayout_2;
+    QStackedWidget *leftStackedWidget;
+    QWidget *page_2;
+    QVBoxLayout *verticalLayout_5;
     QDockWidget *statusDockWidget;
     QWidget *statusDockWidgetContents;
     QVBoxLayout *verticalLayout_7;
@@ -50,9 +53,11 @@ public:
     QSpacerItem *horizontalSpacer_9;
     QHBoxLayout *horizontalLayout_10;
     QLabel *label_10;
-    QSpacerItem *horizontalSpacer_10;
     QTextBrowser *textBrowser;
+    QSpacerItem *horizontalSpacer_10;
     ParamWidget *controlDockWidget;
+    QWidget *page_3;
+    QVBoxLayout *verticalLayout_6;
     QDockWidget *fileBrowserDockWidget;
     QWidget *fileBrowserDockWidgetContents;
     QVBoxLayout *verticalLayout_9;
@@ -73,11 +78,13 @@ public:
     QPushButton *savePlotBtn;
     QPushButton *reportBtn;
     ViewWidget *celllViewWidget;
+    QSpacerItem *verticalSpacer_2;
     QFrame *bottomFrame;
+    QHBoxLayout *horizontalLayout_2;
+    QSpacerItem *horizontalSpacer;
     QPushButton *startAcquisitionBtn;
     QCheckBox *saveCheckBox;
     QPushButton *stopAcquisitionBtn;
-    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_8;
     QHBoxLayout *horizontalLayout_14;
     QCheckBox *timeCheckBox;
@@ -91,7 +98,7 @@ public:
     QCheckBox *flowCheckBox;
     QSpinBox *flowSpinBox;
     QLCDNumber *flowLCD;
-    QButtonGroup *buttonGroup;
+    QSpacerItem *horizontalSpacer_2;
 
     void setupUi(QStackedWidget *StackedWidget)
     {
@@ -113,25 +120,34 @@ public:
         leftFrame->setFrameShape(QFrame::StyledPanel);
         leftFrame->setFrameShadow(QFrame::Raised);
         verticalLayout_2 = new QVBoxLayout(leftFrame);
-        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setSpacing(0);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        statusDockWidget = new QDockWidget(leftFrame);
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        leftStackedWidget = new QStackedWidget(leftFrame);
+        leftStackedWidget->setObjectName(QStringLiteral("leftStackedWidget"));
+        page_2 = new QWidget();
+        page_2->setObjectName(QStringLiteral("page_2"));
+        verticalLayout_5 = new QVBoxLayout(page_2);
+        verticalLayout_5->setSpacing(6);
+        verticalLayout_5->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        statusDockWidget = new QDockWidget(page_2);
         statusDockWidget->setObjectName(QStringLiteral("statusDockWidget"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(statusDockWidget->sizePolicy().hasHeightForWidth());
         statusDockWidget->setSizePolicy(sizePolicy);
-        statusDockWidget->setMinimumSize(QSize(250, 180));
-        statusDockWidget->setMaximumSize(QSize(250, 180));
+        statusDockWidget->setMaximumSize(QSize(238, 123));
         statusDockWidget->setStyleSheet(QStringLiteral(""));
         statusDockWidgetContents = new QWidget();
         statusDockWidgetContents->setObjectName(QStringLiteral("statusDockWidgetContents"));
         verticalLayout_7 = new QVBoxLayout(statusDockWidgetContents);
-        verticalLayout_7->setSpacing(6);
+        verticalLayout_7->setSpacing(0);
         verticalLayout_7->setContentsMargins(11, 11, 11, 11);
         verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        verticalLayout_7->setContentsMargins(9, 9, 9, 9);
         horizontalLayout_9 = new QHBoxLayout();
         horizontalLayout_9->setSpacing(6);
         horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
@@ -153,6 +169,7 @@ public:
         icon1.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/lock.png"), QSize(), QIcon::Normal, QIcon::Off);
         lockBtn->setIcon(icon1);
         lockBtn->setIconSize(QSize(128, 32));
+        lockBtn->setAutoRaise(true);
 
         horizontalLayout_9->addWidget(lockBtn);
 
@@ -171,13 +188,6 @@ public:
 
         horizontalLayout_10->addWidget(label_10);
 
-        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_10->addItem(horizontalSpacer_10);
-
-
-        verticalLayout_7->addLayout(horizontalLayout_10);
-
         textBrowser = new QTextBrowser(statusDockWidgetContents);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -191,52 +201,59 @@ public:
         textBrowser->setLineWidth(1);
         textBrowser->setLineWrapMode(QTextEdit::WidgetWidth);
 
-        verticalLayout_7->addWidget(textBrowser);
+        horizontalLayout_10->addWidget(textBrowser);
+
+        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_10->addItem(horizontalSpacer_10);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_10);
 
         statusDockWidget->setWidget(statusDockWidgetContents);
 
-        verticalLayout_2->addWidget(statusDockWidget);
+        verticalLayout_5->addWidget(statusDockWidget);
 
-        controlDockWidget = new ParamWidget(leftFrame);
+        controlDockWidget = new ParamWidget(page_2);
         controlDockWidget->setObjectName(QStringLiteral("controlDockWidget"));
+        controlDockWidget->setMaximumSize(QSize(123, 16777215));
 
-        verticalLayout_2->addWidget(controlDockWidget);
+        verticalLayout_5->addWidget(controlDockWidget);
 
-        fileBrowserDockWidget = new QDockWidget(leftFrame);
+        leftStackedWidget->addWidget(page_2);
+        page_3 = new QWidget();
+        page_3->setObjectName(QStringLiteral("page_3"));
+        verticalLayout_6 = new QVBoxLayout(page_3);
+        verticalLayout_6->setSpacing(6);
+        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
+        fileBrowserDockWidget = new QDockWidget(page_3);
         fileBrowserDockWidget->setObjectName(QStringLiteral("fileBrowserDockWidget"));
-        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(fileBrowserDockWidget->sizePolicy().hasHeightForWidth());
-        fileBrowserDockWidget->setSizePolicy(sizePolicy2);
-        fileBrowserDockWidget->setMinimumSize(QSize(250, 320));
-        fileBrowserDockWidget->setMaximumSize(QSize(250, 524287));
+        sizePolicy.setHeightForWidth(fileBrowserDockWidget->sizePolicy().hasHeightForWidth());
+        fileBrowserDockWidget->setSizePolicy(sizePolicy);
+        fileBrowserDockWidget->setMinimumSize(QSize(238, 46));
+        fileBrowserDockWidget->setMaximumSize(QSize(238, 524287));
         fileBrowserDockWidget->setStyleSheet(QStringLiteral(""));
         fileBrowserDockWidgetContents = new QWidget();
         fileBrowserDockWidgetContents->setObjectName(QStringLiteral("fileBrowserDockWidgetContents"));
-        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Expanding);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(fileBrowserDockWidgetContents->sizePolicy().hasHeightForWidth());
-        fileBrowserDockWidgetContents->setSizePolicy(sizePolicy3);
+        sizePolicy.setHeightForWidth(fileBrowserDockWidgetContents->sizePolicy().hasHeightForWidth());
+        fileBrowserDockWidgetContents->setSizePolicy(sizePolicy);
         fileBrowserDockWidgetContents->setStyleSheet(QStringLiteral(""));
         verticalLayout_9 = new QVBoxLayout(fileBrowserDockWidgetContents);
-        verticalLayout_9->setSpacing(7);
+        verticalLayout_9->setSpacing(6);
         verticalLayout_9->setContentsMargins(11, 11, 11, 11);
         verticalLayout_9->setObjectName(QStringLiteral("verticalLayout_9"));
-        verticalLayout_9->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_9->setContentsMargins(9, 9, 9, 9);
         fileWidget = new QWidget(fileBrowserDockWidgetContents);
         fileWidget->setObjectName(QStringLiteral("fileWidget"));
-        sizePolicy3.setHeightForWidth(fileWidget->sizePolicy().hasHeightForWidth());
-        fileWidget->setSizePolicy(sizePolicy3);
+        sizePolicy.setHeightForWidth(fileWidget->sizePolicy().hasHeightForWidth());
+        fileWidget->setSizePolicy(sizePolicy);
         fileWidget->setStyleSheet(QStringLiteral(""));
 
         verticalLayout_9->addWidget(fileWidget);
 
         widget = new QWidget(fileBrowserDockWidgetContents);
         widget->setObjectName(QStringLiteral("widget"));
-        widget->setMinimumSize(QSize(0, 60));
-        widget->setMaximumSize(QSize(16777215, 60));
         openFileBtn = new QToolButton(widget);
         openFileBtn->setObjectName(QStringLiteral("openFileBtn"));
         openFileBtn->setGeometry(QRect(80, 0, 80, 60));
@@ -253,18 +270,22 @@ public:
         verticalLayout_9->setStretch(1, 1);
         fileBrowserDockWidget->setWidget(fileBrowserDockWidgetContents);
 
-        verticalLayout_2->addWidget(fileBrowserDockWidget);
+        verticalLayout_6->addWidget(fileBrowserDockWidget);
 
-        verticalSpacer = new QSpacerItem(20, 1, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        verticalLayout_2->addItem(verticalSpacer);
+        verticalLayout_6->addItem(verticalSpacer);
 
+        leftStackedWidget->addWidget(page_3);
+
+        verticalLayout_2->addWidget(leftStackedWidget);
+
+        verticalLayout_2->setStretch(0, 9);
 
         horizontalLayout->addWidget(leftFrame);
 
         rightFrame = new QFrame(page);
         rightFrame->setObjectName(QStringLiteral("rightFrame"));
-        rightFrame->setStyleSheet(QStringLiteral(""));
         rightFrame->setFrameShape(QFrame::StyledPanel);
         rightFrame->setFrameShadow(QFrame::Raised);
         verticalLayout_3 = new QVBoxLayout(rightFrame);
@@ -329,8 +350,8 @@ public:
 
         celllViewWidget = new ViewWidget(dataAnalyPage);
         celllViewWidget->setObjectName(QStringLiteral("celllViewWidget"));
-        sizePolicy2.setHeightForWidth(celllViewWidget->sizePolicy().hasHeightForWidth());
-        celllViewWidget->setSizePolicy(sizePolicy2);
+        sizePolicy.setHeightForWidth(celllViewWidget->sizePolicy().hasHeightForWidth());
+        celllViewWidget->setSizePolicy(sizePolicy);
 
         verticalLayout_4->addWidget(celllViewWidget);
 
@@ -340,6 +361,11 @@ public:
 
         verticalLayout_3->addWidget(viewStackedWidget);
 
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_3->addItem(verticalSpacer_2);
+
+        verticalLayout_3->setStretch(0, 2);
 
         horizontalLayout->addWidget(rightFrame);
 
@@ -351,57 +377,70 @@ public:
         bottomFrame = new QFrame(page);
         bottomFrame->setObjectName(QStringLiteral("bottomFrame"));
         bottomFrame->setEnabled(true);
-        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Minimum);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(bottomFrame->sizePolicy().hasHeightForWidth());
-        bottomFrame->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Minimum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(bottomFrame->sizePolicy().hasHeightForWidth());
+        bottomFrame->setSizePolicy(sizePolicy2);
         bottomFrame->setMinimumSize(QSize(0, 116));
         bottomFrame->setMaximumSize(QSize(16777215, 116));
         bottomFrame->setFrameShape(QFrame::StyledPanel);
         bottomFrame->setFrameShadow(QFrame::Raised);
+        horizontalLayout_2 = new QHBoxLayout(bottomFrame);
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer);
+
         startAcquisitionBtn = new QPushButton(bottomFrame);
         startAcquisitionBtn->setObjectName(QStringLiteral("startAcquisitionBtn"));
-        startAcquisitionBtn->setGeometry(QRect(380, 20, 91, 41));
+        startAcquisitionBtn->setMinimumSize(QSize(94, 41));
+        startAcquisitionBtn->setMaximumSize(QSize(91, 41));
         QIcon icon4;
         icon4.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/start.png"), QSize(), QIcon::Normal, QIcon::Off);
         startAcquisitionBtn->setIcon(icon4);
+
+        horizontalLayout_2->addWidget(startAcquisitionBtn);
+
         saveCheckBox = new QCheckBox(bottomFrame);
         saveCheckBox->setObjectName(QStringLiteral("saveCheckBox"));
-        saveCheckBox->setGeometry(QRect(480, 40, 101, 16));
+
+        horizontalLayout_2->addWidget(saveCheckBox);
+
         stopAcquisitionBtn = new QPushButton(bottomFrame);
         stopAcquisitionBtn->setObjectName(QStringLiteral("stopAcquisitionBtn"));
-        stopAcquisitionBtn->setGeometry(QRect(740, 20, 91, 41));
+        stopAcquisitionBtn->setMinimumSize(QSize(94, 41));
+        stopAcquisitionBtn->setMaximumSize(QSize(91, 41));
         QIcon icon5;
         icon5.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
         stopAcquisitionBtn->setIcon(icon5);
-        layoutWidget = new QWidget(bottomFrame);
-        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(870, 0, 211, 89));
-        verticalLayout_8 = new QVBoxLayout(layoutWidget);
+
+        horizontalLayout_2->addWidget(stopAcquisitionBtn);
+
+        verticalLayout_8 = new QVBoxLayout();
         verticalLayout_8->setSpacing(6);
-        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
         verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
-        verticalLayout_8->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_14 = new QHBoxLayout();
-        horizontalLayout_14->setSpacing(6);
+        horizontalLayout_14->setSpacing(0);
         horizontalLayout_14->setObjectName(QStringLiteral("horizontalLayout_14"));
-        timeCheckBox = new QCheckBox(layoutWidget);
+        timeCheckBox = new QCheckBox(bottomFrame);
         timeCheckBox->setObjectName(QStringLiteral("timeCheckBox"));
-        QSizePolicy sizePolicy5(QSizePolicy::Maximum, QSizePolicy::Fixed);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(timeCheckBox->sizePolicy().hasHeightForWidth());
-        timeCheckBox->setSizePolicy(sizePolicy5);
+        QSizePolicy sizePolicy3(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(timeCheckBox->sizePolicy().hasHeightForWidth());
+        timeCheckBox->setSizePolicy(sizePolicy3);
         timeCheckBox->setMinimumSize(QSize(60, 16));
         timeCheckBox->setMaximumSize(QSize(60, 16));
 
         horizontalLayout_14->addWidget(timeCheckBox);
 
-        timeSpinBox = new QSpinBox(layoutWidget);
+        timeSpinBox = new QSpinBox(bottomFrame);
         timeSpinBox->setObjectName(QStringLiteral("timeSpinBox"));
-        sizePolicy5.setHeightForWidth(timeSpinBox->sizePolicy().hasHeightForWidth());
-        timeSpinBox->setSizePolicy(sizePolicy5);
+        sizePolicy3.setHeightForWidth(timeSpinBox->sizePolicy().hasHeightForWidth());
+        timeSpinBox->setSizePolicy(sizePolicy3);
         timeSpinBox->setMinimumSize(QSize(71, 22));
         timeSpinBox->setMaximumSize(QSize(71, 22));
         timeSpinBox->setMaximum(3600);
@@ -409,7 +448,7 @@ public:
 
         horizontalLayout_14->addWidget(timeSpinBox);
 
-        timeLCD = new QLCDNumber(layoutWidget);
+        timeLCD = new QLCDNumber(bottomFrame);
         timeLCD->setObjectName(QStringLiteral("timeLCD"));
         timeLCD->setMaximumSize(QSize(64, 23));
         timeLCD->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
@@ -422,21 +461,21 @@ public:
         verticalLayout_8->addLayout(horizontalLayout_14);
 
         horizontalLayout_13 = new QHBoxLayout();
-        horizontalLayout_13->setSpacing(6);
+        horizontalLayout_13->setSpacing(0);
         horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
-        eventsCheckBox = new QCheckBox(layoutWidget);
+        eventsCheckBox = new QCheckBox(bottomFrame);
         eventsCheckBox->setObjectName(QStringLiteral("eventsCheckBox"));
-        sizePolicy5.setHeightForWidth(eventsCheckBox->sizePolicy().hasHeightForWidth());
-        eventsCheckBox->setSizePolicy(sizePolicy5);
+        sizePolicy3.setHeightForWidth(eventsCheckBox->sizePolicy().hasHeightForWidth());
+        eventsCheckBox->setSizePolicy(sizePolicy3);
         eventsCheckBox->setMinimumSize(QSize(60, 16));
         eventsCheckBox->setMaximumSize(QSize(60, 16));
 
         horizontalLayout_13->addWidget(eventsCheckBox);
 
-        eventsSpinBox = new QSpinBox(layoutWidget);
+        eventsSpinBox = new QSpinBox(bottomFrame);
         eventsSpinBox->setObjectName(QStringLiteral("eventsSpinBox"));
-        sizePolicy5.setHeightForWidth(eventsSpinBox->sizePolicy().hasHeightForWidth());
-        eventsSpinBox->setSizePolicy(sizePolicy5);
+        sizePolicy3.setHeightForWidth(eventsSpinBox->sizePolicy().hasHeightForWidth());
+        eventsSpinBox->setSizePolicy(sizePolicy3);
         eventsSpinBox->setMinimumSize(QSize(71, 22));
         eventsSpinBox->setMaximumSize(QSize(71, 22));
         eventsSpinBox->setMaximum(50000);
@@ -444,7 +483,7 @@ public:
 
         horizontalLayout_13->addWidget(eventsSpinBox);
 
-        eventsLCD = new QLCDNumber(layoutWidget);
+        eventsLCD = new QLCDNumber(bottomFrame);
         eventsLCD->setObjectName(QStringLiteral("eventsLCD"));
         eventsLCD->setMaximumSize(QSize(64, 23));
         eventsLCD->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
@@ -457,21 +496,21 @@ public:
         verticalLayout_8->addLayout(horizontalLayout_13);
 
         horizontalLayout_15 = new QHBoxLayout();
-        horizontalLayout_15->setSpacing(6);
+        horizontalLayout_15->setSpacing(0);
         horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
-        flowCheckBox = new QCheckBox(layoutWidget);
+        flowCheckBox = new QCheckBox(bottomFrame);
         flowCheckBox->setObjectName(QStringLiteral("flowCheckBox"));
-        sizePolicy5.setHeightForWidth(flowCheckBox->sizePolicy().hasHeightForWidth());
-        flowCheckBox->setSizePolicy(sizePolicy5);
+        sizePolicy3.setHeightForWidth(flowCheckBox->sizePolicy().hasHeightForWidth());
+        flowCheckBox->setSizePolicy(sizePolicy3);
         flowCheckBox->setMinimumSize(QSize(60, 16));
         flowCheckBox->setMaximumSize(QSize(60, 16));
 
         horizontalLayout_15->addWidget(flowCheckBox);
 
-        flowSpinBox = new QSpinBox(layoutWidget);
+        flowSpinBox = new QSpinBox(bottomFrame);
         flowSpinBox->setObjectName(QStringLiteral("flowSpinBox"));
-        sizePolicy5.setHeightForWidth(flowSpinBox->sizePolicy().hasHeightForWidth());
-        flowSpinBox->setSizePolicy(sizePolicy5);
+        sizePolicy3.setHeightForWidth(flowSpinBox->sizePolicy().hasHeightForWidth());
+        flowSpinBox->setSizePolicy(sizePolicy3);
         flowSpinBox->setMinimumSize(QSize(71, 22));
         flowSpinBox->setMaximumSize(QSize(71, 22));
         flowSpinBox->setMaximum(1000);
@@ -479,7 +518,7 @@ public:
 
         horizontalLayout_15->addWidget(flowSpinBox);
 
-        flowLCD = new QLCDNumber(layoutWidget);
+        flowLCD = new QLCDNumber(bottomFrame);
         flowLCD->setObjectName(QStringLiteral("flowLCD"));
         flowLCD->setMaximumSize(QSize(64, 23));
         flowLCD->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);\n"
@@ -492,6 +531,13 @@ public:
         verticalLayout_8->addLayout(horizontalLayout_15);
 
 
+        horizontalLayout_2->addLayout(verticalLayout_8);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_2);
+
+
         verticalLayout->addWidget(bottomFrame);
 
         verticalLayout->setStretch(0, 7);
@@ -500,6 +546,7 @@ public:
 
         retranslateUi(StackedWidget);
 
+        leftStackedWidget->setCurrentIndex(1);
         viewStackedWidget->setCurrentIndex(0);
 
 
