@@ -1,25 +1,50 @@
-/**
-* Ïî    Ä¿:  FCSÈí¼ş
-* ÎÄ¼şÃû³Æ:  BllSettings.h
-* ÎÄ¼şÂ·¾¶£º DataCenter/BllSettings.h
-* Õª    Òª:  ÅäÖÃÎÄ¼şÒµÎñÀà
-* ×÷    Õß£º ÁõÕ×°î
-* ÈÕ    ÆÚ£º 2014Äê05ÔÂ08ÈÕ
-* Copyright (c) 2014-2015, ÖĞ¿ÆÔºËÕÖİÒ½¹¤ËùÒ½Ñ§Ó°ÏñÊÒµç×Ó×é.All rights reserved.
+ï»¿/**
+* é¡¹    ç›®:  FCSè½¯ä»¶
+* æ–‡ä»¶åç§°:  BllSettings.h
+* æ–‡ä»¶è·¯å¾„ï¼š DataCenter/BllSettings.h
+* æ‘˜    è¦:  é…ç½®æ–‡ä»¶ä¸šåŠ¡ç±»
+* ä½œ    è€…ï¼š åˆ˜å…†é‚¦
+* æ—¥    æœŸï¼š 2014å¹´05æœˆ08æ—¥
+* Copyright (c) 2014-2015, ä¸­ç§‘é™¢è‹å·åŒ»å·¥æ‰€åŒ»å­¦å½±åƒå®¤ç”µå­ç»„.All rights reserved.
 * Version v1.0
 */
 #ifndef BLLSETTINGS_H
 #define BLLSETTINGS_H
 
 #include <QObject>
-
+#include <QSettings>
 class BllSettings : public QObject
 {
 	Q_OBJECT
 
+	static QSettings* s_settings;
 public:
-	BllSettings(QObject *parent);
+	BllSettings(QObject *parent=0);
 	~BllSettings();
+public slots:
+	/**
+	* @brief åˆå§‹åŒ–é…ç½®æ–‡ä»¶
+	*/
+	void init();
+	/**
+	* @brief æ›´æ–°é…ç½®
+	* @param prefix ç»„å
+	* @param key å…³é”®å­—
+	* @param value å‚æ•°å€¼
+	*/
+	void update(QString prefix, QString key, QVariant value);
+	/**
+	* @brief è¯»å–é…ç½®
+	*/
+	QVariant read(QString prefix, QString key);
+	/**
+	* @brief è¯»å–é…ç½®
+	*/
+	QVariant read(QString key);
+	/**
+	* @brief å¸è½½å…¨å±€é…ç½®
+	*/
+	static void uninstall();
 
 private:
 	

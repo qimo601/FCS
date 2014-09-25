@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QTranslator>
 #include "Include/OscDataCenter.h"
+#include "Bll/DataCenter/BllSettings.h"
 Global::Global(QObject *parent)
 	: QObject(parent)
 {
@@ -14,8 +15,8 @@ Global::Global(QObject *parent)
 
 Global::~Global()
 {
-	//if (S_CCycleBuffer != 0)
-	//	delete S_CCycleBuffer;
+	//全局卸载函数
+	uninstall();
 }
 
 
@@ -103,5 +104,19 @@ bool Global::initCCycleBuffer(int size)
 	else
 		return true;
 		
+}
+
+/**
+* @brief 卸载
+*/
+bool Global::uninstall()
+{
+	//卸载配置
+	BllSettings::uninstall();
+	//删除缓冲区
+	if (S_CCycleBuffer != 0)
+		delete S_CCycleBuffer;
+
+	return true;
 }
 

@@ -330,12 +330,12 @@ void StackedWidget::on_saveCheckBox_clicked()
 	{
 		//细胞USB格式原始数据
 		ReadCellThread::fileName = QString("OriFile_%1.usb").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd--HH-mm-ss"));
-		QDir dir("D:/VS2013WorkSpace/FCS/USBData");
 		
-		QString absolutePath = dir.absolutePath();
+		QString appDir = QCoreApplication::applicationDirPath();
+		QDir dir(appDir);
 		if (!dir.exists())
-			dir.mkdir(absolutePath);
-		ReadCellThread::fileName = absolutePath +"/"+ ReadCellThread::fileName;
+			dir.mkdir(appDir);
+		ReadCellThread::fileName = appDir + "/" + ReadCellThread::fileName;
 		ReadCellThread::projectFile = fopen(ReadCellThread::fileName.toLocal8Bit().data(), "ab+");
 		ReadCellThread::saveTag = true;
 	}
@@ -590,8 +590,9 @@ void StackedWidget::setDelPlotActSlot(bool focus)
 */
 void StackedWidget::createTreeFileDir()
 {
-	m_currentMatLabPath = "D:/VS2013WorkSpace/FCS/MatLabData/";
-	QString currentMatLabPath = m_currentMatLabPath;
+	m_currentMatLabPath = QCoreApplication::applicationDirPath();
+
+	QString currentMatLabPath = m_currentMatLabPath+"/MatLabData";
 	model = new QFileSystemModel(this);//文件数据源
 	model->setRootPath(currentMatLabPath);//数据源的根目录
 	treeView = new QTreeView(ui.fileWidget);//设置view的显示空间
@@ -674,8 +675,10 @@ void StackedWidget::on_openFileBtn_clicked()
 	QDir dir1;
 	QString absolutePath1 = dir1.absolutePath();
 	QString canonicalPath1 = dir1.canonicalPath();
-	dir1.setCurrent("D:/VS2013WorkSpace/FCS/Win32/Debug");
-	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), "../../MatLabData", "");
+
+	QString appDir = QCoreApplication::applicationDirPath();
+	dir1.setCurrent(appDir+"/MatLabData");
+	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), appDir + "/MatLabData", "");
 	fd->setFileMode(QFileDialog::Directory);
 	fd->setViewMode(QFileDialog::Detail);
 	//QStringList nameFilters;
@@ -696,9 +699,8 @@ void StackedWidget::on_openFileBtn_clicked()
 	QDir dir = fd->directory();
 	QString absolutePath = dir.absolutePath();
 	QString canonicalPath = dir.canonicalPath();
-	m_currentMatLabPath = absolutePath;
-
-	model->setRootPath("D:/VS2013WorkSpace/FCS/MatLabData/");
+	m_currentMatLabPath = appDir + "/MatLabData";
+	model->setRootPath(m_currentMatLabPath);
 
 	treeView->setModel(model);//设置view的数据源
 	treeView->setRootIndex(model->index(m_currentMatLabPath));//设置显示的第一层根目录

@@ -11,6 +11,7 @@
 #include <string>
 #include "Ui/Report/ReportTree.h"
 #include "Include/ICellStaticData.h"
+#include "Bll/DataCenter/BllSettings.h"
 //在VC项目配置里C / C++ / Preprocessor / Preprocessor Definitions属性里面加入宏定义：QT_NO_DEBUG_OUTPUT
 int main(int argc, char *argv[])
 {
@@ -24,6 +25,9 @@ int main(int argc, char *argv[])
 #endif 
 	qDebug() << "【ReadOscThread】step:";
 	Global global;
+
+
+	BllSettings bllSettings;
 	MainForm mainForm;
 	//mainForm.show();
 	mainForm.showMaximized();
@@ -93,5 +97,8 @@ int main(int argc, char *argv[])
 	list3.append(list31);
 	list2 = list3;
 	//qSort(list2.at(0).begin(), list2.at(0).end());
+
+
+	
 	return a.exec();
 }

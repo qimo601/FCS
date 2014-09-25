@@ -1,11 +1,11 @@
-/**
-* Ïî    Ä¿:  FCSÈí¼ş
-* ÎÄ¼şÃû³Æ:  OscWidget.h
-* ÎÄ¼şÂ·¾¶£º Ui/Libarary/OscWidget.h
-* Õª    Òª:  Ê¾²¨Æ÷´°¿Ú
-* ×÷    Õß£º ÁõÕ×°î
-* ÈÕ    ÆÚ£º 2014Äê05ÔÂ05ÈÕ
-* Copyright (c) 2014-2015, ÖĞ¿ÆÔºËÕÖİÒ½¹¤ËùÒ½Ñ§Ó°ÏñÊÒµç×Ó×é.All rights reserved.
+ï»¿/**
+* é¡¹    ç›®:  FCSè½¯ä»¶
+* æ–‡ä»¶åç§°:  OscWidget.h
+* æ–‡ä»¶è·¯å¾„ï¼š Ui/Libarary/OscWidget.h
+* æ‘˜    è¦:  ç¤ºæ³¢å™¨çª—å£
+* ä½œ    è€…ï¼š åˆ˜å…†é‚¦
+* æ—¥    æœŸï¼š 2014å¹´05æœˆ05æ—¥
+* Copyright (c) 2014-2015, ä¸­ç§‘é™¢è‹å·åŒ»å·¥æ‰€åŒ»å­¦å½±åƒå®¤ç”µå­ç»„.All rights reserved.
 * Version v1.0
 */
 #ifndef OSCWIDGET_H
@@ -38,79 +38,82 @@ public:
 	OscWidget(QWidget *parent = 0);
 	~OscWidget();
 	/**
-	* @brief ³õÊ¼»¯
+	* @brief åˆå§‹åŒ–
 	*/
 	void init();
 	/**
-	* @brief ³õÊ¼»¯Plot
+	* @brief åˆå§‹åŒ–Plot
 	*/
 	void initPlot();
 	/**
-	* @brief ³õÊ¼»¯WheelBox
+	* @brief åˆå§‹åŒ–WheelBox
 	*/
 	void initWheelBox();
 
 	/**
-	* @brief ³õÊ¼»¯ÊôĞÔ´°¿Ú¼°Æä¶¯»­
+	* @brief åˆå§‹åŒ–å±æ€§çª—å£åŠå…¶åŠ¨ç”»
 	*/
 	void initAnimation();
 	/**
-	* @brief ÏÔÊ¾ÊôĞÔ´°¿Ú
+	* @brief æ˜¾ç¤ºå±æ€§çª—å£
 	*/
 	void showPropertyWidget();
 	/**
-	* @brief ¹Ø±ÕÊôĞÔ´°¿Ú
+	* @brief å…³é—­å±æ€§çª—å£
 	*/
 	void closePropertyWidget();
 	/**
-	* @brief ¿ØÖÆÒ»ÏÂÄÄ¸öÇúÏßÏÔÊ¾
+	* @brief æ§åˆ¶ä¸€ä¸‹å“ªä¸ªæ›²çº¿æ˜¾ç¤º
 	*/
 	void showCurve(QwtPlotItem *item, bool on);
 public slots:
-
 	/**
-	* @brief ¸üĞÂ»æÍ¼Êı¾İ
+	* @brief æ›´æ–°ç•Œé¢å‚æ•°
+	*/
+	void updateParams();
+	/**
+	* @brief æ›´æ–°ç»˜å›¾æ•°æ®
 	*/
 	void updateOscPlot();
 	/**
-	* @brief ¿ªÊ¼Ê¾²¨Æ÷²É¼¯
+	* @brief å¼€å§‹ç¤ºæ³¢å™¨é‡‡é›†
 	*/
 	void on_startOscAcqBtn_clicked();
 	/**
-	* @brief Í£Ö¹Ê¾²¨Æ÷²É¼¯
+	* @brief åœæ­¢ç¤ºæ³¢å™¨é‡‡é›†
 	*/
 	void on_stopOscAcqBtn_clicked();
 	/**
-	* @brief ±£´æÊ¾²¨Æ÷Êı¾İ
+	* @brief ä¿å­˜ç¤ºæ³¢å™¨æ•°æ®
 	*/
 	void on_saveCheckBox_clicked();
 	/**
-	* @brief ÇúÏßÃèÊö¼¤»î²Ûº¯Êı
+	* @brief æ›²çº¿æè¿°æ¿€æ´»æ§½å‡½æ•°
 	*/
 	void legendChecked(const QVariant &itemInfo, bool on);
 
 	/**
-	* @brief ÉèÖÃXÖá×ø±ê
+	* @brief è®¾ç½®Xè½´åæ ‡
 	*/
 	void setXAxisScale(double interval);
 	/**
-	* @brief ÉèÖÃYÖá×ø±ê
+	* @brief è®¾ç½®Yè½´åæ ‡
 	*/
 	void setYAxisScale(double interval);
 	/**
-	* @brief ÉèÖÃXÖáÖĞ¼äÏß
+	* @brief è®¾ç½®Xè½´ä¸­é—´çº¿
 	*/
 	void setXMark(double mark_x);
 	/**
-	* @brief ÉèÖÃYÖáÖĞ¼äÏß
+	* @brief è®¾ç½®Yè½´ä¸­é—´çº¿
 	*/
 	void setYMark(double mark_y);
 	/**
-	* @brief ÉèÖÃ°´Å¥µ¯³öÊôĞÔ´°¿Ú
+	* @brief è®¾ç½®æŒ‰é’®å¼¹å‡ºå±æ€§çª—å£
 	*/
 	void on_propertyBtn_clicked();
 	/**
-	* @brief ÉèÖÃÊôĞÔ´°¿Ú²»¿É¼û
+	* @brief è®¾ç½®å±æ€§çª—å£ä¸å¯è§
 	*/
 	void setVisiblePropertyWidget();
 protected:
@@ -121,52 +124,58 @@ signals:
 	void propertyClicked();
 private:
 	Ui::OscWidget ui;
-	//Êı¾İÖĞĞÄÒµÎñÀà
+	//æ•°æ®ä¸­å¿ƒä¸šåŠ¡ç±»
 	BllDataCenter bllDataCenter;
 	
-	//»æÍ¼¶¨Ê±Æ÷
+	//ç»˜å›¾å®šæ—¶å™¨
 	//QTimer *m_timer;
-	//²âÊÔÓÃ
+	//æµ‹è¯•ç”¨
 	int stepValue;
-	//Ê¾²¨Æ÷ÇúÏß
+	//ç¤ºæ³¢å™¨æ›²çº¿
 	QwtPlotCurve* oscCurve;
-	//ÇúÏßµÄÃèÊö
+	//æ›²çº¿çš„æè¿°
 	QwtLegend* legend;
-	//Ê¾²¨Æ÷ÇúÏß ÁĞ±í
+	//ç¤ºæ³¢å™¨æ›²çº¿ åˆ—è¡¨
 	QList<QwtPlotCurve*> m_curveList;
-	//ÇúÏßµÄÃèÊö ÁĞ±í
+	//æ›²çº¿çš„æè¿° åˆ—è¡¨
 	QList<QwtLegend*> m_legendList;
-	//¼ÆËãÏûºÄÊÂ¼ş
+	//è®¡ç®—æ¶ˆè€—äº‹ä»¶
 	QwtSystemClock m_clock;
-	//ÕæÕıµÄ¶¨Ê±Æ÷
+	//çœŸæ­£çš„å®šæ—¶å™¨
 	int m_timerId;
 
-	//ÉèÖÃ»­²¼
+	//è®¾ç½®ç”»å¸ƒ
 	QwtPlotCanvas* canvas;
-	//ÖĞ¼äÊ®×Ö±ê¼Ç
+	//ä¸­é—´åå­—æ ‡è®°
 	QwtPlotMarker* d_origin;
-	//±³¾°·½¸ñ
+	//èƒŒæ™¯æ–¹æ ¼
 	QwtPlotGrid* grid;
 
-	//ÇúÏßXÖá×ø±ê·¶Î§£¬¼ä¸ôÊ±¼ä
+	//æ›²çº¿Xè½´åæ ‡èŒƒå›´ï¼Œé—´éš”æ—¶é—´
 	QwtInterval m_interval_x;
-	//ÇúÏßYÖá×ø±ê·¶Î§
+	//æ›²çº¿Yè½´åæ ‡èŒƒå›´
 	QwtInterval m_interval_y;
-	//ÉèÖÃ°´Å¥Í¼±ê
+	//è®¾ç½®æŒ‰é’®å›¾æ ‡
 	QPixmap settingPixmap;
-	//ÖĞ¼äÏßÎ»ÖÃ
+	//ä¸­é—´çº¿ä½ç½®
 	QPoint m_markPos;
 
-	//ÊôĞÔ´°¿Ú
+	//å±æ€§çª—å£
 	PropertyWidget* propertyWidget;
-	//ÊôĞÔ´°¿Ú³öÏÖ¶¯»­
+	//å±æ€§çª—å£å‡ºç°åŠ¨ç”»
 	QPropertyAnimation* showPropertyAnimation;
-	//ÊôĞÔ´°¿Ú³öÏÖ¶¯»­
+	//å±æ€§çª—å£å‡ºç°åŠ¨ç”»
 	QPropertyAnimation* closePropertyAnimation;
 	
 
-	BllControl bllControl;//²É¼¯¿ØÖÆÒµÎñÀà
-	ReadOscThread* readOscThread;//Ê¾²¨Æ÷¶ÁÈ¡Ïß³Ì
+	BllControl bllControl;//é‡‡é›†æ§åˆ¶ä¸šåŠ¡ç±»
+	ReadOscThread* readOscThread;//ç¤ºæ³¢å™¨è¯»å–çº¿ç¨‹
+
+
+
+
+	///å‚æ•°
+
 };
 
 #endif // OSCWIDGET_H

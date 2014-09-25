@@ -475,11 +475,12 @@ void ViewWidget::uninstall()
 void ViewWidget::openExpFileSlot()
 {
 	QString file = "20140618_14.fcm";
+	QString appDir = QCoreApplication::applicationDirPath();
 	QDir dir1;
 	QString absolutePath1 = dir1.absolutePath();
 	QString canonicalPath1 = dir1.canonicalPath();
-	dir1.setCurrent("D:/VS2013WorkSpace/FCS/Win32/Debug");
-	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), "../../MatLabData", "");
+	dir1.setCurrent(appDir);
+	QFileDialog *fd = new QFileDialog(this, tr("选择实验数据文件"), appDir+"/MatLabData", "");
 	fd->setFileMode(QFileDialog::ExistingFile);
 	fd->setViewMode(QFileDialog::Detail);
 	QStringList nameFilters;
@@ -551,7 +552,9 @@ void ViewWidget::saveExpFileSlot()
 	fd->setViewMode(QFileDialog::Detail);//文件以详细的形式显示，显示文件名，大小，创建日期等信息；
 	//还有另一种形式QFileDialog::List，这个只是把文件的文件名以列表的形式显示出来
 	fd->setGeometry(10, 30, 300, 200);//设置文件对话框的显示位置
-	fd->setDirectory("../MatLabData");
+
+	QString appDir = QCoreApplication::applicationDirPath();
+	fd->setDirectory(appDir+"/MatLabData");
 	QStringList nameFilters;
 	nameFilters << "matlab files (*.fcm *.FCM *.matlab *.MATLAB)"
 		<< "FCS files (*.fcs *.FCS)";

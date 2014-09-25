@@ -1,9 +1,9 @@
-#include "BllControl.h"
+ï»¿#include "BllControl.h"
 #include <QMessageBox>
 BllControl::BllControl(QObject *parent)
 	: QObject(parent)
 {
-	initUSBControl();//²»Ä¬ÈÏÆô¶¯£¬¿ªÊ¼Æô¶¯Ê±£¬²ËÆô¶¯
+	initUSBControl();//ä¸é»˜è®¤å¯åŠ¨ï¼Œå¼€å§‹å¯åŠ¨æ—¶ï¼Œèœå¯åŠ¨
 }
 
 BllControl::~BllControl()
@@ -11,12 +11,12 @@ BllControl::~BllControl()
 }
 
 /**
-* @brief ³õÊ¼»¯USB¿ØÖÆ
+* @brief åˆå§‹åŒ–USBæ§åˆ¶
 */
 void BllControl::initUSBControl()
 {
 	
-	//ÅĞ¶ÏÊÇ·ñUSBÊÇ·ñÒÑ¾­´ò¿ª
+	//åˆ¤æ–­æ˜¯å¦USBæ˜¯å¦å·²ç»æ‰“å¼€
 	if (USBDriver::usbControl == 0)
 		USBDriver::usbControl = new USBControl();
 	else
@@ -25,8 +25,8 @@ void BllControl::initUSBControl()
 	if (!USBDriver::usbControl->openDevice())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("´ò¿ªUSBÉè±¸Ê§°Ü.");
-		msgBox.setInformativeText("USBÉè±¸´ò¿ªÊ§°Ü£¬¾ßÌåº¯Êı£º\n"\
+		msgBox.setText("æ‰“å¼€USBè®¾å¤‡å¤±è´¥.");
+		msgBox.setInformativeText("USBè®¾å¤‡æ‰“å¼€å¤±è´¥ï¼Œå…·ä½“å‡½æ•°ï¼š\n"\
 			"BllControl::initUSBControl()");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
@@ -39,17 +39,17 @@ void BllControl::initUSBControl()
 	startListening();
 }
 /**
-* @brief ´ò¿ªUSBÉè±¸
+* @brief æ‰“å¼€USBè®¾å¤‡
 */
 void BllControl::openUSBControl()
 {
-	//ÅĞ¶ÏÊÇ·ñUSBÊÇ·ñÒÑ¾­´ò¿ª
+	//åˆ¤æ–­æ˜¯å¦USBæ˜¯å¦å·²ç»æ‰“å¼€
 	if (USBDriver::usbControl == 0)
 		USBDriver::usbControl = new USBControl();
 	USBDriver::usbControl->openDevice();
 }
 /**
-* @brief ¹Ø±ÕUSBÉè±¸
+* @brief å…³é—­USBè®¾å¤‡
 */
 void BllControl::closeUSBControl()
 {
@@ -57,7 +57,7 @@ void BllControl::closeUSBControl()
 	USBDriver::usbControl = 0;
 }
 /**
-* @brief USB¿ªÊ¼¼àÌı£¨³ÖĞø¶ÁÊı¾İ£¬·Ç×èÈû£©
+* @brief USBå¼€å§‹ç›‘å¬ï¼ˆæŒç»­è¯»æ•°æ®ï¼Œéé˜»å¡ï¼‰
 */
 void BllControl::startListening()
 {
@@ -66,11 +66,11 @@ void BllControl::startListening()
 
 
 /**
-* @brief ÉèÖÃ¼¤¹â
+* @brief è®¾ç½®æ¿€å…‰
 */
 bool BllControl::setLaser(VoLaser& vo)
 {
-	//ÉèÖÃ¼¤¹âĞ­Òé01 02 xx yy
+	//è®¾ç½®æ¿€å…‰åè®®01 02 xx yy
 	UCHAR buffer[4];
 	DWORD DataLength = 4;
 
@@ -82,8 +82,8 @@ bool BllControl::setLaser(VoLaser& vo)
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃ¼¤¹â²ÎÊı,Ê§°Ü.");
-		msgBox.setInformativeText("¾ßÌåº¯Êı£º\n"\
+		msgBox.setText("è®¾ç½®æ¿€å…‰å‚æ•°,å¤±è´¥.");
+		msgBox.setInformativeText("å…·ä½“å‡½æ•°ï¼š\n"\
 			"BllControl::setLaser(VoLaser& vo)");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
@@ -93,25 +93,25 @@ bool BllControl::setLaser(VoLaser& vo)
 	}
 	else
 	{
-		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃ¼¤¹â²ÎÊı£¬³É¹¦!");
-		msgBox.setInformativeText("ÉèÖÃ¼¤¹â²ÎÊı£¬³É¹¦!\n");
+		/*QMessageBox msgBox;
+		msgBox.setText("è®¾ç½®æ¿€å…‰å‚æ•°ï¼ŒæˆåŠŸ!");
+		msgBox.setInformativeText("è®¾ç½®æ¿€å…‰å‚æ•°ï¼ŒæˆåŠŸ!\n");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
 		msgBox.setIcon(QMessageBox::Information);
-		int ret = msgBox.exec();
+		int ret = msgBox.exec();*/
 		return true;
 	}
 
 }
 
 /**
-* @brief ÉèÖÃÇÊÒº²ÎÊı
+* @brief è®¾ç½®é˜æ¶²å‚æ•°
 */
 bool BllControl::setFluid(VoFluid& vo)
 {
-	//ÉèÖÃÇÊÒº²ÎÊıĞ­Òé01 02 xx xx
-	//xx xxÎªÁ÷ËÙ£¬0~4095
+	//è®¾ç½®é˜æ¶²å‚æ•°åè®®01 02 xx xx
+	//xx xxä¸ºæµé€Ÿï¼Œ0~4095
 	UCHAR buffer[4];
 	DWORD DataLength = 4;
 
@@ -123,8 +123,8 @@ bool BllControl::setFluid(VoFluid& vo)
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃÇÊÒº²ÎÊı£¬Ê§°Ü!");
-		msgBox.setInformativeText("¾ßÌåº¯Êı£º\n"\
+		msgBox.setText("è®¾ç½®é˜æ¶²å‚æ•°ï¼Œå¤±è´¥!");
+		msgBox.setInformativeText("å…·ä½“å‡½æ•°ï¼š\n"\
 			"bool BllControl::setFluid(VoFluid& vo)");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
@@ -134,24 +134,24 @@ bool BllControl::setFluid(VoFluid& vo)
 	}
 	else
 	{
-		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃÇÊÒº²ÎÊı£¬³É¹¦!");
-		msgBox.setInformativeText("ÉèÖÃÇÊÒº²ÎÊı£¬³É¹¦!\n");
+		/*QMessageBox msgBox;
+		msgBox.setText("è®¾ç½®é˜æ¶²å‚æ•°ï¼ŒæˆåŠŸ!");
+		msgBox.setInformativeText("è®¾ç½®é˜æ¶²å‚æ•°ï¼ŒæˆåŠŸ!\n");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
 		msgBox.setIcon(QMessageBox::Information);
-		int ret = msgBox.exec();
+		int ret = msgBox.exec();*/
 		return true;
 	}
 
 }
 /**
-* @brief ÉèÖÃÑù±¾Á÷²ÎÊı
+* @brief è®¾ç½®æ ·æœ¬æµå‚æ•°
 */
 bool BllControl::setSample(VoSample& vo)
 {
-	//ÉèÖÃÑùÆ·Á÷²ÎÊı£º03 02 xx xx
-	//xx xxÎªÁ÷ËÙ£¬0~4095
+	//è®¾ç½®æ ·å“æµå‚æ•°ï¼š03 02 xx xx
+	//xx xxä¸ºæµé€Ÿï¼Œ0~4095
 
 	UCHAR buffer[4];
 	DWORD DataLength = 4;
@@ -163,8 +163,8 @@ bool BllControl::setSample(VoSample& vo)
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃÑù±¾Á÷£¬Ê§°Ü!");
-		msgBox.setInformativeText("¡¾BllControl¡¿ÉèÖÃÑù±¾Á÷£¬Ê§°Ü!¾ßÌåº¯Êı£º\n"\
+		msgBox.setText("è®¾ç½®æ ·æœ¬æµï¼Œå¤±è´¥!");
+		msgBox.setInformativeText("ã€BllControlã€‘è®¾ç½®æ ·æœ¬æµï¼Œå¤±è´¥!å…·ä½“å‡½æ•°ï¼š\n"\
 			"bool BllControl::setSample(VoSample& vo)");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
@@ -174,23 +174,23 @@ bool BllControl::setSample(VoSample& vo)
 	}
 	else
 	{
-		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃÑù±¾Á÷£¬³É¹¦!!");
-		msgBox.setInformativeText("ÉèÖÃÑù±¾Á÷£¬³É¹¦!!\n");
+		/*QMessageBox msgBox;
+		msgBox.setText("è®¾ç½®æ ·æœ¬æµï¼ŒæˆåŠŸ!!");
+		msgBox.setInformativeText("è®¾ç½®æ ·æœ¬æµï¼ŒæˆåŠŸ!!\n");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
 		msgBox.setIcon(QMessageBox::Information);
-		int ret = msgBox.exec();
+		int ret = msgBox.exec();*/
 		return true;
 	}
 }
 /**
-* @brief ÉèÖÃÍ¨µÀÆ«Ñ¹
+* @brief è®¾ç½®é€šé“åå‹
 */
 bool BllControl::setChannelBias(VoChannelBias& vo)
 {
-	//ÉèÖÃÇÊÒº²ÎÊıĞ­Òé04 02 xy yy
-	//xÎªÍ¨µÀ£¬·¶Î§£º1-8£»	y yy¶ÔÓ¦Í¨µÀµçÑ¹£¬´Ë´¦×î´óÎª12Î»Êı¾İ£¬
+	//è®¾ç½®é˜æ¶²å‚æ•°åè®®04 02 xy yy
+	//xä¸ºé€šé“ï¼ŒèŒƒå›´ï¼š1-8ï¼›	y yyå¯¹åº”é€šé“ç”µå‹ï¼Œæ­¤å¤„æœ€å¤§ä¸º12ä½æ•°æ®ï¼Œ
 
 	UCHAR buffer[4];
 	DWORD DataLength = 4;
@@ -204,8 +204,8 @@ bool BllControl::setChannelBias(VoChannelBias& vo)
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
 		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃÍ¨µÀÆ«Ñ¹£¬Ê§°Ü!");
-		msgBox.setInformativeText("¡¾BllControl¡¿ÉèÖÃÍ¨µÀÆ«Ñ¹£¬Ê§°Ü!¾ßÌåº¯Êı£º\n"\
+		msgBox.setText("è®¾ç½®é€šé“åå‹ï¼Œå¤±è´¥!");
+		msgBox.setInformativeText("ã€BllControlã€‘è®¾ç½®é€šé“åå‹ï¼Œå¤±è´¥!å…·ä½“å‡½æ•°ï¼š\n"\
 			"bool BllControl::setChannelBias(VoChannelBias& vo)");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
@@ -215,24 +215,24 @@ bool BllControl::setChannelBias(VoChannelBias& vo)
 	}
 	else
 	{
-		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃÍ¨µÀÆ«Ñ¹£¬³É¹¦!");
-		msgBox.setInformativeText("ÉèÖÃÍ¨µÀÆ«Ñ¹£¬³É¹¦!\n");
+		/*QMessageBox msgBox;
+		msgBox.setText("è®¾ç½®é€šé“åå‹ï¼ŒæˆåŠŸ!");
+		msgBox.setInformativeText("è®¾ç½®é€šé“åå‹ï¼ŒæˆåŠŸ!\n");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
 		msgBox.setIcon(QMessageBox::Information);
-		int ret = msgBox.exec();
+		int ret = msgBox.exec();*/
 		return true;
 	}
 }
 /**
-* @brief ÉèÖÃ´¥·¢Öµ²ÎÊı
+* @brief è®¾ç½®è§¦å‘å€¼å‚æ•°
 */
 bool BllControl::setTrigger(VoTrigger& vo)
 {
-	//ÉèÖÃÑùÆ·Á÷²ÎÊı£º07 04 xx xx yy yy
-	//xxÎªÍ¨µÀ£¬·¶Î§£º1-8£»£¨µÚ¶ş¸öxxÓĞĞ§£©
-	//yy yyÎª¸÷×Ô´¥·¢Öµ£¬16Î»ÓĞĞ§
+	//è®¾ç½®æ ·å“æµå‚æ•°ï¼š07 04 xx xx yy yy
+	//xxä¸ºé€šé“ï¼ŒèŒƒå›´ï¼š1-8ï¼›ï¼ˆç¬¬äºŒä¸ªxxæœ‰æ•ˆï¼‰
+	//yy yyä¸ºå„è‡ªè§¦å‘å€¼ï¼Œ16ä½æœ‰æ•ˆ
 
 
 	UCHAR buffer[6];
@@ -248,8 +248,8 @@ bool BllControl::setTrigger(VoTrigger& vo)
 	{
 
 		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃ´¥·¢Öµ£¬Ê§°Ü!ÊÇ·ñUSBÒÑ¾­¶Ï¿ª¡£!");
-		msgBox.setInformativeText("¡¾ÉèÖÃ´¥·¢Öµ£¬Ê§°Ü!ÊÇ·ñUSBÒÑ¾­¶Ï¿ª¡£!¾ßÌåº¯Êı£º\n"\
+		msgBox.setText("è®¾ç½®è§¦å‘å€¼ï¼Œå¤±è´¥!æ˜¯å¦USBå·²ç»æ–­å¼€ã€‚!");
+		msgBox.setInformativeText("ã€è®¾ç½®è§¦å‘å€¼ï¼Œå¤±è´¥!æ˜¯å¦USBå·²ç»æ–­å¼€ã€‚!å…·ä½“å‡½æ•°ï¼š\n"\
 			"bool BllControl::setTrigger(VoTrigger& vo)");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
@@ -259,18 +259,18 @@ bool BllControl::setTrigger(VoTrigger& vo)
 	}
 	else
 	{
-		QMessageBox msgBox;
-		msgBox.setText("ÉèÖÃ´¥·¢Öµ£¬³É¹¦!");
-		msgBox.setInformativeText("ÉèÖÃ´¥·¢Öµ£¬³É¹¦!\n");
+		/*QMessageBox msgBox;
+		msgBox.setText("è®¾ç½®è§¦å‘å€¼ï¼ŒæˆåŠŸ!");
+		msgBox.setInformativeText("è®¾ç½®è§¦å‘å€¼ï¼ŒæˆåŠŸ!\n");
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.setDefaultButton(QMessageBox::Ok);
 		msgBox.setIcon(QMessageBox::Information);
-		int ret = msgBox.exec();
+		int ret = msgBox.exec();*/
 		return true;
 	}
 }
 /**
-* @brief ÏÂ·¢ÃüÁî
+* @brief ä¸‹å‘å‘½ä»¤
 */
 bool BllControl::sendCmd(VoCmd& vo)
 {
@@ -283,35 +283,35 @@ bool BllControl::sendCmd(VoCmd& vo)
 
 	if (!USBDriver::usbControl->write(buffer, DataLength))
 	{
-		qDebug() << QString("¡¾BllControl¡¿ÏÂ·¢ÃüÁî£º%1£¬Ê§°Ü!ÊÇ·ñUSBÒÑ¾­¶Ï¿ª").arg(buffer[0]);
+		qDebug() << QString("ã€BllControlã€‘ä¸‹å‘å‘½ä»¤ï¼š%1ï¼Œå¤±è´¥!æ˜¯å¦USBå·²ç»æ–­å¼€").arg(buffer[0]);
 		return false;
 	}
 	else
 	{
-		qDebug() << QString("¡¾BllControl¡¿ÏÂ·¢ÃüÁî£º%1£¬³É¹¦!").arg(buffer[0]);
+		//qDebug() << QString("ã€BllControlã€‘ä¸‹å‘å‘½ä»¤ï¼š%1ï¼ŒæˆåŠŸ!").arg(buffer[0]);
 		return true;
 	}
 
 }
 
 /**
-* @brief »ñÈ¡¸ß8Î»µÄÖµ
+* @brief è·å–é«˜8ä½çš„å€¼
 */
 uchar BllControl::getHighInt(int value)
 {
-	//int m = 0x0512,ºóÃæÈ¡µÃÊ±0x05
+	//int m = 0x0512,åé¢å–å¾—æ—¶0x05
 	return value >> 8;
 }
 /**
-* @brief »ñÈ¡µÍ8Î»µÄÖµ
+* @brief è·å–ä½8ä½çš„å€¼
 */
 uchar BllControl::getLowInt(int value)
 {
-	//int m = 0x0512,ºóÃæÈ¡µÃÊ±0x12
+	//int m = 0x0512,åé¢å–å¾—æ—¶0x12
 	return value & 0x00FF;
 }
 /**
-* @brief ·â×°Í¨µÀÆ«Ñ¹²ÎÊı
+* @brief å°è£…é€šé“åå‹å‚æ•°
 */
 void BllControl::getChannelBias(VoChannelBias& vo, char& buffer2, char& buffer3)
 {

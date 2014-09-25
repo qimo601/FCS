@@ -27,12 +27,24 @@ void PushButton::enterEvent(QEvent *)
 void PushButton::mousePressEvent(QMouseEvent *event)
 {
 	//若点击鼠标左键
-	if(event->button() == Qt::LeftButton)
+	if (event->button() == Qt::LeftButton)
 	{
 		mouse_press = true;
 		status = PRESS;
 		update();
 	}
+	//
+	//	QString sheet = QString(" QPushButton{	border: 1px solid white; color:black;background-color:white;}");
+	//	this->setStyleSheet(sheet);
+	//	this->setText("fsdfsdfsdf");
+	//}
+	//else
+	//{
+	//	QString sheet = QString(" QPushButton{	border: 1px solid white; color:black;background-color:white;}");
+	//	this->setStyleSheet(sheet);
+	//	this->setText("");
+	//}
+	//
 }
 
 void PushButton::mouseReleaseEvent(QMouseEvent *event)
@@ -57,8 +69,9 @@ void PushButton::leaveEvent(QEvent *)
 	update();
 }
 
-void PushButton::paintEvent(QPaintEvent *)
+void PushButton::paintEvent(QPaintEvent * event)
 {
+	//QPushButton::paintEvent(event);
 	QPainter painter(this);
 	QPixmap pixmap;
 	switch(status)

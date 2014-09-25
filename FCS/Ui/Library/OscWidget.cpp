@@ -67,6 +67,8 @@ void OscWidget::init()
 	initPlot();//初始化plot
 	initWheelBox();//初始化滑轮
 	initAnimation();//初始化属性窗口及其动画
+
+	updateParams();//初始化本地参数
 	this->setMouseTracking(true);
 	m_timerId = 0;//初始化
 
@@ -89,10 +91,79 @@ void OscWidget::initAnimation()
 
 	//属性窗口消失的动画
 	closePropertyAnimation = new QPropertyAnimation(propertyWidget, "geometry", this);
-	//
+	//显示
 	connect(this, SIGNAL(propertyClicked()), this, SLOT(on_propertyBtn_clicked()));
-
+	//关闭
 	connect(closePropertyAnimation, SIGNAL(finished()), this, SLOT(setVisiblePropertyWidget()));
+	//示波器的参数改变
+	connect(propertyWidget, SIGNAL(oscParamChanged()), this, SLOT(updateParams()));
+
+	//示波器画图的参数改变
+	connect(propertyWidget, SIGNAL(oscPlotChanged()), this, SLOT(updateParams()));
+	
+	
+}
+/**
+* @brief 更新界面参数
+*/
+void OscWidget::updateParams()
+{
+	QList<QString> colorNameList;//通道颜色
+	QList<int> wideSpinList;//曲线粗细
+	//更新通道参数
+	propertyWidget->initPassageColorSettings(colorNameList, wideSpinList);
+	//初始化曲线
+	for (int i = 0; i < 8; i++)
+	{
+		oscCurve = m_curveList.at(i);
+		//设置颜色
+		QColor c;
+		c.setNamedColor(colorNameList.at(i));
+		oscCurve->setPen(c, wideSpinList.at(i));
+	}
+
+
+	QList<QString> plotColorNameList;//画布颜色
+	QList<int> cordinateSpinList;//坐标
+	//更新画布参数
+	propertyWidget->initOscPlotSettings(plotColorNameList, cordinateSpinList);
+
+	QString colorName = plotColorNameList.at(0);
+	m_interval_x.setMinValue(cordinateSpinList.at(0));
+	m_interval_x.setMaxValue(cordinateSpinList.at(1));
+	setXAxisScale(m_interval_x.width());
+
+	m_interval_y.setMinValue(cordinateSpinList.at(3));
+	m_interval_y.setMaxValue(cordinateSpinList.at(4));
+	setYAxisScale(m_interval_y.width());
+
+	if (colorName == "#000000")
+	{
+		QPalette pal = palette();
+
+		QLinearGradient gradient;
+		gradient.setCoordinateMode(QGradient::StretchToDeviceMode);
+		gradient.setColorAt(0.0, QColor(0, 49, 110));
+		gradient.setColorAt(1.0, QColor(0, 87, 174));
+
+		pal.setBrush(QPalette::Window, QBrush(gradient));
+
+		canvas->setPalette(pal);
+	}
+	else
+	{
+		QPalette pal = palette();
+
+		QLinearGradient gradient;
+		gradient.setCoordinateMode(QGradient::StretchToDeviceMode);
+		gradient.setColorAt(0.0, QColor(colorName));
+		gradient.setColorAt(1.0, QColor(colorName));
+
+		pal.setBrush(QPalette::Window, QBrush(gradient));
+
+		canvas->setPalette(pal);
+	}
+
 }
 /**
 * @brief 初始化Plot
@@ -246,12 +317,13 @@ void OscWidget::initPlot()
 */
 void OscWidget::initWheelBox()
 {
-	ui.xScalewheelBox->setProperty("X轴调节", 0, 100000, 40);
-	ui.yScalewheelBox->setProperty("Y轴调节", 0, 100000, 400);
-	ui.xMarkwheelBox->setProperty("X轴中间线", 0, 100000, 40);
-	ui.yMarkwheelBox->setProperty("Y轴中间与线", 0, 100000,400);
+	ui.xScalewheelBox->setProperty("X轴调节", 0, 1000000, 40);
+	ui.yScalewheelBox->setProperty("Y轴调节", 0, 1000000, 400);
+	ui.xMarkwheelBox->setProperty("X轴中间线", 0, 1000000, 40);
+	ui.yMarkwheelBox->setProperty("Y轴中间与线", 0, 1000000,400);
 
 	ui.xScalewheelBox->setValue(m_interval_x.width());
+	ui.xScalewheelBox->setValue(20);
 	ui.yScalewheelBox->setValue(m_interval_y.width());
 	ui.xMarkwheelBox->setValue(m_markPos.x());
 	ui.yMarkwheelBox->setValue(m_markPos.y());
@@ -417,14 +489,17 @@ void OscWidget::showCurve(QwtPlotItem *item, bool on)
 void OscWidget::setXAxisScale(double interval)
 {
 	//判断是否有效
-	if (interval > 0.0 && interval != m_interval_x.width())
+	if (interval > 0.0/* && interval != m_interval_x.width()*/)
 	{
 		double xChange = (interval - m_interval_x.width()) / 2;
 		m_interval_x.setMaxValue(m_interval_x.maxValue() + xChange);//重新设置间隔
 		m_interval_x.setMinValue(m_interval_x.minValue() - xChange);//重新设置间隔
 		//重新设置x轴坐标范围
 		ui.oscPlot->setAxisScale(QwtPlot::xBottom, m_interval_x.minValue(), m_interval_x.maxValue());
-		//更新一下mark是否变化，其实不会变
+		ui.xScalewheelBox->setValue(m_interval_x.width());
+		//计算X轴中间线
+		m_markPos.setX(m_interval_x.minValue()+m_interval_x.width() / 2);
+		//更新一下mark
 		ui.xMarkwheelBox->setValue(m_markPos.x());
 		ui.oscPlot->replot();
 	}
@@ -435,14 +510,18 @@ void OscWidget::setXAxisScale(double interval)
 void OscWidget::setYAxisScale(double interval)
 {
 	//判断是否有效
-	if (interval > 0.0 && interval != m_interval_y.width())
+	if (interval > 0.0 /*&& interval != m_interval_y.width()*/)
 	{
 		double yChange = (interval - m_interval_y.width())/2;
 		m_interval_y.setMaxValue(m_interval_y.maxValue() + yChange);//重新设置间隔
 		m_interval_y.setMinValue(m_interval_y.minValue() - yChange);//重新设置间隔
 		//重新设置y轴坐标范围
 		ui.oscPlot->setAxisScale(QwtPlot::yLeft,  m_interval_y.minValue(),  m_interval_y.maxValue());
-		//更新一下mark是否变化，其实不会变
+		ui.yScalewheelBox->setValue(m_interval_y.width());
+
+		//计算X轴中间线
+		m_markPos.setY(m_interval_y.minValue()+m_interval_y.width() / 2);
+		//更新一下mark
 		ui.yMarkwheelBox->setValue(m_markPos.y());
 		ui.oscPlot->replot();
 	}
@@ -453,7 +532,7 @@ void OscWidget::setYAxisScale(double interval)
 void OscWidget::setXMark(double mark_x)
 {
 	//判断是否有效
-	if (mark_x > 0.0 && mark_x != m_markPos.x())
+	if (mark_x > 0.0/* && mark_x != m_markPos.x()*/)
 	{
 		double xchange = mark_x - m_markPos.x();
 		//设置十字中间线坐标
@@ -475,7 +554,7 @@ void OscWidget::setXMark(double mark_x)
 void OscWidget::setYMark(double mark_y)
 {
 	//判断是否有效
-	if (mark_y > 0.0 && mark_y != m_markPos.y())
+	if (mark_y > 0.0 /*&& mark_y != m_markPos.y()*/)
 	{
 		double ychange = mark_y - m_markPos.y();
 		//设置十字中间线坐标

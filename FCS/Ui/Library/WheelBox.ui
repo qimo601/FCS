@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>117</width>
+    <width>137</width>
     <height>99</height>
    </rect>
   </property>
@@ -23,8 +23,14 @@
    <property name="rightMargin">
     <number>0</number>
    </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <spacer name="horizontalSpacer_4">
        <property name="orientation">
@@ -32,17 +38,23 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>16</width>
+         <height>17</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
       <widget class="QLCDNumber" name="d_number">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
-         <width>71</width>
+         <width>80</width>
          <height>30</height>
         </size>
        </property>
@@ -63,6 +75,9 @@
         <string notr="true">background-color: rgb(6, 6, 6);
 color: green;</string>
        </property>
+       <property name="digitCount">
+        <number>6</number>
+       </property>
        <property name="mode">
         <enum>QLCDNumber::Dec</enum>
        </property>
@@ -81,6 +96,12 @@ color: green;</string>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>21</width>
+         <height>51</height>
+        </size>
        </property>
        <property name="maximumSize">
         <size>

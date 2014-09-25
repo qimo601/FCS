@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_OscWidget_t {
-    QByteArrayData data[20];
-    char stringdata[271];
+    QByteArrayData data[21];
+    char stringdata[284];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,25 +33,27 @@ QT_MOC_LITERAL(0, 0, 9),
 QT_MOC_LITERAL(1, 10, 11),
 QT_MOC_LITERAL(2, 22, 0),
 QT_MOC_LITERAL(3, 23, 15),
-QT_MOC_LITERAL(4, 39, 13),
-QT_MOC_LITERAL(5, 53, 25),
-QT_MOC_LITERAL(6, 79, 24),
-QT_MOC_LITERAL(7, 104, 23),
-QT_MOC_LITERAL(8, 128, 13),
-QT_MOC_LITERAL(9, 142, 8),
-QT_MOC_LITERAL(10, 151, 2),
-QT_MOC_LITERAL(11, 154, 13),
-QT_MOC_LITERAL(12, 168, 8),
-QT_MOC_LITERAL(13, 177, 13),
-QT_MOC_LITERAL(14, 191, 8),
-QT_MOC_LITERAL(15, 200, 6),
-QT_MOC_LITERAL(16, 207, 8),
-QT_MOC_LITERAL(17, 216, 6),
-QT_MOC_LITERAL(18, 223, 22),
-QT_MOC_LITERAL(19, 246, 24)
+QT_MOC_LITERAL(4, 39, 12),
+QT_MOC_LITERAL(5, 52, 13),
+QT_MOC_LITERAL(6, 66, 25),
+QT_MOC_LITERAL(7, 92, 24),
+QT_MOC_LITERAL(8, 117, 23),
+QT_MOC_LITERAL(9, 141, 13),
+QT_MOC_LITERAL(10, 155, 8),
+QT_MOC_LITERAL(11, 164, 2),
+QT_MOC_LITERAL(12, 167, 13),
+QT_MOC_LITERAL(13, 181, 8),
+QT_MOC_LITERAL(14, 190, 13),
+QT_MOC_LITERAL(15, 204, 8),
+QT_MOC_LITERAL(16, 213, 6),
+QT_MOC_LITERAL(17, 220, 8),
+QT_MOC_LITERAL(18, 229, 6),
+QT_MOC_LITERAL(19, 236, 22),
+QT_MOC_LITERAL(20, 259, 24)
     },
     "OscWidget\0startOscAcq\0\0propertyClicked\0"
-    "updateOscPlot\0on_startOscAcqBtn_clicked\0"
+    "updateParams\0updateOscPlot\0"
+    "on_startOscAcqBtn_clicked\0"
     "on_stopOscAcqBtn_clicked\0"
     "on_saveCheckBox_clicked\0legendChecked\0"
     "itemInfo\0on\0setXAxisScale\0interval\0"
@@ -67,7 +69,7 @@ static const uint qt_meta_data_OscWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      13,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -75,21 +77,22 @@ static const uint qt_meta_data_OscWidget[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   79,    2, 0x06 /* Public */,
-       3,    0,   80,    2, 0x06 /* Public */,
+       1,    0,   84,    2, 0x06 /* Public */,
+       3,    0,   85,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   81,    2, 0x0a /* Public */,
-       5,    0,   82,    2, 0x0a /* Public */,
-       6,    0,   83,    2, 0x0a /* Public */,
-       7,    0,   84,    2, 0x0a /* Public */,
-       8,    2,   85,    2, 0x0a /* Public */,
-      11,    1,   90,    2, 0x0a /* Public */,
-      13,    1,   93,    2, 0x0a /* Public */,
-      14,    1,   96,    2, 0x0a /* Public */,
-      16,    1,   99,    2, 0x0a /* Public */,
-      18,    0,  102,    2, 0x0a /* Public */,
-      19,    0,  103,    2, 0x0a /* Public */,
+       4,    0,   86,    2, 0x0a /* Public */,
+       5,    0,   87,    2, 0x0a /* Public */,
+       6,    0,   88,    2, 0x0a /* Public */,
+       7,    0,   89,    2, 0x0a /* Public */,
+       8,    0,   90,    2, 0x0a /* Public */,
+       9,    2,   91,    2, 0x0a /* Public */,
+      12,    1,   96,    2, 0x0a /* Public */,
+      14,    1,   99,    2, 0x0a /* Public */,
+      15,    1,  102,    2, 0x0a /* Public */,
+      17,    1,  105,    2, 0x0a /* Public */,
+      19,    0,  108,    2, 0x0a /* Public */,
+      20,    0,  109,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -100,11 +103,12 @@ static const uint qt_meta_data_OscWidget[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QVariant, QMetaType::Bool,    9,   10,
-    QMetaType::Void, QMetaType::Double,   12,
-    QMetaType::Void, QMetaType::Double,   12,
-    QMetaType::Void, QMetaType::Double,   15,
-    QMetaType::Void, QMetaType::Double,   17,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QVariant, QMetaType::Bool,   10,   11,
+    QMetaType::Void, QMetaType::Double,   13,
+    QMetaType::Void, QMetaType::Double,   13,
+    QMetaType::Void, QMetaType::Double,   16,
+    QMetaType::Void, QMetaType::Double,   18,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -118,17 +122,18 @@ void OscWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         switch (_id) {
         case 0: _t->startOscAcq(); break;
         case 1: _t->propertyClicked(); break;
-        case 2: _t->updateOscPlot(); break;
-        case 3: _t->on_startOscAcqBtn_clicked(); break;
-        case 4: _t->on_stopOscAcqBtn_clicked(); break;
-        case 5: _t->on_saveCheckBox_clicked(); break;
-        case 6: _t->legendChecked((*reinterpret_cast< const QVariant(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 7: _t->setXAxisScale((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 8: _t->setYAxisScale((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 9: _t->setXMark((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 10: _t->setYMark((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 11: _t->on_propertyBtn_clicked(); break;
-        case 12: _t->setVisiblePropertyWidget(); break;
+        case 2: _t->updateParams(); break;
+        case 3: _t->updateOscPlot(); break;
+        case 4: _t->on_startOscAcqBtn_clicked(); break;
+        case 5: _t->on_stopOscAcqBtn_clicked(); break;
+        case 6: _t->on_saveCheckBox_clicked(); break;
+        case 7: _t->legendChecked((*reinterpret_cast< const QVariant(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 8: _t->setXAxisScale((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 9: _t->setYAxisScale((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 10: _t->setXMark((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 11: _t->setYMark((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 12: _t->on_propertyBtn_clicked(); break;
+        case 13: _t->setVisiblePropertyWidget(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -174,13 +179,13 @@ int OscWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 14;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 14)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 13;
+        _id -= 14;
     }
     return _id;
 }

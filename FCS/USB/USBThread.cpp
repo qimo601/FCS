@@ -52,7 +52,7 @@ void USBThread::run()
 			//测试代码
 			onButtonRd1();
 #endif
-			msleep(10);
+			usleep(50);
 		}
 	}
 	qDebug() << "【USBThread】运行结束!";
@@ -240,7 +240,8 @@ void USBThread::onButtonRd1()
 	quint8 testOscData[512];
 	for (int i = 0; i < 512; i++)
 	{
-		testOscData[i] = 10/* + qrand() % 100*/;
+		testOscData[i] = 10 + qrand() % 100;
+		
 	}
 	testOscData[1] = 255;
 	testOscData[511] = 255;

@@ -48,6 +48,10 @@ public:
 	* @date    2014-5-10
 	*/
 	static bool initCCycleBuffer(int size);
+	/**
+	* @brief 卸载
+	*/
+	static bool uninstall();
 public slots:
 
 private:	
