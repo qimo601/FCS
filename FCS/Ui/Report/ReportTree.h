@@ -8,6 +8,7 @@
 #include "Include/Global.h"
 #include "Ui/Library/PlotWidget.h"
 #include "Bll/DataCenter/BllDataCenter.h"
+#include "Bll/DataCenter/BllSettings.h"
 class ViewWidget;
 class ReportTree : public QWidget
 {
@@ -72,6 +73,32 @@ public slots:
 	* @brief 删除该设门对应的窗口
 	*/
 	void on_delGateBtn_clicked();
+	/**
+	* @brief 设置按钮
+	*/
+	void on_settingBtn_toggled(bool enable);
+	/**
+	* @brief 添加按钮
+	*/
+	void on_addBtn_clicked();
+
+	/**
+	* @brief 删除按钮
+	*/
+	void on_delBtn_clicked();
+	/**
+	* @brief 初始报告参数
+	* @param indexNotVisibleList 不需要显示的参数
+	*/
+	void initReportSettings(QList<int>& indexNotVisibleList);
+	/**
+	* @brief 更新报告参数
+	*/
+	void updateReportSettings();
+	/**
+	* @brief 更新报表显示参数
+	*/
+	void updatevisibleParams();
 protected:
 	virtual void mousePressEvent(QMouseEvent *event);
 	virtual void mouseReleaseEvent(QMouseEvent *event);
@@ -85,6 +112,7 @@ signals:
 	void viewGateWidget(QString gateName);//显示某Gate的窗口
 	void willClose();
 	void delGateWidget(QString gateName);
+	void reportParamChanged();//report显示参数变化，report统计需发生更改
 private:
 	Ui::ReportTree ui;
 
@@ -106,6 +134,10 @@ private:
 	GateStorage* gateStorageRoot1;
 	//根节点的假设设门1
 	GateStorage* gateStorageRoot2;
+	//配置业务
+	BllSettings bllSettings;
+	//所有可显示参数
+	QMap<int, QStringList> m_stringListMap;
 };
 
 #endif // REPORTTREE_H

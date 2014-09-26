@@ -577,8 +577,19 @@ void PlotWidget::enableCrossBtnMode(bool mode)
 		//d_parallelLinePicker_2->setEnabled(false);
 		//d_parallelLinePicker_1->reset();
 		//d_parallelLinePicker_2->reset();
+		//停止使用，消失
+		d_crossPicker_1->setEnabled(false);
+		d_crossPicker_2->setEnabled(false);
 		d_crossPicker_1->setTrackerMode(QwtPicker::AlwaysOff);
 		d_crossPicker_2->setTrackerMode(QwtPicker::AlwaysOff);
+		//删除置0
+		delete d_crossPicker_1;
+		d_crossPicker_1 = 0;
+		delete d_crossPicker_2;
+		d_crossPicker_2 = 0;
+
+		//置假
+		ui.crossBtn->setChecked(false);
 	}
 }
 /**
@@ -618,13 +629,18 @@ void PlotWidget::enableEllipseBtn(bool mode)
 	//停止旧设门
 	else
 	{
-
-		//d_rectPicker->setEnabled(false);
+		//停止使用,消失
+		d_ellipsePicker->setEnabled(false);
 		//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
 		//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
 		//d_rectPicker->remove();
 		//d_rectPicker->end(false);
 		d_ellipsePicker->setTrackerMode(QwtPicker::AlwaysOff);
+		//删除置0
+		delete d_ellipsePicker;
+		d_ellipsePicker = 0;
+		//置假
+		ui.ellipseBtn->setChecked(false);
 	}
 }
 
@@ -646,13 +662,18 @@ void PlotWidget::enablePolygonBtn(bool mode)
 	//停止旧设门
 	else
 	{
-
-		//d_rectPicker->setEnabled(false);
+		//停止使用，消失
+		d_polygonPicker->setEnabled(false);
 		//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
 		//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
 		//d_rectPicker->remove();
 		//d_rectPicker->end(false);
 		d_polygonPicker->setTrackerMode(QwtPicker::AlwaysOff);
+		//删除，置0
+		delete d_polygonPicker;
+		d_polygonPicker = 0;
+		//置假
+		ui.polygonBtn->setChecked(false);
 	}
 }
 
@@ -675,13 +696,18 @@ void PlotWidget::enableRectBtn(bool mode)
 	//停止旧设门
 	else
 	{
-
-		//d_rectPicker->setEnabled(false);
+		//停止使用，消失
+		d_rectPicker->setEnabled(false);
 		//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
 		//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
 		//d_rectPicker->remove();
 		//d_rectPicker->end(false);
 		d_rectPicker->setTrackerMode(QwtPicker::AlwaysOff);
+		//删除，置0
+		delete d_rectPicker;
+		d_rectPicker = 0;
+		//置假
+		ui.rectBtn->setChecked(false);
 	}
 	//暂时不用了
 	//d_plot->enableRectPicker(mode);
@@ -711,12 +737,21 @@ void PlotWidget::enableParallelLineBtn(bool mode)
 	//停止旧设门
 	else
 	{
-		//d_parallelLinePicker_1->setEnabled(false);
-		//d_parallelLinePicker_2->setEnabled(false);
+		//停止使用
+		d_parallelLinePicker_1->setEnabled(false);
+		d_parallelLinePicker_2->setEnabled(false);
 		//d_parallelLinePicker_1->reset();
 		//d_parallelLinePicker_2->reset();
 		d_parallelLinePicker_1->setTrackerMode(QwtPicker::AlwaysOff);
 		d_parallelLinePicker_2->setTrackerMode(QwtPicker::AlwaysOff);
+
+		//删除 置0
+		delete d_parallelLinePicker_1;
+		d_parallelLinePicker_1 = 0;
+		delete d_parallelLinePicker_2;
+		d_parallelLinePicker_2 = 0;
+		//置假
+		ui.parallelLineBtn->setChecked(false);
 	}
 	//暂时不用
 	//d_plot->enableParallelLinePicker(mode);
@@ -1396,7 +1431,7 @@ void PlotWidget::computeRectPickerSlot(QRectF rectf)
 	//矩形设门完成
 	//enableRectBtn(false);
 	//置假
-	ui.rectBtn->setChecked(false);//会自动调用槽函数enableRectBtn(false);
+	//ui.rectBtn->setChecked(false);//会自动调用槽函数enableRectBtn(false);
 }
 
 /**
@@ -1449,7 +1484,7 @@ void PlotWidget::computeCrossPickerSlot(QList<QPointF> pointFList)
 	//enableRectBtn(false);
 
 	//置假
-	ui.crossBtn->setChecked(false);//会自动调用槽函数enableCrossBtn(false);
+	//ui.crossBtn->setChecked(false);//会自动调用槽函数enableCrossBtn(false);
 }
 //void PlotWidget::computeCrossPickerSlot(QPointF pointF)
 //{
@@ -1577,7 +1612,7 @@ void PlotWidget::computePolygonPickerSlot(QVector<QPointF> vector)
 	//矩形设门完成
 	//enableRectBtn(false);
 	//置假
-	ui.polygonBtn->setChecked(false);//会自动调用槽函数enablePolygonBtn(false);
+	//ui.polygonBtn->setChecked(false);//会自动调用槽函数enablePolygonBtn(false);
 
 	delete[] polyX;//释放
 	delete[] polyY;
@@ -1693,7 +1728,8 @@ void PlotWidget::computeParallelLinePickerSlot(QList<QPointF> pointFList)
 	addGate(GateStorage::PARALLEL);
 	//平行线设门完成
 	//enableParallelLineBtn(false);
-	ui.parallelLineBtn->setChecked(false);//会自动调用槽函数enableParallelLineBtn(false);
+	//置假
+	//ui.parallelLineBtn->setChecked(false);//会自动调用槽函数enableParallelLineBtn(false);
 }
 
 
@@ -1797,7 +1833,7 @@ void PlotWidget::computeEllipsePickerSlot(QRectF rectf)
 	//矩形设门完成
 	//enableRectBtn(false);
 	//置假
-	ui.ellipseBtn->setChecked(false);//会自动调用槽函数enableRectBtn(false);
+	//ui.ellipseBtn->setChecked(false);//会自动调用槽函数enableRectBtn(false);
 }
 /**
 * @brief 保存文件

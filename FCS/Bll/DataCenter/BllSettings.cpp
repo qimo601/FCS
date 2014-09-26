@@ -49,7 +49,7 @@ void BllSettings::update(QString prefix,QString key,QVariant value)
 */
 QVariant BllSettings::read(QString prefix, QString key)
 {
-	QVariant var = s_settings->value(QString("%1/%2").arg(prefix).arg(key));
+	QVariant var = s_settings->value(QString("%1/%2").arg(prefix).arg(key),"-1");
 	return var;
 }
 /**

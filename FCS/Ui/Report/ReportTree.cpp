@@ -12,7 +12,7 @@ ReportTree::ReportTree(QWidget *parent)
 	rootItem1 = 0;//根节点
 	currentItem1 = 0;//当前节点
 	parentItem1 = 0;//父节点
-	//initReportData();//初始化数据
+	initReportData();//初始化数据
 	//隐藏原标题栏
 	//setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 	//设置透明-窗体标题栏和控件不透明,背景透明  
@@ -32,13 +32,17 @@ ReportTree::ReportTree(QWidget *parent)
 	ui.plotBtn->setEnabled(false);
 	ui.delGateBtn->setEnabled(false);
 	connect(ui.treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(enablePlotBtn(QTreeWidgetItem*, int)));
-
 	//内容窗口自适应
 	ui.treeWidget->resizeColumnToContents(0);
 	ui.treeWidget->resizeColumnToContents(1);
 	ui.treeWidget->resizeColumnToContents(2);
 	//初始化一下表
 	updateReport();
+
+	//读取报表显示参数
+	QList<int> intList;
+	//initReportSettings(intList);
+
 }
 
 ReportTree::~ReportTree()
@@ -51,59 +55,101 @@ ReportTree::~ReportTree()
 */
 void ReportTree::initReportData()
 {
-	
+	//隐藏某列，测试
+	//ui.treeWidget->setColumnHidden(2, true);
+	//ui.treeWidget->setColumnHidden(1, true);
 
-	//根节点的数据项
-	QStringList itemStringlist;
-	itemStringlist << "All EventS" <<"10000" << "100%" << "100%";
-	QTreeWidgetItem * rootItem = new QTreeWidgetItem(ui.treeWidget, itemStringlist);
-	QPixmap pixmap(10,10);//新建一个Pixmap图
-	pixmap.fill(QColor(Qt::black));//填充色
-	QIcon icon(pixmap);
-	rootItem->setIcon(0, icon);//设置图标
+	//初始化所有列标题
 
-	//根节点的孩子节点1
-	QStringList leafStringList1;
-	leafStringList1 << "Gate1" << "8000"<<"80%"<<"80%";
-	QTreeWidgetItem *leafItem1 = new QTreeWidgetItem(rootItem, leafStringList1);
-	pixmap.fill(QColor(Qt::red));
-	leafItem1->setIcon(0, pixmap);
-	//根节点的孩子节点2
-	QStringList leafStringList2;
-	leafStringList2 << "Gate2" << "4000" << "40%" << "40%";
-	QTreeWidgetItem *leafItem2 = new QTreeWidgetItem(rootItem, leafStringList2);
-	pixmap.fill(QColor(Qt::green));
-	leafItem2->setIcon(0, pixmap);
-	//根节点的孩子节点3
-	QStringList leafStringList3;
-	leafStringList3 << "Gate3" << "2000" << "20%" << "20%";
-	QTreeWidgetItem *leafItem3 = new QTreeWidgetItem(rootItem, leafStringList3);
-	pixmap.fill(QColor(Qt::blue));
-	leafItem3->setIcon(0, pixmap);
+	m_stringListMap;
+	QStringList passageSL;
+	passageSL << "FSC" << "SSC" << "FL1" << "FL2" << "FL3" << "FL4" << "FL5" << "FL6";
+	QStringList dataSL;
+	dataSL << "H" << "A" << "W";
 
-	//节点3的孩子节点1_in_3
-	QStringList leafStringList1_In_3;
-	leafStringList1_In_3 << "Gate1_in_3" << "1000" << "50%" << "10%";
-	QTreeWidgetItem *leafItem1_in_3 = new QTreeWidgetItem(leafItem3, leafStringList1_In_3);
-	pixmap.fill(QColor(Qt::gray));
-	leafItem1_in_3->setIcon(0, pixmap);
-	//给节点3添加孩子节点
-	leafItem3->addChild(leafItem1_in_3);
+	//初始化不同通道不同参数的几个值
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			QStringList stringList4;
+			stringList4 << passageSL.at(i) << dataSL.at(j) << "#Average";
+			m_stringListMap.insert(4 + 3 * j + 3 * 3 * i, stringList4);
+			QStringList stringList5;
+			stringList5 << passageSL.at(i) << dataSL.at(j) << "#MidValue";
+			m_stringListMap.insert(5 + 3 * j + 3 * 3 * i, stringList5);
+			QStringList stringList6;
+			stringList6 << passageSL.at(i) << dataSL.at(j) << "%CV";
+			m_stringListMap.insert(6 + 3 * j + 3 * 3 * i, stringList6);
+		}
 
 
-	//节点3的孩子节点2_in_3
-	QStringList leafStringList2_In_3;
-	leafStringList2_In_3 << "Gate2_in_3" << "500" << "40%" << "2%";
-	QTreeWidgetItem *leafItem2_in_3 = new QTreeWidgetItem(leafItem3, leafStringList2_In_3);
-	pixmap.fill(QColor(Qt::darkCyan));
-	leafItem2_in_3->setIcon(0, pixmap);
-	leafItem3->addChild(leafItem2_in_3);
+	}
+
+	//初始化前面几个值，并在QTreewidget上汇入，所有通道共用
+	QTreeWidgetItem *treewidgetitem = ui.treeWidget->headerItem();
+	treewidgetitem->setText(0, "Population");
+	treewidgetitem->setText(1, "#Events");
+	treewidgetitem->setText(2, "%Parent");
+	treewidgetitem->setText(3, "%Total");
+	for (int i = 0, j = 4; i < m_stringListMap.size(); i++, j++)
+	{
+		//"FSC-H\n#Events
+		QStringList stringLt = m_stringListMap.value(j);
+		treewidgetitem->setText(j, QString("%1-%2\n%3").arg(stringLt.at(0)).arg(stringLt.at(1)).arg(stringLt.at(2)));
+	}
+
+	////根节点的数据项
+	//QStringList itemStringlist;
+	//itemStringlist << "All EventS" <<"10000" << "100%" << "100%";
+	//QTreeWidgetItem * rootItem = new QTreeWidgetItem(ui.treeWidget, itemStringlist);
+	//QPixmap pixmap(10,10);//新建一个Pixmap图
+	//pixmap.fill(QColor(Qt::black));//填充色
+	//QIcon icon(pixmap);
+	//rootItem->setIcon(0, icon);//设置图标
+
+	////根节点的孩子节点1
+	//QStringList leafStringList1;
+	//leafStringList1 << "Gate1" << "8000"<<"80%"<<"80%";
+	//QTreeWidgetItem *leafItem1 = new QTreeWidgetItem(rootItem, leafStringList1);
+	//pixmap.fill(QColor(Qt::red));
+	//leafItem1->setIcon(0, pixmap);
+	////根节点的孩子节点2
+	//QStringList leafStringList2;
+	//leafStringList2 << "Gate2" << "4000" << "40%" << "40%";
+	//QTreeWidgetItem *leafItem2 = new QTreeWidgetItem(rootItem, leafStringList2);
+	//pixmap.fill(QColor(Qt::green));
+	//leafItem2->setIcon(0, pixmap);
+	////根节点的孩子节点3
+	//QStringList leafStringList3;
+	//leafStringList3 << "Gate3" << "2000" << "20%" << "20%";
+	//QTreeWidgetItem *leafItem3 = new QTreeWidgetItem(rootItem, leafStringList3);
+	//pixmap.fill(QColor(Qt::blue));
+	//leafItem3->setIcon(0, pixmap);
+
+	////节点3的孩子节点1_in_3
+	//QStringList leafStringList1_In_3;
+	//leafStringList1_In_3 << "Gate1_in_3" << "1000" << "50%" << "10%";
+	//QTreeWidgetItem *leafItem1_in_3 = new QTreeWidgetItem(leafItem3, leafStringList1_In_3);
+	//pixmap.fill(QColor(Qt::gray));
+	//leafItem1_in_3->setIcon(0, pixmap);
+	////给节点3添加孩子节点
+	//leafItem3->addChild(leafItem1_in_3);
 
 
-	//给根节点添加孩子节点
-	rootItem->addChild(leafItem1);
-	rootItem->addChild(leafItem2);
-	rootItem->addChild(leafItem3);
+	////节点3的孩子节点2_in_3
+	//QStringList leafStringList2_In_3;
+	//leafStringList2_In_3 << "Gate2_in_3" << "500" << "40%" << "2%";
+	//QTreeWidgetItem *leafItem2_in_3 = new QTreeWidgetItem(leafItem3, leafStringList2_In_3);
+	//pixmap.fill(QColor(Qt::darkCyan));
+	//leafItem2_in_3->setIcon(0, pixmap);
+	//leafItem3->addChild(leafItem2_in_3);
+
+
+	////给根节点添加孩子节点
+	//rootItem->addChild(leafItem1);
+	//rootItem->addChild(leafItem2);
+	//rootItem->addChild(leafItem3);
 }
 
 void ReportTree::mousePressEvent(QMouseEvent *event)
@@ -160,6 +206,25 @@ void ReportTree::on_refreshBtn_clicked()
 	updateReport();
 }
 /**
+* @brief 更新报表显示参数
+*/
+void ReportTree::updatevisibleParams()
+{
+	//读取报表显示参数
+	QList<int> notvisibleList;
+	initReportSettings(notvisibleList);
+	for (int i = 0; i < ui.treeWidget->columnCount(); i++)
+	{
+		//先恢复所有列参数显示
+		ui.treeWidget->setColumnHidden(i,false);
+	}
+	for (int i = 0; i < notvisibleList.size(); i++)
+	{
+		//隐藏列参数
+		ui.treeWidget->setColumnHidden(notvisibleList.at(i), true);
+	}
+}
+/**
 * @brief 刷新生成报告
 */
 void ReportTree::updateReport()
@@ -189,6 +254,8 @@ void ReportTree::updateReport()
 	
 	expandTreeReport(rootItem0);
 	expandTreeReport(rootItem1);
+	//更新列显示参数
+	updatevisibleParams();
 
 }
 /**
@@ -257,6 +324,7 @@ void ReportTree::getTreeRootReport(PlotWidget* plotWidget,int i)
 	//如果参数不为空，但值为0，也需要计算
 	if (gateStorageRoot->getAverageValue().size() != 0)
 	{
+		//屏蔽这个if可以排除cv为NAN值，因为有些情况，没计算如下
 		/*if (gateStorageRoot->getAverageValue().at(0).at(0) == 0)
 		{*/
 			//计算所有的值，平均值，中间值和CV值
@@ -322,15 +390,16 @@ void ReportTree::getTreeChildReport(QTreeWidgetItem* currentItem, PlotWidget* pa
 		//如果参数不为空，但值为0，也需要计算
 		if (gateStorage->getAverageValue().size() != 0)
 		{
-			if (gateStorage->getAverageValue().at(0).at(0) == 0)
-			{
+			//屏蔽这个if可以排除cv为NAN值，因为有些情况，没计算如下
+			/*if (gateStorage->getAverageValue().at(0).at(0) == 0)
+			{*/
 				//计算所有的值，平均值，中间值和CV值
 				childPlotWidget->computerAverageValue(averageValueList, midValueList, cvValueList);
 
 				gateStorage->setAverageValue(averageValueList);
 				gateStorage->setMidValue(midValueList);
 				gateStorage->setCvValue(cvValueList);
-			}
+			//}
 
 		}
 		//如果参数为空，需要计算
@@ -388,19 +457,26 @@ void ReportTree::insertRootReport(QTreeWidgetItem* &rootItem, GateStorage* gateS
 	double averageValue = 0;
 	double midValue = 0;
 	double cvValue = 0;
-	//如果平均值不为空
-	if (averageValueList.at(0).at(0)!= 0)
-		averageValue = averageValueList.at(0).at(0);
-	itemStringlist.append(QString::number(averageValue));
-	//如果Mid值不为空
-	if (midValueList.at(0).at(0) != 0)
-		midValue = midValueList.at(0).at(0);
-	itemStringlist.append(QString::number(midValue));
-	//如果Cv值不为空
-	if (cvValueList.at(0).at(0) != 0)
-		cvValue = cvValueList.at(0).at(0);
-	itemStringlist.append(QString("%1%").arg(cvValue * 100));
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			//如果平均值不为空
+			if (averageValueList.at(i).at(j) != 0)
+				averageValue = averageValueList.at(i).at(j);
+			itemStringlist.append(QString::number(averageValue));
+			//如果Mid值不为空
+			if (midValueList.at(i).at(j) != 0)
+				midValue = midValueList.at(i).at(j);
+			itemStringlist.append(QString::number(midValue));
+			//如果Cv值不为空
+			if (cvValueList.at(i).at(j) != 0)
+				cvValue = cvValueList.at(i).at(j);
+			itemStringlist.append(QString("%1%").arg(cvValue * 100));
+		}
 
+
+	}
 	//itemStringlist << gateStorage->getGateName() << QString::number(gateStorage->getEvents()) << QString::number(gateStorage->getPercentageParent()) << QString::number(gateStorage->getPercentageTotal()) << QString::number(gateStorage->getAverageValue()) << QString::number(gateStorage->getMidValue()) << QString::number(gateStorage->getCvValue());
 	rootItem = new QTreeWidgetItem(ui.treeWidget, itemStringlist);
 	QPixmap pixmap(10, 10);//新建一个Pixmap图
@@ -428,18 +504,26 @@ void ReportTree::insertChildReport(QTreeWidgetItem* parentItem, QTreeWidgetItem*
 	double averageValue = 0;
 	double midValue = 0;
 	double cvValue = 0;
-	//如果平均值不为空
-	if (averageValueList.at(0).at(0) != 0)
-		averageValue = averageValueList.at(0).at(0);
-	leafStringList1.append(QString::number(averageValue));
-	//如果Mid值不为空
-	if (midValueList.at(0).at(0) != 0)
-		midValue = midValueList.at(0).at(0);
-	leafStringList1.append(QString::number(midValue));
-	//如果Cv值不为空
-	if (cvValueList.at(0).at(0) != 0)
-		cvValue = cvValueList.at(0).at(0);
-	leafStringList1.append(QString("%1%").arg(cvValue*100));
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			//如果平均值不为空
+			if (averageValueList.at(i).at(j) != 0)
+				averageValue = averageValueList.at(i).at(j);
+			leafStringList1.append(QString::number(averageValue));
+			//如果Mid值不为空
+			if (midValueList.at(i).at(j) != 0)
+				midValue = midValueList.at(i).at(j);
+			leafStringList1.append(QString::number(midValue));
+			//如果Cv值不为空
+			if (cvValueList.at(i).at(j) != 0)
+				cvValue = cvValueList.at(i).at(j);
+			leafStringList1.append(QString("%1%").arg(cvValue * 100));
+		}
+
+
+	}
 	//leafStringList1 << gateStorage->getGateName() << QString::number(gateStorage->getEvents()) << QString::number(gateStorage->getPercentageParent()) << QString::number(gateStorage->getPercentageTotal()) << QString::number(gateStorage->getAverageValue()) << QString::number(gateStorage->getMidValue()) << QString::number(gateStorage->getCvValue());
 	
 	currentItem = new QTreeWidgetItem(parentItem, leafStringList1);
@@ -531,4 +615,240 @@ void ReportTree::closeEvent(QCloseEvent *event)
 		else {
 		event->ignore();
 		}*/
+}
+/**
+* @brief 设置按钮
+*/
+void ReportTree::on_settingBtn_toggled(bool enable)
+{
+	if (enable)
+	{
+		ui.stackedWidget->setCurrentIndex(1);
+		ui.refreshBtn->setEnabled(false);
+		ui.plotBtn->setEnabled(false);
+		ui.delGateBtn->setEnabled(false);
+		ui.settingBtn->setText("返回");
+	}
+	else
+	{
+		ui.stackedWidget->setCurrentIndex(0);
+		ui.refreshBtn->setEnabled(true);
+		ui.plotBtn->setEnabled(false);
+		ui.delGateBtn->setEnabled(false);
+		ui.settingBtn->setText("设置");
+	}
+}
+
+/**
+* @brief 添加按钮
+*/
+void ReportTree::on_addBtn_clicked()
+{
+	QString passageCombox = ui.passageCombox->currentText();
+	QString dataCombox = ui.dataCombox->currentText();
+	QString valueCombox = ui.valueCombox->currentText();
+
+	QTableWidgetItem* passageItem = new QTableWidgetItem(passageCombox);
+	QTableWidgetItem* dataItem = new QTableWidgetItem(dataCombox);
+	QTableWidgetItem* valueItem = new QTableWidgetItem(valueCombox);
+
+	for (int i = 0; i < ui.tableWidget_2->rowCount(); i++)
+	{
+		QTableWidgetItem* passageItem1 = ui.tableWidget_2->item(i,0);
+		QTableWidgetItem* dataItem1 = ui.tableWidget_2->item(i, 1);
+		QTableWidgetItem* valueItem1 = ui.tableWidget_2->item(i, 2);
+		if (passageItem1->text() == passageItem->text() && dataItem1->text() == dataItem->text() && valueItem1->text() == valueItem->text())
+		{
+			QMessageBox msgBox;
+			msgBox.setText("已经存在该组参数.");
+			msgBox.setInformativeText("参数已经存在，无需加入。");
+			msgBox.setStandardButtons(QMessageBox::Ok);
+			msgBox.setDefaultButton(QMessageBox::Ok);
+			msgBox.setIcon(QMessageBox::Critical);
+			int ret = msgBox.exec();
+			return;
+		}
+
+	}
+	int m = ui.tableWidget_2->rowCount();
+	ui.tableWidget_2->insertRow(m);
+	ui.tableWidget_2->setItem(m, 0, passageItem);//m是从1开始，所以实际是m-1
+	ui.tableWidget_2->setItem(m, 1, dataItem);
+	ui.tableWidget_2->setItem(m, 2, valueItem);
+
+	//更新显示列参数
+	updateReportSettings();
+}
+/**
+* @brief 删除按钮
+*/
+void ReportTree::on_delBtn_clicked()
+{
+	int index = ui.tableWidget_2->currentRow();
+
+	if (index > 0)
+		ui.tableWidget_2->removeRow(index);
+	else
+	{
+		QMessageBox msgBox;
+		msgBox.setText("请选择要删除的行。");
+		msgBox.setInformativeText("未选中。");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.setIcon(QMessageBox::Critical);
+		int ret = msgBox.exec();
+		return;
+	}
+	ui.tableWidget_2->update();
+	//更新显示列参数
+	updateReportSettings();
+}
+
+
+/**
+* @brief 初始报告参数
+* @param indexNotVisibleList 不需要显示的参数
+*/
+void ReportTree::initReportSettings(QList<int>& indexNotVisibleList)
+{
+	QStringList passageSL;
+	passageSL << "FSC" << "SSC" << "FL1" << "FL2" << "FL3" << "FL4" << "FL5" << "FL6";
+	QStringList dataSL;
+	dataSL << "H" << "A" << "W";
+	
+	//清除所有参数，重新载入配置参数
+	
+
+	//清除所有参数，重新载入配置参数
+	ui.tableWidget_2->clear();
+	ui.tableWidget_2->clearContents();
+	ui.tableWidget_2->setRowCount(0);
+	ui.tableWidget_2->update();
+	QTableWidgetItem *tablewidgetitem = new QTableWidgetItem("通道");
+	ui.tableWidget_2->setHorizontalHeaderItem(0, tablewidgetitem);
+	QTableWidgetItem *tablewidgetitem1 = new QTableWidgetItem("参数");
+	ui.tableWidget_2->setHorizontalHeaderItem(1, tablewidgetitem1);
+	QTableWidgetItem *tablewidgetitem2 = new QTableWidgetItem("值");
+	ui.tableWidget_2->setHorizontalHeaderItem(2, tablewidgetitem2);
+	//tablewidgetitem->setText("通道");
+	//tablewidgetitem1->setText("参数");
+	//tablewidgetitem2->setText("值");
+
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			//读取存在的参数
+			QString average = bllSettings.read("ReportTree", QString("%1-%2\n%3").arg(passageSL.at(i)).arg(dataSL.at(j)).arg("#Average")).toString();
+			if (average == "0")//不要显示的参数
+			{
+				QStringList stringList;
+				stringList<< passageSL.at(i) << dataSL.at(j) << "#Average";
+				int index = m_stringListMap.key(stringList);
+				indexNotVisibleList.append(index);//传递不可显示的序号
+			}
+			//"1"或者"-1"，表示都要显示的参数。"-1"是指没设置参数，读取为空
+			else
+			{
+				QTableWidgetItem* passageItem = new QTableWidgetItem(passageSL.at(i));
+				QTableWidgetItem* dataItem = new QTableWidgetItem(dataSL.at(j));
+				QTableWidgetItem* valueItem = new QTableWidgetItem("#Average");
+
+				int m = ui.tableWidget_2->rowCount();
+				ui.tableWidget_2->insertRow(m);
+				ui.tableWidget_2->setItem(m, 0, passageItem);//m是从1开始，所以实际是m-1
+				ui.tableWidget_2->setItem(m, 1, dataItem);
+				ui.tableWidget_2->setItem(m, 2, valueItem);
+			}
+			//读取存在的参数
+			QString midValue = bllSettings.read("ReportTree", QString("%1-%2\n%3").arg(passageSL.at(i)).arg(dataSL.at(j)).arg("#MidValue")).toString();
+			
+			if (midValue == "0")
+			{
+				QStringList stringList;
+				stringList << passageSL.at(i) << dataSL.at(j) << "#MidValue";
+				int index = m_stringListMap.key(stringList);
+				indexNotVisibleList.append(index);//传递不可显示的序号
+			}
+			//"1"或者"-1"，表示都要显示的参数。"-1"是指没设置参数，读取为空
+			else
+			{
+				QTableWidgetItem* passageItem = new QTableWidgetItem(passageSL.at(i));
+				QTableWidgetItem* dataItem = new QTableWidgetItem(dataSL.at(j));
+				QTableWidgetItem* valueItem = new QTableWidgetItem("#MidValue");
+
+				int m = ui.tableWidget_2->rowCount();
+				ui.tableWidget_2->insertRow(m);
+				ui.tableWidget_2->setItem(m, 0, passageItem);//m是从1开始，所以实际是m-1
+				ui.tableWidget_2->setItem(m, 1, dataItem);
+				ui.tableWidget_2->setItem(m, 2, valueItem);
+			}
+			//读取存在的参数
+			QString cv =bllSettings.read("ReportTree", QString("%1-%2\n%3").arg(passageSL.at(i)).arg(dataSL.at(j)).arg("%CV")).toString();
+			if (cv == "0")
+			{
+				QStringList stringList;
+				stringList << passageSL.at(i) << dataSL.at(j) << "%CV";
+				int index = m_stringListMap.key(stringList);
+				indexNotVisibleList.append(index);//传递不可显示的序号
+			}
+			//"1"或者"-1"，表示都要显示的参数。"-1"是指没设置参数，读取为空
+			else
+			{
+				QTableWidgetItem* passageItem = new QTableWidgetItem(passageSL.at(i));
+				QTableWidgetItem* dataItem = new QTableWidgetItem(dataSL.at(j));
+				QTableWidgetItem* valueItem = new QTableWidgetItem("%CV");
+
+				int m = ui.tableWidget_2->rowCount();
+				ui.tableWidget_2->insertRow(m);
+				ui.tableWidget_2->setItem(m, 0, passageItem);//m是从1开始，所以实际是m-1
+				ui.tableWidget_2->setItem(m, 1, dataItem);
+				ui.tableWidget_2->setItem(m, 2, valueItem);
+			}
+		}
+
+
+	}
+
+
+}
+/**
+* @brief 更新报告参数
+*/
+void ReportTree::updateReportSettings()
+{
+	QStringList passageSL;
+	passageSL << "FSC" << "SSC" << "FL1" << "FL2" << "FL3" << "FL4" << "FL5" << "FL6";
+	QStringList dataSL;
+	dataSL << "H" << "A" << "W";
+
+	
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			//更新报告所有可显示参数为"0"
+			bllSettings.update("ReportTree", QString("%1-%2\n%3").arg(passageSL.at(i)).arg(dataSL.at(j)).arg("#Average"), "0");
+			bllSettings.update("ReportTree", QString("%1-%2\n%3").arg(passageSL.at(i)).arg(dataSL.at(j)).arg("#MidValue"), "0");
+			bllSettings.update("ReportTree", QString("%1-%2\n%3").arg(passageSL.at(i)).arg(dataSL.at(j)).arg("%CV"), "0");
+			
+		}
+
+
+	}
+	int m = ui.tableWidget_2->rowCount();
+	//更新最新参数，需要显示则为1
+	for (int i = 0; i < ui.tableWidget_2->rowCount(); i++)
+	{
+		QTableWidgetItem* passageItem1 = ui.tableWidget_2->item(i, 0);
+		QTableWidgetItem* dataItem1 = ui.tableWidget_2->item(i, 1);
+		QTableWidgetItem* valueItem1 = ui.tableWidget_2->item(i, 2);
+		//参数值为"1"，代表需要显示的项，read参数为"0"则表示不需要显示
+		bllSettings.update("ReportTree", QString("%1-%2\n%3").arg(passageItem1->text()).arg(dataItem1->text()).arg(valueItem1->text()), "1");
+	}
+
+	//更新列显示参数
+	updatevisibleParams();
+	emit reportParamChanged();
 }

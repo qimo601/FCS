@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
-    <height>363</height>
+    <width>559</width>
+    <height>365</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -24,16 +24,16 @@
     <number>0</number>
    </property>
    <property name="leftMargin">
-    <number>0</number>
+    <number>1</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>1</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>1</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>1</number>
    </property>
    <item>
     <widget class="QFrame" name="frame">
@@ -271,6 +271,9 @@
         <property name="text">
          <string>设置</string>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>
@@ -278,84 +281,243 @@
    </item>
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page_5">
-      <widget class="QTreeWidget" name="treeWidget">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>10</y>
-         <width>462</width>
-         <height>271</height>
-        </rect>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="leftMargin">
+        <number>5</number>
        </property>
-       <property name="mouseTracking">
-        <bool>true</bool>
+       <property name="topMargin">
+        <number>0</number>
        </property>
-       <column>
-        <property name="text">
-         <string>Population</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>#Events</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>%Parent</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>%Total</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>#Average</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>#MidValue</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>#CV</string>
-        </property>
-       </column>
-      </widget>
+       <property name="rightMargin">
+        <number>5</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QTreeWidget" name="treeWidget">
+         <property name="mouseTracking">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="page_6">
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QTableWidget" name="tableWidget_2">
        <property name="geometry">
         <rect>
-         <x>40</x>
-         <y>30</y>
-         <width>71</width>
-         <height>16</height>
+         <x>210</x>
+         <y>20</y>
+         <width>351</width>
+         <height>241</height>
+        </rect>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+       <column>
+        <property name="text">
+         <string>通道</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>参数</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>值</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>151</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>选择</string>
+       </property>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>60</y>
+          <width>117</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>参数：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="dataCombox">
+           <item>
+            <property name="text">
+             <string>H</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>A</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>W</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>117</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>通道：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="passageCombox">
+           <item>
+            <property name="text">
+             <string>FSC</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>SSC</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FL1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FL2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FL3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FL4</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FL5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>FL6</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>21</x>
+          <y>91</y>
+          <width>112</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>值：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="valueCombox">
+           <item>
+            <property name="text">
+             <string>#Average</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>#MidValue</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>%CV</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QToolButton" name="addBtn">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>70</y>
+         <width>37</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
-        <string>显示</string>
+        <string>+</string>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QToolButton" name="delBtn">
        <property name="geometry">
         <rect>
-         <x>40</x>
-         <y>50</y>
-         <width>71</width>
-         <height>16</height>
+         <x>170</x>
+         <y>120</y>
+         <width>37</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
-        <string>通道1</string>
+        <string>-</string>
        </property>
       </widget>
      </widget>

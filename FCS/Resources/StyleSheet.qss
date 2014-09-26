@@ -141,6 +141,14 @@ QPushButton#fileBtn:pressed,#helpBtn:pressed,#settingBtn:pressed,#expBtn:pressed
 	padding:0 0px;
 	border-radius:1px;
 }
+QPushButton#settingBtn:checked{
+	background-color:#EAF0FF;
+	border: 1px solid #656563;
+	width: 40px;
+	height:20px;
+	padding:0 0px;
+	border-radius:3px;
+}
 QWidget#toolWidget{
 	background: #838383;
 	height:30px;
@@ -485,6 +493,10 @@ QFrame#cellPlotFrame
 
 }
 
+/*reportTree窗口**/
+QWidget#ReportTree{
+	border: 1px solid #858B93;
+}
 /*reportTree报告，删除设门按钮**/
 /*QPushButton#delGateBtn{
 	border: 1px solid #949494;
