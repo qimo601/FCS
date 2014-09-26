@@ -486,6 +486,24 @@ void PlotWidget::setBarStatisticsMode(bool mode)
 
 		ui.parallelLineBtn->setEnabled(true);//显示平行设门
 		ui.rectBtn->setEnabled(false);//隐藏矩形设门
+
+
+
+		//直方图模式，只能显示如下设门
+		if (d_rectPicker!=0)
+			d_rectPicker->setEnabled(false);
+		if (d_polygonPicker != 0)
+			d_polygonPicker->setEnabled(false);
+		if (d_crossPicker_1 != 0)
+			d_crossPicker_1->setEnabled(false);
+		if (d_crossPicker_2 != 0)
+			d_crossPicker_2->setEnabled(false);
+		if (d_ellipsePicker != 0)
+			d_ellipsePicker->setEnabled(false);
+		if (d_parallelLinePicker_1 != 0)
+			d_parallelLinePicker_1->setEnabled(true);
+		if (d_parallelLinePicker_2 != 0)
+			d_parallelLinePicker_2->setEnabled(true);
 	}
 }
 /**
@@ -512,6 +530,24 @@ void PlotWidget::setScatterMode(bool mode)
 
 		ui.parallelLineBtn->setEnabled(false);//隐藏平行设门
 		ui.rectBtn->setEnabled(true);//显示矩形设门
+
+
+
+		//散点图模式，只能显示如下设门
+		if (d_rectPicker != 0)
+			d_rectPicker->setEnabled(true);
+		if (d_polygonPicker != 0)
+			d_polygonPicker->setEnabled(true);
+		if (d_crossPicker_1 != 0)
+			d_crossPicker_1->setEnabled(true);
+		if (d_crossPicker_2 != 0)
+			d_crossPicker_2->setEnabled(true);
+		if (d_ellipsePicker != 0)
+			d_ellipsePicker->setEnabled(true);
+		if (d_parallelLinePicker_1 != 0)
+			d_parallelLinePicker_1->setEnabled(false);
+		if (d_parallelLinePicker_2 != 0)
+			d_parallelLinePicker_2->setEnabled(false);
 	}
 }
 /**
