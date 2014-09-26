@@ -333,17 +333,41 @@ void PlotWidget::setDataUnit(int index)
 */
 void PlotWidget::maximizedPlotWidget()
 {
+	//设置最大策略
+	QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	sizePolicy.setHorizontalStretch(0);
+	sizePolicy.setVerticalStretch(0);
+	sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
+	this->setSizePolicy(sizePolicy);
+	this->setMinimumSize(QSize(0, 0));
+	this->setMaximumSize(QSize(16777215, 16777215));
+	this->setFocusPolicy(Qt::StrongFocus);
+	this->setAcceptDrops(true);
+
 	m_parent = this->parentWidget();
 	this->setParent(0);
 	this->showMaximized();
 	ui.maximizedBtn->setEnabled(false);
 	ui.normalBtn->setEnabled(true);
+
 }
 /**
 * @brief 还原窗口
 */
 void PlotWidget::normalPlotWidget()
 {
+	//设置还原后窗口伸展策略
+	QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+	sizePolicy.setHorizontalStretch(0);
+	sizePolicy.setVerticalStretch(0);
+	sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
+	this->setSizePolicy(sizePolicy);
+	this->setMinimumSize(QSize(502, 446));
+	this->setMaximumSize(QSize(502, 446));
+	this->setFocusPolicy(Qt::StrongFocus);
+	this->setAcceptDrops(false);
+
+
 	ui.maximizedBtn->setEnabled(true);
 	ui.normalBtn->setEnabled(false);
 	this->setParent(m_parent);
@@ -557,6 +581,7 @@ void PlotWidget::enableZoomMode(bool mode)
 {
 
 	d_plot->enableZoomMode(mode);
+	
 }
 /**
 * @brief 启用十字线设门

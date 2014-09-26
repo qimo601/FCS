@@ -69,7 +69,7 @@ public:
         if (PlotWidget->objectName().isEmpty())
             PlotWidget->setObjectName(QStringLiteral("PlotWidget"));
         PlotWidget->resize(502, 446);
-        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PlotWidget->sizePolicy().hasHeightForWidth());
@@ -335,11 +335,8 @@ public:
 
         cellPlotFrame = new QFrame(PlotWidget);
         cellPlotFrame->setObjectName(QStringLiteral("cellPlotFrame"));
-        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(cellPlotFrame->sizePolicy().hasHeightForWidth());
-        cellPlotFrame->setSizePolicy(sizePolicy1);
+        sizePolicy.setHeightForWidth(cellPlotFrame->sizePolicy().hasHeightForWidth());
+        cellPlotFrame->setSizePolicy(sizePolicy);
         cellPlotFrame->setFocusPolicy(Qt::NoFocus);
         cellPlotFrame->setFrameShape(QFrame::StyledPanel);
         cellPlotFrame->setFrameShadow(QFrame::Raised);

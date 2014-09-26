@@ -490,6 +490,15 @@
     <ClCompile Include="Bll\DataCenter\BllSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ui\Library\PlotConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PlotConfig.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PlotConfig.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FCS.h">
@@ -696,6 +705,12 @@
     <CustomBuild Include="Bll\DataCenter\BllSettings.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="Ui\Library\PlotConfig.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Library\PlotConfig.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_FCS.h">
@@ -765,6 +780,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_ParamWidget.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_PlotConfig.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
