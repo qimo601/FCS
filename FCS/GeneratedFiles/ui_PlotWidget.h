@@ -47,7 +47,7 @@ public:
     QVBoxLayout *verticalLayout;
     QFrame *cellXFrame;
     QHBoxLayout *horizontalLayout;
-    QToolButton *toolButton;
+    QToolButton *propertyBtn;
     QComboBox *passageYCombox;
     QComboBox *dataUnitYCombox;
     QCheckBox *gridCheckBox;
@@ -257,16 +257,17 @@ public:
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        toolButton = new QToolButton(cellXFrame);
-        toolButton->setObjectName(QStringLiteral("toolButton"));
-        toolButton->setMinimumSize(QSize(30, 30));
-        toolButton->setMaximumSize(QSize(30, 30));
+        propertyBtn = new QToolButton(cellXFrame);
+        propertyBtn->setObjectName(QStringLiteral("propertyBtn"));
+        propertyBtn->setMinimumSize(QSize(30, 30));
+        propertyBtn->setMaximumSize(QSize(30, 30));
         QIcon icon8;
         icon8.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
-        toolButton->setIcon(icon8);
-        toolButton->setAutoRaise(true);
+        propertyBtn->setIcon(icon8);
+        propertyBtn->setCheckable(true);
+        propertyBtn->setAutoRaise(true);
 
-        horizontalLayout->addWidget(toolButton);
+        horizontalLayout->addWidget(propertyBtn);
 
         passageYCombox = new QComboBox(cellXFrame);
         passageYCombox->setObjectName(QStringLiteral("passageYCombox"));
@@ -430,7 +431,7 @@ public:
         polygonBtn->setText(QApplication::translate("PlotWidget", "\345\244\232\350\276\271\345\275\242", 0));
         testUpBtn->setText(QApplication::translate("PlotWidget", "+", 0));
         testDownBtn->setText(QApplication::translate("PlotWidget", "-", 0));
-        toolButton->setText(QApplication::translate("PlotWidget", "...", 0));
+        propertyBtn->setText(QApplication::translate("PlotWidget", "...", 0));
 #ifndef QT_NO_TOOLTIP
         passageYCombox->setToolTip(QApplication::translate("PlotWidget", "\351\200\232\351\201\223", 0));
 #endif // QT_NO_TOOLTIP

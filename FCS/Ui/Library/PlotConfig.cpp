@@ -9,15 +9,17 @@ PlotConfig::PlotConfig(QWidget *parent)
 	//隐藏原标题栏
 	//setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 
-	//初始化示波器通道参数
-	QList<QString> colorNameList;
-	QList<int> wideSpinList;
-	initPassageColorSettings(colorNameList, wideSpinList);
 
-	//初始化示波器画布背景参数
-	QList<QString> colorNameList_2;
-	QList<int> coordinateSpinList;
-	initOscPlotSettings(colorNameList_2, coordinateSpinList);
+	//初始散点图背景参数
+	QMap<QString, QVariant> scatterValueMap;
+	initScatterPlotSettings(scatterValueMap);
+	//初始直方图背景参数
+	QMap<QString, QVariant> barChartValueMap;
+	initBarChartPlotSettings(barChartValueMap);
+
+	//初始画布背景参数
+	QMap<QString, QVariant> plotValueMap;
+	initPlotSettings(plotValueMap);
 }
 
 PlotConfig::~PlotConfig()
@@ -25,23 +27,23 @@ PlotConfig::~PlotConfig()
 
 }
 /**
-* @brief 设置通道颜色菜单
+* @brief 设置散点图画布参数菜单
 */
-void PlotConfig::on_colorBtnProperty_clicked()
+void PlotConfig::on_scatterBtnProperty_clicked()
 {
 	ui.stackedWidgetProperty->setCurrentIndex(0);
 }
 /**
-* @brief 设置文件名格式菜单
+* @brief 设置直方图画布参数菜单
 */
-void PlotConfig::on_fileNameBtnProperty_clicked()
+void PlotConfig::on_barChartBtnProperty_clicked()
 {
 	ui.stackedWidgetProperty->setCurrentIndex(1);
 }
 /**
-* @brief 设置中间值菜单
+* @brief 设置画布参数菜单
 */
-void PlotConfig::on_midMarkBtnProperty_clicked()
+void PlotConfig::on_plotBtnProperty_clicked()
 {
 	ui.stackedWidgetProperty->setCurrentIndex(2);
 }
@@ -55,11 +57,11 @@ void PlotConfig::paintEvent(QPaintEvent *)
 
 
 /**
-* @brief 初始通道1颜色
+* @brief 初始直方图颜色
 */
-void PlotConfig::on_colorBtn_1_clicked()
+void PlotConfig::on_barChatColorBtn_clicked()
 {
-	setColorBtn(ui.colorBtn_1);
+	setColorBtn(ui.barChatColorBtn);
 }
 /**
 * @brief 给颜色PushButton着色
@@ -82,183 +84,249 @@ void PlotConfig::setColorBtn(QPushButton* btn,QString name)
 
 }
 /**
-* @brief 初始通道2颜色
+* @brief 初始散点图颜色
 */
-void PlotConfig::on_colorBtn_2_clicked()
+void PlotConfig::on_scatterColorBtn_clicked()
 {
-	setColorBtn(ui.colorBtn_2);
-}
-/**
-* @brief 初始通道3颜色
-*/
-void PlotConfig::on_colorBtn_3_clicked()
-{
-	setColorBtn(ui.colorBtn_3);
-}
-/**
-* @brief 初始通道4颜色
-*/
-void PlotConfig::on_colorBtn_4_clicked()
-{
-	setColorBtn(ui.colorBtn_4);
-}
-/**
-* @brief 初始通道5颜色
-*/
-void PlotConfig::on_colorBtn_5_clicked()
-{
-	setColorBtn(ui.colorBtn_5);
-}
-/**
-* @brief 初始通道6颜色
-*/
-void PlotConfig::on_colorBtn_6_clicked()
-{
-	setColorBtn(ui.colorBtn_6);
-}
-/**
-* @brief 初始通道7颜色
-*/
-void PlotConfig::on_colorBtn_7_clicked()
-{
-	setColorBtn(ui.colorBtn_7);
-}
-/**
-* @brief 初始通道8颜色
-*/
-void PlotConfig::on_colorBtn_8_clicked()
-{
-	setColorBtn(ui.colorBtn_8);
+	setColorBtn(ui.scatterColorBtn);
 }
 
 
 /**
-* @brief 初始通道颜色默认参数
-* @param colorNameList 通道颜色
-* @param wideSpinList 通道颜色的宽度
+* @brief 初始散点图Plot默认参数
+* @param valueMap 
 */
-void PlotConfig::initPassageColorSettings(QList<QString>& colorNameList, QList<int>& wideSpinList)
+void PlotConfig::initScatterPlotSettings(QMap<QString,QVariant>& valueMap)
+{
+	//X轴坐标
+	int value = 0;
+	value = bllSettings.read("PlotConfig", "xLeftSpinBox").toInt();
+	ui.xLeftSpinBox->setValue(value);
+	valueMap.insert("xLeftSpinBox",value);
+	
+	value = bllSettings.read("PlotConfig", "xRightSpinBox").toInt();
+	ui.xRightSpinBox->setValue(value);
+	valueMap.insert("xRightSpinBox", value);
+
+	value = bllSettings.read("PlotConfig", "xAutoCheckBox").toInt();
+	ui.xAutoCheckBox->setChecked(value);//也会激活on_xAutoCheckBox_toggled函数
+	valueMap.insert("xAutoCheckBox", value);
+
+	//Y轴坐标
+	value = bllSettings.read("PlotConfig", "yDownSpinBox").toInt();
+	ui.yDownSpinBox->setValue(value);
+	valueMap.insert("yDownSpinBox", value);
+
+	value = bllSettings.read("PlotConfig", "yTopSpinBox").toInt();
+	ui.yTopSpinBox->setValue(value);
+	valueMap.insert("yTopSpinBox", value);
+	value = bllSettings.read("PlotConfig", "yAutoCheckBox").toInt();
+	ui.yAutoCheckBox->setChecked(value);//也会激活on_yAutoCheckBox_toggled函数
+	valueMap.insert("yAutoCheckBox", value);
+
+
+	//散点图粗细颜色
+	QString colorName;
+	colorName = bllSettings.read("PlotConfig", "scatterColorBtn").toString();
+	setColorBtn(ui.scatterColorBtn, colorName);
+	valueMap.insert("scatterColorBtn", value);
+
+	value = bllSettings.read("PlotConfig", "scatterWideSpinBox").toInt();
+	ui.scatterWideSpinBox->setValue(value);
+	valueMap.insert("scatterWideSpinBox", value);
+
+	value = bllSettings.read("PlotConfig", "scatterDefaultCheckBox").toInt();
+	ui.scatterDefaultCheckBox->setChecked(value);//也会激活on_scatterDefaultCheckBox_toggled函数
+	valueMap.insert("scatterDefaultCheckBox", value);
+
+
+
+
+}
+/**
+* @brief 更新画布默认参数
+*/
+void PlotConfig::updateScatterPlotSettings()
+{
+	QMap<QString, QVariant> valueMap;
+
+	//x轴坐标
+	int value = ui.xLeftSpinBox->value();
+	bllSettings.update("PlotConfig", "xLeftSpinBox", value);
+	valueMap.insert("xLeftSpinBox", value);
+	value = ui.xRightSpinBox->value();
+	bllSettings.update("PlotConfig", "xRightSpinBox", value);
+	valueMap.insert("xRightSpinBox", value);
+	value = ui.xAutoCheckBox->isChecked();
+	bllSettings.update("PlotConfig", "xAutoCheckBox", value);
+	valueMap.insert("xAutoCheckBox", value);
+	//y轴坐标
+	value = ui.yDownSpinBox->value();
+	bllSettings.update("PlotConfig", "yDownSpinBox", value);
+	valueMap.insert("yDownSpinBox", value);
+	value = ui.yTopSpinBox->value();
+	bllSettings.update("PlotConfig", "yTopSpinBox", value);
+	valueMap.insert("yTopSpinBox", value);
+	value = ui.yAutoCheckBox->isChecked();
+	bllSettings.update("PlotConfig", "yAutoCheckBox", value);
+	valueMap.insert("yAutoCheckBox", value);
+
+
+	//画布曲线颜色-散点图
+	QPalette palette = ui.scatterColorBtn->palette();
+	QColor backGround = palette.color(QPalette::Background);
+	QString name = backGround.name();
+	bllSettings.update("PlotConfig", "scatterColorBtn", name);
+	valueMap.insert("scatterColorBtn", name);
+	value = ui.scatterWideSpinBox->value();
+	bllSettings.update("PlotConfig", "scatterWideSpinBox", value);
+	valueMap.insert("scatterWideSpinBox", value);
+	value = ui.scatterDefaultCheckBox->isChecked();
+	bllSettings.update("PlotConfig", "scatterDefaultCheckBox", value);
+	valueMap.insert("scatterDefaultCheckBox", value);
+
+
+
+	emit scatterPlotConfigChange(valueMap);
+
+}
+/**
+* @brief 初始直方图Plot默认参数
+* @param valueMap
+*/
+void PlotConfig::initBarChartPlotSettings(QMap<QString, QVariant>& valueMap)
+{
+	//X轴坐标
+	int value = 0;
+	value = bllSettings.read("PlotConfig", "xLeftSpinBox_2").toInt();
+	ui.xLeftSpinBox_2->setValue(value);
+	valueMap.insert("xLeftSpinBox_2", value);
+
+	value = bllSettings.read("PlotConfig", "xRightSpinBox_2").toInt();
+	ui.xRightSpinBox_2->setValue(value);
+	valueMap.insert("xRightSpinBox_2", value);
+
+	value = bllSettings.read("PlotConfig", "xAutoCheckBox_2").toInt();
+	ui.xAutoCheckBox_2->setChecked(value);//也会激活on_xAutoCheckBox_toggled函数
+	valueMap.insert("xAutoCheckBox_2", value);
+
+	//Y轴坐标
+	value = bllSettings.read("PlotConfig", "yDownSpinBox_2").toInt();
+	ui.yDownSpinBox_2->setValue(value);
+	valueMap.insert("yDownSpinBox_2", value);
+
+	value = bllSettings.read("PlotConfig", "yTopSpinBox_2").toInt();
+	ui.yTopSpinBox_2->setValue(value);
+	valueMap.insert("yTopSpinBox_2", value);
+	value = bllSettings.read("PlotConfig", "yAutoCheckBox_2").toInt();
+	ui.yAutoCheckBox_2->setChecked(value);//也会激活on_yAutoCheckBox_toggled函数
+	valueMap.insert("yAutoCheckBox_2", value);
+
+
+	//直方图粗细颜色
+	QString colorName;
+	colorName = bllSettings.read("PlotConfig", "barChatColorBtn").toString();
+	setColorBtn(ui.barChatColorBtn, colorName);
+	valueMap.insert("barChatColorBtn", value);
+
+	value = bllSettings.read("PlotConfig", "barChatWideSpinBox").toInt();
+	ui.barChatWideSpinBox->setValue(value);
+	valueMap.insert("barChatWideSpinBox", value);
+
+	value = bllSettings.read("PlotConfig", "barChartDefaultCheckBox").toInt();
+	ui.barChartDefaultCheckBox->setChecked(value);//也会激活on_barChartDefaultCheckBox_toggled函数
+	valueMap.insert("barChartDefaultCheckBox", value);
+
+}
+/**
+* @brief 更新直方图画布默认参数
+*/
+void PlotConfig::updateBarChartPlotSettings()
+{
+
+	QMap<QString, QVariant> valueMap;
+	//x轴坐标
+	int value = ui.xLeftSpinBox_2->value();
+	bllSettings.update("PlotConfig", "xLeftSpinBox_2", value);
+	valueMap.insert("xLeftSpinBox_2", value);
+
+	value = ui.xRightSpinBox_2->value();
+	bllSettings.update("PlotConfig", "xRightSpinBox_2", value);
+	valueMap.insert("xRightSpinBox_2", value);
+	value = ui.xAutoCheckBox_2->isChecked();
+	bllSettings.update("PlotConfig", "xAutoCheckBox_2", value);
+	valueMap.insert("xAutoCheckBox_2", value);
+	//y轴坐标
+	value = ui.yDownSpinBox_2->value();
+	bllSettings.update("PlotConfig", "yDownSpinBox_2", value);
+	valueMap.insert("yDownSpinBox_2", value);
+	value = ui.yTopSpinBox_2->value();
+	bllSettings.update("PlotConfig", "yTopSpinBox_2", value);
+	valueMap.insert("yTopSpinBox_2", value);
+	value = ui.yAutoCheckBox_2->isChecked();
+	bllSettings.update("PlotConfig", "yAutoCheckBox_2", value);
+	valueMap.insert("yAutoCheckBox_2", value);
+
+	//画布曲线颜色-直方图
+	QPalette palette = ui.barChatColorBtn->palette();
+	QColor backGround = palette.color(QPalette::Background);
+	QString name = backGround.name();
+	bllSettings.update("PlotConfig", "barChatColorBtn", name);
+	valueMap.insert("barChatColorBtn", name);
+
+	value = ui.barChatWideSpinBox->value();
+	bllSettings.update("PlotConfig", "barChatWideSpinBox", value);
+	valueMap.insert("barChatWideSpinBox", value);
+	value = ui.barChartDefaultCheckBox->isChecked();
+	bllSettings.update("PlotConfig", "barChartDefaultCheckBox", value);
+	valueMap.insert("barChartDefaultCheckBox", value);
+
+	emit barchartPlotConfigChange(valueMap);
+
+}
+
+/**
+* @brief 初始Plot默认参数
+* @param valueMap
+*/
+void PlotConfig::initPlotSettings(QMap<QString, QVariant>& valueMap)
 {
 	QString colorName;
-	colorName = bllSettings.read("PassageColor", "passageColor1").toString();
-	setColorBtn(ui.colorBtn_1, colorName);
-	colorNameList.append(colorName);
-	colorName = bllSettings.read("PassageColor", "passageColor2").toString();
-	setColorBtn(ui.colorBtn_2, colorName);
-	colorNameList.append(colorName);
-	colorName = bllSettings.read("PassageColor", "passageColor3").toString();
-	setColorBtn(ui.colorBtn_3, colorName);
-	colorNameList.append(colorName);
-	colorName = bllSettings.read("PassageColor", "passageColor4").toString();
-	setColorBtn(ui.colorBtn_4, colorName);
-	colorNameList.append(colorName);
-	colorName = bllSettings.read("PassageColor", "passageColor5").toString();
-	setColorBtn(ui.colorBtn_5, colorName);
-	colorNameList.append(colorName);
-	colorName = bllSettings.read("PassageColor", "passageColor6").toString();
-	setColorBtn(ui.colorBtn_6, colorName);
-	colorNameList.append(colorName);
-	colorName = bllSettings.read("PassageColor", "passageColor7").toString();
-	setColorBtn(ui.colorBtn_7, colorName);
-	colorNameList.append(colorName);
-	colorName = bllSettings.read("PassageColor", "passageColor8").toString();
-	setColorBtn(ui.colorBtn_8, colorName);
-	colorNameList.append(colorName);
-
-
 	int value = 0;
-	value = bllSettings.read("PassageColor", "width1").toInt();
-	ui.wideSpinBox_1->setValue(value);
-	wideSpinList.append(value);
-	value = bllSettings.read("PassageColor", "width2").toInt();
-	ui.wideSpinBox_2->setValue(value);
-	wideSpinList.append(value);
-	value = bllSettings.read("PassageColor", "width3").toInt();
-	ui.wideSpinBox_3->setValue(value);
-	wideSpinList.append(value);
-	value = bllSettings.read("PassageColor", "width4").toInt();
-	ui.wideSpinBox_4->setValue(value);
-	wideSpinList.append(value);
-	value = bllSettings.read("PassageColor", "width5").toInt();
-	ui.wideSpinBox_5->setValue(value);
-	wideSpinList.append(value);
-	value = bllSettings.read("PassageColor", "width6").toInt();
-	ui.wideSpinBox_6->setValue(value);
-	wideSpinList.append(value);
-	value = bllSettings.read("PassageColor", "width7").toInt();
-	ui.wideSpinBox_7->setValue(value);
-	wideSpinList.append(value);
-	value = bllSettings.read("PassageColor", "width8").toInt();
-	ui.wideSpinBox_8->setValue(value);
-	wideSpinList.append(value);
+	colorName = bllSettings.read("PlotConfig", "plotColorBtn").toString();
+	//如果是未自定义，则显示默认颜色
+	if (colorName == "#000000")
+		on_defaultCheckBox_toggled(true);//当做选中默认checkbox
+	setColorBtn(ui.plotColorBtn, colorName);
+	valueMap.insert("plotColorBtn", value);
 
-
+	value = bllSettings.read("PlotConfig", "defaultCheckBox").toInt();
+	ui.defaultCheckBox->setChecked(value);//也会激活on_defaultCheckBox_toggled函数
+	valueMap.insert("defaultCheckBox", value);
 }
+
 /**
-* @brief 更新通道颜色默认参数
+* @brief 更新画布默认参数
 */
-void PlotConfig::updatePassageColorSettings()
+void PlotConfig::updatePlotSettings()
 {
-	QPalette palette = ui.colorBtn_1->palette();
+	QMap<QString, QVariant> valueMap;
+
+	//画布曲线颜色
+	QPalette palette = ui.plotColorBtn->palette();
 	QColor backGround = palette.color(QPalette::Background);
-	QString value = backGround.name();
-	bllSettings.update("PassageColor","passageColor1",value);
+	QString name = backGround.name();
+	bllSettings.update("PlotConfig", "plotColorBtn", name);
+	valueMap.insert("plotColorBtn", name);
 
-	palette = ui.colorBtn_2->palette();
-	backGround = palette.color(QPalette::Background);
-	value = backGround.name();
-	bllSettings.update("PassageColor", "passageColor2", value);
-
-	palette = ui.colorBtn_3->palette();
-	backGround = palette.color(QPalette::Background);
-	value = backGround.name();
-	bllSettings.update("PassageColor", "passageColor3", value);
-
-	palette = ui.colorBtn_4->palette();
-	backGround = palette.color(QPalette::Background);
-	value = backGround.name();
-	bllSettings.update("PassageColor", "passageColor4", value);
-
-	palette = ui.colorBtn_5->palette();
-	backGround = palette.color(QPalette::Background);
-	value = backGround.name();
-	bllSettings.update("PassageColor", "passageColor5", value);
-
-	palette = ui.colorBtn_6->palette();
-	backGround = palette.color(QPalette::Background);
-	value = backGround.name();
-	bllSettings.update("PassageColor", "passageColor6", value);
-
-	palette = ui.colorBtn_7->palette();
-	backGround = palette.color(QPalette::Background);
-	value = backGround.name();
-	bllSettings.update("PassageColor", "passageColor7", value);
-
-	palette = ui.colorBtn_8->palette();
-	backGround = palette.color(QPalette::Background);
-	value = backGround.name();
-	bllSettings.update("PassageColor", "passageColor8", value);
-
-
-	int width = ui.wideSpinBox_1->value();
-	bllSettings.update("PassageColor", "width1", width);
-
-	width = ui.wideSpinBox_2->value();
-	bllSettings.update("PassageColor", "width2", width);
-	width = ui.wideSpinBox_3->value();
-	bllSettings.update("PassageColor", "width3", width);
-	width = ui.wideSpinBox_4->value();
-	bllSettings.update("PassageColor", "width4", width);
-	width = ui.wideSpinBox_5->value();
-	bllSettings.update("PassageColor", "width5", width);
-	width = ui.wideSpinBox_6->value();
-	bllSettings.update("PassageColor", "width6", width);
-	width = ui.wideSpinBox_7->value();
-	bllSettings.update("PassageColor", "width7", width);
-	width = ui.wideSpinBox_8->value();
-	bllSettings.update("PassageColor", "width8", width);
+	int value = ui.defaultCheckBox->isChecked();
+	bllSettings.update("PlotConfig", "defaultCheckBox", value);
+	valueMap.insert("defaultCheckBox", value);
+	emit plotConfigChange(valueMap);
 
 }
+
+
 /**
 * @brief 确认
 */
@@ -267,18 +335,17 @@ void PlotConfig::on_okBtnProperty_clicked()
 	int pageIndex = ui.stackedWidgetProperty->currentIndex();
 	switch (pageIndex)
 	{
-	//示波器通道颜色
+	//散点图设置
 	case 0:
-		updatePassageColorSettings();//更新通道颜色
-		emit oscParamChanged();//通知示波器端参数变更
+		updateScatterPlotSettings();//更新画布参数变化
 		break;
-	//文件名
+	//直方图设置
 	case 1:
+		updateBarChartPlotSettings();
 		break;
-	//示波器画布
+	//画布设置
 	case 2:
-		updateOscPlotSettings();//更新示波器画布背景参数
-		emit oscPlotChanged();
+		updatePlotSettings();
 		break;
 	default:
 		;
@@ -290,69 +357,11 @@ void PlotConfig::on_okBtnProperty_clicked()
 */
 void PlotConfig::on_cancleBtnPropety_clicked()
 {
+	emit plotConfigClosed();
 	this->close();
 }
 
 
-/**
-* @brief 初始示波器参数
-*/
-void PlotConfig::initOscPlotSettings(QList<QString>& colorNameList, QList<int>& coordinateSpinList)
-{
-	int value = 0;
-	value = bllSettings.read("OscPlot", "xLeft").toInt();
-	ui.xLeftSpinBox->setValue(value);
-	coordinateSpinList.append(value);
-	value = bllSettings.read("OscPlot", "xRight").toInt();
-	ui.xRightSpinBox->setValue(value);
-	coordinateSpinList.append(value);
-	value = bllSettings.read("OscPlot", "xStepSize").toInt();
-	ui.xStepSizeSpinBox->setValue(value);
-	coordinateSpinList.append(value);
-	value = bllSettings.read("OscPlot", "yDown").toInt();
-	ui.yDownSpinBox->setValue(value);
-	coordinateSpinList.append(value);
-	value = bllSettings.read("OscPlot", "yTop").toInt();
-	ui.yTopSpinBox->setValue(value);
-	coordinateSpinList.append(value);
-	value = bllSettings.read("OscPlot", "yStepSize").toInt();
-	ui.yStepSizeSpinBox->setValue(value);
-	coordinateSpinList.append(value);
-
-	QString colorName;
-	colorName = bllSettings.read("OscPlot", "oscPlotColor").toString();
-	//如果是未自定义，则显示默认颜色
-	if (colorName == "#000000")
-		on_defaultCheckBox_toggled(true);//当做选中默认checkbox
-	else//否则读取自定义色
-		setColorBtn(ui.plotColorBtn, colorName);
-	colorNameList.append(colorName);
-
-
-}
-/**
-* @brief 更新示波器参数
-*/
-void PlotConfig::updateOscPlotSettings()
-{
-	int coordinate = ui.xLeftSpinBox->value();
-	bllSettings.update("OscPlot", "xLeft", coordinate);
-	coordinate = ui.xRightSpinBox->value();
-	bllSettings.update("OscPlot", "xRight", coordinate);
-	coordinate = ui.xStepSizeSpinBox->value();
-	bllSettings.update("OscPlot", "xStepSize", coordinate);
-	coordinate = ui.yDownSpinBox->value();
-	bllSettings.update("OscPlot", "yDown", coordinate);
-	coordinate = ui.yTopSpinBox->value();
-	bllSettings.update("OscPlot", "yTop", coordinate);
-	coordinate = ui.yStepSizeSpinBox->value();
-	bllSettings.update("OscPlot", "yStepSize", coordinate);
-	
-	QPalette palette = ui.plotColorBtn->palette();
-	QColor backGround = palette.color(QPalette::Background);
-	QString value = backGround.name();//如果是默认渐变色，会是#000000
-	bllSettings.update("OscPlot", "oscPlotColor", value);
-}
 /**
 * @brief 初始画布背景颜色
 */
@@ -361,19 +370,132 @@ void PlotConfig::on_plotColorBtn_clicked()
 	setColorBtn(ui.plotColorBtn);
 }
 /**
-* @brief 画布背景默认颜色
+* @brief  x轴坐标范围自动变化
+*/
+void PlotConfig::on_xAutoCheckBox_toggled(bool enable)
+{
+	if (enable)
+	{
+		ui.xLeftSpinBox->setEnabled(false);
+		ui.xRightSpinBox->setEnabled(false);
+	}
+	else
+	{
+		//值前面已经赋值
+		ui.xLeftSpinBox->setEnabled(true);
+		ui.xRightSpinBox->setEnabled(true);
+	}
+}
+/**
+* @brief  散点图y轴坐标范围自动变化
+*/
+void PlotConfig::on_yAutoCheckBox_toggled(bool enable)
+{
+	if (enable)
+	{
+		ui.yDownSpinBox->setEnabled(false);
+		ui.yTopSpinBox->setEnabled(false);
+	}
+	else
+	{
+		//值前面已经赋值
+		ui.yDownSpinBox->setEnabled(true);
+		ui.yTopSpinBox->setEnabled(true);
+	}
+
+}
+
+/**
+* @brief  直方图x轴坐标范围自动变化
+*/
+void PlotConfig::on_xAutoCheckBox_2_toggled(bool enable)
+{
+	if (enable)
+	{
+		ui.xLeftSpinBox_2->setEnabled(false);
+		ui.xRightSpinBox_2->setEnabled(false);
+	}
+	else
+	{
+		//值前面已经赋值
+		ui.xLeftSpinBox_2->setEnabled(true);
+		ui.xRightSpinBox_2->setEnabled(true);
+	}
+}
+/**
+* @brief  直方图y轴坐标范围自动变化
+*/
+void PlotConfig::on_yAutoCheckBox_2_toggled(bool enable)
+{
+	if (enable)
+	{
+		ui.yDownSpinBox_2->setEnabled(false);
+		ui.yTopSpinBox_2->setEnabled(false);
+	}
+	else
+	{
+		//值前面已经赋值
+		ui.yDownSpinBox_2->setEnabled(true);
+		ui.yTopSpinBox_2->setEnabled(true);
+	}
+
+}
+/**
+* @brief  直方图线条颜色粗细设置
+*/
+void PlotConfig::on_barChartDefaultCheckBox_toggled(bool enable)
+{
+	if (enable)
+	{
+		ui.barChatWideSpinBox->setValue(2);
+		ui.barChatWideSpinBox->setEnabled(false);
+
+		setColorBtn(ui.barChatColorBtn,"#325481");
+		ui.barChatColorBtn->setEnabled(false);
+	}
+	else
+	{
+		//值前面已经赋值
+		ui.barChatWideSpinBox->setEnabled(true);
+		ui.barChatColorBtn->setEnabled(true);
+	}
+
+}
+/**
+* @brief  散点图线条颜色粗细设置
+*/
+void PlotConfig::on_scatterDefaultCheckBox_toggled(bool enable)
+{
+	if (enable)
+	{
+		ui.scatterWideSpinBox->setValue(2);
+		ui.scatterWideSpinBox->setEnabled(false);
+
+		setColorBtn(ui.scatterColorBtn, "DarkBlue");
+		ui.scatterColorBtn->setEnabled(false);
+	}
+	else
+	{
+		//值前面已经赋值
+		ui.scatterWideSpinBox->setEnabled(true);
+		ui.scatterColorBtn->setEnabled(true);
+	}
+
+}
+/**
+* @brief  画布颜色设置
 */
 void PlotConfig::on_defaultCheckBox_toggled(bool enable)
 {
 	if (enable)
 	{
-		ui.plotColorBtn->setStyleSheet("QPushButton{ border: 1px solid white; color:white; background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #00316E, stop:1 #0057AE);}");
+		setColorBtn(ui.plotColorBtn, "#FFFFFF");
 		ui.plotColorBtn->setEnabled(false);
 	}
 	else
 	{
+		//值前面已经赋值
 		ui.plotColorBtn->setEnabled(true);
 	}
-
 
 }

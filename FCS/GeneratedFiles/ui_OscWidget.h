@@ -196,6 +196,7 @@ public:
         icon2.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
         propertyBtn->setIcon(icon2);
         propertyBtn->setIconSize(QSize(32, 32));
+        propertyBtn->setCheckable(true);
 
         horizontalLayout_3->addWidget(propertyBtn);
 

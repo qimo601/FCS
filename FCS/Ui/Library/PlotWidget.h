@@ -24,6 +24,7 @@
 #include "Ui/QwtCustom/ParallelLinePicker.h"
 #include "Ui/QwtCustom/EllipsePicker.h"
 #include "Ui/QwtCustom/PolygonPicker.h"
+#include "Ui/Library/PlotConfig.h"
 class Plot;
 class BarStruct;
 class ViewWidget;
@@ -46,8 +47,8 @@ public:
 	*/
 	void init();
 	void initUi();//初始化界面
-	//初始化Bar列标题、颜色，模拟数据
-	void initBarData();
+	//初始化参数数据
+	void initPlotConfigData();
 	QList < QList < QVector<double>* >*  >* origialDataList;//符合条件的原始数据
 	QList < QList < QVector<double>* >*  >* logDataList;//符合条件的log值
 
@@ -337,6 +338,44 @@ public slots:
 	* @brief 拷贝数据至新控件
 	*/
 	void copyData(QVector<int> indexVector);
+
+	/**
+	* @brief 初始化属性窗口及其动画
+	*/
+	void initAnimation();
+	/**
+	* @brief 设置按钮弹出属性窗口
+	*/
+	void on_propertyBtn_clicked();
+	/**
+	* @brief 显示属性窗口
+	*/
+	void showPlotConfig();
+	/**
+	* @brief 关闭属性窗口
+	*/
+	void closePlotConfig();
+	/**
+	* @brief 设置属性窗口不可见
+	*/
+	void setVisiblePropertyWidget();
+
+	/**
+	* @brief 重新设置画布参数
+	*/
+	void setPlotConfig(QMap<QString, QVariant> valueMap);
+	/**
+	* @brief 重新设置画布参数
+	*/
+	void setScatterPlotConfig(QMap<QString, QVariant> valueMap);
+	/**
+	* @brief 重新设置画布参数
+	*/
+	void setBarChartPlotConfig(QMap<QString, QVariant> valueMap);
+	/**
+	* @brief 设置按钮属性
+	*/
+	void setPropertyBtnStatus();
 signals:
 	void normalPlot();//正常显示信号
 	void addGateSignal(QWidget*);
@@ -367,6 +406,48 @@ private:
 	PlotWidget* d_plotWidgetGate;
 	//当前窗口右键菜单
 	QMenu* m_menu;
+
+
+	PlotConfig* plotConfig;//配置窗口
+	//属性窗口出现动画
+	QPropertyAnimation* showPropertyAnimation;
+	//属性窗口出现动画
+	QPropertyAnimation* closePropertyAnimation;
+
+
+
+
+	//直方图线条粗细颜色
+	QString m_barChatColor;
+	int m_barChatWide;
+	bool m_barChartDefault;
+	//x轴坐标
+	double m_xLeftBarchart;
+	double m_xRightBarchart;
+	bool m_xAutoBarchart;
+
+	//y轴坐标
+	double m_yDownBarchart;
+	double m_yTopBarchart;
+	bool m_yAutoBarchart;
+
+	//散点图线条粗细颜色
+	QString m_scatterColor;
+	int m_scatterWide;
+	bool m_scatterDefault;
+	//x轴坐标
+	double m_xLeftScatter;
+	double m_xRightScatter;
+	bool m_xAutoScatter;
+
+	//y轴坐标
+	double m_yDownScatter;
+	double m_yTopScatter;
+	bool m_yAutoScatter;
+
+	//画布颜色
+	QString m_plotColor;
+	bool m_defaultCheck;
 };
 
 #endif // PLOTWIDGET_H

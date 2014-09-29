@@ -96,7 +96,18 @@ void setGridEnable(bool checked, bool barMode);
 	void selectedRectPickerSlot(QRectF rectf);
 
 	void selectedParallelLinePickerSlot(QPointF pointf);
-
+	/**
+	* @brief 设置画布背景
+	*/
+	void setCanvasBackgroundColor(QString colorName);
+	/**
+	* @brief 设置散点图曲线颜色
+	*/
+	void setScatterCurve(QString colorName, int width,QString brushColorName);
+	/**
+	* @brief 设置散点图曲线颜色
+	*/
+	void setBarChartCurve(QString colorName, int width, QString brushColorName);
 signals:
 	void selectedCrossPicker(QPointF);
 	void selectedRectPicker(QRectF);
@@ -122,6 +133,16 @@ private:
 	//平行线2
 	ParallelLinePicker* d_parallelLinePicker_2;
 	QList<QPointF> parallelLineList;
+
+
+	//自定义曲线的颜色和宽度
+	QString m_scatterColorName;
+	int m_scatterWidth;
+	QString m_scatterBrushColorName;
+
+	QString m_barChartColorName;
+	int m_barChartWidth;
+	QString m_barChartBrushColorName;
 };
 
 #endif // PLOT_H

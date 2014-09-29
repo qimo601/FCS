@@ -194,12 +194,14 @@ void PlotWidget::init()
 	logEnable = false; //默认不显示log
 	//初始化界面一些数据
 	initUi();
-	//初始化bar条件数据
-	initBarData();
-	//初始化坐标
-	setAxisScale();
+
 	//手动更新一次数据
 	updateSamples();
+	//初始化属性窗口动画、配置界面参数
+	initAnimation();
+
+	//初始化坐标
+	setAxisScale();
 }
 
 /**
@@ -261,18 +263,74 @@ void PlotWidget::initUi()
 	ui.parallelLineBtn->setEnabled(false);//平行设门隐藏
 }
 /**
-* @brief 初始化Bar列标题、颜色，模拟数据
+* @brief 初始化参数数据
 */
-void PlotWidget::initBarData()
+void PlotWidget::initPlotConfigData()
 {
 
-	//double internal = 10.00 / 100;
-	////初始化直方图数据结构
-	//for (int i = 0; i < 100; i++)
-	//{
-	//	BarStruct barStruct1(i*internal, QString("[%1,%2)").arg(i*internal).arg((i + 1)*internal), 0, QColor("DodgerBlue"), QPoint(i*internal, (i + 1)*internal));
-	//	barStructList.append(barStruct1);
-	//}
+	//直方图线条粗细颜色
+	m_barChatColor = "#325481";
+	m_barChatWide = 2;
+	m_barChartDefault = 0;
+	//x轴坐标
+	m_xLeftBarchart = 0;
+	m_xRightBarchart = 1e6;
+	m_xAutoBarchart =0;
+
+	//y轴坐标
+	m_yDownBarchart = 0;
+	m_yTopBarchart = 1e6;
+	m_yAutoBarchart = 0;
+
+	//散点图线条粗细颜色
+	m_scatterColor ="DarkBlue";
+	m_scatterWide =2;
+	m_scatterDefault = 0;
+	//x轴坐标
+	m_xLeftScatter = 0;
+	m_xRightScatter =1e6;
+	m_xAutoScatter = 0;
+
+	//y轴坐标
+	m_yDownScatter = 0;
+	m_yTopScatter = 1e6;
+	m_yAutoScatter =0;
+
+
+	//画布颜色
+	m_plotColor="#FFFFFF";
+	m_defaultCheck=0;
+	
+
+	//初始散点图背景参数
+	QMap<QString, QVariant> scatterValueMap;
+	//读取散点图配置
+	plotConfig->initScatterPlotSettings(scatterValueMap);
+	//更新散点图配置
+	setScatterPlotConfig(scatterValueMap);
+
+	//初始直方图背景参数
+	QMap<QString, QVariant> barChartValueMap;
+	//更新画布曲线颜色
+	plotConfig->initBarChartPlotSettings(barChartValueMap);
+	//更新直方图配置
+	setBarChartPlotConfig(barChartValueMap);
+
+	//初始画布背景参数
+	QMap<QString, QVariant> plotValueMap;
+	plotConfig->initPlotSettings(plotValueMap);
+	//画布颜色
+	m_plotColor = plotValueMap.value("plotColorBtn").toString();
+	m_defaultCheck = plotValueMap.value("defaultCheckBox").toInt();
+	//更新配置
+	setPlotConfig(plotValueMap);
+	
+
+
+	//整体坐标更新
+	setAxisScale();
+	//刷新一遍
+	d_plot->replot();
 
 }
 double PlotWidget::randomValue()
@@ -422,6 +480,71 @@ void PlotWidget::setGridEnable(bool enable)
 	bool barMode = ui.barChatStaticsCheckBox->isChecked();
 	d_plot->setGridEnable(enable, barMode);
 }
+
+
+/**
+* @brief 重新设置画布参数
+*/
+void PlotWidget::setPlotConfig(QMap<QString, QVariant> valueMap)
+{
+	m_plotColor = valueMap.value("plotColorBtn").toString();
+	m_defaultCheck = valueMap.value("defaultCheckBox").toInt();
+	d_plot->setCanvasBackgroundColor(m_plotColor);
+
+	//整体坐标更新
+	setAxisScale();
+	d_plot->replot();
+}
+/**
+* @brief 重新设置画布参数
+*/
+void PlotWidget::setScatterPlotConfig(QMap<QString, QVariant> scatterValueMap)
+{
+	//散点图线条粗细颜色
+	m_scatterColor = scatterValueMap.value("scatterColorBtn").toString();
+	m_scatterWide = scatterValueMap.value("scatterWideSpinBox").toInt();
+	m_scatterDefault = scatterValueMap.value("scatterDefaultCheckBox").toInt();
+	//x轴坐标
+	m_xLeftScatter = scatterValueMap.value("xLeftSpinBox").toInt();
+	m_xRightScatter = scatterValueMap.value("xRightSpinBox").toInt();
+	m_xAutoScatter = scatterValueMap.value("xAutoCheckBox").toInt();
+
+	//y轴坐标
+	m_yDownScatter = scatterValueMap.value("yDownSpinBox").toInt();
+	m_yTopScatter = scatterValueMap.value("yTopSpinBox").toInt();
+	m_yAutoScatter = scatterValueMap.value("yAutoCheckBox").toInt();
+	//整体坐标更新
+	setAxisScale();
+	//更新曲线颜色
+	d_plot->setScatterCurve(m_scatterColor, m_scatterWide, "");
+	d_plot->replot();
+
+}
+/**
+* @brief 重新设置画布参数
+*/
+void PlotWidget::setBarChartPlotConfig(QMap<QString, QVariant> barChartValueMap)
+{
+	//直方图线条粗细颜色
+	m_barChatColor = barChartValueMap.value("barChatColorBtn").toString();
+	m_barChatWide = barChartValueMap.value("barChatWideSpinBox").toInt();
+	m_barChartDefault = barChartValueMap.value("barChartDefaultCheckBox").toInt();
+	//x轴坐标
+	m_xLeftBarchart = barChartValueMap.value("xLeftSpinBox_2").toInt();
+	m_xRightBarchart = barChartValueMap.value("xRightSpinBox_2").toInt();
+	m_xAutoBarchart = barChartValueMap.value("xAutoCheckBox_2").toInt();
+
+	//y轴坐标
+	m_yDownBarchart = barChartValueMap.value("yDownSpinBox_2").toInt();
+	m_yTopBarchart = barChartValueMap.value("yTopSpinBox_2").toInt();
+	m_yAutoBarchart = barChartValueMap.value("yAutoCheckBox_2").toInt();
+
+	//整体坐标更新
+	setAxisScale();
+	//更新曲线颜色
+	d_plot->setBarChartCurve(m_barChatColor, m_barChatWide, "");
+	d_plot->replot();
+}
 /**
 * @brief 重新设置刻度
 */
@@ -430,25 +553,60 @@ void PlotWidget::setAxisScale()
 	//散点图模式
 	if (ui.scatterCheckBox->isChecked())
 	{
-		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
+		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());//每次改变坐标值，都会重新绘制刻度标签和刻度样式
 		d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
-		d_plot->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
-		d_plot->setAxisScale(QwtPlot::yLeft, 0, 1e6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+		//若m_xAutoScatter不需要自动
+		if (!m_xAutoScatter)
+		{
+			d_plot->setAxisScale(QwtPlot::xBottom, m_xLeftScatter, m_xRightScatter);//设置x轴坐标刻度大小,最大值1e6和最小值，以及最小刻度
+		}
+		else
+		{
+			d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
+		}
+		//若m_yAutoScatter不需要自动
+		if (!m_yAutoScatter)
+		{
+			d_plot->setAxisScale(QwtPlot::yLeft, m_yDownScatter, m_yTopScatter);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+		}
+		else
+		{
+			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
+		}
+		//线性模式
 		d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLinearScaleEngine);
 		d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
+		
+		//log模式
 		if (ui.logCheckBox->isChecked())
 		{
 
-			d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());//每次改变坐标值，都会重新绘制刻度标签和刻度样式
-			d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
-			
+			//d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());//每次改变坐标值，都会重新绘制刻度标签和刻度样式
+			//d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
+			//更换绘图引擎为log模式
 			d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
 			d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLogScaleEngine);
-			//d_plot->setAxisScale(QwtPlot::xBottom, 0, 6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
-			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
-			d_plot->setAxisScale(QwtPlot::xBottom, 1, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
-			d_plot->setAxisScale(QwtPlot::yLeft, 1, 1e6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
-			/*d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
+			//d_plot->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 1e6);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+			//若m_xAutoScatter不需要自动
+			if (!m_xAutoScatter)
+			{
+				d_plot->setAxisScale(QwtPlot::xBottom, 1, m_xRightScatter);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+
+			}
+			else
+			{
+				d_plot->setAxisAutoScale(QwtPlot::xBottom,true);
+			}
+			if (!m_yAutoScatter)
+			{
+				d_plot->setAxisScale(QwtPlot::yLeft, 1, m_yTopScatter);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+			}
+			else
+			{
+				d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
+			}
+				/*d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
 			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);*/
 		}
 
@@ -458,8 +616,26 @@ void PlotWidget::setAxisScale()
 	{
 		d_plot->setAxisScaleDraw(QwtPlot::xBottom, new QwtScaleDraw());
 		d_plot->setAxisScaleDraw(QwtPlot::yLeft, new QwtScaleDraw());
-		d_plot->setAxisScale(QwtPlot::xBottom, 0, 1e6);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
-		d_plot->setAxisAutoScale(QwtPlot::yLeft);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+		//若m_xAutoBarchart不需要自动
+		if (!m_xAutoBarchart)
+		{
+
+			d_plot->setAxisScale(QwtPlot::xBottom, m_xLeftBarchart, m_xRightBarchart);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+		}
+		else
+		{
+			d_plot->setAxisAutoScale(QwtPlot::xBottom);//设置x轴
+		}
+		//若m_xAutoBarchart不需要自动
+		if (!m_yAutoBarchart)
+		{
+			d_plot->setAxisScale(QwtPlot::yLeft, m_yDownBarchart, m_yTopBarchart);
+		}
+		else
+		{
+			d_plot->setAxisAutoScale(QwtPlot::yLeft);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+		}
+
 		d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLinearScaleEngine);
 		d_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
 		d_plot->setAxisMaxMajor(QwtPlot::xBottom, 5);//
@@ -474,8 +650,22 @@ void PlotWidget::setAxisScale()
 			d_plot->setAxisMaxMajor(QwtPlot::xBottom, 10);//大刻度最多10个
 			d_plot->setAxisMaxMinor(QwtPlot::xBottom, 5);//小刻度最多5个
 			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 10000);
-			d_plot->setAxisScale(QwtPlot::xBottom, 1,1e6);
-			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
+			if (!m_xAutoBarchart)
+			{
+				d_plot->setAxisScale(QwtPlot::xBottom, 1, m_xRightBarchart);
+			}
+			else
+			{
+				d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
+			}
+			if (!m_yAutoBarchart)
+			{
+				d_plot->setAxisScale(QwtPlot::xBottom, 1, m_yTopBarchart);
+			}
+			else
+			{
+				d_plot->setAxisAutoScale(QwtPlot::yLeft, true);
+			}
 			//d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
 			//d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
 		}
@@ -2097,4 +2287,99 @@ void PlotWidget::setTitle(QString title)
 QString PlotWidget::getTitle()
 {
 	return d_plot->title().text();
+}
+
+/**
+* @brief 初始化属性窗口及其动画
+*/
+void PlotWidget::initAnimation()
+{	//属性窗口
+	plotConfig = new PlotConfig(this);
+	plotConfig->setVisible(false);
+	//属性窗口显示的动画
+	showPropertyAnimation = new QPropertyAnimation(plotConfig, "geometry", this);
+
+	//属性窗口消失的动画
+	closePropertyAnimation = new QPropertyAnimation(plotConfig, "geometry", this);
+	//显示
+	connect(plotConfig, SIGNAL(plotConfigClosed()), this, SLOT(setPropertyBtnStatus()));
+	//关闭
+	connect(closePropertyAnimation, SIGNAL(finished()), this, SLOT(setVisiblePropertyWidget()));
+	//画布的参数改变
+	connect(plotConfig, SIGNAL(plotConfigChange(QMap<QString, QVariant>)), this, SLOT(setPlotConfig(QMap<QString, QVariant>)));
+
+	//散点图的参数改变
+	connect(plotConfig, SIGNAL(scatterPlotConfigChange(QMap<QString, QVariant>)), this, SLOT(setScatterPlotConfig(QMap<QString, QVariant>)));
+
+	//直方图的参数改变
+	connect(plotConfig, SIGNAL(barchartPlotConfigChange(QMap<QString, QVariant>)), this, SLOT(setBarChartPlotConfig(QMap<QString, QVariant>)));
+
+	//初始化参数数据
+	initPlotConfigData();
+}
+/**
+* @brief 设置按钮弹出属性窗口
+*/
+void PlotWidget::on_propertyBtn_clicked()
+{
+	if (!plotConfig->isVisible())
+	{
+		showPlotConfig();
+	}
+	else
+	{
+		closePlotConfig();
+
+	}
+
+}
+/**
+* @brief 设置按钮属性
+*/
+void PlotWidget::setPropertyBtnStatus()
+{
+	ui.propertyBtn->setChecked(false);
+
+}
+
+/**
+* @brief 显示属性窗口
+*/
+void PlotWidget::showPlotConfig()
+{
+	plotConfig->setVisible(true);
+
+	int width = plotConfig->width();
+	int height = plotConfig->height();
+
+	showPropertyAnimation->setDuration(100);
+	QPoint pos = ui.cellXFrame->mapTo(this, ui.propertyBtn->pos());
+	pos.setX(pos.x() + ui.propertyBtn->width());
+	showPropertyAnimation->setStartValue(QRect(pos.x(), pos.y(), 0, 300));//开始位置
+	showPropertyAnimation->setEndValue(QRect(pos.x(), pos.y(), 530, 300));//结束位置
+
+	showPropertyAnimation->start();
+
+}
+/**
+* @brief 关闭属性窗口
+*/
+void PlotWidget::closePlotConfig()
+{
+	//int width = plotConfig->width();
+	//int height = plotConfig->height();
+	//closePropertyAnimation->setDuration(100);
+	//QPoint pos = ui.cellXFrame->mapTo(this, ui.propertyBtn->pos());
+	//closePropertyAnimation->setStartValue(QRect(pos.x() + width, pos.y(), 530, 300));//开始位置
+	//closePropertyAnimation->setEndValue(QRect(pos.x(), pos.y(), 0, 300));//结束位置
+	//closePropertyAnimation->start();
+	plotConfig->setVisible(false);
+}
+/**
+* @brief 设置属性窗口不可见
+*/
+void PlotWidget::setVisiblePropertyWidget()
+{
+	plotConfig->setVisible(false);
+	update();
 }

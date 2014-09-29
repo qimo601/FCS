@@ -1,5 +1,7 @@
 ﻿#include "BllSettings.h"
 #include <QCoreApplication>
+#include<QDir>
+#include<QMessageBox>
 BllSettings::BllSettings(QObject *parent)
 	: QObject(parent)
 {
@@ -21,11 +23,23 @@ QSettings* BllSettings::s_settings = 0;
 */
 void BllSettings::init()
 {
-	QString dir = QCoreApplication::applicationDirPath();
+	QString dirPath = QCoreApplication::applicationDirPath();
 	if (s_settings == 0)
 	{
+		QDir dir;
+		if (!dir.exists(QString("%1/config.ini").arg(dirPath)))
+		{
+			QMessageBox msgBox;
+			msgBox.setText("找不到参数配置文件：config.ini.");
+			msgBox.setInformativeText("没有参数配置文件，界面参数可能是不理想参数，请拷贝config.ini文件至exe的目录。");
+			msgBox.setStandardButtons(QMessageBox::Ok);
+			msgBox.setDefaultButton(QMessageBox::Ok);
+			msgBox.setIcon(QMessageBox::Critical);
+			int ret = msgBox.exec();
+		}
 		//exe运行的当前目录
-		s_settings = new QSettings(QString("%1/config.ini").arg(dir), QSettings::IniFormat);
+		s_settings = new QSettings(QString("%1/config.ini").arg(dirPath), QSettings::IniFormat);
+		
 	}
 	
 }

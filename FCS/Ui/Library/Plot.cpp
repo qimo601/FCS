@@ -523,9 +523,21 @@ d_curve(NULL)
 {
 	setAutoFillBackground(true);
 	
+
+
+	//自定义曲线的颜色和宽度
+	m_scatterColorName = "DarkBlue";
+	int m_scatterWidth = 2;
+	QString m_scatterBrushColorName = "";
+
+	QString m_barChartColorName ="#325481";
+	int m_barChartWidth = 2;
+	QString m_barChartBrushColorName = "#DDE9FD";
+
+
 	//plotLayout()->setCanvasMargin(0);
 	plotLayout()->setAlignCanvasToScales(true);//设置对齐画布、坐标轴、刻度 会掩盖setCanvasMargin()
-	setPalette(QColor("#FFFFFF"));//plot背景色
+	setPalette(QColor("#FFFFFF"));//plot的窗口背景色
 	//setStyleSheet(
 	//	"border-top: 1px solid #9D9D9D;"
 	//	"border-radius: 0px;"
@@ -563,9 +575,9 @@ d_curve(NULL)
 	// attach curve
 	d_curve = new QwtPlotCurve("Scattered Points");
 	//设置颜色
-	QColor penColor("DarkBlue");
-	QColor brushColor("#DDE9FD");
-	d_curve->setPen(penColor, 2);
+	QColor penColor(m_scatterColorName);
+	QColor brushColor(m_scatterBrushColorName);
+	d_curve->setPen(penColor, m_scatterWidth);
 	//d_curve->setBrush(brushColor);//设置笔刷
 	d_curve->setLegendAttribute(QwtPlotCurve::LegendShowLine);//设置描述的样式
 	// when using QwtPlotCurve::ImageBuffer simple dots can be
@@ -793,9 +805,9 @@ void Plot::enableStaticsMode()
 {
 	//设置统计曲线样式
 	//设置颜色
-	QColor penColor("#325481");
-	QColor brushColor("#DDE9FD");
-	d_curve->setPen(penColor, 2);
+	QColor penColor(m_barChartColorName);
+	QColor brushColor(m_barChartBrushColorName);
+	d_curve->setPen(penColor, m_barChartWidth);
 	d_curve->setBrush(brushColor);//设置笔刷
 	d_curve->setStyle(QwtPlotCurve::Lines);
 	d_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
@@ -808,14 +820,14 @@ void Plot::enableStaticsMode()
 void Plot::enableScatterMode()
 {
 	//设置统计曲线样式
-	QColor penColor("DarkBlue");
-	d_curve->setPen(penColor,2);
+	QColor penColor(m_scatterColorName);
+	d_curve->setPen(penColor, m_scatterWidth);
 	d_curve->setBrush(Qt::NoBrush);
 	d_curve->setStyle(QwtPlotCurve::Dots);
 	d_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
-	//坐标轴刻度修饰
-	this->setAxisScale(QwtPlot::xBottom, 1, 1e6);//设置x轴坐标刻度大小
-	this->setAxisScale(QwtPlot::yLeft, 1, 1e6);//设置y轴坐标刻度大小
+	////坐标轴刻度修饰
+	//this->setAxisScale(QwtPlot::xBottom, 1, 1e6);//设置x轴坐标刻度大小
+	//this->setAxisScale(QwtPlot::yLeft, 1, 1e6);//设置y轴坐标刻度大小
 	replot();
 }
 /**
@@ -967,4 +979,43 @@ void Plot::selectedParallelLinePickerSlot(QPointF pointf)
 		emit selectedParallelLinePicker(parallelLineList);
 	}
 
+}
+
+/**
+* @brief 设置画布背景
+*/
+void Plot::setCanvasBackgroundColor(QString colorName)
+{
+	canvas->setStyleSheet(
+		QString(
+		"border: 0px solid #000000;"
+		"border-radius: 0px;"
+		"background-color:%1;"
+		"margin:0 0px;"
+		).arg(colorName));//画布背景色
+	setCanvas(canvas);
+}
+/**
+* @brief 设置散点图曲线颜色
+*/
+void Plot::setScatterCurve(QString colorName,int width,QString brushColorName)
+{
+	//设置颜色
+	m_scatterColorName = colorName;
+	m_scatterWidth = width;
+	m_scatterBrushColorName = brushColorName;
+	//散点模式
+	enableScatterMode();
+}
+/**
+* @brief 设置散点图曲线颜色
+*/
+void Plot::setBarChartCurve(QString colorName, int width, QString brushColorName)
+{
+	//设置颜色
+	m_barChartColorName = colorName;
+	m_barChartWidth = width;
+	m_barChartBrushColorName = "#DDE9FD";//默认背景色
+	//直方图模式
+	enableStaticsMode();
 }
