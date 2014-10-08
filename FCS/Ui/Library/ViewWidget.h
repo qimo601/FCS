@@ -95,6 +95,10 @@ public slots:
 	* @brief 删除画布对应的窗口
 	*/
 	void delGateSlot(QString gateName);
+	/**
+	* @brief 导出PDF文档
+	*/
+	void savePdfSlot();
 signals:
 	void openExpSignal(QString,bool);//打开实验文件
 	void getCellDataFromFile();//读本地文件

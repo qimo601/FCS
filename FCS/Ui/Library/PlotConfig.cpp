@@ -129,7 +129,7 @@ void PlotConfig::initScatterPlotSettings(QMap<QString,QVariant>& valueMap)
 	QString colorName;
 	colorName = bllSettings.read("PlotConfig", "scatterColorBtn").toString();
 	setColorBtn(ui.scatterColorBtn, colorName);
-	valueMap.insert("scatterColorBtn", value);
+	valueMap.insert("scatterColorBtn", colorName);
 
 	value = bllSettings.read("PlotConfig", "scatterWideSpinBox").toInt();
 	ui.scatterWideSpinBox->setValue(value);
@@ -227,7 +227,7 @@ void PlotConfig::initBarChartPlotSettings(QMap<QString, QVariant>& valueMap)
 	QString colorName;
 	colorName = bllSettings.read("PlotConfig", "barChatColorBtn").toString();
 	setColorBtn(ui.barChatColorBtn, colorName);
-	valueMap.insert("barChatColorBtn", value);
+	valueMap.insert("barChatColorBtn", colorName);
 
 	value = bllSettings.read("PlotConfig", "barChatWideSpinBox").toInt();
 	ui.barChatWideSpinBox->setValue(value);
@@ -298,7 +298,7 @@ void PlotConfig::initPlotSettings(QMap<QString, QVariant>& valueMap)
 	if (colorName == "#000000")
 		on_defaultCheckBox_toggled(true);//当做选中默认checkbox
 	setColorBtn(ui.plotColorBtn, colorName);
-	valueMap.insert("plotColorBtn", value);
+	valueMap.insert("plotColorBtn", colorName);
 
 	value = bllSettings.read("PlotConfig", "defaultCheckBox").toInt();
 	ui.defaultCheckBox->setChecked(value);//也会激活on_defaultCheckBox_toggled函数

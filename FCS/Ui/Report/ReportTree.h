@@ -17,6 +17,9 @@ class ReportTree : public QWidget
 public:
 	ReportTree(QWidget *parent = 0);
 	~ReportTree();
+
+	QTreeWidget* treeWidgetPdf;
+
 public slots:
 
 	/**
@@ -99,6 +102,11 @@ public slots:
 	* @brief 更新报表显示参数
 	*/
 	void updatevisibleParams();
+
+	/**
+	* @brief 返回可以打印的报表
+	*/
+	QTreeWidget* getTreeWidgetPdf();
 protected:
 	virtual void mousePressEvent(QMouseEvent *event);
 	virtual void mouseReleaseEvent(QMouseEvent *event);

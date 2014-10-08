@@ -852,3 +852,12 @@ void ReportTree::updateReportSettings()
 	updatevisibleParams();
 	emit reportParamChanged();
 }
+
+/**
+* @brief 返回可以打印的报表
+*/
+QTreeWidget* ReportTree::getTreeWidgetPdf()
+{
+	treeWidgetPdf = ui.treeWidget;
+	return treeWidgetPdf;
+}

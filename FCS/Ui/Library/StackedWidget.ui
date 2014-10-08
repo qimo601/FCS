@@ -363,7 +363,7 @@
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="2,0">
+        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="30,1">
          <item>
           <widget class="QStackedWidget" name="viewStackedWidget">
            <property name="styleSheet">

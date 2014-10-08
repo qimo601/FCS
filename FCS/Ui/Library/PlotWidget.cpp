@@ -373,7 +373,7 @@ void PlotWidget::setPassage(int index)
 {
 	//如果直方图模式选择，先统计一下该通道
 	if (ui.barChatStaticsCheckBox->isChecked())
-		statisticsHistogram(ui.passageYCombox->currentData().toInt(), ui.dataUnitYCombox->currentData().toInt());
+		statisticsHistogram(ui.passageXCombox->currentData().toInt(), ui.dataUnitXCombox->currentData().toInt());
 	updateSamples();
 }
 /**
@@ -383,7 +383,7 @@ void PlotWidget::setDataUnit(int index)
 {
 	//如果直方图模式选择，先统计一下该通道
 	if (ui.barChatStaticsCheckBox->isChecked())
-		statisticsHistogram(ui.passageYCombox->currentData().toInt(), ui.dataUnitYCombox->currentData().toInt());
+		statisticsHistogram(ui.passageXCombox->currentData().toInt(), ui.dataUnitXCombox->currentData().toInt());
 	updateSamples();
 }
 /**
@@ -688,18 +688,21 @@ void PlotWidget::setBarStatisticsMode(bool mode)
 
 
 		//如果直方图模式选择，先统计一下该通道
-		statisticsHistogram(ui.passageYCombox->currentData().toInt(), ui.dataUnitYCombox->currentData().toInt());
+		statisticsHistogram(ui.passageXCombox->currentData().toInt(), ui.dataUnitXCombox->currentData().toInt());
 		//设置统计曲线样式
 		d_plot->enableStaticsMode();
 		setAxisScale();
 		//手动更新一次数据
 		updateStaticsSamples();
 		//直方图没有x轴
-		ui.passageXCombox->setEnabled(false);
-		ui.dataUnitXCombox->setEnabled(false);
+		ui.passageYCombox->setEnabled(false);
+		ui.dataUnitYCombox->setEnabled(false);
 
 		ui.parallelLineBtn->setEnabled(true);//显示平行设门
 		ui.rectBtn->setEnabled(false);//隐藏矩形设门
+		ui.ellipseBtn->setEnabled(false);//显示椭圆设门
+		ui.polygonBtn->setEnabled(false);//显示多边形设门
+		ui.crossBtn->setEnabled(false);//显示十字设门
 
 
 
@@ -737,15 +740,16 @@ void PlotWidget::setScatterMode(bool mode)
 		//手动更新一次数据
 		updateSamples();
 
-		//散点图有x轴
-		ui.passageXCombox->setEnabled(true);
-		ui.dataUnitXCombox->setEnabled(true);
+		//散点图有y轴
+		ui.passageYCombox->setEnabled(true);
+		ui.dataUnitYCombox->setEnabled(true);
 
 
 		ui.parallelLineBtn->setEnabled(false);//隐藏平行设门
 		ui.rectBtn->setEnabled(true);//显示矩形设门
-
-
+		ui.ellipseBtn->setEnabled(true);//显示椭圆设门
+		ui.polygonBtn->setEnabled(true);//显示多边形设门
+		ui.crossBtn->setEnabled(true);//显示十字设门
 
 		//散点图模式，只能显示如下设门
 		if (d_rectPicker != 0)
@@ -1001,6 +1005,7 @@ void PlotWidget::enableParallelLineBtn(bool mode)
 		d_parallelLinePicker_1 = 0;
 		delete d_parallelLinePicker_2;
 		d_parallelLinePicker_2 = 0;
+		parallelLineList.clear();//清空一次，才能保证两次同时用
 		//置假
 		ui.parallelLineBtn->setChecked(false);
 	}
@@ -1101,7 +1106,7 @@ void PlotWidget::updateStaticsSamples()
 		QVector<double> xIndexVectorOri;//原值x轴坐标
 
 		//选择通道和数据单元类型
-		QVector<BarStruct>* vecotrData = barStructList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
+		QVector<BarStruct>* vecotrData = barStructList->at(ui.passageXCombox->currentData().toInt())->at(ui.dataUnitXCombox->currentData().toInt());
 		for (int i = 0; i < vecotrData->size(); i++)
 		{
 			barChartDataVector.append(vecotrData->at(i).m_value);
@@ -1948,7 +1953,19 @@ void PlotWidget::computeParallelLinePickerSlot(QList<QPointF> pointFList)
 	QPointF pointF1 = pointFList.at(0);
 	QPointF pointF2 = pointFList.at(1);
 	d_plotWidgetGate = new PlotWidget();//新plot窗口
-
+	
+	double a = 0;//默认左边为apointF2.x()
+	double b = 0;//右边为b
+	if (pointF1.x() <= pointF2.x())
+	{
+		a = pointF1.x();
+		b = pointF2.x();
+	}
+	else
+	{
+		a = pointF2.x();
+		b = pointF1.x();
+	}
 	int passageY = ui.passageYCombox->currentData().toInt();
 	int dataUnitY = ui.dataUnitYCombox->currentData().toInt();
 	int passageX = ui.passageXCombox->currentData().toInt();
@@ -1958,10 +1975,10 @@ void PlotWidget::computeParallelLinePickerSlot(QList<QPointF> pointFList)
 	QVector<double>* vectorX = origialDataList->at(passageX)->at(dataUnitX);
 
 	QVector<int> indexVector;
-	//Y轴当前通道和当前的参数
-	for (int i = 0; i < vectorY->size(); i++)
+	//X轴当前通道和当前的参数
+	for (int i = 0; i < vectorX->size(); i++)
 	{
-		if (vectorY->at(i) >= pointF1.x() && vectorY->at(i) <= pointF2.x())
+		if (vectorX->at(i) >= a && vectorX->at(i) <= b)
 		{
 			indexVector.append(i);
 		}

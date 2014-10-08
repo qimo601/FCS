@@ -365,7 +365,8 @@ public:
 
         verticalLayout_3->addItem(verticalSpacer_2);
 
-        verticalLayout_3->setStretch(0, 2);
+        verticalLayout_3->setStretch(0, 30);
+        verticalLayout_3->setStretch(1, 1);
 
         horizontalLayout->addWidget(rightFrame);
 

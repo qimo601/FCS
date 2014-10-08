@@ -3,6 +3,11 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QMessageBox>
+
+#include <QPrinter>
+#include <QTextBlock>
+#include <QPdfWriter>
+#include <QFileDialog>
 ViewWidget::ViewWidget(QWidget *parent)
 	: QWidget(parent)
 {
@@ -44,8 +49,8 @@ void ViewWidget::init()
 	//初始化当前gridlayout中的plot数组
 	plotWidgetList.append(ui.plotWidget_1);
 	plotWidgetList.append(ui.plotWidget_2);
-	plotWidgetList.append(ui.plotWidget_3);
-	plotWidgetList.append(ui.plotWidget_4);
+	//plotWidgetList.append(ui.plotWidget_3);
+	//plotWidgetList.append(ui.plotWidget_4);
 	//初始化全局有效细胞数据的plot窗口
 	m_plotWidgetList.append(ui.plotWidget_1);
 	m_plotWidgetList.append(ui.plotWidget_2);
@@ -788,4 +793,129 @@ void ViewWidget::delGateSlot(QString gateName)
 	}
 
 	
+}
+
+/**
+* @brief 导出PDF文档
+*/
+void ViewWidget::savePdfSlot()
+{
+	QString appDir = QCoreApplication::applicationDirPath();
+	QFileDialog *fd = new QFileDialog(this);//创建一个QFileDialog对象，构造函数中的参数可以有所添加。
+	fd->setWindowTitle(tr("保存为"));//设置文件保存对话框的标题
+	fd->setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
+	fd->setFileMode(QFileDialog::AnyFile);//设置文件对话框弹出的时候显示任何文件，不论是文件夹还是文件
+	fd->setViewMode(QFileDialog::Detail);//文件以详细的形式显示，显示文件名，大小，创建日期等信息；
+	//还有另一种形式QFileDialog::List，这个只是把文件的文件名以列表的形式显示出来
+	fd->setGeometry(10, 30, 300, 200);//设置文件对话框的显示位置
+	fd->setDirectory(appDir+"/USBData");
+	QStringList nameFilters;
+	nameFilters << "PDF files (*.pdf *.PDF)";
+	fd->setNameFilters(nameFilters);//设置文件类型过滤器
+
+	QStringList fileNamesList;
+	if (fd->exec() == QDialog::Accepted) // 取消则是：QDialog::Rejected
+	{
+		fileNamesList = fd->selectedFiles();
+	}
+	else{
+		return;
+	}
+
+
+	QString fileName = fileNamesList.at(0).toLocal8Bit().constData();
+
+	//图片生成pdf
+	QPrinter printer(QPrinter::HighResolution);
+	printer.setPageSize(QPrinter::A4);  //设置纸张大小为A4
+	printer.setOutputFormat(QPrinter::PdfFormat);  //设置输出格式为pdf
+	printer.setOutputFileName(fileName);   //设置输出路径
+
+	QPainter painter;
+	QBrush brush(QColor("#000000"), Qt::SolidPattern);//颜色黑色，实体线
+	painter.setBrush(brush);
+	QPen pen;
+	pen.setStyle(Qt::SolidLine);
+	pen.setWidth(3);
+	pen.setBrush(brush);
+	pen.setColor(QColor("#000000"));
+	painter.setPen(pen);
+	painter.setFont(QFont("Times", 10, QFont::Bold));//字体大小
+	if (!painter.begin(&printer))// 打开文件失败
+	{
+		qWarning("打开文件失败，文件是否已经被占用？或者是否有写权限？");
+	}
+	//QRect rect = painterPixmap.viewport();//绘图的视图窗口尺寸
+	//int multiple = rect.width() / pixmap.width();
+	painter.scale(5, 5); //将图像(所有要画的东西)在pdf上放大5倍
+	//将gridlayout中的画布都绘制在pdf上，排除最后第三个和第四个隐藏控件
+
+	QPoint pointPainter;//绘画当前点
+	for (int i = 0; i < plotWidgetList.size(); i++)
+	{
+		PlotWidget* plotWidget = (PlotWidget*) plotWidgetList.at(i);
+		QPixmap pixmap = QPixmap::grabWidget(plotWidget, plotWidget->rect());  //获取界面的图片
+		pointPainter.setX(50 + i % 3 * 600);//每行三个图，每个图间距600，页边左起50
+		pointPainter.setY(50+ i / 3 * 500);//每行三个图，页边上距50
+		painter.drawPixmap(pointPainter.x(), pointPainter.y(), pixmap);  //画图
+		
+	}
+	//焦点下移一个画布高度+10
+	pointPainter.setX(50);
+	pointPainter.setY(pointPainter.y()+500 + 10);
+
+	//设置画笔颜色
+	QPen pen1;
+	pen1.setStyle(Qt::SolidLine);
+	pen1.setWidth(5);
+	pen1.setBrush(brush);
+	pen1.setColor(QColor("#CFCFCF"));
+	painter.setPen(pen1);
+	//绘画一根直线
+	painter.drawLine(pointPainter, pointPainter+QPoint(1500, 0));
+
+	//下移50个像素
+	pointPainter = pointPainter+QPoint(0,50);
+	//绘画文字
+
+	
+	QString experiementName = QString("Experiment Name: experiment12-12");
+	QString specimenName =    QString("Specimen Name:   Specimen_001");
+	QString tubeName =        QString("Tube Name:       eight2013");
+	QString recordDate =      QString("Record Date:     Dec 12,2013 10:08:50 AM");
+	QString op =              QString("$OP:             Administrator");
+	QString guid =            QString("GUID:            244042b1-914d-4c84-a86f-59dc04ceecc9");
+	
+	painter.resetTransform();//恢复坐标比例,当前坐标也得扩大5倍
+	pointPainter.setX(pointPainter.x()* 5);
+	pointPainter.setY(pointPainter.y()*5);
+
+	painter.setPen(pen);//黑笔
+	QPoint pointTemp(0, 200);//文字行距
+	painter.drawText(pointPainter, experiementName);
+	pointPainter = pointPainter + pointTemp;
+	painter.drawText(pointPainter, specimenName);
+	pointPainter = pointPainter + pointTemp;
+	painter.drawText(pointPainter, tubeName);
+	pointPainter = pointPainter + pointTemp;
+	painter.drawText(pointPainter, recordDate);
+	pointPainter = pointPainter + pointTemp;
+	painter.drawText(pointPainter, op);
+	pointPainter = pointPainter + pointTemp;
+	painter.drawText(pointPainter, guid);
+	pointPainter = pointPainter + pointTemp;
+
+
+
+	painter.scale(10, 10); //将图像(所有要画的东西)在pdf上放大5倍
+	pointPainter.setX(pointPainter.x() / 10);//当前绘图坐标缩小5倍，才能保证间距
+	pointPainter.setY(pointPainter.y() / 10);
+
+	QTreeWidget* treeWidgetPdf = reportTree->getTreeWidgetPdf();
+	QPixmap pixmap1 = QPixmap::grabWidget(treeWidgetPdf, treeWidgetPdf->contentsRect());  //获取界面的图片
+	painter.drawPixmap(pointPainter.x(), pointPainter.y(), pixmap1);  //画图
+	painter.end();
+
+	
+
 }

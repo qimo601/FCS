@@ -18,7 +18,12 @@ USBControl::~USBControl()
 	{
 		usbThread->setCtrlTag(USBThread::STOP_TAG);
 		usbThread->quit();
+		if (usbThread->isRunning())
+		{
+			usbThread->wait();
+		}
 		delete usbThread;
+
 	}
 }
 
