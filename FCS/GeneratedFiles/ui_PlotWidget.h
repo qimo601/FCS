@@ -60,6 +60,7 @@ public:
     QFrame *cellYFrame;
     QVBoxLayout *verticalLayout_3;
     QSpacerItem *verticalSpacer_2;
+    QToolButton *copyBtn;
     QComboBox *dataUnitXCombox;
     QComboBox *passageXCombox;
     QButtonGroup *buttonGroup;
@@ -369,6 +370,20 @@ public:
 
         verticalLayout_3->addItem(verticalSpacer_2);
 
+        copyBtn = new QToolButton(cellYFrame);
+        copyBtn->setObjectName(QStringLiteral("copyBtn"));
+        copyBtn->setMinimumSize(QSize(32, 32));
+        copyBtn->setMaximumSize(QSize(32, 32));
+        QIcon icon13;
+        icon13.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/copyBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        copyBtn->setIcon(icon13);
+        copyBtn->setIconSize(QSize(32, 32));
+        copyBtn->setCheckable(true);
+        copyBtn->setChecked(false);
+        copyBtn->setAutoRaise(true);
+
+        verticalLayout_3->addWidget(copyBtn);
+
         dataUnitXCombox = new QComboBox(cellYFrame);
         dataUnitXCombox->setObjectName(QStringLiteral("dataUnitXCombox"));
         dataUnitXCombox->setMinimumSize(QSize(55, 20));
@@ -455,6 +470,7 @@ public:
         barChatStaticsCheckBox->setToolTip(QApplication::translate("PlotWidget", "\347\233\264\346\226\271\345\233\276", 0));
 #endif // QT_NO_TOOLTIP
         barChatStaticsCheckBox->setText(QString());
+        copyBtn->setText(QApplication::translate("PlotWidget", "+", 0));
     } // retranslateUi
 
 };

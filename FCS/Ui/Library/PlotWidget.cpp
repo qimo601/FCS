@@ -2400,3 +2400,37 @@ void PlotWidget::setVisiblePropertyWidget()
 	plotConfig->setVisible(false);
 	update();
 }
+/**
+* @brief 复制窗口事件
+*/
+void PlotWidget::on_copyBtn_clicked()
+{
+	
+	d_plotWidgetGate = new PlotWidget();//新拷贝的plot窗口
+
+	int passageY = ui.passageYCombox->currentData().toInt();
+	int dataUnitY = ui.dataUnitYCombox->currentData().toInt();
+	int passageX = ui.passageXCombox->currentData().toInt();
+	int dataUnitX = ui.dataUnitXCombox->currentData().toInt();
+
+	QVector<double>* vectorY = origialDataList->at(passageY)->at(dataUnitY);
+	QVector<double>* vectorX = origialDataList->at(passageX)->at(dataUnitX);
+
+	QVector<int> indexVector;
+	//复制序号
+	for (int i = 0; i < vectorY->size(); i++)
+	{
+			indexVector.append(i);
+
+	}
+	//复制数据至新窗口
+	copyData(indexVector);
+	//传递控件状态参数
+	d_plotWidgetGate->setStatusControl(getStatusControl());
+	//给新设门窗口的画布命名
+	d_plotWidgetGate->setTitle(QString("%1").arg(this->getTitle()));
+	d_plotWidgetGate->setParent(this);
+	d_plotWidgetGate->show();
+	d_plotWidgetGate->updateSamples();
+	emit addGateSignal((QWidget*)d_plotWidgetGate);//仿作新增设门，其实新增复制窗口
+}

@@ -376,6 +376,10 @@ public slots:
 	* @brief 设置按钮属性
 	*/
 	void setPropertyBtnStatus();
+	/**
+	* @brief 复制窗口事件
+	*/
+	void on_copyBtn_clicked();
 signals:
 	void normalPlot();//正常显示信号
 	void addGateSignal(QWidget*);

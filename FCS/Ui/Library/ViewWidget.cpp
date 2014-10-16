@@ -94,6 +94,7 @@ void ViewWidget::init()
 	connect(reportTree, SIGNAL(viewGateWidget(QString)),this,SLOT(viewGateSlot(QString)));//显示设门窗口
 	connect(reportTree, SIGNAL(willClose()), this, SLOT(closeReportSlot()));//关闭报告窗口
 	connect(reportTree, SIGNAL(delGateWidget(QString)), this, SLOT(delGateSlot(QString)));//删除设门对应的窗口
+	connect(reportTree, SIGNAL(delGateWidget(QString)), this, SLOT(delGateSlot(QString)));//删除设门对应的窗口
 	//配置第一个plot用来实时显示散点图
 	ui.plotWidget_1->setScatterMode(true);
 	ui.plotWidget_1->setTitle("All1");
@@ -834,6 +835,7 @@ void ViewWidget::savePdfSlot()
 	QPainter painter;
 	QBrush brush(QColor("#000000"), Qt::SolidPattern);//颜色黑色，实体线
 	painter.setBrush(brush);
+	//黑体普通画笔
 	QPen pen;
 	pen.setStyle(Qt::SolidLine);
 	pen.setWidth(3);
@@ -841,22 +843,36 @@ void ViewWidget::savePdfSlot()
 	pen.setColor(QColor("#000000"));
 	painter.setPen(pen);
 	painter.setFont(QFont("Times", 10, QFont::Bold));//字体大小
+
+	QPoint pointTemp(0, 200);//文字行距
+
 	if (!painter.begin(&printer))// 打开文件失败
 	{
 		qWarning("打开文件失败，文件是否已经被占用？或者是否有写权限？");
 	}
 	//QRect rect = painterPixmap.viewport();//绘图的视图窗口尺寸
 	//int multiple = rect.width() / pixmap.width();
-	painter.scale(5, 5); //将图像(所有要画的东西)在pdf上放大5倍
+	
 	//将gridlayout中的画布都绘制在pdf上，排除最后第三个和第四个隐藏控件
 
-	QPoint pointPainter;//绘画当前点
+	QPoint pointPainter(0,0);//绘画当前点
+	painter.resetTransform();//恢复比例
+	painter.setFont(QFont("Times", 20, QFont::Bold));//字体大小
+	pointPainter.setX(pointPainter.x()*5+3000);
+	pointPainter.setY(pointPainter.y()*5+100);
+	painter.drawText(pointPainter, "Experiment12-12");
+	pointPainter = pointPainter + pointTemp;
+
+	painter.setFont(QFont("Times", 10, QFont::Light));//字体大小
+	painter.scale(5, 5); //将图像(所有要画的东西)在pdf上放大5倍
+	pointPainter.setX(pointPainter.x() / 5);
+	pointPainter.setY(pointPainter.y() / 5);
 	for (int i = 0; i < plotWidgetList.size(); i++)
 	{
 		PlotWidget* plotWidget = (PlotWidget*) plotWidgetList.at(i);
 		QPixmap pixmap = QPixmap::grabWidget(plotWidget, plotWidget->rect());  //获取界面的图片
 		pointPainter.setX(50 + i % 3 * 600);//每行三个图，每个图间距600，页边左起50
-		pointPainter.setY(50+ i / 3 * 500);//每行三个图，页边上距50
+		pointPainter.setY(150+ i / 3 * 500);//每行三个图，页边上距50
 		painter.drawPixmap(pointPainter.x(), pointPainter.y(), pixmap);  //画图
 		
 	}
@@ -864,7 +880,7 @@ void ViewWidget::savePdfSlot()
 	pointPainter.setX(50);
 	pointPainter.setY(pointPainter.y()+500 + 10);
 
-	//设置画笔颜色
+	//设置直线画笔颜色
 	QPen pen1;
 	pen1.setStyle(Qt::SolidLine);
 	pen1.setWidth(5);
@@ -889,9 +905,9 @@ void ViewWidget::savePdfSlot()
 	painter.resetTransform();//恢复坐标比例,当前坐标也得扩大5倍
 	pointPainter.setX(pointPainter.x()* 5);
 	pointPainter.setY(pointPainter.y()*5);
-
+	
 	painter.setPen(pen);//黑笔
-	QPoint pointTemp(0, 200);//文字行距
+	
 	painter.drawText(pointPainter, experiementName);
 	pointPainter = pointPainter + pointTemp;
 	painter.drawText(pointPainter, specimenName);
