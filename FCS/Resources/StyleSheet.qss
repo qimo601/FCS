@@ -452,6 +452,7 @@ QWidget#scrollAreaWidgetContents{
 	background-color: #D4D3CC;
 }
 PlotWidget{
+	background-color: #D4D3CC;
 	border:3px solid #CFCFCF;
 }
 PlotWidget:hover{
@@ -460,7 +461,7 @@ PlotWidget:hover{
 PlotWidget:focus{
 	border:5px solid #A5A6A1;
 }
-/*PlotWidget#plotWidget_1,#plotWidget_2,#plotWidget_3,#plotWidget_4,#plotwidget_45{
+/*PlotWidget#plotWidget_1,#plotWidget_2,#plotWidget_3,#plotWidget_4,#plotwidget_5{
 	border:3px solid #CFCFCF;
 }
 PlotWidget#plotWidget_1:hover,#plotWidget_2:hover,#plotWidget_3:hover,#plotWidget_4:hover,#plotwidget_45:hover{

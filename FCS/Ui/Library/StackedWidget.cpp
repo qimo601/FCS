@@ -204,7 +204,9 @@ void StackedWidget::on_startAcquisitionBtn_clicked()
 		//初始化USB控制-启动监听线程
 		//bllControl->initUSBControl();
 		//初始化环形缓冲区大小
-		Global::initCCycleBuffer(Gobal_CircleBuffer_Size);
+		//Global::initCCycleBuffer(Gobal_CircleBuffer_Size);
+		//清空全局缓冲区
+		Global::S_CCycleBuffer->clearBuffer();
 		//开始采集命令
 		VoCmd voCmd;
 		voCmd.setCmd(5);

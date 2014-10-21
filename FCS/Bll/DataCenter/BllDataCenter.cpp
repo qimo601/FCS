@@ -32,7 +32,7 @@ void BllDataCenter::getOscData(QVector<double>& oscXData, QVector<double>& oscYD
 		char * buffer = m_bufferOSC;
 		memset(buffer, 0, 1024*16);//清空数组
 		Global::S_CCycleBuffer->read(m_bufferOSC, 1024*16);
-		qDebug() << "【BllDataCenter】读完，还剩下有效数据：" << Global::S_CCycleBuffer->getUsedSize()<<"B";
+		qDebug() << "【BllDataCenter】getOscData读完，还剩下有效数据：" << Global::S_CCycleBuffer->getUsedSize()<<"B";
 		//一次1024组
 		for (int i = 0; i < 1024; i++)
 		{

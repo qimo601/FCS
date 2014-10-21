@@ -202,7 +202,7 @@ void USBControl::onButtonRd()
 
 
 
-	delete buffer;
+	delete[] buffer;
 	//FreeLibrary(hInstLibrary);
 
 }
@@ -352,10 +352,18 @@ BOOL USBControl::openDevice ()
  */
 BOOL USBControl::closeDevice()
  {	
+	//先清空，也方便唤醒满的情况
+	Global::S_CCycleBuffer->clearBuffer();
 	//先停止监听
 	setListen(USBThread::STOP_TAG);
 	//退出run函数
 	usbThread->quit();
+	if (usbThread->isRunning())
+	{
+
+		usbThread->wait();
+	}
+	
 	//关闭USB设备
 	return CloseHandle(m_hDevice);
  }

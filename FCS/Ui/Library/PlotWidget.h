@@ -160,14 +160,7 @@ public slots:
 	* @brief 启用多边形设门
 	*/
 	void enablePolygonBtn(bool mode);
-	/**
-	* @brief 增加-测试
-	*/
-	void testUpBtnMode(bool mode);
-	/**
-	* @brief 减少-测试
-	*/
-	void testDownBtnMode(bool mode);
+
 	/**
 	* @brief 更新数据
 	*/
@@ -380,12 +373,28 @@ public slots:
 	* @brief 复制窗口事件
 	*/
 	void on_copyBtn_clicked();
+	/**
+	* @brief 关闭窗口事件
+	*/
+	void on_closeBtn_clicked();
 signals:
 	void normalPlot();//正常显示信号
 	void addGateSignal(QWidget*);
 protected:
 	virtual void paintEvent(QPaintEvent * event);
 	virtual void timerEvent(QTimerEvent * event);
+	/**
+	* @brief 鼠标按下事件
+	*/
+	void mousePressEvent(QMouseEvent *event);
+	/**
+	* @brief 鼠标释放事件
+	*/
+	void mouseReleaseEvent(QMouseEvent *);
+	/**
+	* @brief 鼠标移动事件
+	*/
+	void mouseMoveEvent(QMouseEvent *event);
 
 private:
 	Ui::PlotWidget ui;
@@ -452,6 +461,12 @@ private:
 	//画布颜色
 	QString m_plotColor;
 	bool m_defaultCheck;
+
+
+
+	QPoint move_point; //移动的距离
+	bool mouse_press; //按下鼠标左键
+	bool notMoveStaus;
 };
 
 #endif // PLOTWIDGET_H

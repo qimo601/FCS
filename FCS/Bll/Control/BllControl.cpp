@@ -8,6 +8,7 @@ BllControl::BllControl(QObject *parent)
 
 BllControl::~BllControl()
 {
+	closeUSBControl();
 }
 
 /**

@@ -73,6 +73,10 @@ public slots:
 	*/
 	void setOperate(Operate operate);
 	/**
+	* @brief 设置该线程大循环标签
+	*/
+	void setReadCellThreadTag(bool readCellThreadTag);
+	/**
 	* @brief 设置读取文件路径
 	*/
 	void setFilePath(QString filePath);
@@ -88,7 +92,7 @@ private:
 	char m_buffer[512];//一个USB细胞的数据包//细胞数据
 	bool m_goOn;//继续标志
 	QMutex mutex;//互斥锁
-	
+	bool m_readCellThreadTag;//线程大循环标志位
 
 	QString m_filePath;//文件路径
 	Operate m_opertaeEnum;//操作枚举值

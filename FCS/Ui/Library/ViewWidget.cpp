@@ -26,7 +26,13 @@ ViewWidget::ViewWidget(QWidget *parent)
 
 ViewWidget::~ViewWidget()
 {
+	readCellThread->setGoOn(false);//退出环形缓冲区真循环
+	readCellThread->setReadCellThreadTag(false);//退出线程大循环
 	readCellThread->quit();//线程离开exec循环
+	if (readCellThread->isRunning())
+	{
+		readCellThread->wait();
+	}
 }
 /**
 * @brief 初始化
@@ -102,8 +108,8 @@ void ViewWidget::init()
 	ui.plotWidget_2->setBarStatisticsMode(true);
 	ui.plotWidget_2->setTitle("All2");
 	//先隐藏画布3和画布4，用来实时显示其他类型图
-	ui.plotWidget_3->setVisible(false);
-	ui.plotWidget_4->setVisible(false);
+	//ui.plotWidget_3->setVisible(false);
+	//ui.plotWidget_4->setVisible(false);
 }
 
 //全局所有画布数组
@@ -158,7 +164,7 @@ void ViewWidget::stopAcqSlot()
 
 
 	/****测试线程获取示波器数据****/
-	readCellThread->setGoOn(false);//停止真读循环，线程进入默认状态
+	readCellThread->setGoOn(false);//停止真读循环，线程进入默认状态继续循环等待
 	/****测试线程获取示波器数据****/
 }
 /**
@@ -189,12 +195,14 @@ void ViewWidget::addNewPlot(PlotWidget* widget)
 	{
 		plotWidget_0 = widget;
 		plotWidget_0->setParent(ui.scrollAreaWidgetContents);
+
 	}
 	//新增空白窗口
 	else
 	{
 		plotWidget_0 = new PlotWidget(ui.scrollAreaWidgetContents);
 		plotWidget_0->setTitle("空数据");
+
 
 	}
 
@@ -333,12 +341,25 @@ void ViewWidget::relayoutPlotWidget()
 	//重新布局画布
 	for (int i = 0, row = 0, column = 0; i < plotWidgetList.size(); i++)
 	{
-		if (column == 2)
+		if (column == 3)
 		{
 			column = 0;
 			row++;
 		}
-		ui.gridLayout->addWidget(plotWidgetList.at(i), row, column, 1, 1);
+		//恢复原尺寸，防止当最大化窗口的时候，缩放策略发生改变。
+		QWidget* plotWidget = plotWidgetList.at(i);
+		//设置还原后窗口伸展策略
+		QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+		sizePolicy.setHorizontalStretch(0);
+		sizePolicy.setVerticalStretch(0);
+		sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
+		plotWidget->setSizePolicy(sizePolicy);
+		plotWidget->setMinimumSize(QSize(400, 362));
+		plotWidget->setMaximumSize(QSize(400, 362));
+		plotWidget->setFocusPolicy(Qt::StrongFocus);
+		plotWidget->setAcceptDrops(false);
+		
+		ui.gridLayout->addWidget(plotWidget, row, column, 1, 1);
 		column++;
 
 	}
@@ -612,6 +633,12 @@ void ViewWidget::addGateSlot(QWidget* widget)
 void ViewWidget::viewGateSlot(QString gateName)
 {
 	PlotWidget* rootPlotWidget = (PlotWidget* )m_plotWidgetList.at(0);//散点图根节点窗口
+	if (gateName == "All1")
+	{
+		addNewPlot(rootPlotWidget);//根目录加入界面布局
+		rootPlotWidget->show();
+		rootPlotWidget->setFocus(Qt::MouseFocusReason);
+	}
 	for (int i = 0; i < rootPlotWidget->m_gateStorageList.size(); i++)
 	{
 		GateStorage* gate = rootPlotWidget->m_gateStorageList.at(i);
@@ -638,6 +665,12 @@ void ViewWidget::viewGateSlot(QString gateName)
 	}
 	//散点图的设门若是没搜到，继续搜直方图设门
 	rootPlotWidget = (PlotWidget*)m_plotWidgetList.at(1);//直方图根节点窗口
+	if (gateName == "All2")
+	{
+		addNewPlot(rootPlotWidget);//根目录加入界面布局
+		rootPlotWidget->show();
+		rootPlotWidget->setFocus(Qt::MouseFocusReason);
+	}
 	for (int i = 0; i < rootPlotWidget->m_gateStorageList.size(); i++)
 	{
 		GateStorage* gate = rootPlotWidget->m_gateStorageList.at(i);

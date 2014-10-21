@@ -113,6 +113,11 @@ public:
 	 *  @date    2012-12-7
 	 */
 	bool setBufferSize(int size, bool copy = false);
+	/*
+	*	@brief  清空缓冲区
+	*
+	*/
+	bool clearBuffer();
 	/**
 	*  function 等待不空的情况下唤醒
 	*  @author  Liuzhaobang

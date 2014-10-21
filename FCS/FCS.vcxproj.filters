@@ -859,5 +859,8 @@
       <Filter>Translation Files</Filter>
     </None>
     <None Include="Resources\StyleSheet.qss" />
+    <None Include="fcs_zh.ts">
+      <Filter>Translation Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

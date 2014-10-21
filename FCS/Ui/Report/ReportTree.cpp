@@ -588,15 +588,15 @@ void ReportTree::enablePlotBtn(QTreeWidgetItem * item, int column)
 	if (item != rootItem0&&item != rootItem1)
 
 	{
-		ui.plotBtn->setEnabled(true);
+		//根目录的画布不能删除
 		ui.delGateBtn->setEnabled(true);
 	}
 	else
 	{
-		ui.plotBtn->setEnabled(false);
 		ui.delGateBtn->setEnabled(false);
 	}
-
+	//可以显示画布
+	ui.plotBtn->setEnabled(true);
 }
 /**
 * @brief 关闭事件

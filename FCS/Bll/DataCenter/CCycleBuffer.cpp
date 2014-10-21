@@ -258,53 +258,66 @@ void CCycleBuffer::setEmpty()
  */
 int CCycleBuffer::getUsedSize()  
 {  
+	mutex.lock();
+	int size = 0;
 	if(m_bEmpty)  
 	{  
-		return 0;  
+		size = 0;
 	}  
 	else if(m_bFull)  
 	{  
-		return m_nBufSize;  
+		size = m_nBufSize;
 	}  
 	else if(m_nReadPos < m_nWritePos)  
 	{  
-		return m_nWritePos - m_nReadPos;  
+		size = m_nWritePos - m_nReadPos;
 	}  
 	else  
 	{  
-		return m_nBufSize - m_nReadPos + m_nWritePos;  
+		size = m_nBufSize - m_nReadPos + m_nWritePos;
 	}  
+	mutex.unlock();
+	return size;
 }
 /**
  * 获取缓冲区空闲空间数据长度
  */
 int CCycleBuffer::getFreeSize() 
 {  
+	mutex.lock();
+	int size = 0;
 	if(m_bEmpty)  
 	{  
-		return m_nBufSize;  
+		size =  m_nBufSize;
 	}  
 	else if(m_bFull)  
 	{  
-		return 0;  
+		size = 0;
 	}  
 	else if(m_nReadPos > m_nWritePos)  
 	{  
-		return m_nReadPos - m_nWritePos;  
+		size = m_nReadPos - m_nWritePos;
 	}  
 	else  
 	{  
-		return m_nBufSize - m_nWritePos + m_nReadPos;  
+		size = m_nBufSize - m_nWritePos + m_nReadPos;
 	}  
+
+	mutex.unlock();
+	return size;
 }
 
 
 /*
 *	@brief  设置缓冲区大小
 *			  若没有缓冲区,则新建缓冲区;若已有缓冲区,则新建缓冲区并按照copy标志，进行旧数据拷贝
+*             若是正在采集，绝对不能重新设置缓冲区内容。
+*             不能删除内存，重新申请，因为有可能正在read或者write，
+*             这个时候，重新申请内存，那么读写就找不到原先的内存指针空间了。
 */
 bool CCycleBuffer::setBufferSize(int size, bool copy)
 {
+	mutex.lock();
 	//若已有空间，释放掉。开辟新缓冲区，并进行拷贝旧数据
 	if (m_pBuf != 0)
 	{
@@ -324,7 +337,7 @@ bool CCycleBuffer::setBufferSize(int size, bool copy)
 				memcpy(buf, m_pBuf, m_nBufSize);
 		}
 		//释放旧缓冲区
-		delete m_pBuf;
+		delete []m_pBuf;
 		//指向新缓冲区
 		m_pBuf = buf;
 		//重置缓冲区大小
@@ -338,11 +351,36 @@ bool CCycleBuffer::setBufferSize(int size, bool copy)
 		//赋值缓冲区大小
 		m_nBufSize = size;
 	}
-
+	
+	//重置标志位
+	m_bEmpty = true;
+	m_bFull = false;
+	m_nBufSize = size;
+	m_nReadPos = 0;
+	m_nWritePos = 0;
+	bufferNotFull.wakeAll();
+	mutex.unlock();
 	if (m_pBuf != 0)
 		return true;
 	else
 		return false;
+}
+
+/*
+*	@brief  清空缓冲区
+*			 
+*/
+bool CCycleBuffer::clearBuffer()
+{
+	mutex.lock();
+	//重置标志位
+	m_bEmpty = true;
+	m_bFull = false;
+	m_nReadPos = 0;
+	m_nWritePos = 0;
+	bufferNotFull.wakeAll();
+	mutex.unlock();
+	return true;
 }
 
 void CCycleBuffer::waitNotEmpty()

@@ -48,11 +48,13 @@ void USBThread::run()
 #if Simulation_Test == 0
 			//真正读取USB
 			onButtonRd();
+			usleep(50);
 #else
 			//测试代码
 			onButtonRd1();
+			usleep(100);
 #endif
-			usleep(50);
+			
 		}
 	}
 	qDebug() << "【USBThread】运行结束!";
@@ -175,7 +177,7 @@ void USBThread::onButtonRd()
 		//		MessageBox(_T("read got failed!"));
 		//string.Format("%d",DataLength);
 		//MessageBox(string,"A",0);
-		qDebug() << "【USBThread】onButtonRd(),read failed!实际读取长度：" << DataLength;
+		//qDebug() << "【USBThread】onButtonRd(),read failed!实际读取长度：" << DataLength;
 	}
 
 	else
@@ -222,7 +224,7 @@ void USBThread::onButtonRd()
 
 		//Global::S_CCycleBuffer->write((char *)&stepValue, 4);
 		stepValue++;
-		qDebug() << "【USBThread】onButtonRd(),写完，还剩下空闲空间：" << Global::S_CCycleBuffer->getFreeSize() << "B.";
+		//qDebug() << "【USBThread】onButtonRd(),写完，还剩下空闲空间：" << Global::S_CCycleBuffer->getFreeSize() << "B.";
 
 	}
 	else//如果没有这个等待，会有很多空循环，CPU会很高
@@ -230,7 +232,7 @@ void USBThread::onButtonRd()
 		Global::S_CCycleBuffer->waitNotFull();
 	}
 
-	delete buffer;
+	delete [] buffer;
 	//FreeLibrary(hInstLibrary);
 
 }
@@ -265,7 +267,7 @@ void USBThread::onButtonRd1()
 		//		MessageBox(_T("read got failed!"));
 		//string.Format("%d",DataLength);
 		//MessageBox(string,"A",0);
-		qDebug() << "【USBThread】onButtonRd1(),read failed!实际读取长度：" << DataLength;
+		//qDebug() << "【USBThread】onButtonRd1(),read failed!实际读取长度：" << DataLength;
 	}
 
 	else
@@ -311,22 +313,24 @@ void USBThread::onButtonRd1()
 
 		Global::S_CCycleBuffer->write((char *)&testOscData, 512);
 		stepValue++;
-		qDebug() << "【USBThread】onButtonRd1(),写完，还剩下空闲空间：" << Global::S_CCycleBuffer->getFreeSize()<< "B.";
+		//qDebug() << "【USBThread】onButtonRd1(),写完，还剩下空闲空间：" << Global::S_CCycleBuffer->getFreeSize()<< "B.";
 
 	}
 	else//如果没有这个等待，会有很多空循环，CPU会很高
 	{
 		//qDebug() << "【USBThread】循环缓冲区已满，等待中....";
-		//Global::S_CCycleBuffer->waitNotFull();
+		//不能清空，只能等待，否则会丢失数据啊
+		Global::S_CCycleBuffer->waitNotFull();
 
-		int bufSize = Global::S_CCycleBuffer->getBufSize();
+		/*int bufSize = Global::S_CCycleBuffer->getBufSize();
 		char*buf = new char[bufSize];
 		Global::S_CCycleBuffer->read(buf, bufSize);
-		delete[] buf;
-		qDebug() << "【USBThread】循环缓冲区已满，清空一次。";
+		delete[] buf;*/
+		//Global::S_CCycleBuffer->clearBuffer();
+		//qDebug() << "【USBThread】循环缓冲区已满，清空一次。";
 	}
 
-	delete buffer;
+	delete [] buffer;
 	//FreeLibrary(hInstLibrary);
 
 }

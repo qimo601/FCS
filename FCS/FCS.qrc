@@ -39,6 +39,7 @@
         <file>Resources/Images/MainWindow/PolygonBtn.png</file>
         <file>Resources/Images/MainWindow/crossBtn.png</file>
         <file>Resources/Images/MainWindow/copyBtn.png</file>
+        <file>Resources/Images/MainWindow/closeBtn.png</file>
     </qresource>
     <qresource prefix="/Qss">
         <file>Resources/StyleSheet.qss</file>

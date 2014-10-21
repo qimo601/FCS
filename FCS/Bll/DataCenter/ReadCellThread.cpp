@@ -5,6 +5,7 @@
 ReadCellThread::ReadCellThread(QObject *parent) :QThread(parent)
 {  
 	stepValue = 0;
+	m_readCellThreadTag = true;//线程大循环标志位
 	m_goOn = true;//默认就自动进入循环
 	m_opertaeEnum = Operate::NORMAL;//默认普通操作
 	iCellStaticData = ICellStaticData::getInstance();//初始化细胞数据接口
@@ -20,8 +21,8 @@ FILE* ReadCellThread::projectFile = 0;
 void ReadCellThread::run()  
 { 
 	qDebug() << "【USB监听线程】启动ReadCellThread,线程Id" << QThread::currentThreadId();
-	
-	while (1)
+	//大循环标签标志位
+	while (m_readCellThreadTag)
 	{
 		switch (m_opertaeEnum)
 		{
@@ -422,6 +423,16 @@ void ReadCellThread::setOperate(Operate operate)
 	m_opertaeEnum = operate;
 	mutex.unlock();
 }
+/**
+* @brief 设置该线程大循环标签
+*/
+void ReadCellThread::setReadCellThreadTag(bool readCellThreadTag)
+{
+	mutex.lock();
+	m_readCellThreadTag = readCellThreadTag;
+	mutex.unlock();
+}
+
 /**
 * @brief 设置读取文件路径
 */

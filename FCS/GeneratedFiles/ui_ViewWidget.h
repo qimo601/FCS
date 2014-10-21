@@ -31,8 +31,6 @@ public:
     QGridLayout *gridLayout;
     PlotWidget *plotWidget_1;
     PlotWidget *plotWidget_2;
-    QWidget *plotWidget_4;
-    QWidget *plotWidget_3;
 
     void setupUi(QWidget *ViewWidget)
     {
@@ -70,16 +68,6 @@ public:
         plotWidget_2->setObjectName(QStringLiteral("plotWidget_2"));
 
         gridLayout->addWidget(plotWidget_2, 0, 1, 1, 1);
-
-        plotWidget_4 = new QWidget(scrollAreaWidgetContents);
-        plotWidget_4->setObjectName(QStringLiteral("plotWidget_4"));
-
-        gridLayout->addWidget(plotWidget_4, 1, 1, 1, 1);
-
-        plotWidget_3 = new QWidget(scrollAreaWidgetContents);
-        plotWidget_3->setObjectName(QStringLiteral("plotWidget_3"));
-
-        gridLayout->addWidget(plotWidget_3, 1, 0, 1, 1);
 
         scrollArea->setWidget(scrollAreaWidgetContents);
 

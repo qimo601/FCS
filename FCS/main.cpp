@@ -77,25 +77,25 @@ int main(int argc, char *argv[])
 	iCellStaticData->insert(0,44,33,22);*/
 
 	
-	QList<QList<double>> list1;
-	QList<double> list;
-	list.append(3);
-	list.append(4);
-	list.append(2);/*
-	list.append(5.4);
-	list.append(34.3);
-	list.append(3222);
-	list.append(2.3);*/
-	list1.append(list);
-	QList<QList<double>> list2;
-	list2 = list1;
-	QList<QList<double>> list3;
-	QList<double> list31;
-	list31.append(1);
-	list31.append(2);
-	list31.append(5);
-	list3.append(list31);
-	list2 = list3;
+	//QList<QList<double>> list1;
+	//QList<double> list;
+	//list.append(3);
+	//list.append(4);
+	//list.append(2);/*
+	//list.append(5.4);
+	//list.append(34.3);
+	//list.append(3222);
+	//list.append(2.3);*/
+	//list1.append(list);
+	//QList<QList<double>> list2;
+	//list2 = list1;
+	//QList<QList<double>> list3;
+	//QList<double> list31;
+	//list31.append(1);
+	//list31.append(2);
+	//list31.append(5);
+	//list3.append(list31);
+	//list2 = list3;
 	//qSort(list2.at(0).begin(), list2.at(0).end());
 
 

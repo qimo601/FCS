@@ -350,7 +350,7 @@ void PlotConfig::on_okBtnProperty_clicked()
 	default:
 		;
 	}
-	
+	this->close();
 }
 /**
 * @brief 取消

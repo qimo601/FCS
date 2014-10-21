@@ -386,11 +386,12 @@ void OscWidget::on_startOscAcqBtn_clicked()
 	ui.startOscAcqBtn->setEnabled(false);
 	ui.stopOscAcqBtn->setEnabled(true);
 
-	int bufSize = Global::S_CCycleBuffer->getBufSize();
+	/*int bufSize = Global::S_CCycleBuffer->getBufSize();
 	char*buf = new char[bufSize];
 	Global::S_CCycleBuffer->read(buf, bufSize);
-	delete[] buf;
-	qDebug() << "【USBThread】清空一次。";
+	delete[] buf;*/
+	Global::S_CCycleBuffer->clearBuffer();
+	qDebug() << "【OscWidget】每次采集，USBThread缓冲区清空一次。";
 }
 
 /**

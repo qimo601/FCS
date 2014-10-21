@@ -1137,6 +1137,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
       <SubType>Designer</SubType>
     </CustomBuild>
+    <None Include="fcs_zh.ts" />
     <None Include="Resources\fcs_en.qm" />
     <None Include="Resources\fcs_en.ts" />
     <None Include="Resources\fcs_zh.ts" />

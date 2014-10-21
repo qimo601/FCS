@@ -89,12 +89,7 @@ PlotWidget::PlotWidget(QWidget *parent)
 	connect(ui.ellipseBtn, SIGNAL(toggled(bool)), this, SLOT(enableEllipseBtn(bool)));
 	//多边形设门
 	connect(ui.polygonBtn, SIGNAL(toggled(bool)), this, SLOT(enablePolygonBtn(bool)));
-	
 
-	//增加-测试选择
-	connect(ui.testUpBtn, SIGNAL(toggled(bool)), this, SLOT(testUpBtnMode(bool)));
-	//减少测试选择
-	connect(ui.testDownBtn, SIGNAL(toggled(bool)), this, SLOT(testDownBtnMode(bool)));
 	
 	//直方图统计
 	connect(ui.barChatStaticsCheckBox, SIGNAL(clicked(bool)), this, SLOT(setBarStatisticsMode(bool)));
@@ -152,6 +147,7 @@ PlotWidget::~PlotWidget()
 */
 void PlotWidget::init()
 {
+	mouse_press = false;//初始化值为false，防止点击设门就会移动
 	condition = 1024;//直方图条件划分数目
 	dataMutex.lock();
 	//初始化该绘图的数据结构
@@ -254,8 +250,7 @@ void PlotWidget::initUi()
 	ui.zoomerBtn->setVisible(false);
 	ui.viewTrueValueBtn_2->setVisible(false);
 	//ui.parallelLineBtn_2->setVisible(false);
-	ui.testUpBtn->setVisible(false);
-	ui.testDownBtn->setVisible(false);
+
 
 
 	//默认设门
@@ -405,7 +400,7 @@ void PlotWidget::maximizedPlotWidget()
 	m_parent = this->parentWidget();
 	this->setParent(0);
 	this->showMaximized();
-	ui.maximizedBtn->setEnabled(false);
+	ui.maximizedBtn->setEnabled(true);
 	ui.normalBtn->setEnabled(true);
 
 }
@@ -414,22 +409,27 @@ void PlotWidget::maximizedPlotWidget()
 */
 void PlotWidget::normalPlotWidget()
 {
-	//设置还原后窗口伸展策略
-	QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-	sizePolicy.setHorizontalStretch(0);
-	sizePolicy.setVerticalStretch(0);
-	sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
-	this->setSizePolicy(sizePolicy);
-	this->setMinimumSize(QSize(502, 446));
-	this->setMaximumSize(QSize(502, 446));
-	this->setFocusPolicy(Qt::StrongFocus);
-	this->setAcceptDrops(false);
+	if (m_parent != 0)
+	{
+		//设置还原后窗口伸展策略
+		QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+		sizePolicy.setHorizontalStretch(0);
+		sizePolicy.setVerticalStretch(0);
+		sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
+		this->setSizePolicy(sizePolicy);
+		this->setMinimumSize(QSize(502, 446));
+		this->setMaximumSize(QSize(502, 446));
+		this->setFocusPolicy(Qt::StrongFocus);
+		this->setAcceptDrops(false);
 
 
-	ui.maximizedBtn->setEnabled(true);
-	ui.normalBtn->setEnabled(false);
-	this->setParent(m_parent);
-	emit normalPlot();//还原窗口信号
+		ui.maximizedBtn->setEnabled(true);
+		ui.normalBtn->setEnabled(true);
+	
+		this->setParent(m_parent);
+		emit normalPlot();//还原窗口信号
+	}
+
 }
 
 void PlotWidget::timerEvent(QTimerEvent *event)
@@ -937,6 +937,7 @@ void PlotWidget::enablePolygonBtn(bool mode)
 */
 void PlotWidget::enableRectBtn(bool mode)
 {
+	qDebug("enableRectBtn");
 	//启用新设门
 	if (mode)
 	{
@@ -1013,24 +1014,6 @@ void PlotWidget::enableParallelLineBtn(bool mode)
 	//d_plot->enableParallelLinePicker(mode);
 }
 
-/**
-* @brief 减少值-测试
-*/
-void PlotWidget::testUpBtnMode(bool mode)
-{
-
-	d_plot->setUpBtnMode(mode);
-
-}
-/**
-* @brief 减少值-测试
-*/
-void PlotWidget::testDownBtnMode(bool mode)
-{
-
-	d_plot->setDownBtnMode(mode);
-
-}
 
 
 
@@ -2433,4 +2416,75 @@ void PlotWidget::on_copyBtn_clicked()
 	d_plotWidgetGate->show();
 	d_plotWidgetGate->updateSamples();
 	emit addGateSignal((QWidget*)d_plotWidgetGate);//仿作新增设门，其实新增复制窗口
+}
+
+/**
+* @brief 关闭窗口事件
+*/
+void PlotWidget::on_closeBtn_clicked()
+{
+	this->close();
+
+}
+/**
+* @brief 鼠标按下事件
+*/
+void PlotWidget::mousePressEvent(QMouseEvent *event)
+{
+	qDebug("mousePressEvent");
+	//只能是鼠标左键移动和改变大小
+	if (event->button() == Qt::LeftButton)
+	{
+		if (event->y() > 33)//控制在标题栏内，才可以拖动窗口
+		{
+			event->ignore();
+			return;
+		}
+		else
+		{
+			setCursor(Qt::SizeAllCursor);
+			mouse_press = true;
+
+			//窗口移动距离
+			move_point = event->globalPos() - pos();
+		}
+		
+	}
+
+
+	
+}
+/**
+* @brief 鼠标释放事件
+*/
+void PlotWidget::mouseReleaseEvent(QMouseEvent *)
+{
+	mouse_press = false;
+	setCursor(Qt::ArrowCursor);
+}
+/**
+* @brief 鼠标移动事件
+*/
+void PlotWidget::mouseMoveEvent(QMouseEvent *event)
+{
+	//if (event->y() <= 33)//控制在标题栏内，才可以拖动窗口
+	//{
+	//	setCursor(Qt::SizeAllCursor);
+	//}
+	//else
+	//{
+	//	setCursor(Qt::ArrowCursor);
+	//}
+
+	//移动窗口
+	if (mouse_press)
+	{
+		QPoint move_pos = event->globalPos();
+		move(move_pos - move_point);
+		QWidget* parentW = this->parentWidget();
+		QRect rect = parentW->rect();
+		/*rect.setWidth(rect.width() + move_pos.x() - move_point.x());
+		rect.setHeight(rect.height() + move_pos.y() - move_point.y());
+		parentW->resize(rect.width(), rect.height());*/
+	}
 }
