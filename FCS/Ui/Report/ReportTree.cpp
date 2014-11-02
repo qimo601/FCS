@@ -237,17 +237,17 @@ void ReportTree::updateReport()
 	currentItem1 = 0;//当前节点
 	parentItem1 = 0;//父节点
 	PlotWidget* plotWidget = 0;
-	for (int i = 0; i < ViewWidget::m_plotWidgetList.size(); i++)
+	for (int i = 0; i < ViewWidget::s_plotWidgetList.size(); i++)
 	{
 		if ( i ==0)
 		{
-			plotWidget = (PlotWidget*)ViewWidget::m_plotWidgetList.at(i);
+			plotWidget = (PlotWidget*)ViewWidget::s_plotWidgetList.at(i);
 			getTreeReport(plotWidget,i);
 		}
 
 		else if (i == 1)
 		{
-			plotWidget = (PlotWidget*)ViewWidget::m_plotWidgetList.at(i);
+			plotWidget = (PlotWidget*)ViewWidget::s_plotWidgetList.at(i);
 			getTreeReport(plotWidget,i);
 		}
 	}
@@ -588,7 +588,7 @@ void ReportTree::enablePlotBtn(QTreeWidgetItem * item, int column)
 	if (item != rootItem0&&item != rootItem1)
 
 	{
-		//根目录的画布不能删除
+		//根目录
 		ui.delGateBtn->setEnabled(true);
 	}
 	else

@@ -1565,7 +1565,7 @@ void PlotWidget::addGate(GateStorage::GateType type)
 	gateStorage->setParentWidget((QObject*)this);//当前父窗口
 	gateStorage->setPlotWidget(d_plotWidgetGate);//设门新生成的窗口
 	gateStorage->setGatePointer(d_rectPicker);//当前设门指针
-	gateStorage->setGateName(QString("P%1").arg(ViewWidget::m_plotWidgetList.size() + 1));//设门名字
+	gateStorage->setGateName(QString("P%1").arg(ViewWidget::s_plotWidgetList.size() + 1));//设门名字
 	QString title;
 	PlotWidget* plotwidget = (PlotWidget*)gateStorage->getParentWidget();
 	if (gateStorage->getParentWidget() != 0)
@@ -2424,6 +2424,7 @@ void PlotWidget::on_copyBtn_clicked()
 void PlotWidget::on_closeBtn_clicked()
 {
 	this->close();
+	ViewWidget::m_gridPlotWidgetList.removeOne(this);
 
 }
 /**

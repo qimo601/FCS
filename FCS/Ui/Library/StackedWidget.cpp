@@ -434,7 +434,13 @@ void StackedWidget::exportPDF()
 {
 	ui.celllViewWidget->savePdfSlot();
 }
-
+/**
+* @brief 方格布局
+*/
+void StackedWidget::gridLayoutSlot()
+{
+	ui.celllViewWidget->relayoutPlotWidget();
+}
 
 /**
 * @brief 菜单Action
@@ -480,6 +486,11 @@ void StackedWidget::createActions()
 	m_pdfAct->setShortcut(QKeySequence(tr("Ctrl+P")));
 	m_pdfAct->setStatusTip(tr("导出PDF"));
 	connect(m_pdfAct, SIGNAL(triggered()), this, SLOT(exportPDF()));
+
+	m_gridLayoutAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/gridLayout.png"), tr("&方格布局"), this);
+	m_gridLayoutAct->setShortcut(QKeySequence(tr("Ctrl+G")));
+	m_gridLayoutAct->setStatusTip(tr("方格布局"));
+	connect(m_gridLayoutAct, SIGNAL(triggered()), this, SLOT(gridLayoutSlot()));
 
 	m_delPlotAct->setEnabled(false);
 	//copyAct->setEnabled(false);
@@ -528,6 +539,8 @@ void StackedWidget::createToolBars()
 	m_fileToolBar->addSeparator();
 	m_fileToolBar->addAction(m_reportAct);
 	m_fileToolBar->addAction(m_pdfAct);
+	m_fileToolBar->addAction(m_gridLayoutAct);
+	
 	ui.horizontalLayout_11->addWidget(m_fileToolBar);
 
 
@@ -657,11 +670,12 @@ void StackedWidget::on_openFileBtn_clicked()
 	else{
 		return;
 	}
-	QString fileName = fileNamesList.at(0).toLocal8Bit().constData();
+	QString fileName = fileNamesList.at(0).toLocal8Bit().constData();//用户选择的文件路径
 	QDir dir = fd->directory();
 	QString absolutePath = dir.absolutePath();
 	QString canonicalPath = dir.canonicalPath();
-	m_currentMatLabPath = appDir + "/MatLabData";
+	//m_currentMatLabPath = appDir + "/MatLabData";
+	m_currentMatLabPath = fileName;//实际文件路径
 	model->setRootPath(m_currentMatLabPath);
 
 	treeView->setModel(model);//设置view的数据源

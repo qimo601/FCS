@@ -93,6 +93,10 @@ public slots:
 	*/
 	void exportPDF();
 	/**
+	* @brief 方格布局
+	*/
+	void gridLayoutSlot();
+	/**
 	* @brief 新建实验
 	*/
 	void newExpSlot();
@@ -185,6 +189,7 @@ private:
 	QAction* m_savePlotAct;//保存画布
 	QAction* m_reportAct;//显示报告
 	QAction* m_pdfAct;//导出pdf
+	QAction* m_gridLayoutAct;//方格布局
 
 	QToolBar* m_fileToolBar;//菜单
 

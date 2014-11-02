@@ -53,13 +53,13 @@ void ViewWidget::init()
 	/****线程读取细胞数据****/
 
 	//初始化当前gridlayout中的plot数组
-	plotWidgetList.append(ui.plotWidget_1);
-	plotWidgetList.append(ui.plotWidget_2);
-	//plotWidgetList.append(ui.plotWidget_3);
-	//plotWidgetList.append(ui.plotWidget_4);
+	m_gridPlotWidgetList.append(ui.plotWidget_1);
+	m_gridPlotWidgetList.append(ui.plotWidget_2);
+	//m_gridPlotWidgetList.append(ui.plotWidget_3);
+	//m_gridPlotWidgetList.append(ui.plotWidget_4);
 	//初始化全局有效细胞数据的plot窗口
-	m_plotWidgetList.append(ui.plotWidget_1);
-	m_plotWidgetList.append(ui.plotWidget_2);
+	s_plotWidgetList.append(ui.plotWidget_1);
+	s_plotWidgetList.append(ui.plotWidget_2);
 
 
 
@@ -100,7 +100,7 @@ void ViewWidget::init()
 	connect(reportTree, SIGNAL(viewGateWidget(QString)),this,SLOT(viewGateSlot(QString)));//显示设门窗口
 	connect(reportTree, SIGNAL(willClose()), this, SLOT(closeReportSlot()));//关闭报告窗口
 	connect(reportTree, SIGNAL(delGateWidget(QString)), this, SLOT(delGateSlot(QString)));//删除设门对应的窗口
-	connect(reportTree, SIGNAL(delGateWidget(QString)), this, SLOT(delGateSlot(QString)));//删除设门对应的窗口
+	//connect(reportTree, SIGNAL(delGateWidget(QString)), this, SLOT(delGateSlot(QString)));//删除设门对应的窗口
 	//配置第一个plot用来实时显示散点图
 	ui.plotWidget_1->setScatterMode(true);
 	ui.plotWidget_1->setTitle("All1");
@@ -113,7 +113,9 @@ void ViewWidget::init()
 }
 
 //全局所有画布数组
-QList<QWidget*> ViewWidget::m_plotWidgetList;
+QList<QWidget*> ViewWidget::s_plotWidgetList;
+//在gridLayout中的画布
+QList<QWidget*> ViewWidget::m_gridPlotWidgetList;
 /**
 * @brief 统计报告展示
 */
@@ -179,12 +181,12 @@ void ViewWidget::addNewPlotFromUi()
 */
 void ViewWidget::addNewPlotFromGate(PlotWidget* widget)
 {
-	addNewPlot(widget);
+	addNewPlot(widget,true);//新增设门窗口
 }
 /**
 * @brief 新建画布-会实时统计
 */
-void ViewWidget::addNewPlot(PlotWidget* widget)
+void ViewWidget::addNewPlot(PlotWidget* widget,bool addNew)
 {
 	
 
@@ -196,6 +198,19 @@ void ViewWidget::addNewPlot(PlotWidget* widget)
 		plotWidget_0 = widget;
 		plotWidget_0->setParent(ui.scrollAreaWidgetContents);
 
+		//如果需要新增加，比如是设门
+		if (addNew)
+		{
+			s_plotWidgetList.append(plotWidget_0);//全局数组添加该窗口
+			//若只是查找指定的窗口，就不需要添加至全局数组，重复了。
+			m_gridPlotWidgetList.append(plotWidget_0);//gridlayout中的所有数组
+		}
+		//若只是查找，判断一下窗口是否在里面，没有则加上
+		if (!m_gridPlotWidgetList.contains(plotWidget_0))
+			//若只是查找指定的窗口，就不需要添加至全局数组，重复了。
+			m_gridPlotWidgetList.append(plotWidget_0);//gridlayout中的所有数组
+		
+
 	}
 	//新增空白窗口
 	else
@@ -203,22 +218,22 @@ void ViewWidget::addNewPlot(PlotWidget* widget)
 		plotWidget_0 = new PlotWidget(ui.scrollAreaWidgetContents);
 		plotWidget_0->setTitle("空数据");
 
-
+		m_gridPlotWidgetList.append(plotWidget_0);//gridlayout中的所有数组
+		s_plotWidgetList.append(widget);//全局数组添加该窗口
 	}
 
 	plotWidget_0->setObjectName(QStringLiteral("plotWidget_0"));
 	plotWidget_0->setCursor(QCursor(Qt::ArrowCursor));
 
 	ui.gridLayout->addWidget(plotWidget_0);
-	//QWidget* widget = plotWidgetList.last();
+	//QWidget* widget = m_gridPlotWidgetList.last();
 	int row;
 	int column;
 	int rowSpan;
 	int columnSpan;
 	ui.gridLayout->getItemPosition(2, &row, &column, &rowSpan, &columnSpan);
 
-	plotWidgetList.append(plotWidget_0);//gridlayout中的所有数组
-	m_plotWidgetList.append(widget);//全局数组添加该窗口
+	
 
 	//统计线程-暂时不支持新建画布更新数据：2014-8-10
 	//QObject::connect(readCellThread, SIGNAL(cellReadySignal(bool)), &plotWidget_0->staticsThread, SLOT(staticsCellData(bool)));
@@ -250,27 +265,27 @@ void ViewWidget::delPlot()
 	{
 		*/
 	PlotWidget * plotWidget = 0;
-		//在全局有效细胞数据中删除选中的画布
-		for (int i = 0; i < m_plotWidgetList.size(); i++)
-		{
-			if (focusPlotWidget == m_plotWidgetList.at(i))
-			{
+		////在全局有效细胞数据中删除选中的画布
+		//for (int i = 0; i < s_plotWidgetList.size(); i++)
+		//{
+		//	if (focusPlotWidget == s_plotWidgetList.at(i))
+		//	{
 
-				plotWidget = (PlotWidget*)m_plotWidgetList.takeAt(i);
+		//		plotWidget = (PlotWidget*)s_plotWidgetList.takeAt(i);
 
-			}
-		}
+		//	}
+		//}
 
 
 
 		//在grid中删除选中的画布
-		for (int i = 0; i < plotWidgetList.size(); i++)
+		for (int i = 0; i < m_gridPlotWidgetList.size(); i++)
 		{
-			if (focusPlotWidget == plotWidgetList.at(i))
+			if (focusPlotWidget == m_gridPlotWidgetList.at(i))
 			{
 
 				ui.gridLayout->removeWidget(focusPlotWidget);
-				plotWidgetList.takeAt(i);
+				m_gridPlotWidgetList.takeAt(i);
 				focusPlotWidget->setVisible(false);//隐藏即可
 				PlotWidget* w = (PlotWidget*)focusPlotWidget;
 				if (w->getTitle()=="空数据")
@@ -301,9 +316,9 @@ void ViewWidget::mouseMoveEvent(QMouseEvent * e)
 void ViewWidget::mousePressEvent(QMouseEvent * event)
 {
 
-	for (int i = 0; i < plotWidgetList.size(); i++)
+	for (int i = 0; i < m_gridPlotWidgetList.size(); i++)
 	{
-		if (plotWidgetList.at(i) == focusWidget())
+		if (m_gridPlotWidgetList.at(i) == focusWidget())
 
 		{
 			focusPlotWidget = focusWidget();//当期plot控件
@@ -328,9 +343,9 @@ void ViewWidget::mousePressEvent(QMouseEvent * event)
 void ViewWidget::clearPlotWidget()
 {
 	//清空所有画布
-	for (int i = 0; i < plotWidgetList.size(); i++)
+	for (int i = 0; i < m_gridPlotWidgetList.size(); i++)
 	{
-		ui.gridLayout->removeWidget(plotWidgetList.at(i));
+		ui.gridLayout->removeWidget(m_gridPlotWidgetList.at(i));
 	}
 }
 /**
@@ -339,7 +354,7 @@ void ViewWidget::clearPlotWidget()
 void ViewWidget::relayoutPlotWidget()
 {
 	//重新布局画布
-	for (int i = 0, row = 0, column = 0; i < plotWidgetList.size(); i++)
+	for (int i = 0, row = 0, column = 0; i < m_gridPlotWidgetList.size(); i++)
 	{
 		if (column == 3)
 		{
@@ -347,7 +362,7 @@ void ViewWidget::relayoutPlotWidget()
 			row++;
 		}
 		//恢复原尺寸，防止当最大化窗口的时候，缩放策略发生改变。
-		QWidget* plotWidget = plotWidgetList.at(i);
+		QWidget* plotWidget = m_gridPlotWidgetList.at(i);
 		//设置还原后窗口伸展策略
 		QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 		sizePolicy.setHorizontalStretch(0);
@@ -382,11 +397,11 @@ void ViewWidget::newExpSlot()
 
 
 	////第一第二窗口清空数据
-	//plotWidgetList.append(ui.plotWidget_3);
-	//plotWidgetList.append(ui.plotWidget_4);
+	//m_gridPlotWidgetList.append(ui.plotWidget_3);
+	//m_gridPlotWidgetList.append(ui.plotWidget_4);
 	////初始化全局有效细胞数据的plot窗口
-	//m_plotWidgetList.append(ui.plotWidget_1);
-	//m_plotWidgetList.append(ui.plotWidget_2)
+	//s_plotWidgetList.append(ui.plotWidget_1);
+	//s_plotWidgetList.append(ui.plotWidget_2)
 }
 /**
 * @brief 注销界面，清空所有数据
@@ -395,18 +410,18 @@ void ViewWidget::uninstall()
 {
 	PlotWidget* plotWidget = 0;
 	//全局plotwidget，清空除了第一个和第二个的画布
-	for (int i = 2; i < m_plotWidgetList.size(); /*i++*/)
+	for (int i = 2; i < s_plotWidgetList.size(); /*i++*/)
 	{
-		m_plotWidgetList.removeLast();
+		s_plotWidgetList.removeLast();
 	}
 	//布局中，清除画布控件
-	for (int i = 2; i < plotWidgetList.size(); /*i++*/)
+	for (int i = 2; i < m_gridPlotWidgetList.size(); /*i++*/)
 	{
-		plotWidget = (PlotWidget*)plotWidgetList.takeLast();
+		plotWidget = (PlotWidget*)m_gridPlotWidgetList.takeLast();
 		delete plotWidget;
 	}
 	//置第一个画布的设门控件为空
-	plotWidget = (PlotWidget*)m_plotWidgetList.at(0);
+	plotWidget = (PlotWidget*)s_plotWidgetList.at(0);
 	if (plotWidget->d_rectPicker != 0)
 	{
 		delete plotWidget->d_rectPicker;
@@ -450,7 +465,7 @@ void ViewWidget::uninstall()
 	plotWidget->clearPlotSamples();
 	
 	//置第二个画布的设门控件为空
-	plotWidget = (PlotWidget*)m_plotWidgetList.at(1);
+	plotWidget = (PlotWidget*)s_plotWidgetList.at(1);
 	if (plotWidget->d_rectPicker != 0)
 	{
 		delete plotWidget->d_rectPicker;
@@ -632,10 +647,10 @@ void ViewWidget::addGateSlot(QWidget* widget)
 */
 void ViewWidget::viewGateSlot(QString gateName)
 {
-	PlotWidget* rootPlotWidget = (PlotWidget* )m_plotWidgetList.at(0);//散点图根节点窗口
+	PlotWidget* rootPlotWidget = (PlotWidget* )s_plotWidgetList.at(0);//散点图根节点窗口
 	if (gateName == "All1")
 	{
-		addNewPlot(rootPlotWidget);//根目录加入界面布局
+		addNewPlot(rootPlotWidget,false);//根目录加入界面布局
 		rootPlotWidget->show();
 		rootPlotWidget->setFocus(Qt::MouseFocusReason);
 	}
@@ -645,7 +660,7 @@ void ViewWidget::viewGateSlot(QString gateName)
 		if (gate->getGateName() == gateName)
 		{
 			PlotWidget* plotWidget = (PlotWidget*)gate->getPlotWidget();//获得当前设门的widget
-			addNewPlot(plotWidget);//加入界面布局
+			addNewPlot(plotWidget, false);//加入界面布局
 			plotWidget->show();
 			plotWidget->setFocus(Qt::MouseFocusReason);
 			return;
@@ -655,7 +670,7 @@ void ViewWidget::viewGateSlot(QString gateName)
 			PlotWidget* plotWidget = findGate(gate, gateName);
 			if (plotWidget != 0)
 			{
-				addNewPlot(plotWidget);//加入界面布局
+				addNewPlot(plotWidget, false);//加入界面布局
 				plotWidget->show();
 				plotWidget->setFocus(Qt::MouseFocusReason);
 			}
@@ -664,10 +679,10 @@ void ViewWidget::viewGateSlot(QString gateName)
 
 	}
 	//散点图的设门若是没搜到，继续搜直方图设门
-	rootPlotWidget = (PlotWidget*)m_plotWidgetList.at(1);//直方图根节点窗口
+	rootPlotWidget = (PlotWidget*)s_plotWidgetList.at(1);//直方图根节点窗口
 	if (gateName == "All2")
 	{
-		addNewPlot(rootPlotWidget);//根目录加入界面布局
+		addNewPlot(rootPlotWidget, false);//根目录加入界面布局
 		rootPlotWidget->show();
 		rootPlotWidget->setFocus(Qt::MouseFocusReason);
 	}
@@ -677,7 +692,7 @@ void ViewWidget::viewGateSlot(QString gateName)
 		if (gate->getGateName() == gateName)
 		{
 			PlotWidget* plotWidget = (PlotWidget*)gate->getPlotWidget();//获得当前设门的widget
-			addNewPlot(plotWidget);//加入界面布局
+			addNewPlot(plotWidget, false);//加入界面布局
 			plotWidget->show();
 			plotWidget->setFocus(Qt::MouseFocusReason);
 			return;
@@ -687,7 +702,7 @@ void ViewWidget::viewGateSlot(QString gateName)
 			PlotWidget* plotWidget = findGate(gate, gateName);
 			if (plotWidget != 0)
 			{
-				addNewPlot(plotWidget);//加入界面布局
+				addNewPlot(plotWidget, false);//加入界面布局
 				plotWidget->show();
 				plotWidget->setFocus(Qt::MouseFocusReason);
 			}
@@ -706,24 +721,29 @@ PlotWidget* ViewWidget::findGate(GateStorage* gate, QString gateName)
 {
 	//遍历当前设门下面的所有设门
 	PlotWidget* plotWidget = (PlotWidget*)gate->getPlotWidget();
+
+	//欲找到的窗口
+	PlotWidget* findPlotWidget = 0;
 	for (int i = 0; i < plotWidget->m_gateStorageList.size(); i++)
 	{
 		//最新gate
 		gate = plotWidget->m_gateStorageList.at(i);
 		if (gate->getGateName() == gateName)
 		{
-			plotWidget = (PlotWidget*)gate->getPlotWidget();//获得当前设门的widget
+			findPlotWidget = (PlotWidget*)gate->getPlotWidget();//获得当前设门的widget
 
-			return plotWidget;
+			return findPlotWidget;
 		}
 		else
 		{
 			//递归查询子设门
-			findGate(gate,gateName);
+			findPlotWidget = findGate(gate, gateName);
+			if (findPlotWidget != 0)
+				return findPlotWidget;
 		}
 	}
 	//没查到返回0
-	return 0;
+	return findPlotWidget;
 	
 }
 /**
@@ -738,7 +758,7 @@ void ViewWidget::closeReportSlot()
 */
 void ViewWidget::delGateSlot(QString gateName)
 {
-	PlotWidget* rootPlotWidget = (PlotWidget*)m_plotWidgetList.at(0);//散点图根节点窗口
+	PlotWidget* rootPlotWidget = (PlotWidget*)s_plotWidgetList.at(0);//散点图根节点窗口
 	for (int i = 0; i < rootPlotWidget->m_gateStorageList.size(); i++)
 	{
 
@@ -748,6 +768,10 @@ void ViewWidget::delGateSlot(QString gateName)
 			PlotWidget* plotWidget = (PlotWidget*)gate->getPlotWidget();//获得当前设门的widget
 			focusPlotWidget = plotWidget;//指定聚焦的画布窗口
 			delPlot();//关闭窗口
+
+
+			//在全局有效细胞数据中删除选中的画布
+			s_plotWidgetList.removeOne(focusPlotWidget);
 			delete plotWidget;//删除窗口，只有一次。
 			plotWidget = 0;
 
@@ -768,6 +792,8 @@ void ViewWidget::delGateSlot(QString gateName)
 			{
 				focusPlotWidget = plotWidget;//指定聚焦的画布窗口
 				delPlot();//关闭窗口
+				//在全局有效细胞数据中删除选中的画布
+				s_plotWidgetList.removeOne(focusPlotWidget);
 				delete plotWidget;//删除窗口，只有一次。
 				plotWidget = 0;
 
@@ -782,7 +808,7 @@ void ViewWidget::delGateSlot(QString gateName)
 
 	}
 	//散点图的设门若是没搜到，继续搜直方图设门
-	rootPlotWidget = (PlotWidget*)m_plotWidgetList.at(1);//直方图根节点窗口
+	rootPlotWidget = (PlotWidget*)s_plotWidgetList.at(1);//直方图根节点窗口
 	for (int i = 0; i < rootPlotWidget->m_gateStorageList.size(); i++)
 	{
 		GateStorage* gate = rootPlotWidget->m_gateStorageList.at(i);
@@ -791,6 +817,8 @@ void ViewWidget::delGateSlot(QString gateName)
 			PlotWidget* plotWidget = (PlotWidget*)gate->getPlotWidget();//获得当前设门的widget
 			focusPlotWidget = plotWidget;//指定聚焦的画布窗口
 			delPlot();//关闭窗口
+			//在全局有效细胞数据中删除选中的画布
+			s_plotWidgetList.removeOne(focusPlotWidget);
 			delete plotWidget;//删除窗口，只有一次。
 			plotWidget = 0;
 
@@ -811,6 +839,8 @@ void ViewWidget::delGateSlot(QString gateName)
 			{
 				focusPlotWidget = plotWidget;//指定聚焦的画布窗口
 				delPlot();//关闭窗口
+				//在全局有效细胞数据中删除选中的画布
+				s_plotWidgetList.removeOne(focusPlotWidget);
 				delete plotWidget;//删除窗口，只有一次。
 				plotWidget = 0;
 
@@ -900,9 +930,9 @@ void ViewWidget::savePdfSlot()
 	painter.scale(5, 5); //将图像(所有要画的东西)在pdf上放大5倍
 	pointPainter.setX(pointPainter.x() / 5);
 	pointPainter.setY(pointPainter.y() / 5);
-	for (int i = 0; i < plotWidgetList.size(); i++)
+	for (int i = 0; i < m_gridPlotWidgetList.size(); i++)
 	{
-		PlotWidget* plotWidget = (PlotWidget*) plotWidgetList.at(i);
+		PlotWidget* plotWidget = (PlotWidget*) m_gridPlotWidgetList.at(i);
 		QPixmap pixmap = QPixmap::grabWidget(plotWidget, plotWidget->rect());  //获取界面的图片
 		pointPainter.setX(50 + i % 3 * 600);//每行三个图，每个图间距600，页边左起50
 		pointPainter.setY(150+ i / 3 * 500);//每行三个图，页边上距50

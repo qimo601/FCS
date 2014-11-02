@@ -15,7 +15,10 @@ public:
 	ViewWidget(QWidget *parent = 0);
 	~ViewWidget();
 	//全局所有画布数组
-	static QList<QWidget*> m_plotWidgetList;
+	static QList<QWidget*> s_plotWidgetList;
+
+	//在gridLayout中的画布
+	static QList<QWidget*> m_gridPlotWidgetList;
 public slots:
 	/**
 	* @brief 注销界面，清空所有数据
@@ -48,8 +51,9 @@ public slots:
 	/**
 	* @brief 新添加plot
 	* @param PlotWidget* widget:新增窗口指针
+	* @param bool addNew = false: 是否新增的窗口
 	*/
-	void addNewPlot(PlotWidget* widget=0);
+	void addNewPlot(PlotWidget* widget=0,bool addNew = false);
 	/**
 	* @brief 删除plot
 	*/
@@ -120,8 +124,6 @@ protected:
 private:
 	Ui::ViewWidget ui;
 	//PlotWidget* plotWidget;
-	//在gridLayout中的画布
-	QList<QWidget*> plotWidgetList;
 	QWidget* focusPlotWidget;
 	//真正的定时器
 	int m_timerId;
