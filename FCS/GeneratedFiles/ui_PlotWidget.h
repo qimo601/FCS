@@ -52,6 +52,8 @@ public:
     QCheckBox *logCheckBox;
     QCheckBox *scatterCheckBox;
     QCheckBox *barChatStaticsCheckBox;
+    QCheckBox *spectrogramCheckBox;
+    QCheckBox *contourCheckBox;
     QSpacerItem *horizontalSpacer;
     QFrame *cellPlotFrame;
     QSpacerItem *verticalSpacer_3;
@@ -314,6 +316,32 @@ public:
 
         horizontalLayout->addWidget(barChatStaticsCheckBox);
 
+        spectrogramCheckBox = new QCheckBox(cellXFrame);
+        spectrogramCheckBox->setObjectName(QStringLiteral("spectrogramCheckBox"));
+        spectrogramCheckBox->setFocusPolicy(Qt::NoFocus);
+        spectrogramCheckBox->setLayoutDirection(Qt::LeftToRight);
+        spectrogramCheckBox->setAutoFillBackground(false);
+        QIcon icon13;
+        icon13.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/SpectrogramBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        spectrogramCheckBox->setIcon(icon13);
+        spectrogramCheckBox->setIconSize(QSize(20, 20));
+        spectrogramCheckBox->setChecked(false);
+
+        horizontalLayout->addWidget(spectrogramCheckBox);
+
+        contourCheckBox = new QCheckBox(cellXFrame);
+        contourCheckBox->setObjectName(QStringLiteral("contourCheckBox"));
+        contourCheckBox->setFocusPolicy(Qt::NoFocus);
+        contourCheckBox->setLayoutDirection(Qt::LeftToRight);
+        contourCheckBox->setAutoFillBackground(false);
+        QIcon icon14;
+        icon14.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/ContourBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        contourCheckBox->setIcon(icon14);
+        contourCheckBox->setIconSize(QSize(20, 20));
+        contourCheckBox->setChecked(false);
+
+        horizontalLayout->addWidget(contourCheckBox);
+
         horizontalSpacer = new QSpacerItem(493, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
@@ -356,9 +384,9 @@ public:
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
         closeBtn->setMinimumSize(QSize(20, 20));
         closeBtn->setMaximumSize(QSize(20, 20));
-        QIcon icon13;
-        icon13.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/closeBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
-        closeBtn->setIcon(icon13);
+        QIcon icon15;
+        icon15.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/closeBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        closeBtn->setIcon(icon15);
         closeBtn->setIconSize(QSize(20, 20));
         closeBtn->setCheckable(false);
         closeBtn->setChecked(false);
@@ -374,9 +402,9 @@ public:
         copyBtn->setObjectName(QStringLiteral("copyBtn"));
         copyBtn->setMinimumSize(QSize(20, 20));
         copyBtn->setMaximumSize(QSize(20, 20));
-        QIcon icon14;
-        icon14.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/copyBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
-        copyBtn->setIcon(icon14);
+        QIcon icon16;
+        icon16.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/copyBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        copyBtn->setIcon(icon16);
         copyBtn->setIconSize(QSize(25, 25));
         copyBtn->setCheckable(false);
         copyBtn->setChecked(false);
@@ -468,6 +496,14 @@ public:
         barChatStaticsCheckBox->setToolTip(QApplication::translate("PlotWidget", "\347\233\264\346\226\271\345\233\276", 0));
 #endif // QT_NO_TOOLTIP
         barChatStaticsCheckBox->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        spectrogramCheckBox->setToolTip(QApplication::translate("PlotWidget", "\345\257\206\345\272\246\345\233\276", 0));
+#endif // QT_NO_TOOLTIP
+        spectrogramCheckBox->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        contourCheckBox->setToolTip(QApplication::translate("PlotWidget", "\347\255\211\351\253\230\347\272\277", 0));
+#endif // QT_NO_TOOLTIP
+        contourCheckBox->setText(QString());
 #ifndef QT_NO_TOOLTIP
         closeBtn->setToolTip(QApplication::translate("PlotWidget", "\345\205\263\351\227\255\347\252\227\345\217\243", 0));
 #endif // QT_NO_TOOLTIP

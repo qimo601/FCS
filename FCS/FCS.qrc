@@ -41,6 +41,9 @@
         <file>Resources/Images/MainWindow/copyBtn.png</file>
         <file>Resources/Images/MainWindow/closeBtn.png</file>
         <file>Resources/Images/MainWindow/gridLayout.png</file>
+        <file>Resources/Images/MainWindow/ContourBtn.png</file>
+        <file>Resources/Images/MainWindow/SpectrogramBtn.png</file>
+        <file>Resources/Images/MainWindow/started.png</file>
     </qresource>
     <qresource prefix="/Qss">
         <file>Resources/StyleSheet.qss</file>

@@ -96,6 +96,10 @@ PlotWidget::PlotWidget(QWidget *parent)
 	//散点图统计
 	connect(ui.scatterCheckBox, SIGNAL(clicked(bool)), this, SLOT(setScatterMode(bool)));
 
+	//密度图显示
+	connect(ui.spectrogramCheckBox, SIGNAL(clicked(bool)), this, SLOT(setSpectrogramMode(bool)));
+	//等高线显示
+	connect(ui.contourCheckBox, SIGNAL(clicked(bool)), this, SLOT(setContourMode(bool)));
 
 	//************临时设门测试*******************//
 	////绘图-十字线设门-返回值
@@ -2488,4 +2492,67 @@ void PlotWidget::mouseMoveEvent(QMouseEvent *event)
 		rect.setHeight(rect.height() + move_pos.y() - move_point.y());
 		parentW->resize(rect.width(), rect.height());*/
 	}
+}
+
+/**
+* @brief 设置密度图显示模式
+*/
+void PlotWidget::setSpectrogramMode(bool mode)
+{
+	d_plot->showSpectrogram(mode);
+	//如果显示
+	if (mode)
+	{
+		QList<PointColorData> pointList;
+	
+
+		QVector<double>* vectorX;
+		QVector<double>* vectorY;
+		//因为用log坐标轴，所以所有数据只需用原数据即可，不用判断Log了。
+		int m = ui.passageXCombox->currentData().toInt();
+		int n = ui.dataUnitXCombox->currentData().toInt();
+		vectorX = origialDataList->at(ui.passageXCombox->currentData().toInt())->at(ui.dataUnitXCombox->currentData().toInt());
+		vectorY = origialDataList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
+
+		////判断点四周的点数，半径为r
+		//for (int i = 0; i < vectorX->size(); i++)
+		//{
+		//	//原点
+		//	PointColorData originPoint;
+		//	originPoint.setX(vectorX->at(i));
+		//	originPoint.setY(vectorY->at(i));
+
+		//	qint32 sum = 0;
+
+		//	//判断一共有多少个点在半径为r的园内
+		//	double r = 100;
+		//	for (int j = 0; j < vectorX->size(); j++)
+		//	{
+		//		//目标点
+		//		PointColorData aimPoint;
+		//		aimPoint.setX(vectorX->at(j));
+		//		aimPoint.setY(vectorY->at(j));
+
+		//		bool tag = (originPoint.x() - aimPoint.x())*(originPoint.x() - aimPoint.x()) + (originPoint.y() - aimPoint.y())*(originPoint.y() - aimPoint.y()) <= r*r;
+		//		if (tag)
+		//			sum++;
+		//	}
+		//	originPoint.setValue(sum);
+		//	pointList.append(originPoint);
+		//}
+
+
+
+		//d_plot->updateSpectrogramData(pointList);
+		d_plot->updateSpectrogramData(vectorX, vectorY);
+
+	}
+
+}
+/**
+* @brief 设置等高线显示模式
+*/
+void PlotWidget::setContourMode(bool mode)
+{
+	d_plot->showContour(mode);
 }

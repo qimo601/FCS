@@ -685,8 +685,8 @@ void ReportTree::on_addBtn_clicked()
 void ReportTree::on_delBtn_clicked()
 {
 	int index = ui.tableWidget_2->currentRow();
-
-	if (index > 0)
+	//>=0，包括首条记录
+	if (index >= 0)
 		ui.tableWidget_2->removeRow(index);
 	else
 	{

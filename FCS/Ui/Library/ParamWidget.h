@@ -4,6 +4,8 @@
 #include <QWidget>
 #include "ui_ParamWidget.h"
 #include "Bll/Control/BllControl.h"
+#include "Bll/DataCenter/BllSettings.h"
+
 class ParamWidget : public QWidget
 {
 	Q_OBJECT
@@ -21,9 +23,17 @@ public slots:
 	*/
 	void on_setFluidBtn_clicked();
 	/**
+	* @brief 设置鞘液停止
+	*/
+	void on_setFluidStopBtn_clicked();
+	/**
 	* @brief 设置样品流
 	*/
 	void on_setSampleBtn_clicked();
+	/**
+	* @brief 设置样品流停止
+	*/
+	void on_setSampleStopBtn_clicked();
 	/**
 	* @brief 设置通道偏压
 	*/
@@ -44,6 +54,18 @@ public slots:
 	* @brief 设置样品流速-低档
 	*/
 	void on_lowRadioButton_clicked();
+	/**
+	* @brief 保存控制面板参数
+	*/
+	void saveAcqParams();
+	/**
+	* @brief 初始化控制面板参数
+	*/
+	void initAcqParams();
+	/**
+	* @brief 保存控制面板参数
+	*/
+	void closeFluid();
 
 protected:
 	void paintEvent(QPaintEvent *);
@@ -52,6 +74,9 @@ private:
 	Ui::ParamWidget ui;
 
 	BllControl* bllControl;//采集控制业务类
+
+	
+	BllSettings bllSettings;//配置业务
 };
 
 #endif // PARAMWIDGET_H

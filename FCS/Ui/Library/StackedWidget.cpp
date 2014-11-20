@@ -54,6 +54,7 @@ StackedWidget::StackedWidget(QWidget *parent)
 	//初始化进入数据分析界面
 	dataAnalyHandle();
 	//oscHandle();
+
 }
 
 StackedWidget::~StackedWidget()
@@ -96,7 +97,6 @@ void StackedWidget::init()
 	createToolBars();//创建工具栏
 
 	createTreeFileDir();//创建文件管理目录
-
 
 	
 }
@@ -699,3 +699,6 @@ void StackedWidget::setCloseReportActSlot()
 {
 	m_reportAct->setChecked(false);
 }
+
+
+

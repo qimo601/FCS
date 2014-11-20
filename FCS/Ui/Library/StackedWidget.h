@@ -169,6 +169,7 @@ public slots:
 	* @brief 设置报告按钮状态
 	*/
 	void setCloseReportActSlot();
+
 signals:
 	void newExpSignal();
 	void openExpFileSignal();
@@ -206,6 +207,9 @@ private:
 	QString m_currentMatLabPath;//当前实验路径
 	QMenu* m_menu;
 	QString m_fileName;//选中的文件名
+
+
+	
 };
 
 #endif // STACKEDWIDGET_H

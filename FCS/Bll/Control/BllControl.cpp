@@ -8,7 +8,7 @@ BllControl::BllControl(QObject *parent)
 
 BllControl::~BllControl()
 {
-	closeUSBControl();
+	//closeUSBControl();//关闭后，其他地方会受到影响，放在Global::uninstall里面
 }
 
 /**

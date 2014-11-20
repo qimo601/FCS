@@ -8,6 +8,10 @@
 #include <qwt_plot_canvas.h>
 #include <qwt_plot_layout.h>
 
+//密度图需要的头文件
+#include <qwt_raster_data.h>
+#include <qwt_color_map.h>
+#include "Ui/Library/BarStruct.h"
 //重新绘制刻度标尺
 class OtherScaleDraw : public QwtScaleDraw
 {
@@ -515,8 +519,131 @@ public:
 		//	Qt::RightButton);
 	}
 };
+/**
+* @brief 光谱数据
+*/
+class SpectrogramData : public QwtRasterData
+{
+public:
+	SpectrogramData()
+	{
+		//坐标轴范围
+		/*setInterval(Qt::XAxis, QwtInterval(0, 10));
+		setInterval(Qt::YAxis, QwtInterval(0, 10));
+		setInterval(Qt::ZAxis, QwtInterval(0.0, 10.0));*/
 
 
+		/*setInterval(Qt::XAxis, QwtInterval(-1000, 100000));
+		setInterval(Qt::YAxis, QwtInterval(0, 200000));*/
+		setInterval(Qt::ZAxis, QwtInterval(0.0, 50));
+		
+		QList<PointColorData>* m_pointNumList = new QList<PointColorData>();
+		m_count = 0;
+		m_vectorX = 0;
+		m_vectorY = 0;
+	}
+
+	virtual double value(double x, double y) const
+	{
+		const double c = 0.842;
+
+		//const double v1 = x * x + (y - c) * (y + c);
+		//const double v2 = x * (y + c) + x * (y + c);
+		////根据xy坐标值，得出当前的z轴值，选择颜色
+		//return 1.0 / (v1 * v1 + v2 * v2);
+		double m = 0;
+		//for (int i = 0; i < m_pointNumList.size(); i++)
+		//{
+		//	if (m_pointNumList.at(i).x() <= x &&m_pointNumList.at(i).x() >= x-1)
+		//	{
+		//		if (m_pointNumList.at(i).y() <= y && m_pointNumList.at(i).y() >= y - 1)
+		//		{
+		//			m = m_pointNumList.at(i).value();
+		//			break;
+		//		}
+		//	}
+		//}
+		
+		//判断点四周的点数，半径为r
+		//原点
+		PointColorData originPoint;
+		originPoint.setX(x);
+		originPoint.setY(y);
+
+		qint32 sum = 0;
+		if (m_vectorY != 0)
+		{
+
+
+			//判断一共有多少个点在半径为r的园内
+			double r = 50;
+			double s = r*r;
+			for (int j = 0; j < m_vectorY->size(); j++)
+			{
+				//目标点
+				PointColorData aimPoint;
+				aimPoint.setX(m_vectorX->at(j));
+				aimPoint.setY(m_vectorY->at(j));
+				//double length = (originPoint.x() - aimPoint.x())*(originPoint.x() - aimPoint.x()) + (originPoint.y() - aimPoint.y())*(originPoint.y() - aimPoint.y());
+				////qDebug() << QString("原点(%1,%2)到目标点(%3,%4) = 距离%5").arg(x).arg(y).arg(aimPoint.x()).arg(aimPoint.y()).arg(qSqrt(length));
+
+				//if (length <= s)
+				//{
+				//	sum++;
+				//}
+				
+				if (qFabs(originPoint.x() - aimPoint.x()) <= r)
+				{
+					if (qFabs(originPoint.y() - aimPoint.y()) <= r)
+						sum++;
+				}
+			}
+			originPoint.setValue(sum);
+		}
+		else
+			sum = 0;
+		//qDebug() << "[" << x << "," << y << "]" << "<==>"<<",sum = "<< sum;
+		return sum;
+
+	}
+	/**
+	* @brief 设置光谱颜色值
+	*/
+	void setPointSpectData(QList<PointColorData> pointList)
+	{
+		for (int i = 0; i < pointList.size(); i++)
+		{
+			PointColorData data;
+			m_pointNumList.append(pointList.at(i));
+		}
+	}
+	void setPointSpectData(QVector<double>* vectorX, QVector<double>* vectorY)
+	{
+		m_vectorX = vectorX;
+		m_vectorY = vectorY;
+	}
+private:
+	QList<PointColorData> m_pointNumList;
+	QVector<double>* m_vectorX;
+	QVector<double>* m_vectorY;
+	double m_count;
+};
+/**
+* @brief 颜色表
+*/
+class ColorMap : public QwtLinearColorMap
+{
+public:
+	ColorMap() :
+		QwtLinearColorMap(Qt::darkCyan, Qt::red)
+		//线性颜色范围from A to B
+	{
+		addColorStop(0.1, Qt::cyan);
+		addColorStop(0.5, Qt::green);
+		//addColorStop(0.4, Qt::blue);
+		addColorStop(0.9, Qt::yellow);
+	}
+};
 Plot::Plot(QWidget *parent)
 : QwtPlot(parent),
 d_curve(NULL)
@@ -535,8 +662,7 @@ d_curve(NULL)
 	QString m_barChartBrushColorName = "#DDE9FD";
 
 
-	//plotLayout()->setCanvasMargin(0);
-	plotLayout()->setAlignCanvasToScales(true);//设置对齐画布、坐标轴、刻度 会掩盖setCanvasMargin()
+	
 	setPalette(QColor("#FFFFFF"));//plot的窗口背景色
 	//setStyleSheet(
 	//	"border-top: 1px solid #9D9D9D;"
@@ -680,6 +806,13 @@ d_curve(NULL)
 	//d_parallelLinePicker_2 = new ParallelLinePicker(canvas);
 	//d_parallelLinePicker_2->setRubberBandPen(QPen(Qt::blue));
 	//connect(d_parallelLinePicker_2, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
+	
+	//初始化密度图
+	initSpectrogram();
+	//plotLayout()->setCanvasMargin(0);
+	plotLayout()->setAlignCanvasToScales(true);//设置对齐画布、坐标轴、刻度 会掩盖setCanvasMargin()
+	replot();
+
 }
 
 Plot::~Plot()
@@ -1019,3 +1152,117 @@ void Plot::setBarChartCurve(QString colorName, int width, QString brushColorName
 	//直方图模式
 	enableStaticsMode();
 }
+
+/**
+* @brief 初始化密度图
+*/
+void Plot::initSpectrogram()
+{
+	d_spectrogram = 0;
+	d_spectrogramData = 0;
+	//光谱图
+	d_spectrogram = new QwtPlotSpectrogram();
+	//指定渲染系统是否采用多核的线程数
+	d_spectrogram->setRenderThreadCount(1); // use system specific thread count
+	//在另外一个坐标轴工具栏，显示密度和显色的映射关系
+	d_spectrogram->setColorMap(new ColorMap());
+	//缓存策略：
+	d_spectrogram->setCachePolicy(QwtPlotRasterItem::PaintCache);
+
+	//设置光谱数据
+	d_spectrogram->setData(new SpectrogramData());
+	//Attach the item to a plot.
+	d_spectrogram->attach(this);
+
+	//等高线设置
+	QList<double> contourLevels;
+	for (double level = 1; level < 1000; level += 10)
+		contourLevels += level;
+	//设置等高线分层数据
+	d_spectrogram->setContourLevels(contourLevels);
+
+	//QwtRasterData数据Z轴的坐标范围
+	const QwtInterval zInterval = d_spectrogram->data()->interval(Qt::ZAxis);
+
+	//右边坐标轴上放上颜色表
+	// A color bar on the right axis
+	QwtScaleWidget *rightAxis = axisWidget(QwtPlot::yRight);
+	rightAxis->setTitle("Intensity");
+	rightAxis->setColorBarEnabled(true);
+	//设置颜色表和坐标范围，给颜色工具栏用。
+	rightAxis->setColorMap(zInterval, new ColorMap());
+
+	
+
+
+	//设置画布yRight坐标显示范围
+	setAxisScale(QwtPlot::yRight, zInterval.minValue(), zInterval.maxValue());
+	enableAxis(QwtPlot::yRight);
+
+	
+	showSpectrogram(false);//默认不显示密度图
+}
+/**
+* @brief 更新密度图数据
+*/
+void Plot::updateSpectrogramData(QList<PointColorData>  pointList)
+{
+	if (d_spectrogramData != 0)
+	{
+		delete d_spectrogramData;
+		d_spectrogramData = 0;
+	}
+	
+	d_spectrogramData = new SpectrogramData();
+	/*QRectF rectF(QPointF(0, 0), QSize(1e6, 1e6));
+	QSize raster(1000, 1000);
+	d_spectrogramData->initRaster(rectF, raster);*/
+
+	//设置光谱颜色值
+	d_spectrogramData->setPointSpectData(pointList);
+	//设置光谱数据
+	d_spectrogram->setData(d_spectrogramData);
+}
+/**
+* @brief 更新密度图数据
+*/
+void Plot::updateSpectrogramData(QVector<double>* vectorX, QVector<double>* vectorY)
+{
+	if (d_spectrogramData != 0)
+	{
+		delete d_spectrogramData;
+		d_spectrogramData = 0;
+	}
+	
+	d_spectrogramData = new SpectrogramData();
+	QRectF rectF(QPointF(0, 0), QSize(10, 10));
+	QSize raster(10, 10);
+	d_spectrogramData->initRaster(rectF, raster);
+	//设置光谱颜色值
+	d_spectrogramData->setPointSpectData(vectorX, vectorY);
+	//设置光谱数据
+	d_spectrogram->setData(d_spectrogramData);
+}
+/**
+* @brief 显示密度图
+*/
+void Plot::showSpectrogram(bool on)
+{
+	
+	
+	d_spectrogram->setDisplayMode(QwtPlotSpectrogram::ImageMode, on);
+	d_spectrogram->setDefaultContourPen(
+		on ? QPen(Qt::black, 0) : QPen(Qt::NoPen));
+	enableAxis(QwtPlot::yRight,on);
+	replot();
+}
+/**
+* @brief 显示等高线
+*/
+void Plot::showContour(bool on)
+{
+	d_spectrogram->setDisplayMode(QwtPlotSpectrogram::ContourMode, on);
+	replot();
+}
+
+

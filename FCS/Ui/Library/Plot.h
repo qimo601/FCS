@@ -19,11 +19,14 @@
 #include "Ui/QwtCustom/RectPicker.h"
 #include "Ui/QwtCustom/CrossPicker.h"
 #include "Ui/QwtCustom/ParallelLinePicker.h"
+
+#include <qwt_plot_spectrogram.h>
+#include "Ui/QwtCustom/PointColorData.h"
 class QwtPlotCurve;
 class QwtSymbol;
 class Zoomer;
 class QwtPlotCanvas;
-
+class SpectrogramData;
 class Plot : public QwtPlot
 {
 	Q_OBJECT
@@ -108,6 +111,26 @@ void setGridEnable(bool checked, bool barMode);
 	* @brief 设置散点图曲线颜色
 	*/
 	void setBarChartCurve(QString colorName, int width, QString brushColorName);
+	/**
+	* @brief 初始化密度图
+	*/
+	void initSpectrogram();
+	/**
+	* @brief 显示密度图
+	*/
+	void showSpectrogram(bool on);
+	/**
+	* @brief 显示等高线
+	*/
+	void showContour(bool on);
+	/**
+	* @brief 更新密度图数据
+	*/
+	void updateSpectrogramData(QList<PointColorData>  pointList);
+	/**
+	* @brief 更新密度图数据
+	*/
+	void updateSpectrogramData(QVector<double>* vectorX, QVector<double>* vectorY);
 signals:
 	void selectedCrossPicker(QPointF);
 	void selectedRectPicker(QRectF);
@@ -143,6 +166,14 @@ private:
 	QString m_barChartColorName;
 	int m_barChartWidth;
 	QString m_barChartBrushColorName;
+
+
+	//密度图
+	//光谱图
+	QwtPlotSpectrogram* d_spectrogram;
+	//光谱图数据源
+	SpectrogramData* d_spectrogramData;
+
 };
 
 #endif // PLOT_H

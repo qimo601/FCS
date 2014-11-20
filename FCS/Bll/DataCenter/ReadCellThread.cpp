@@ -167,6 +167,9 @@ void ReadCellThread::getCellData(bool clear)
 
 				//继续转换
 				valueAA = valueAA - 32768 * valueWW;
+				////归一化
+				//valueAA = (valueAA - 32768 * valueWW) * 8 / valueWW;
+
 				valueHH = valueHH - 32768 * 8;
 
 				iCellStaticData->insert(j, valueHH, valueAA, valueWW);
@@ -249,6 +252,9 @@ void ReadCellThread::getCellDataFromMatlabFile(QString filePath, bool clear)
 
 					//继续转换
 					valueAA = valueAA - 32768 * valueWW;
+					////归一化
+					//valueAA = (valueAA - 32768 * valueWW) * 8 / valueWW;
+
 					valueHH = valueHH - 32768 * 8;
 
 
@@ -373,6 +379,8 @@ void ReadCellThread::getCellDataFromFile(QString filePath, bool clear)
 
 					//继续转换
 					valueAA = valueAA - 32768 * valueWW;
+					////归一化
+					//valueAA = (valueAA - 32768 * valueWW) * 8 / valueWW;
 					valueHH = valueHH - 32768 * 8;
 
 

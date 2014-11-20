@@ -6,6 +6,7 @@
 #include <QTranslator>
 #include "Include/OscDataCenter.h"
 #include "Bll/DataCenter/BllSettings.h"
+#include "Bll/Control/BllControl.h"
 Global::Global(QObject *parent)
 	: QObject(parent)
 {
@@ -113,10 +114,12 @@ bool Global::uninstall()
 {
 	//卸载配置
 	BllSettings::uninstall();
-	//删除缓冲区
+	//首先关闭USB
+	BllControl::closeUSBControl();
+	//然后删除缓冲区
 	if (S_CCycleBuffer != 0)
 		delete S_CCycleBuffer;
-
+	
 	return true;
 }
 

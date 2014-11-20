@@ -27,7 +27,10 @@ class BllControl : public QObject
 public:
 	BllControl(QObject *parent=0);
 	~BllControl();
-
+	/**
+	* @brief 关闭USB设备
+	*/
+	static void closeUSBControl();
 public slots:
 	/**
 	* @brief 初始化USB控制
@@ -37,10 +40,7 @@ public slots:
 	* @brief 打开USB设备
 	*/
 	void openUSBControl();
-	/**
-	* @brief 关闭USB设备
-	*/
-	void closeUSBControl();
+
 	/**
 	* @brief USB开始监听（持续读数据，非阻塞）
 	*/

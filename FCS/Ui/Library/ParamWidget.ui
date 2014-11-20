@@ -148,8 +148,8 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>32</width>
-             <height>32</height>
+             <width>25</width>
+             <height>25</height>
             </size>
            </property>
            <property name="autoRaise">
@@ -247,8 +247,8 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>32</width>
-             <height>32</height>
+             <width>25</width>
+             <height>25</height>
             </size>
            </property>
            <property name="autoRaise">
@@ -576,8 +576,8 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>32</width>
-             <height>32</height>
+             <width>25</width>
+             <height>25</height>
             </size>
            </property>
            <property name="autoRaise">
@@ -664,8 +664,37 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>32</width>
-             <height>32</height>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="setFluidStopBtn">
+           <property name="minimumSize">
+            <size>
+             <width>41</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>设置鞘液参数</string>
+           </property>
+           <property name="text">
+            <string>设置</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../FCS.qrc">
+             <normaloff>:/MainWindow/Resources/Images/MainWindow/stop.png</normaloff>:/MainWindow/Resources/Images/MainWindow/stop.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
             </size>
            </property>
            <property name="autoRaise">
@@ -733,8 +762,37 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>32</width>
-             <height>32</height>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="setSampleStopBtn">
+           <property name="minimumSize">
+            <size>
+             <width>41</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>设置样品流速</string>
+           </property>
+           <property name="text">
+            <string>设置</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../FCS.qrc">
+             <normaloff>:/MainWindow/Resources/Images/MainWindow/stop.png</normaloff>:/MainWindow/Resources/Images/MainWindow/stop.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
             </size>
            </property>
            <property name="autoRaise">
@@ -831,33 +889,6 @@
         </widget>
        </item>
       </layout>
-      <zorder>layoutWidget</zorder>
-      <zorder>layoutWidget</zorder>
-      <zorder>layoutWidget</zorder>
-      <zorder>triggerComboBox</zorder>
-      <zorder>label</zorder>
-      <zorder>triggerSpin</zorder>
-      <zorder>setTriggerBtn</zorder>
-      <zorder>line</zorder>
-      <zorder>label_2</zorder>
-      <zorder>line_2</zorder>
-      <zorder>setChannelBiasBtn</zorder>
-      <zorder>label_9</zorder>
-      <zorder>label_10</zorder>
-      <zorder>line_3</zorder>
-      <zorder>setSampleBtn</zorder>
-      <zorder>layoutWidget</zorder>
-      <zorder>layoutWidget_2</zorder>
-      <zorder>layoutWidget_3</zorder>
-      <zorder>layoutWidget_8</zorder>
-      <zorder>layoutWidget_14</zorder>
-      <zorder>setFluidBtn</zorder>
-      <zorder>setLaserBtn</zorder>
-      <zorder>strengthSpin</zorder>
-      <zorder>laserComboBox</zorder>
-      <zorder>label_4</zorder>
-      <zorder>label_5</zorder>
-      <zorder>layoutWidget_4</zorder>
      </widget>
     </widget>
    </item>

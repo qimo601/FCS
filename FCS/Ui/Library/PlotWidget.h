@@ -25,6 +25,7 @@
 #include "Ui/QwtCustom/EllipsePicker.h"
 #include "Ui/QwtCustom/PolygonPicker.h"
 #include "Ui/Library/PlotConfig.h"
+#include "Ui/QwtCustom/PointColorData.h"
 class Plot;
 class BarStruct;
 class ViewWidget;
@@ -377,6 +378,14 @@ public slots:
 	* @brief 关闭窗口事件
 	*/
 	void on_closeBtn_clicked();
+	/**
+	* @brief 设置密度图显示模式
+	*/
+	void setSpectrogramMode(bool mode);
+	/**
+	* @brief 设置等高线显示模式
+	*/
+	void setContourMode(bool mode);
 signals:
 	void normalPlot();//正常显示信号
 	void addGateSignal(QWidget*);
