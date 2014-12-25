@@ -18,6 +18,7 @@
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
@@ -56,6 +57,13 @@ public:
     QCheckBox *contourCheckBox;
     QSpacerItem *horizontalSpacer;
     QFrame *cellPlotFrame;
+    QFrame *inforFrame;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label;
+    QLabel *experimentLabel;
+    QSpacerItem *horizontalSpacer_2;
+    QLabel *label_2;
+    QLabel *cellsEventsLabel;
     QSpacerItem *verticalSpacer_3;
     QFrame *cellYFrame;
     QVBoxLayout *verticalLayout_3;
@@ -70,14 +78,14 @@ public:
     {
         if (PlotWidget->objectName().isEmpty())
             PlotWidget->setObjectName(QStringLiteral("PlotWidget"));
-        PlotWidget->resize(400, 362);
+        PlotWidget->resize(429, 434);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PlotWidget->sizePolicy().hasHeightForWidth());
         PlotWidget->setSizePolicy(sizePolicy);
-        PlotWidget->setMinimumSize(QSize(400, 320));
-        PlotWidget->setMaximumSize(QSize(400, 362));
+        PlotWidget->setMinimumSize(QSize(429, 434));
+        PlotWidget->setMaximumSize(QSize(446, 434));
         PlotWidget->setFocusPolicy(Qt::StrongFocus);
         PlotWidget->setAcceptDrops(false);
         horizontalLayout_2 = new QHBoxLayout(PlotWidget);
@@ -359,6 +367,41 @@ public:
 
         verticalLayout->addWidget(cellPlotFrame);
 
+        inforFrame = new QFrame(PlotWidget);
+        inforFrame->setObjectName(QStringLiteral("inforFrame"));
+        inforFrame->setFrameShape(QFrame::StyledPanel);
+        inforFrame->setFrameShadow(QFrame::Raised);
+        horizontalLayout_3 = new QHBoxLayout(inforFrame);
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        label = new QLabel(inforFrame);
+        label->setObjectName(QStringLiteral("label"));
+
+        horizontalLayout_3->addWidget(label);
+
+        experimentLabel = new QLabel(inforFrame);
+        experimentLabel->setObjectName(QStringLiteral("experimentLabel"));
+
+        horizontalLayout_3->addWidget(experimentLabel);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
+        label_2 = new QLabel(inforFrame);
+        label_2->setObjectName(QStringLiteral("label_2"));
+
+        horizontalLayout_3->addWidget(label_2);
+
+        cellsEventsLabel = new QLabel(inforFrame);
+        cellsEventsLabel->setObjectName(QStringLiteral("cellsEventsLabel"));
+
+        horizontalLayout_3->addWidget(cellsEventsLabel);
+
+
+        verticalLayout->addWidget(inforFrame);
+
         verticalSpacer_3 = new QSpacerItem(20, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer_3);
@@ -504,6 +547,10 @@ public:
         contourCheckBox->setToolTip(QApplication::translate("PlotWidget", "\347\255\211\351\253\230\347\272\277", 0));
 #endif // QT_NO_TOOLTIP
         contourCheckBox->setText(QString());
+        label->setText(QApplication::translate("PlotWidget", "\345\256\236\351\252\214\357\274\232", 0));
+        experimentLabel->setText(QApplication::translate("PlotWidget", "\346\234\252\345\221\275\345\220\215", 0));
+        label_2->setText(QApplication::translate("PlotWidget", "\347\273\206\350\203\236\344\270\252\346\225\260\357\274\232", 0));
+        cellsEventsLabel->setText(QApplication::translate("PlotWidget", "0", 0));
 #ifndef QT_NO_TOOLTIP
         closeBtn->setToolTip(QApplication::translate("PlotWidget", "\345\205\263\351\227\255\347\252\227\345\217\243", 0));
 #endif // QT_NO_TOOLTIP

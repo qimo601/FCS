@@ -780,10 +780,9 @@ d_curve(NULL)
 	enableAxis(QwtPlot::xTop);
 	setAxisAutoScale(QwtPlot::yRight, true);
 	setAxisAutoScale(QwtPlot::xTop, true);
-
+	
 	this->setAxisScale(QwtPlot::xTop, 0, 1e6);//设置y轴坐标刻度大小
 	this->setAxisScale(QwtPlot::yRight, 0, 1e6);//设置y轴坐标刻度大小
-
 
 	//this->setFocusPolicy(Qt::TabFocus);//设置画布聚焦策略为键盘TAB，这样父类可以影响到子控件
 

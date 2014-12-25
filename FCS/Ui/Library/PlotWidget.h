@@ -386,6 +386,14 @@ public slots:
 	* @brief 设置等高线显示模式
 	*/
 	void setContourMode(bool mode);
+	/**
+	* @brief 设置实验名称
+	*/
+	void setExperimentName(QString experimentName);
+	/**
+	* @brief 设置细胞个数
+	*/
+	void setCellEvents(double events);
 signals:
 	void normalPlot();//正常显示信号
 	void addGateSignal(QWidget*);

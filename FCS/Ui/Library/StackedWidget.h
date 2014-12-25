@@ -111,7 +111,7 @@ public slots:
 	/**
 	* @brief 保存细胞数据
 	*/
-	void on_saveCheckBox_clicked();
+	void on_saveCheckBox_toggled(bool checked);
 	/**
 	* @brief 时间计时
 	*/

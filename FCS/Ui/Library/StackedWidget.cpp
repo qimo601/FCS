@@ -211,7 +211,10 @@ void StackedWidget::on_startAcquisitionBtn_clicked()
 		VoCmd voCmd;
 		voCmd.setCmd(5);
 		voCmd.setLength(0);
-		bllControl->sendCmd(voCmd);
+		/************USB驱动不能读空，所以每次停止采集，就停止读取了**********************/
+		bllControl->startListening();//先开启监听
+		bllControl->sendCmd(voCmd);//再开始采集
+		/************************************************************************/
 		ui.startAcquisitionBtn->setEnabled(false);
 		ui.stopAcquisitionBtn->setEnabled(true);
 		//开始计时
@@ -249,14 +252,27 @@ void StackedWidget::on_stopAcquisitionBtn_clicked()
 		VoCmd voCmd;
 		voCmd.setCmd(6);
 		voCmd.setLength(0);
-		bllControl->sendCmd(voCmd);
+
+		/**********防止USB驱动读空，一直挂起，关闭不了驱动*****************/
+		bllControl->stopListening();//先停止监听，
+		bllControl->sendCmd(voCmd);//再停止下位机送数据
+		bool result = bllControl->resetDevice();//重置一下USB，清空USB缓存，关闭USB再打开
+		if (!result)
+		{
+			int ret = QMessageBox::warning(this, tr("警告"),
+				QString("停止采集后，无法重置USB！"),
+				QMessageBox::Ok,
+				QMessageBox::Ok);
+		}
+		/**********防止USB驱动读空，一直挂起，关闭不了驱动*****************/
+
 
 		ui.startAcquisitionBtn->setEnabled(true);
 		ui.stopAcquisitionBtn->setEnabled(false);
 
 		//关闭文件
 		ui.saveCheckBox->setChecked(false);//通过该属性判断文件关闭否
-		on_saveCheckBox_clicked();
+		//ui.saveCheckBox->click();
 
 		//停止计时
 		if (ui.timeCheckBox->isChecked())
@@ -325,7 +341,7 @@ void StackedWidget::saveExpFileSlot()
 /**
 * @brief 保存细胞数据
 */
-void StackedWidget::on_saveCheckBox_clicked()
+void StackedWidget::on_saveCheckBox_toggled(bool checked)
 {
 	//若是控制处选择保存
 	if (ui.saveCheckBox->isChecked())

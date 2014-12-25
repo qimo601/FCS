@@ -244,8 +244,8 @@ void PlotWidget::initUi()
 	ui.dataUnitXCombox->addItem("AA", 1);
 	ui.dataUnitXCombox->addItem("WW", 2);
 
-	ui.passageXCombox->setCurrentIndex(2);//默认通道3
-	ui.passageYCombox->setCurrentIndex(2);
+	ui.passageXCombox->setCurrentIndex(1);//默认通道0
+	ui.passageYCombox->setCurrentIndex(0);
 	ui.dataUnitXCombox->setCurrentIndex(0);//默认HH数据单元
 	ui.dataUnitYCombox->setCurrentIndex(0);
 
@@ -595,7 +595,10 @@ void PlotWidget::setAxisScale()
 			//若m_xAutoScatter不需要自动
 			if (!m_xAutoScatter)
 			{
-				d_plot->setAxisScale(QwtPlot::xBottom, 1, m_xRightScatter);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+				if (m_xLeftScatter <= 0)
+					d_plot->setAxisScale(QwtPlot::xBottom, 1, m_xRightScatter);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+				else
+					d_plot->setAxisScale(QwtPlot::xBottom, m_xLeftScatter, m_xRightScatter);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
 
 			}
 			else
@@ -604,7 +607,10 @@ void PlotWidget::setAxisScale()
 			}
 			if (!m_yAutoScatter)
 			{
-				d_plot->setAxisScale(QwtPlot::yLeft, 1, m_yTopScatter);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+				if (m_yDownScatter<=0)
+					d_plot->setAxisScale(QwtPlot::yLeft, 1, m_yTopScatter);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
+				else
+					d_plot->setAxisScale(QwtPlot::yLeft, m_yDownScatter, m_yTopScatter);//设置y轴坐标刻度大小,最大值和最小值，以及最小刻度
 			}
 			else
 			{
@@ -613,6 +619,8 @@ void PlotWidget::setAxisScale()
 				/*d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
 			d_plot->setAxisAutoScale(QwtPlot::yLeft, true);*/
 		}
+		d_plot->setAxisLabelRotation(QwtPlot::xBottom, -50.0);//标签旋转50度 
+
 
 	}
 	//直方图统计模式
@@ -623,7 +631,6 @@ void PlotWidget::setAxisScale()
 		//若m_xAutoBarchart不需要自动
 		if (!m_xAutoBarchart)
 		{
-
 			d_plot->setAxisScale(QwtPlot::xBottom, m_xLeftBarchart, m_xRightBarchart);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
 		}
 		else
@@ -656,7 +663,10 @@ void PlotWidget::setAxisScale()
 			//d_plot->setAxisScale(QwtPlot::yLeft, 0, 10000);
 			if (!m_xAutoBarchart)
 			{
-				d_plot->setAxisScale(QwtPlot::xBottom, 1, m_xRightBarchart);
+				if (m_xLeftBarchart <= 0)
+					d_plot->setAxisScale(QwtPlot::xBottom, 1, m_xRightBarchart);//设置x轴坐标刻度大小,最大值和最小值，以及最小刻度
+				else
+					d_plot->setAxisScale(QwtPlot::xBottom, m_xLeftBarchart, m_xRightBarchart);
 			}
 			else
 			{
@@ -664,7 +674,11 @@ void PlotWidget::setAxisScale()
 			}
 			if (!m_yAutoBarchart)
 			{
-				d_plot->setAxisScale(QwtPlot::xBottom, 1, m_yTopBarchart);
+				//防止log值<=0
+				if (m_yDownBarchart <= 0)
+					d_plot->setAxisScale(QwtPlot::yLeft, 1, m_yTopBarchart);
+				else
+					d_plot->setAxisScale(QwtPlot::xBottom, m_yDownBarchart, m_yTopBarchart);
 			}
 			else
 			{
@@ -673,6 +687,7 @@ void PlotWidget::setAxisScale()
 			//d_plot->setAxisAutoScale(QwtPlot::xBottom, true);
 			//d_plot->setAxisScaleEngine(QwtPlot::xBottom, new QwtLogScaleEngine);
 		}
+		d_plot->setAxisLabelRotation(QwtPlot::xBottom, -50.0);//标签旋转50度 
 	}
 
 }
@@ -980,6 +995,8 @@ void PlotWidget::enableParallelLineBtn(bool mode)
 	//启用新设门
 	if (mode)
 	{
+		//清空坐标
+		parallelLineList.clear();
 		//平行线设门
 		d_parallelLinePicker_1 = new ParallelLinePicker(d_plot->canvas);
 		connect(d_parallelLinePicker_1, SIGNAL(selected(QPointF)), this, SLOT(selectedParallelLinePickerSlot(QPointF)));
@@ -1036,6 +1053,7 @@ void PlotWidget::updateSamples()
 		updateStaticsSamples();
 	}
 
+	setCellEvents(origialDataList->at(0)->at(0)->size());//设置细胞数据
 
 }
 
@@ -1429,28 +1447,29 @@ void PlotWidget::selectedParallelLinePickerSlot(QPointF pointf)
 		{
 			return;
 		}
-		else
+		/*else
 		{
 			parallelLineList.append(pointf);
 			break;
-		}
+		}*/
 	}
 	//无点
-	if (parallelLineList.size() == 0)
-	{
+// 	if (parallelLineList.size() == 0)
+// 	{
 		parallelLineList.append(pointf);
-	}
+	//}
 	//已经有一个点
 	if (parallelLineList.size() == 1)
 	{
 		//d_parallelLinePicker_1->setEnabled(false);
+		//d_parallelLinePicker_1->reset();
 		d_parallelLinePicker_1->setTrackerMode(QwtPicker::AlwaysOff);
 
 		d_parallelLinePicker_2->setEnabled(true);
 		d_parallelLinePicker_2->setTrackerMode(QwtPicker::ActiveOnly);
 	}
 	//已经有2个点
-	if (parallelLineList.size() >= 2)
+	if (parallelLineList.size() == 2)
 	{
 		
 		//emit selectedParallelLinePicker(parallelLineList);
@@ -1576,6 +1595,9 @@ void PlotWidget::addGate(GateStorage::GateType type)
 		title = QString("%1-%2").arg(plotwidget->getTitle()).arg(gateStorage->getGateName());
 	//给新设门窗口的画布命名
 	d_plotWidgetGate->setTitle(title);
+	//设置实验名
+	d_plotWidgetGate->setExperimentName(ViewWidget::s_experimentName);//设置实验名
+	d_plotWidgetGate->setCellEvents(d_plotWidgetGate->origialDataList->at(0)->at(0)->size());//设置细胞数据
 	gateStorage->setGateType(type);//设门类型
 	m_gateStorageList.append(gateStorage);//添加设门
 
@@ -2190,7 +2212,16 @@ void PlotWidget::statisticsHistogram(int passage,int dataUnit)
 	int j = dataUnit;//第j组参数
 	QVector<double>* originalList = origialDataList->at(i)->at(j);//原始数据
 	QVector<BarStruct>* barList = barStructList->at(i)->at(j);//条件数据
-		//对源数据筛选一次
+
+	//清空上次统计数据，避免点一次直方图递增+1
+	BarStruct bar;
+	for (int i = 0; i < barList->size(); i++)
+	{
+		bar = barList->at(i);
+		bar.m_value = 0;
+		barList->replace(i, bar);
+	}
+	//对源数据筛选一次
 	for (int m = 0; m < originalList->size(); m++)
 	{
 
@@ -2555,4 +2586,19 @@ void PlotWidget::setSpectrogramMode(bool mode)
 void PlotWidget::setContourMode(bool mode)
 {
 	d_plot->showContour(mode);
+}
+/**
+* @brief 设置实验名称
+*/
+void PlotWidget::setExperimentName(QString experimentName)
+{
+	ui.experimentLabel->setText(experimentName);
+}
+/**
+* @brief 设置细胞个数
+*/
+void PlotWidget::setCellEvents(double events)
+{
+	QString cellEvents = QString::number(events);
+	ui.cellsEventsLabel->setText(cellEvents);
 }

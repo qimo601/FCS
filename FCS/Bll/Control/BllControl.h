@@ -46,6 +46,10 @@ public slots:
 	*/
 	void startListening();
 	/**
+	* @brief USBÕ£÷πº‡Ã˝£®œ»Õ£÷πº‡Ã˝£¨‘Ÿπÿ±’£©
+	*/
+	void stopListening();
+	/**
 	* @brief  …Ë÷√º§π‚
 	*
 	* @param   VoLaser voLaser
@@ -139,6 +143,10 @@ public slots:
 	* @date    2014-4-11
 	*/
 	void getChannelBias(VoChannelBias& vo, char& buffer2, char& buffer3);
+	/**
+	* @brief ÷ÿ÷√USB
+	*/
+	bool resetDevice();
 private:
 };
 

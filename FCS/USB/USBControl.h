@@ -96,6 +96,10 @@ public:
 	* @date    2014-03-31
 	*/
 	void onButtonWr();
+	/**
+	* @brief 重置USB设备
+	*/
+	bool resetDevice();
 private:
 	//USB设备句柄
 	HANDLE  m_hDevice;

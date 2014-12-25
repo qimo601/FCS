@@ -62,6 +62,13 @@ void ParamWidget::on_setLaserBtn_clicked()
 	vo.setPassage(passage);
 	vo.setStrength(strength);
 	bllControl->setLaser(vo);
+
+
+	//激光强度
+	int value = ui.laserComboBox->currentIndex();
+	bllSettings.update("ParamWidget", "laserComboBox", value);
+	value = ui.strengthSpin->value();
+	bllSettings.update("ParamWidget", "strengthSpin", value);
 }
 /**
 * @brief 设置鞘液
@@ -83,6 +90,10 @@ void ParamWidget::on_setFluidBtn_clicked()
 		ui.setFluidBtn->setAutoRaise(true);
 	}
 
+
+	//鞘液
+	int value = ui.fluidSpin->value();
+	bllSettings.update("ParamWidget", "fluidSpin", value);
 }
 /**
 * @brief 设置鞘液停止
@@ -120,6 +131,11 @@ void ParamWidget::on_setSampleBtn_clicked()
 		ui.setSampleBtn->setIconSize(QSize(25, 25));
 		ui.setSampleBtn->setAutoRaise(true);
 	}
+
+
+	//样品流速
+	int value = ui.sampleSpin->value();
+	bllSettings.update("ParamWidget", "sampleSpin", value);
 }
 /**
 * @brief 设置样品流停止
@@ -171,6 +187,25 @@ void ParamWidget::on_setChannelBiasBtn_clicked()
 		Sleep(10);//防止过快
 	}
 
+	//通道偏压
+	int value = ui.FSC_spinBox->value();
+	bllSettings.update("ParamWidget", "FSC_spinBox", value);
+
+	value = ui.SSC_spinBox->value();
+	bllSettings.update("ParamWidget", "SSC_spinBox", value);
+
+	value = ui.FL1_spinBox->value();
+	bllSettings.update("ParamWidget", "FL1_spinBox", value);
+
+	value = ui.FL2_spinBox->value();
+	bllSettings.update("ParamWidget", "FL2_spinBox", value);
+
+	value = ui.FL3_spinBox->value();
+	bllSettings.update("ParamWidget", "FL3_spinBox", value);
+
+	value = ui.FL4_spinBox->value();
+	bllSettings.update("ParamWidget", "FL4_spinBox", value);
+
 
 }
 
@@ -188,6 +223,14 @@ void ParamWidget::on_setTriggerBtn_clicked()
 	vo.setChannel2(passage);
 	vo.setTriggerValue(trigger);
 	bllControl->setTrigger(vo);
+
+
+	//触发值
+	int value = ui.triggerComboBox->currentIndex();
+	bllSettings.update("ParamWidget", "triggerComboBox", value);
+	value = ui.triggerSpin->value();
+	bllSettings.update("ParamWidget", "triggerSpin", value);
+
 }
 
 /**

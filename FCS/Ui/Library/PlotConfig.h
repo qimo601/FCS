@@ -15,6 +15,7 @@
 #include <QPropertyAnimation>
 #include "ui_PlotConfig.h"
 #include "bll/DataCenter/BllSettings.h"
+#include "Include/Global.h"
 class PlotConfig : public QWidget
 {
 	Q_OBJECT
@@ -120,6 +121,10 @@ public slots:
 	* @brief  画布颜色设置
 	*/
 	void on_defaultCheckBox_toggled(bool enable);
+	/**
+	* @brief 是否保存参数，还是只临时使用
+	*/
+	void on_savePlotConfigCheckBox_toggled(bool checked);
 signals:
 	void scatterPlotConfigChange(QMap<QString, QVariant>);//散点图参数变更
 	void barchartPlotConfigChange(QMap<QString, QVariant>);//直方图参数变更

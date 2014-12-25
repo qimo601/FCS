@@ -7,6 +7,7 @@
 #include "PlotWidget.h"
 #include "Bll/DataCenter/ReadCellThread.h"
 #include "Ui/Report/ReportTree.h"
+#include <QFileDialog>
 class ViewWidget : public QWidget
 {
 	Q_OBJECT
@@ -19,6 +20,8 @@ public:
 
 	//在gridLayout中的画布
 	static QList<QWidget*> m_gridPlotWidgetList;
+	//实验名
+	static QString s_experimentName;
 public slots:
 	/**
 	* @brief 注销界面，清空所有数据
@@ -103,6 +106,10 @@ public slots:
 	* @brief 导出PDF文档
 	*/
 	void savePdfSlot();
+	/**
+	* @brief 初始化新实验名
+	*/
+	void initExperimentName();
 signals:
 	void openExpSignal(QString,bool);//打开实验文件
 	void getCellDataFromFile();//读本地文件
@@ -116,6 +123,7 @@ signals:
 	* @brief 是否有选中的画布窗口
 	*/
 	void haveFocusPlotWidgetSignal(bool focus);
+
 protected:
 	virtual void paintEvent(QPaintEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent * event);
@@ -134,6 +142,12 @@ private:
 	bool m_focusing;
 	//鼠标最后选中位置
 	double m_lastPoint;
+
+	//PDF保存窗口
+	QFileDialog* m_fdPDF;
+	//PDF保存路径
+	QString m_pdfSavePath;
+	
 };
 
 #endif // VIEWWIDGET_H

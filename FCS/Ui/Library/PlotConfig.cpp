@@ -149,44 +149,79 @@ void PlotConfig::initScatterPlotSettings(QMap<QString,QVariant>& valueMap)
 void PlotConfig::updateScatterPlotSettings()
 {
 	QMap<QString, QVariant> valueMap;
+	int value;
 
-	//x轴坐标
-	int value = ui.xLeftSpinBox->value();
-	bllSettings.update("PlotConfig", "xLeftSpinBox", value);
-	valueMap.insert("xLeftSpinBox", value);
-	value = ui.xRightSpinBox->value();
-	bllSettings.update("PlotConfig", "xRightSpinBox", value);
-	valueMap.insert("xRightSpinBox", value);
-	value = ui.xAutoCheckBox->isChecked();
-	bllSettings.update("PlotConfig", "xAutoCheckBox", value);
-	valueMap.insert("xAutoCheckBox", value);
-	//y轴坐标
-	value = ui.yDownSpinBox->value();
-	bllSettings.update("PlotConfig", "yDownSpinBox", value);
-	valueMap.insert("yDownSpinBox", value);
-	value = ui.yTopSpinBox->value();
-	bllSettings.update("PlotConfig", "yTopSpinBox", value);
-	valueMap.insert("yTopSpinBox", value);
-	value = ui.yAutoCheckBox->isChecked();
-	bllSettings.update("PlotConfig", "yAutoCheckBox", value);
-	valueMap.insert("yAutoCheckBox", value);
-
-
-	//画布曲线颜色-散点图
-	QPalette palette = ui.scatterColorBtn->palette();
-	QColor backGround = palette.color(QPalette::Background);
-	QString name = backGround.name();
-	bllSettings.update("PlotConfig", "scatterColorBtn", name);
-	valueMap.insert("scatterColorBtn", name);
-	value = ui.scatterWideSpinBox->value();
-	bllSettings.update("PlotConfig", "scatterWideSpinBox", value);
-	valueMap.insert("scatterWideSpinBox", value);
-	value = ui.scatterDefaultCheckBox->isChecked();
-	bllSettings.update("PlotConfig", "scatterDefaultCheckBox", value);
-	valueMap.insert("scatterDefaultCheckBox", value);
+	bool save = ui.savePlotConfigCheckBox->isChecked();
+	//保存和界面更新
+	if (save)
+	{
+		//x轴坐标
+		value = ui.xLeftSpinBox->value();
+		bllSettings.update("PlotConfig", "xLeftSpinBox", value);
+		valueMap.insert("xLeftSpinBox", value);
+		value = ui.xRightSpinBox->value();
+		bllSettings.update("PlotConfig", "xRightSpinBox", value);
+		valueMap.insert("xRightSpinBox", value);
+		value = ui.xAutoCheckBox->isChecked();
+		bllSettings.update("PlotConfig", "xAutoCheckBox", value);
+		valueMap.insert("xAutoCheckBox", value);
+		//y轴坐标
+		value = ui.yDownSpinBox->value();
+		bllSettings.update("PlotConfig", "yDownSpinBox", value);
+		valueMap.insert("yDownSpinBox", value);
+		value = ui.yTopSpinBox->value();
+		bllSettings.update("PlotConfig", "yTopSpinBox", value);
+		valueMap.insert("yTopSpinBox", value);
+		value = ui.yAutoCheckBox->isChecked();
+		bllSettings.update("PlotConfig", "yAutoCheckBox", value);
+		valueMap.insert("yAutoCheckBox", value);
 
 
+		//画布曲线颜色-散点图
+		QPalette palette = ui.scatterColorBtn->palette();
+		QColor backGround = palette.color(QPalette::Background);
+		QString name = backGround.name();
+		bllSettings.update("PlotConfig", "scatterColorBtn", name);
+		valueMap.insert("scatterColorBtn", name);
+		value = ui.scatterWideSpinBox->value();
+		bllSettings.update("PlotConfig", "scatterWideSpinBox", value);
+		valueMap.insert("scatterWideSpinBox", value);
+		value = ui.scatterDefaultCheckBox->isChecked();
+		bllSettings.update("PlotConfig", "scatterDefaultCheckBox", value);
+		valueMap.insert("scatterDefaultCheckBox", value);
 
+	}
+	//只界面更新（产生数据）
+	else
+	{
+		//x轴坐标
+		value = ui.xLeftSpinBox->value();
+		valueMap.insert("xLeftSpinBox", value);
+		value = ui.xRightSpinBox->value();
+		valueMap.insert("xRightSpinBox", value);
+		value = ui.xAutoCheckBox->isChecked();
+		valueMap.insert("xAutoCheckBox", value);
+		//y轴坐标
+		value = ui.yDownSpinBox->value();
+		valueMap.insert("yDownSpinBox", value);
+		value = ui.yTopSpinBox->value();
+		valueMap.insert("yTopSpinBox", value);
+		value = ui.yAutoCheckBox->isChecked();
+		valueMap.insert("yAutoCheckBox", value);
+
+
+		//画布曲线颜色-散点图
+		QPalette palette = ui.scatterColorBtn->palette();
+		QColor backGround = palette.color(QPalette::Background);
+		QString name = backGround.name();
+		valueMap.insert("scatterColorBtn", name);
+		value = ui.scatterWideSpinBox->value();
+		valueMap.insert("scatterWideSpinBox", value);
+		value = ui.scatterDefaultCheckBox->isChecked();
+		valueMap.insert("scatterDefaultCheckBox", value);
+	}
+
+	//界面更新
 	emit scatterPlotConfigChange(valueMap);
 
 }
@@ -245,42 +280,78 @@ void PlotConfig::updateBarChartPlotSettings()
 {
 
 	QMap<QString, QVariant> valueMap;
-	//x轴坐标
-	int value = ui.xLeftSpinBox_2->value();
-	bllSettings.update("PlotConfig", "xLeftSpinBox_2", value);
-	valueMap.insert("xLeftSpinBox_2", value);
+	int value;
+	bool save = ui.savePlotConfigCheckBox->isChecked();
+	//保存和界面更新
+	if (save)
+	{
+		//x轴坐标
+		value = ui.xLeftSpinBox_2->value();
+		bllSettings.update("PlotConfig", "xLeftSpinBox_2", value);
+		valueMap.insert("xLeftSpinBox_2", value);
 
-	value = ui.xRightSpinBox_2->value();
-	bllSettings.update("PlotConfig", "xRightSpinBox_2", value);
-	valueMap.insert("xRightSpinBox_2", value);
-	value = ui.xAutoCheckBox_2->isChecked();
-	bllSettings.update("PlotConfig", "xAutoCheckBox_2", value);
-	valueMap.insert("xAutoCheckBox_2", value);
-	//y轴坐标
-	value = ui.yDownSpinBox_2->value();
-	bllSettings.update("PlotConfig", "yDownSpinBox_2", value);
-	valueMap.insert("yDownSpinBox_2", value);
-	value = ui.yTopSpinBox_2->value();
-	bllSettings.update("PlotConfig", "yTopSpinBox_2", value);
-	valueMap.insert("yTopSpinBox_2", value);
-	value = ui.yAutoCheckBox_2->isChecked();
-	bllSettings.update("PlotConfig", "yAutoCheckBox_2", value);
-	valueMap.insert("yAutoCheckBox_2", value);
+		value = ui.xRightSpinBox_2->value();
+		bllSettings.update("PlotConfig", "xRightSpinBox_2", value);
+		valueMap.insert("xRightSpinBox_2", value);
+		value = ui.xAutoCheckBox_2->isChecked();
+		bllSettings.update("PlotConfig", "xAutoCheckBox_2", value);
+		valueMap.insert("xAutoCheckBox_2", value);
+		//y轴坐标
+		value = ui.yDownSpinBox_2->value();
+		bllSettings.update("PlotConfig", "yDownSpinBox_2", value);
+		valueMap.insert("yDownSpinBox_2", value);
+		value = ui.yTopSpinBox_2->value();
+		bllSettings.update("PlotConfig", "yTopSpinBox_2", value);
+		valueMap.insert("yTopSpinBox_2", value);
+		value = ui.yAutoCheckBox_2->isChecked();
+		bllSettings.update("PlotConfig", "yAutoCheckBox_2", value);
+		valueMap.insert("yAutoCheckBox_2", value);
 
-	//画布曲线颜色-直方图
-	QPalette palette = ui.barChatColorBtn->palette();
-	QColor backGround = palette.color(QPalette::Background);
-	QString name = backGround.name();
-	bllSettings.update("PlotConfig", "barChatColorBtn", name);
-	valueMap.insert("barChatColorBtn", name);
+		//画布曲线颜色-直方图
+		QPalette palette = ui.barChatColorBtn->palette();
+		QColor backGround = palette.color(QPalette::Background);
+		QString name = backGround.name();
+		bllSettings.update("PlotConfig", "barChatColorBtn", name);
+		valueMap.insert("barChatColorBtn", name);
 
-	value = ui.barChatWideSpinBox->value();
-	bllSettings.update("PlotConfig", "barChatWideSpinBox", value);
-	valueMap.insert("barChatWideSpinBox", value);
-	value = ui.barChartDefaultCheckBox->isChecked();
-	bllSettings.update("PlotConfig", "barChartDefaultCheckBox", value);
-	valueMap.insert("barChartDefaultCheckBox", value);
+		value = ui.barChatWideSpinBox->value();
+		bllSettings.update("PlotConfig", "barChatWideSpinBox", value);
+		valueMap.insert("barChatWideSpinBox", value);
+		value = ui.barChartDefaultCheckBox->isChecked();
+		bllSettings.update("PlotConfig", "barChartDefaultCheckBox", value);
+		valueMap.insert("barChartDefaultCheckBox", value);
+	}
+	//只更新数据
+	else
+	{
+		//x轴坐标
+		value = ui.xLeftSpinBox_2->value();
+		valueMap.insert("xLeftSpinBox_2", value);
 
+		value = ui.xRightSpinBox_2->value();
+		valueMap.insert("xRightSpinBox_2", value);
+		value = ui.xAutoCheckBox_2->isChecked();
+		valueMap.insert("xAutoCheckBox_2", value);
+		//y轴坐标
+		value = ui.yDownSpinBox_2->value();
+		valueMap.insert("yDownSpinBox_2", value);
+		value = ui.yTopSpinBox_2->value();
+		valueMap.insert("yTopSpinBox_2", value);
+		value = ui.yAutoCheckBox_2->isChecked();
+		valueMap.insert("yAutoCheckBox_2", value);
+
+		//画布曲线颜色-直方图
+		QPalette palette = ui.barChatColorBtn->palette();
+		QColor backGround = palette.color(QPalette::Background);
+		QString name = backGround.name();
+		valueMap.insert("barChatColorBtn", name);
+
+		value = ui.barChatWideSpinBox->value();
+		valueMap.insert("barChatWideSpinBox", value);
+		value = ui.barChartDefaultCheckBox->isChecked();
+		valueMap.insert("barChartDefaultCheckBox", value);
+	}
+	//界面更新信号
 	emit barchartPlotConfigChange(valueMap);
 
 }
@@ -311,17 +382,34 @@ void PlotConfig::initPlotSettings(QMap<QString, QVariant>& valueMap)
 void PlotConfig::updatePlotSettings()
 {
 	QMap<QString, QVariant> valueMap;
+	bool save = ui.savePlotConfigCheckBox->isChecked();
+	//保存和界面更新
+	if (save)
+	{
+		//画布曲线颜色
+		QPalette palette = ui.plotColorBtn->palette();
+		QColor backGround = palette.color(QPalette::Background);
+		QString name = backGround.name();
+		bllSettings.update("PlotConfig", "plotColorBtn", name);
+		valueMap.insert("plotColorBtn", name);
 
-	//画布曲线颜色
-	QPalette palette = ui.plotColorBtn->palette();
-	QColor backGround = palette.color(QPalette::Background);
-	QString name = backGround.name();
-	bllSettings.update("PlotConfig", "plotColorBtn", name);
-	valueMap.insert("plotColorBtn", name);
+		int value = ui.defaultCheckBox->isChecked();
+		bllSettings.update("PlotConfig", "defaultCheckBox", value);
+		valueMap.insert("defaultCheckBox", value);
+	}
+	//界面更新参数
+	else
+	{
+		//画布曲线颜色
+		QPalette palette = ui.plotColorBtn->palette();
+		QColor backGround = palette.color(QPalette::Background);
+		QString name = backGround.name();
+		valueMap.insert("plotColorBtn", name);
 
-	int value = ui.defaultCheckBox->isChecked();
-	bllSettings.update("PlotConfig", "defaultCheckBox", value);
-	valueMap.insert("defaultCheckBox", value);
+		int value = ui.defaultCheckBox->isChecked();
+		valueMap.insert("defaultCheckBox", value);
+	}
+	//界面更新信号
 	emit plotConfigChange(valueMap);
 
 }
@@ -498,4 +586,16 @@ void PlotConfig::on_defaultCheckBox_toggled(bool enable)
 		ui.plotColorBtn->setEnabled(true);
 	}
 
+}
+/**
+* @brief 是否保存参数，还是只临时使用
+*/
+void PlotConfig::on_savePlotConfigCheckBox_toggled(bool checked)
+{
+	if (checked)
+	{
+		ui.okBtnProperty->setText("保存");
+	}
+	else
+		ui.okBtnProperty->setText("确定");
 }

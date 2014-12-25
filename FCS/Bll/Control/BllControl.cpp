@@ -63,8 +63,15 @@ void BllControl::closeUSBControl()
 void BllControl::startListening()
 {
 	USBDriver::usbControl->listen();
+	USBDriver::usbControl->setListen(USBThread::START_TAG);
 }
-
+/**
+* @brief USB停止监听（先停止监听，再关闭）
+*/
+void BllControl::stopListening()
+{
+	USBDriver::usbControl->setListen(USBThread::STOP_TAG);
+}
 
 /**
 * @brief 设置激光
@@ -329,4 +336,11 @@ void BllControl::getChannelBias(VoChannelBias& vo, char& buffer2, char& buffer3)
 	buffer2 = channel << 4;
 	buffer2 += voltage >> 8;
 	buffer3 = voltage & 0xFF;
+}
+/**
+* @brief 重置USB
+*/
+bool BllControl::resetDevice()
+{
+	return USBDriver::usbControl->resetDevice();
 }

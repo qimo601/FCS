@@ -78,6 +78,7 @@ void USBThread::setCtrlTag(CTRL_TAG tag)
 BOOL USBThread::read(PUCHAR buffer, DWORD PreDataLength, PDWORD PDataLength)
 
 {
+
 	ULONG nBytesReturned = 0;
 
 	BULK_TRANSFER_CONTROL   inBulkControl;
@@ -107,14 +108,79 @@ BOOL USBThread::read(PUCHAR buffer, DWORD PreDataLength, PDWORD PDataLength)
 
 
 	*PDataLength = nBytesReturned;
-// 	if (status && (PreDataLength == nBytesReturned))
-// 		return TRUE;
-// 	else
-// 		return FALSE;
+	// 	if (status && (PreDataLength == nBytesReturned))
+	// 		return TRUE;
+	// 	else
+	// 		return FALSE;
 	return true;
 
 
 }
+///**
+//* @brief 读函数-测试异步关闭
+//*/
+//BOOL USBThread::read(PUCHAR buffer, DWORD PreDataLength, PDWORD PDataLength)
+//
+//{
+//
+//	// 声明一个重叠结构
+//	OVERLAPPED HIDOverlapped;
+//	QString str = "";
+//	// 建立一个事件对象，来指示ReadFile的完成
+//	HANDLE hEventObject = CreateEventA(NULL, TRUE, TRUE, str.toLocal8Bit().data());
+//
+//	// 指定重叠结构的成员
+//	HIDOverlapped.hEvent = hEventObject;
+//	HIDOverlapped.Offset = 0;
+//	HIDOverlapped.Offset = 0;
+//
+//
+//
+//
+//	ULONG nBytesReturned = 0;
+//	BULK_TRANSFER_CONTROL   inBulkControl;
+//
+//	//设置读的方向，为IN
+//	if (!onSetInDir())
+//	{
+//		return FALSE;
+//	}
+//
+//	BOOL   status = FALSE;
+//	ULONG BytesReturned = 0;
+//	inBulkControl.pipeNum = 1;//端点选择EP6
+//
+//	//status = DeviceIoControl(m_hDevice,
+//	//	IOCTL_EZUSB_BULK_READ,
+//	//	(PVOID)&inBulkControl,
+//	//	sizeof(BULK_TRANSFER_CONTROL),
+//	//	buffer,//输出缓冲区
+//	//	PreDataLength,//传送的字节数
+//	//	&nBytesReturned,
+//	//	NULL);
+//
+//	status = DeviceIoControl(m_hDevice,
+//		IOCTL_EZUSB_BULK_READ,
+//		(PVOID)&inBulkControl,
+//		sizeof(BULK_TRANSFER_CONTROL),
+//		buffer,//输出缓冲区
+//		PreDataLength,//传送的字节数
+//		&nBytesReturned,
+//		(LPOVERLAPPED)&HIDOverlapped);
+//	
+//
+//
+//
+//
+//
+//
+//	// 等待ReadFile完成或是时间到期
+//	status = WaitForSingleObject(hEventObject, 5000);
+//
+//	*PDataLength = nBytesReturned;
+//	return true;
+//
+//}
 
 
 /**

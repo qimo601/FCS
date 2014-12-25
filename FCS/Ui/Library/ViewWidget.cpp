@@ -8,6 +8,7 @@
 #include <QTextBlock>
 #include <QPdfWriter>
 #include <QFileDialog>
+#include <QDateTime>
 ViewWidget::ViewWidget(QWidget *parent)
 	: QWidget(parent)
 {
@@ -43,7 +44,8 @@ void ViewWidget::init()
 	focusPlotWidget = 0;
 	m_timerId = 0;//初始化
 	this->setFocusPolicy(Qt::StrongFocus);
-
+	//PDF窗口，方便保存上次路径
+	m_fdPDF = new QFileDialog(this);//创建一个QFileDialog对象，构造函数中的参数可以有所添加。
 
 	
 	//循环读取缓冲区
@@ -101,12 +103,20 @@ void ViewWidget::init()
 	connect(reportTree, SIGNAL(willClose()), this, SLOT(closeReportSlot()));//关闭报告窗口
 	connect(reportTree, SIGNAL(delGateWidget(QString)), this, SLOT(delGateSlot(QString)));//删除设门对应的窗口
 	//connect(reportTree, SIGNAL(delGateWidget(QString)), this, SLOT(delGateSlot(QString)));//删除设门对应的窗口
+	
+	//初始化新实验名
+	initExperimentName();
+	
 	//配置第一个plot用来实时显示散点图
 	ui.plotWidget_1->setScatterMode(true);
-	ui.plotWidget_1->setTitle("All1");
+	ui.plotWidget_1->setTitle("All-1");
+	ui.plotWidget_1->setExperimentName(s_experimentName);//设置实验名
+	ui.plotWidget_1->setCellEvents(0);//设置细胞数据
 	//配置第二个直方图用来实时显示直方图
 	ui.plotWidget_2->setBarStatisticsMode(true);
-	ui.plotWidget_2->setTitle("All2");
+	ui.plotWidget_2->setTitle("All-2");
+	ui.plotWidget_2->setExperimentName(s_experimentName);//设置实验名
+	ui.plotWidget_2->setCellEvents(0);//设置细胞数据
 	//先隐藏画布3和画布4，用来实时显示其他类型图
 	//ui.plotWidget_3->setVisible(false);
 	//ui.plotWidget_4->setVisible(false);
@@ -116,6 +126,8 @@ void ViewWidget::init()
 QList<QWidget*> ViewWidget::s_plotWidgetList;
 //在gridLayout中的画布
 QList<QWidget*> ViewWidget::m_gridPlotWidgetList;
+//实验名
+QString ViewWidget::s_experimentName;
 /**
 * @brief 统计报告展示
 */
@@ -414,6 +426,13 @@ void ViewWidget::uninstall()
 	{
 		s_plotWidgetList.removeLast();
 	}
+	initExperimentName();//重新初始化实验名
+	ui.plotWidget_1->setExperimentName(s_experimentName);//设置实验名
+	ui.plotWidget_1->setCellEvents(0);//设置细胞数据
+	ui.plotWidget_2->setExperimentName(s_experimentName);//设置实验名
+	ui.plotWidget_2->setCellEvents(0);//设置细胞数据
+	
+
 	//布局中，清除画布控件
 	for (int i = 2; i < m_gridPlotWidgetList.size(); /*i++*/)
 	{
@@ -865,22 +884,34 @@ void ViewWidget::delGateSlot(QString gateName)
 void ViewWidget::savePdfSlot()
 {
 	QString appDir = QCoreApplication::applicationDirPath();
-	QFileDialog *fd = new QFileDialog(this);//创建一个QFileDialog对象，构造函数中的参数可以有所添加。
-	fd->setWindowTitle(tr("保存为"));//设置文件保存对话框的标题
-	fd->setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
-	fd->setFileMode(QFileDialog::AnyFile);//设置文件对话框弹出的时候显示任何文件，不论是文件夹还是文件
-	fd->setViewMode(QFileDialog::Detail);//文件以详细的形式显示，显示文件名，大小，创建日期等信息；
+	
+	if (m_fdPDF == 0)
+		m_fdPDF = new QFileDialog(this);
+	QDir currentDir = m_fdPDF->directory();
+	QString m_pdfSavePath = currentDir.absolutePath();
+	m_fdPDF->setWindowTitle(tr("保存为"));//设置文件保存对话框的标题
+	m_fdPDF->setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
+	m_fdPDF->setFileMode(QFileDialog::AnyFile);//设置文件对话框弹出的时候显示任何文件，不论是文件夹还是文件
+	m_fdPDF->setViewMode(QFileDialog::Detail);//文件以详细的形式显示，显示文件名，大小，创建日期等信息；
 	//还有另一种形式QFileDialog::List，这个只是把文件的文件名以列表的形式显示出来
-	fd->setGeometry(10, 30, 300, 200);//设置文件对话框的显示位置
-	fd->setDirectory(appDir+"/USBData");
+	m_fdPDF->setGeometry(10, 30, 300, 200);//设置文件对话框的显示位置
+
+	if (m_pdfSavePath!="")
+		m_fdPDF->setDirectory(m_pdfSavePath);
+	else
+	{
+		m_fdPDF->setDirectory(appDir+"/USBData");
+	}
+
+
 	QStringList nameFilters;
 	nameFilters << "PDF files (*.pdf *.PDF)";
-	fd->setNameFilters(nameFilters);//设置文件类型过滤器
+	m_fdPDF->setNameFilters(nameFilters);//设置文件类型过滤器
 
 	QStringList fileNamesList;
-	if (fd->exec() == QDialog::Accepted) // 取消则是：QDialog::Rejected
+	if (m_fdPDF->exec() == QDialog::Accepted) // 取消则是：QDialog::Rejected
 	{
-		fileNamesList = fd->selectedFiles();
+		fileNamesList = m_fdPDF->selectedFiles();
 	}
 	else{
 		return;
@@ -923,7 +954,7 @@ void ViewWidget::savePdfSlot()
 	painter.setFont(QFont("Times", 20, QFont::Bold));//字体大小
 	pointPainter.setX(pointPainter.x()*5+3000);
 	pointPainter.setY(pointPainter.y()*5+100);
-	painter.drawText(pointPainter, "Experiment12-12");
+	painter.drawText(pointPainter, s_experimentName);
 	pointPainter = pointPainter + pointTemp;
 
 	painter.setFont(QFont("Times", 10, QFont::Light));//字体大小
@@ -958,7 +989,7 @@ void ViewWidget::savePdfSlot()
 	//绘画文字
 
 	
-	QString experiementName = QString("Experiment Name: experiment12-12");
+	QString experiementName = QString("Experiment Name: %1").arg(s_experimentName);
 	QString specimenName =    QString("Specimen Name:   Specimen_001");
 	QString tubeName =        QString("Tube Name:       eight2013");
 	QString recordDate =      QString("Record Date:     Dec 12,2013 10:08:50 AM");
@@ -997,4 +1028,11 @@ void ViewWidget::savePdfSlot()
 
 	
 
+}
+/**
+* @brief 初始化新实验名
+*/
+void ViewWidget::initExperimentName()
+{
+	s_experimentName = QString("[Experiment %1]").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz"));
 }

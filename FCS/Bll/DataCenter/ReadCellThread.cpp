@@ -82,24 +82,26 @@ void ReadCellThread::startReadCellDataFromCircleBuffer()
 			clear = false;
 		else
 			clear = true;
-		//先清空循环缓冲
-		if (clear)
+		//先清空循环缓冲 ,等待64步骤的时候清空，试采样
+		if (clear&&step>=64)
 		{
 			////清空每个通道
 			//for (int i = 0; i < 8; i++)
 			//	iCellStaticData->clear(i);
 
 			clearCellStaticData();
+			step = 0;
+			emit cellReadySignal(clear);//clear = true,界面清空
 		}
 		//再读取USB至循环缓冲区
 		getCellData(clear);//clear = true,缓冲区清空
 		
-		//最后更新界面数据，降低新数据发送频率，减少界面卡死
+		//每4包，更新界面数据，降低新数据发送频率，减少界面卡死
 		if (step >= 4)
 		{
 			
-			emit cellReadySignal(clear);//clear = true,界面清空
-			step = 0;
+			emit cellReadySignal(false);//clear = true,界面清空
+			
 		}
 		step++;
 		//qDebug() << "【ReadCellThread】step:" <<step;

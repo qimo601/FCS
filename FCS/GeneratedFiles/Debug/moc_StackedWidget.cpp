@@ -53,8 +53,8 @@ QT_MOC_LITERAL(20, 300, 10),
 QT_MOC_LITERAL(21, 311, 15),
 QT_MOC_LITERAL(22, 327, 15),
 QT_MOC_LITERAL(23, 343, 23),
-QT_MOC_LITERAL(24, 367, 23),
-QT_MOC_LITERAL(25, 391, 7),
+QT_MOC_LITERAL(24, 367, 7),
+QT_MOC_LITERAL(25, 375, 23),
 QT_MOC_LITERAL(26, 399, 25),
 QT_MOC_LITERAL(27, 425, 12),
 QT_MOC_LITERAL(28, 438, 23),
@@ -82,15 +82,15 @@ QT_MOC_LITERAL(41, 640, 21)
     "on_newPlotBtn_clicked\0on_delPlotBtn_clicked\0"
     "showReport\0on\0exportPDF\0gridLayoutSlot\0"
     "newExpSlot\0openExpFileSlot\0saveExpFileSlot\0"
-    "on_saveCheckBox_clicked\0on_timeCheckBox_toggled\0"
-    "checked\0on_eventsCheckBox_toggled\0"
-    "updateEvents\0on_flowCheckBox_clicked\0"
-    "createActions\0createMenus\0createToolBars\0"
-    "setDelPlotActSlot\0focus\0updateTime\0"
-    "createTreeFileDir\0onCustomContextMenuRequested\0"
-    "pos\0on_openFileBtn_clicked\0"
-    "oepnExpFileFromRight\0enable\0"
-    "setCloseReportActSlot"
+    "on_saveCheckBox_toggled\0checked\0"
+    "on_timeCheckBox_toggled\0"
+    "on_eventsCheckBox_toggled\0updateEvents\0"
+    "on_flowCheckBox_clicked\0createActions\0"
+    "createMenus\0createToolBars\0setDelPlotActSlot\0"
+    "focus\0updateTime\0createTreeFileDir\0"
+    "onCustomContextMenuRequested\0pos\0"
+    "on_openFileBtn_clicked\0oepnExpFileFromRight\0"
+    "enable\0setCloseReportActSlot"
 };
 #undef QT_MOC_LITERAL
 
@@ -129,21 +129,21 @@ static const uint qt_meta_data_StackedWidget[] = {
       20,    0,  204,    2, 0x0a /* Public */,
       21,    0,  205,    2, 0x0a /* Public */,
       22,    0,  206,    2, 0x0a /* Public */,
-      23,    0,  207,    2, 0x0a /* Public */,
-      24,    1,  208,    2, 0x0a /* Public */,
-      26,    1,  211,    2, 0x0a /* Public */,
-      27,    0,  214,    2, 0x0a /* Public */,
-      28,    0,  215,    2, 0x0a /* Public */,
-      29,    0,  216,    2, 0x0a /* Public */,
-      30,    0,  217,    2, 0x0a /* Public */,
-      31,    0,  218,    2, 0x0a /* Public */,
-      32,    1,  219,    2, 0x0a /* Public */,
-      34,    0,  222,    2, 0x0a /* Public */,
-      35,    0,  223,    2, 0x0a /* Public */,
-      36,    1,  224,    2, 0x0a /* Public */,
-      38,    0,  227,    2, 0x0a /* Public */,
-      39,    1,  228,    2, 0x0a /* Public */,
-      41,    0,  231,    2, 0x0a /* Public */,
+      23,    1,  207,    2, 0x0a /* Public */,
+      25,    1,  210,    2, 0x0a /* Public */,
+      26,    1,  213,    2, 0x0a /* Public */,
+      27,    0,  216,    2, 0x0a /* Public */,
+      28,    0,  217,    2, 0x0a /* Public */,
+      29,    0,  218,    2, 0x0a /* Public */,
+      30,    0,  219,    2, 0x0a /* Public */,
+      31,    0,  220,    2, 0x0a /* Public */,
+      32,    1,  221,    2, 0x0a /* Public */,
+      34,    0,  224,    2, 0x0a /* Public */,
+      35,    0,  225,    2, 0x0a /* Public */,
+      36,    1,  226,    2, 0x0a /* Public */,
+      38,    0,  229,    2, 0x0a /* Public */,
+      39,    1,  230,    2, 0x0a /* Public */,
+      41,    0,  233,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -167,9 +167,9 @@ static const uint qt_meta_data_StackedWidget[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   25,
-    QMetaType::Void, QMetaType::Bool,   25,
+    QMetaType::Void, QMetaType::Bool,   24,
+    QMetaType::Void, QMetaType::Bool,   24,
+    QMetaType::Void, QMetaType::Bool,   24,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -210,7 +210,7 @@ void StackedWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 16: _t->newExpSlot(); break;
         case 17: _t->openExpFileSlot(); break;
         case 18: _t->saveExpFileSlot(); break;
-        case 19: _t->on_saveCheckBox_clicked(); break;
+        case 19: _t->on_saveCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 20: _t->on_timeCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 21: _t->on_eventsCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 22: _t->updateEvents(); break;

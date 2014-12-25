@@ -330,7 +330,7 @@ BOOL USBControl::openDevice ()
 		FILE_SHARE_WRITE|FILE_SHARE_READ,//表示允许对文件进行共享访问
 		NULL,//定义了文件的安全特性
 		OPEN_EXISTING, //文件必须已经存在。由设备提出要求
-		FILE_FLAG_OVERLAPPED,//文件属性
+		FILE_FLAG_OVERLAPPED,//文件重叠支持异步
 		NULL);//如果不为零，则指定一个文件句柄。
 	
 	
@@ -367,3 +367,13 @@ BOOL USBControl::closeDevice()
 	//关闭USB设备
 	return CloseHandle(m_hDevice);
  }
+/**
+* @brief 重置USB设备
+*/
+bool USBControl::resetDevice()
+{
+	CloseHandle(m_hDevice);
+	bool status = openDevice();
+
+	return status;
+}

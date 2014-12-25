@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>362</height>
+    <width>429</width>
+    <height>434</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
-    <height>320</height>
+    <width>429</width>
+    <height>434</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>400</width>
-    <height>362</height>
+    <width>446</width>
+    <height>434</height>
    </size>
   </property>
   <property name="focusPolicy">
@@ -472,7 +472,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,9,0">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,9,0,0">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -771,6 +771,59 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="inforFrame">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>实验：</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="experimentLabel">
+          <property name="text">
+           <string>未命名</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>细胞个数：</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="cellsEventsLabel">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
      <item>
