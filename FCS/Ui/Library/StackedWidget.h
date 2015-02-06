@@ -97,6 +97,10 @@ public slots:
 	*/
 	void gridLayoutSlot();
 	/**
+	* @brief 荧光补偿
+	*/
+	void showCompensationWidget(bool on);
+	/**
 	* @brief 新建实验
 	*/
 	void newExpSlot();
@@ -191,6 +195,7 @@ private:
 	QAction* m_reportAct;//显示报告
 	QAction* m_pdfAct;//导出pdf
 	QAction* m_gridLayoutAct;//方格布局
+	QAction* m_compensationAct;//荧光补偿
 
 	QToolBar* m_fileToolBar;//菜单
 

@@ -457,6 +457,13 @@ void StackedWidget::gridLayoutSlot()
 {
 	ui.celllViewWidget->relayoutPlotWidget();
 }
+/**
+* @brief 荧光补偿
+*/
+void StackedWidget::showCompensationWidget(bool on)
+{
+	ui.celllViewWidget->openCompensationWindow(on);
+}
 
 /**
 * @brief 菜单Action
@@ -508,6 +515,14 @@ void StackedWidget::createActions()
 	m_gridLayoutAct->setStatusTip(tr("方格布局"));
 	connect(m_gridLayoutAct, SIGNAL(triggered()), this, SLOT(gridLayoutSlot()));
 
+
+
+	m_compensationAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/Compensation.png"), tr("&荧光补偿"), this);
+	m_compensationAct->setShortcut(QKeySequence(tr("Ctrl+B")));
+	m_compensationAct->setStatusTip(tr("荧光补偿"));
+	m_compensationAct->setCheckable(true);//设置该按钮可选择
+	connect(m_compensationAct, SIGNAL(toggled(bool)), this, SLOT(showCompensationWidget(bool)));
+
 	m_delPlotAct->setEnabled(false);
 	//copyAct->setEnabled(false);
 	//connect(textEdit, SIGNAL(copyAvailable(bool)),
@@ -556,6 +571,7 @@ void StackedWidget::createToolBars()
 	m_fileToolBar->addAction(m_reportAct);
 	m_fileToolBar->addAction(m_pdfAct);
 	m_fileToolBar->addAction(m_gridLayoutAct);
+	m_fileToolBar->addAction(m_compensationAct);
 	
 	ui.horizontalLayout_11->addWidget(m_fileToolBar);
 

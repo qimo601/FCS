@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_StackedWidget_t {
-    QByteArrayData data[42];
-    char stringdata[662];
+    QByteArrayData data[43];
+    char stringdata[685];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -49,28 +49,29 @@ QT_MOC_LITERAL(16, 261, 10),
 QT_MOC_LITERAL(17, 272, 2),
 QT_MOC_LITERAL(18, 275, 9),
 QT_MOC_LITERAL(19, 285, 14),
-QT_MOC_LITERAL(20, 300, 10),
-QT_MOC_LITERAL(21, 311, 15),
-QT_MOC_LITERAL(22, 327, 15),
-QT_MOC_LITERAL(23, 343, 23),
-QT_MOC_LITERAL(24, 367, 7),
-QT_MOC_LITERAL(25, 375, 23),
-QT_MOC_LITERAL(26, 399, 25),
-QT_MOC_LITERAL(27, 425, 12),
-QT_MOC_LITERAL(28, 438, 23),
-QT_MOC_LITERAL(29, 462, 13),
-QT_MOC_LITERAL(30, 476, 11),
-QT_MOC_LITERAL(31, 488, 14),
-QT_MOC_LITERAL(32, 503, 17),
-QT_MOC_LITERAL(33, 521, 5),
-QT_MOC_LITERAL(34, 527, 10),
-QT_MOC_LITERAL(35, 538, 17),
-QT_MOC_LITERAL(36, 556, 28),
-QT_MOC_LITERAL(37, 585, 3),
-QT_MOC_LITERAL(38, 589, 22),
-QT_MOC_LITERAL(39, 612, 20),
-QT_MOC_LITERAL(40, 633, 6),
-QT_MOC_LITERAL(41, 640, 21)
+QT_MOC_LITERAL(20, 300, 22),
+QT_MOC_LITERAL(21, 323, 10),
+QT_MOC_LITERAL(22, 334, 15),
+QT_MOC_LITERAL(23, 350, 15),
+QT_MOC_LITERAL(24, 366, 23),
+QT_MOC_LITERAL(25, 390, 7),
+QT_MOC_LITERAL(26, 398, 23),
+QT_MOC_LITERAL(27, 422, 25),
+QT_MOC_LITERAL(28, 448, 12),
+QT_MOC_LITERAL(29, 461, 23),
+QT_MOC_LITERAL(30, 485, 13),
+QT_MOC_LITERAL(31, 499, 11),
+QT_MOC_LITERAL(32, 511, 14),
+QT_MOC_LITERAL(33, 526, 17),
+QT_MOC_LITERAL(34, 544, 5),
+QT_MOC_LITERAL(35, 550, 10),
+QT_MOC_LITERAL(36, 561, 17),
+QT_MOC_LITERAL(37, 579, 28),
+QT_MOC_LITERAL(38, 608, 3),
+QT_MOC_LITERAL(39, 612, 22),
+QT_MOC_LITERAL(40, 635, 20),
+QT_MOC_LITERAL(41, 656, 6),
+QT_MOC_LITERAL(42, 663, 21)
     },
     "StackedWidget\0newExpSignal\0\0"
     "openExpFileSignal\0saveExpFileSignal\0"
@@ -81,7 +82,8 @@ QT_MOC_LITERAL(41, 640, 21)
     "dataAnalyHandle\0acqHandle\0sendCmd\0"
     "on_newPlotBtn_clicked\0on_delPlotBtn_clicked\0"
     "showReport\0on\0exportPDF\0gridLayoutSlot\0"
-    "newExpSlot\0openExpFileSlot\0saveExpFileSlot\0"
+    "showCompensationWidget\0newExpSlot\0"
+    "openExpFileSlot\0saveExpFileSlot\0"
     "on_saveCheckBox_toggled\0checked\0"
     "on_timeCheckBox_toggled\0"
     "on_eventsCheckBox_toggled\0updateEvents\0"
@@ -100,7 +102,7 @@ static const uint qt_meta_data_StackedWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      34,   14, // methods
+      35,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -108,42 +110,43 @@ static const uint qt_meta_data_StackedWidget[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,  184,    2, 0x06 /* Public */,
-       3,    0,  185,    2, 0x06 /* Public */,
-       4,    0,  186,    2, 0x06 /* Public */,
+       1,    0,  189,    2, 0x06 /* Public */,
+       3,    0,  190,    2, 0x06 /* Public */,
+       4,    0,  191,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    1,  187,    2, 0x0a /* Public */,
-       7,    0,  190,    2, 0x0a /* Public */,
-       8,    0,  191,    2, 0x0a /* Public */,
-       9,    0,  192,    2, 0x0a /* Public */,
-      10,    0,  193,    2, 0x0a /* Public */,
-      11,    0,  194,    2, 0x0a /* Public */,
-      12,    0,  195,    2, 0x0a /* Public */,
-      13,    0,  196,    2, 0x0a /* Public */,
-      14,    0,  197,    2, 0x0a /* Public */,
-      15,    0,  198,    2, 0x0a /* Public */,
-      16,    1,  199,    2, 0x0a /* Public */,
-      18,    0,  202,    2, 0x0a /* Public */,
-      19,    0,  203,    2, 0x0a /* Public */,
-      20,    0,  204,    2, 0x0a /* Public */,
-      21,    0,  205,    2, 0x0a /* Public */,
-      22,    0,  206,    2, 0x0a /* Public */,
-      23,    1,  207,    2, 0x0a /* Public */,
-      25,    1,  210,    2, 0x0a /* Public */,
-      26,    1,  213,    2, 0x0a /* Public */,
-      27,    0,  216,    2, 0x0a /* Public */,
-      28,    0,  217,    2, 0x0a /* Public */,
-      29,    0,  218,    2, 0x0a /* Public */,
-      30,    0,  219,    2, 0x0a /* Public */,
-      31,    0,  220,    2, 0x0a /* Public */,
-      32,    1,  221,    2, 0x0a /* Public */,
-      34,    0,  224,    2, 0x0a /* Public */,
-      35,    0,  225,    2, 0x0a /* Public */,
-      36,    1,  226,    2, 0x0a /* Public */,
-      38,    0,  229,    2, 0x0a /* Public */,
-      39,    1,  230,    2, 0x0a /* Public */,
-      41,    0,  233,    2, 0x0a /* Public */,
+       5,    1,  192,    2, 0x0a /* Public */,
+       7,    0,  195,    2, 0x0a /* Public */,
+       8,    0,  196,    2, 0x0a /* Public */,
+       9,    0,  197,    2, 0x0a /* Public */,
+      10,    0,  198,    2, 0x0a /* Public */,
+      11,    0,  199,    2, 0x0a /* Public */,
+      12,    0,  200,    2, 0x0a /* Public */,
+      13,    0,  201,    2, 0x0a /* Public */,
+      14,    0,  202,    2, 0x0a /* Public */,
+      15,    0,  203,    2, 0x0a /* Public */,
+      16,    1,  204,    2, 0x0a /* Public */,
+      18,    0,  207,    2, 0x0a /* Public */,
+      19,    0,  208,    2, 0x0a /* Public */,
+      20,    1,  209,    2, 0x0a /* Public */,
+      21,    0,  212,    2, 0x0a /* Public */,
+      22,    0,  213,    2, 0x0a /* Public */,
+      23,    0,  214,    2, 0x0a /* Public */,
+      24,    1,  215,    2, 0x0a /* Public */,
+      26,    1,  218,    2, 0x0a /* Public */,
+      27,    1,  221,    2, 0x0a /* Public */,
+      28,    0,  224,    2, 0x0a /* Public */,
+      29,    0,  225,    2, 0x0a /* Public */,
+      30,    0,  226,    2, 0x0a /* Public */,
+      31,    0,  227,    2, 0x0a /* Public */,
+      32,    0,  228,    2, 0x0a /* Public */,
+      33,    1,  229,    2, 0x0a /* Public */,
+      35,    0,  232,    2, 0x0a /* Public */,
+      36,    0,  233,    2, 0x0a /* Public */,
+      37,    1,  234,    2, 0x0a /* Public */,
+      39,    0,  237,    2, 0x0a /* Public */,
+      40,    1,  238,    2, 0x0a /* Public */,
+      42,    0,  241,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -164,23 +167,24 @@ static const uint qt_meta_data_StackedWidget[] = {
     QMetaType::Void, QMetaType::Bool,   17,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   17,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   24,
-    QMetaType::Void, QMetaType::Bool,   24,
-    QMetaType::Void, QMetaType::Bool,   24,
+    QMetaType::Void, QMetaType::Bool,   25,
+    QMetaType::Void, QMetaType::Bool,   25,
+    QMetaType::Void, QMetaType::Bool,   25,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   33,
+    QMetaType::Void, QMetaType::Bool,   34,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QPoint,   37,
+    QMetaType::Void, QMetaType::QPoint,   38,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   40,
+    QMetaType::Void, QMetaType::Bool,   41,
     QMetaType::Void,
 
        0        // eod
@@ -207,24 +211,25 @@ void StackedWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 13: _t->showReport((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 14: _t->exportPDF(); break;
         case 15: _t->gridLayoutSlot(); break;
-        case 16: _t->newExpSlot(); break;
-        case 17: _t->openExpFileSlot(); break;
-        case 18: _t->saveExpFileSlot(); break;
-        case 19: _t->on_saveCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 20: _t->on_timeCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 21: _t->on_eventsCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 22: _t->updateEvents(); break;
-        case 23: _t->on_flowCheckBox_clicked(); break;
-        case 24: _t->createActions(); break;
-        case 25: _t->createMenus(); break;
-        case 26: _t->createToolBars(); break;
-        case 27: _t->setDelPlotActSlot((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 28: _t->updateTime(); break;
-        case 29: _t->createTreeFileDir(); break;
-        case 30: _t->onCustomContextMenuRequested((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 31: _t->on_openFileBtn_clicked(); break;
-        case 32: _t->oepnExpFileFromRight((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 33: _t->setCloseReportActSlot(); break;
+        case 16: _t->showCompensationWidget((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 17: _t->newExpSlot(); break;
+        case 18: _t->openExpFileSlot(); break;
+        case 19: _t->saveExpFileSlot(); break;
+        case 20: _t->on_saveCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 21: _t->on_timeCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 22: _t->on_eventsCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 23: _t->updateEvents(); break;
+        case 24: _t->on_flowCheckBox_clicked(); break;
+        case 25: _t->createActions(); break;
+        case 26: _t->createMenus(); break;
+        case 27: _t->createToolBars(); break;
+        case 28: _t->setDelPlotActSlot((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 29: _t->updateTime(); break;
+        case 30: _t->createTreeFileDir(); break;
+        case 31: _t->onCustomContextMenuRequested((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 32: _t->on_openFileBtn_clicked(); break;
+        case 33: _t->oepnExpFileFromRight((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 34: _t->setCloseReportActSlot(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -276,13 +281,13 @@ int StackedWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 34)
+        if (_id < 35)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 34;
+        _id -= 35;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 34)
+        if (_id < 35)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 34;
+        _id -= 35;
     }
     return _id;
 }

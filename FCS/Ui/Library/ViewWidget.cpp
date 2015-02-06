@@ -40,6 +40,10 @@ ViewWidget::~ViewWidget()
 */
 void ViewWidget::init()
 {
+	//荧光补偿窗口
+	m_compensationSettingsWidget = new CompensationSettings(this);
+	m_compensationSettingsWidget->setVisible(false);
+
 	//初始化当前焦点plot
 	focusPlotWidget = 0;
 	m_timerId = 0;//初始化
@@ -75,6 +79,8 @@ void ViewWidget::init()
 	//plotWidget_1保存文件信号
 	connect(this, SIGNAL(saveExpFileToPlotwigetSignal(QString, QString)), ui.plotWidget_1, SLOT(saveExpFileSlot(QString, QString)));
 
+	//通知荧光补偿窗口
+	connect(m_compensationSettingsWidget, SIGNAL(compensation(int, int, double)), ui.plotWidget_1, SLOT(compensationSlot(int, int, double)));
 
 	/****plotWidget_2配置****/
 	//统计线程直方图统计，这个速度有点卡
@@ -83,6 +89,8 @@ void ViewWidget::init()
 	connect(ui.plotWidget_2, SIGNAL(normalPlot()), this, SLOT(relayoutPlotWidget()));
 	//新添加设门窗口
 	connect(ui.plotWidget_2, SIGNAL(addGateSignal(QWidget*)), this, SLOT(addGateSlot(QWidget*)));
+	//通知荧光补偿窗口
+	connect(m_compensationSettingsWidget, SIGNAL(compensation(int, int, double)), ui.plotWidget_2, SLOT(compensationSlot(int, int, double)));
 
 
 	//统计线程
@@ -120,6 +128,8 @@ void ViewWidget::init()
 	//先隐藏画布3和画布4，用来实时显示其他类型图
 	//ui.plotWidget_3->setVisible(false);
 	//ui.plotWidget_4->setVisible(false);
+
+	
 }
 
 //全局所有画布数组
@@ -391,6 +401,17 @@ void ViewWidget::relayoutPlotWidget()
 
 	}
 }
+/**
+* @brief 打开荧光补偿窗口
+*/
+void ViewWidget::openCompensationWindow(bool on)
+{
+	if (on)
+		m_compensationSettingsWidget->show();
+	else
+		m_compensationSettingsWidget->hide();
+}
+
 void ViewWidget::timerEvent(QTimerEvent *event)
 {
 	//每个10ms更新一次

@@ -2602,3 +2602,25 @@ void PlotWidget::setCellEvents(double events)
 	QString cellEvents = QString::number(events);
 	ui.cellsEventsLabel->setText(cellEvents);
 }
+/**
+* @brief 测试补偿当前通道 Y-X*percent
+*/
+void PlotWidget::compensationSlot(int passageY, int passageX, double percent)
+{
+	QVector<double>* vectorX = 0;
+	QVector<double>* vectorY = 0;
+	//三组参数HH、AA、WW，相继补偿
+	for (int i = 0; i < 3; i++)
+	{
+		vectorX = origialDataList->at(passageX)->at(i);
+		vectorY = origialDataList->at(passageY)->at(i);
+
+		//进行补偿
+		for (int j = 0; j < vectorY->size(); j++)
+		{
+			vectorY->replace(j, vectorY->at(j) - percent* vectorX->at(j));
+		}
+	}
+	
+	updateSamples();//更新画布数据
+}

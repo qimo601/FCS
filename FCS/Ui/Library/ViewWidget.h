@@ -7,6 +7,7 @@
 #include "PlotWidget.h"
 #include "Bll/DataCenter/ReadCellThread.h"
 #include "Ui/Report/ReportTree.h"
+#include "Ui/Library/CompensationSettings.h"
 #include <QFileDialog>
 class ViewWidget : public QWidget
 {
@@ -110,6 +111,10 @@ public slots:
 	* @brief 初始化新实验名
 	*/
 	void initExperimentName();
+	/**
+	* @brief 打开荧光补偿窗口
+	*/
+	void openCompensationWindow(bool on);
 signals:
 	void openExpSignal(QString,bool);//打开实验文件
 	void getCellDataFromFile();//读本地文件
@@ -147,6 +152,9 @@ private:
 	QFileDialog* m_fdPDF;
 	//PDF保存路径
 	QString m_pdfSavePath;
+
+	//荧光补偿窗口
+	CompensationSettings* m_compensationSettingsWidget;
 	
 };
 

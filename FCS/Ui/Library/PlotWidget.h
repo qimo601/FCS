@@ -394,6 +394,10 @@ public slots:
 	* @brief 设置细胞个数
 	*/
 	void setCellEvents(double events);
+	/**
+	* @brief 测试补偿当前通道 Y-X*percent
+	*/
+	void compensationSlot(int passageY, int passageX, double percent);
 signals:
 	void normalPlot();//正常显示信号
 	void addGateSignal(QWidget*);

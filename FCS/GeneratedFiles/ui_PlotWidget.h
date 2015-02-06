@@ -20,6 +20,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -69,6 +70,10 @@ public:
     QVBoxLayout *verticalLayout_3;
     QToolButton *closeBtn;
     QSpacerItem *verticalSpacer_2;
+    QFrame *frame;
+    QHBoxLayout *horizontalLayout_4;
+    QSpinBox *spinBox;
+    QToolButton *addBtn;
     QToolButton *copyBtn;
     QComboBox *dataUnitXCombox;
     QComboBox *passageXCombox;
@@ -441,13 +446,42 @@ public:
 
         verticalLayout_3->addItem(verticalSpacer_2);
 
+        frame = new QFrame(cellYFrame);
+        frame->setObjectName(QStringLiteral("frame"));
+        frame->setFrameShape(QFrame::StyledPanel);
+        frame->setFrameShadow(QFrame::Raised);
+        horizontalLayout_4 = new QHBoxLayout(frame);
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        spinBox = new QSpinBox(frame);
+        spinBox->setObjectName(QStringLiteral("spinBox"));
+
+        horizontalLayout_4->addWidget(spinBox);
+
+        addBtn = new QToolButton(frame);
+        addBtn->setObjectName(QStringLiteral("addBtn"));
+        addBtn->setMinimumSize(QSize(20, 20));
+        addBtn->setMaximumSize(QSize(20, 20));
+        QIcon icon16;
+        icon16.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/multiple.png"), QSize(), QIcon::Normal, QIcon::Off);
+        addBtn->setIcon(icon16);
+        addBtn->setIconSize(QSize(32, 32));
+        addBtn->setCheckable(false);
+        addBtn->setAutoRaise(true);
+
+        horizontalLayout_4->addWidget(addBtn);
+
+
+        verticalLayout_3->addWidget(frame);
+
         copyBtn = new QToolButton(cellYFrame);
         copyBtn->setObjectName(QStringLiteral("copyBtn"));
         copyBtn->setMinimumSize(QSize(20, 20));
         copyBtn->setMaximumSize(QSize(20, 20));
-        QIcon icon16;
-        icon16.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/copyBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
-        copyBtn->setIcon(icon16);
+        QIcon icon17;
+        icon17.addFile(QStringLiteral(":/MainWindow/Resources/Images/MainWindow/copyBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        copyBtn->setIcon(icon17);
         copyBtn->setIconSize(QSize(25, 25));
         copyBtn->setCheckable(false);
         copyBtn->setChecked(false);
@@ -555,6 +589,10 @@ public:
         closeBtn->setToolTip(QApplication::translate("PlotWidget", "\345\205\263\351\227\255\347\252\227\345\217\243", 0));
 #endif // QT_NO_TOOLTIP
         closeBtn->setText(QApplication::translate("PlotWidget", "\345\215\201\345\255\227\347\272\277", 0));
+#ifndef QT_NO_TOOLTIP
+        addBtn->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+        addBtn->setText(QApplication::translate("PlotWidget", "\345\212\240", 0));
 #ifndef QT_NO_TOOLTIP
         copyBtn->setToolTip(QApplication::translate("PlotWidget", "\345\244\215\345\210\266\346\234\254\347\252\227\345\217\243", 0));
 #endif // QT_NO_TOOLTIP

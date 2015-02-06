@@ -44,6 +44,11 @@
         <file>Resources/Images/MainWindow/ContourBtn.png</file>
         <file>Resources/Images/MainWindow/SpectrogramBtn.png</file>
         <file>Resources/Images/MainWindow/started.png</file>
+        <file>Resources/Images/MainWindow/addBtn.png</file>
+        <file>Resources/Images/MainWindow/reduceBtn.png</file>
+        <file>Resources/Images/MainWindow/multiple.png</file>
+        <file>Resources/Images/MainWindow/Compensation.png</file>
+        <file>Resources/Images/MainWindow/CompensationWhite .png</file>
     </qresource>
     <qresource prefix="/Qss">
         <file>Resources/StyleSheet.qss</file>
