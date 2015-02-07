@@ -218,7 +218,8 @@ void USBControl::listen()
 		usbThread->setHdevice(m_hDevice);
 		usbThread->start();
 	}
-
+	//启动run函数
+	usbThread->start();
 }
 /**
 * @brief 设置监听状态
@@ -226,6 +227,15 @@ void USBControl::listen()
 void USBControl::setListen(USBThread::CTRL_TAG tag)
 {
 	usbThread->setCtrlTag(tag);
+	if (tag == USBThread::STOP_TAG)
+	{
+		usbThread->quit();
+		if (usbThread->isRunning())
+		{
+			usbThread->wait();
+		}
+	}
+
 }
 /**
  * @brief 读函数

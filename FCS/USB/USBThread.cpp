@@ -48,11 +48,11 @@ void USBThread::run()
 #if Simulation_Test == 0
 			//真正读取USB
 			onButtonRd();
-			usleep(50);
+			usleep(50);//真机时间
 #else
 			//测试代码
 			onButtonRd1();
-			usleep(100);
+			msleep(50);//测试时间
 #endif
 			
 		}

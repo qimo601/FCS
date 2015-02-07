@@ -207,6 +207,7 @@ void StackedWidget::on_startAcquisitionBtn_clicked()
 		//Global::initCCycleBuffer(Gobal_CircleBuffer_Size);
 		//清空全局缓冲区
 		Global::S_CCycleBuffer->clearBuffer();
+		bllDataCenter.clearAllEvents();//清空细胞数据-20150206 防止计数出错
 		//开始采集命令
 		VoCmd voCmd;
 		voCmd.setCmd(5);
@@ -256,14 +257,16 @@ void StackedWidget::on_stopAcquisitionBtn_clicked()
 		/**********防止USB驱动读空，一直挂起，关闭不了驱动*****************/
 		bllControl->stopListening();//先停止监听，
 		bllControl->sendCmd(voCmd);//再停止下位机送数据
-		bool result = bllControl->resetDevice();//重置一下USB，清空USB缓存，关闭USB再打开
-		if (!result)
-		{
-			int ret = QMessageBox::warning(this, tr("警告"),
-				QString("停止采集后，无法重置USB！"),
-				QMessageBox::Ok,
-				QMessageBox::Ok);
-		}
+
+
+		//bool result = bllControl->resetDevice();//重置一下USB，清空USB缓存，关闭USB再打开
+		//if (!result)
+		//{
+		//	int ret = QMessageBox::warning(this, tr("警告"),
+		//		QString("停止采集后，无法重置USB！"),
+		//		QMessageBox::Ok,
+		//		QMessageBox::Ok);
+		//}
 		/**********防止USB驱动读空，一直挂起，关闭不了驱动*****************/
 
 
@@ -397,7 +400,10 @@ void StackedWidget::updateTime()
 	m_timeCount--;
 	ui.timeLCD->display(m_timeCount);
 	if (m_timeCount <= 0)
+	{
 		ui.stopAcquisitionBtn->click();
+		m_timeCount = 0;//计时清0
+	}
 }
 
 
@@ -426,8 +432,12 @@ void StackedWidget::updateEvents()
 	m_cellEvents = (qint32)bllDataCenter.getAllEvents();
 	ui.eventsLCD->display(m_cellEvents);
 	//如果超过上限，停止采集
-	if (m_cellEvents >=ui.eventsSpinBox->value())
+	if (m_cellEvents >= ui.eventsSpinBox->value())
+	{
 		ui.stopAcquisitionBtn->click();
+		m_cellEvents = 0;//计数清0
+	}
+
 }
 
 /**

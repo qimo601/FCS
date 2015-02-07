@@ -82,31 +82,51 @@ void ReadCellThread::startReadCellDataFromCircleBuffer()
 			clear = false;
 		else
 			clear = true;
-		//先清空循环缓冲 ,等待64步骤的时候清空，试采样
-		if (clear&&step>=64)
+		//添加至环形缓冲区:示波器一个数据包大小512Byte
+		while (Global::S_CCycleBuffer->getUsedSize() >= 512)
 		{
-			////清空每个通道
-			//for (int i = 0; i < 8; i++)
-			//	iCellStaticData->clear(i);
 
-			clearCellStaticData();
-			step = 0;
-			emit cellReadySignal(clear);//clear = true,界面清空
-		}
-		//再读取USB至循环缓冲区
-		getCellData(clear);//clear = true,缓冲区清空
+
+			//先清空循环缓冲 ,等待64步骤的时候清空，试采样
+			if (clear&&step>=64)
+			{
+				////清空每个通道
+				//for (int i = 0; i < 8; i++)
+				//	iCellStaticData->clear(i);
+
+				clearCellStaticData();
+				step = 0;
+				emit cellReadySignal(clear);//clear = true,界面清空
+			}
+
+			//再读取USB至循环缓冲区
+				getCellData(clear);//clear = true,缓冲区清空
 		
-		//每4包，更新界面数据，降低新数据发送频率，减少界面卡死
-		if (step >= 4)
-		{
+			//每4包，更新界面数据，降低新数据发送频率，减少界面卡死
+			if (step >= 4)
+			{
 			
-			emit cellReadySignal(false);//clear = true,界面清空
+				emit cellReadySignal(false);//clear = false,更新数据，界面不清空
 			
+			}
+			step++;
+			//qDebug() << "【ReadCellThread】step:" <<step;
+			//msleep(5);
 		}
-		step++;
-		//qDebug() << "【ReadCellThread】step:" <<step;
-		msleep(50);
+
+		//usleep(50);//原理样机的实际时间
+		msleep(50);//测试代码的时间
+
+#if Simulation_Test == 0
+		//usleep(50);//原理样机的实际时间
+#else
+		//测试代码
+		msleep(50);//测试代码的时间
+#endif
+
+		//qDebug() << "ReadCellThread::休眠五秒等待采集，循环缓冲区里没有512Byte的细胞数据";
 	}
+	qDebug() << "ReadCellThread::已经停止采集，且循环缓冲区里没有细胞数据";
 	emit cellReadySignal(false);//将最后一组数据更新至界面，step<4的时候积累的数据
 	m_opertaeEnum = NORMAL;//回复默认状态
 }
@@ -129,9 +149,9 @@ void ReadCellThread::getCellData(bool clear)
 	int value;
 	stepValue = 1;
 
-	//添加至环形缓冲区:示波器一个数据包大小512Byte
-	if (Global::S_CCycleBuffer->getUsedSize() >= 512)
-	{
+	////添加至环形缓冲区:示波器一个数据包大小512Byte
+	//if (Global::S_CCycleBuffer->getUsedSize() >= 512)
+	//{
 		
 		char * buffer = m_buffer;//指向临时数组
 		memset(buffer, 0, 512);//清空数组
@@ -169,8 +189,8 @@ void ReadCellThread::getCellData(bool clear)
 
 				//继续转换
 				valueAA = valueAA - 32768 * valueWW;
-				////归一化
-				//valueAA = (valueAA - 32768 * valueWW) * 8 / valueWW;
+				//归一化
+				//valueAA = (valueAA - 32768 * valueWW) / AREA_SCALE;
 
 				valueHH = valueHH - 32768 * 8;
 
@@ -182,13 +202,13 @@ void ReadCellThread::getCellData(bool clear)
 		if (saveTag)
 			saveToFile(m_buffer, 512);
 
-	}
-	else//如果没有这个等待，就会有很多空循环，CPU会很高。
-	{
-		return;
-		//Global::S_CCycleBuffer->waitNotEmpty();
+	//}
+	//else//如果没有这个等待，就会有很多空循环，CPU会很高。
+	//{
+	//	return;
+	//	//Global::S_CCycleBuffer->waitNotEmpty();
 
-	}
+	//}
 }
 
 /**
@@ -484,7 +504,7 @@ void ReadCellThread::saveToFile(char* buffer, qint32 DataLength)
 	}
 	else
 	{
-		qDebug() << "【ReadCellThread】将USB数据写入文件成功,文件名：" << fileName;
+		//qDebug() << "【ReadCellThread】将USB数据写入文件成功,文件名：" << fileName;
 	}
 	//从界面关闭
 	////关闭文件

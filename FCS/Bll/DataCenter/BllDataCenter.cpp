@@ -172,3 +172,12 @@ double BllDataCenter::getAllEvents()
 {
 	return iCellStaticData->getAllEvents();
 }
+/**
+* @brief 清空源数据细胞总数
+*/
+void BllDataCenter::clearAllEvents()
+{
+	//清空每个通道
+	for (int i = 0; i < 8; i++)
+		iCellStaticData->clear(i);
+}

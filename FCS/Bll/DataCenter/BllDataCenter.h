@@ -49,6 +49,10 @@ public:
 	* @brief 获取源数据细胞总数
 	*/
 	double getAllEvents();
+	/**
+	* @brief 清空源数据细胞总数
+	*/
+	void clearAllEvents();
 private:
 	double stepValue;
 	//细胞数据接口
