@@ -45,10 +45,12 @@ void PlotStaticsThread::staticsCellData(bool newData)
 {
 	if (newData)
 	{
-		m_dataWidgetParent->clearPlotSamples();
+		m_dataWidgetParent->clearPlotSamples();//清空界面上的数据
 
 		m_dataWidgetParent->dataMutex.lock();
+		//从全局细胞数据读至界面
 		m_bllDataCenter.getCellDataVector(m_dataWidgetParent->origialDataList, m_dataWidgetParent->logDataList, m_dataWidgetParent->barStructList);//更新最新的数据给当前plot
+		
 		m_dataWidgetParent->dataMutex.unlock();
 		emit staticsFinished();
 		return;

@@ -32,6 +32,16 @@ StackedWidget::StackedWidget(QWidget *parent)
 	//报告
 	connect(ui.reportBtn, SIGNAL(toggled(bool)), this, SLOT(showReport(bool)));
 
+
+	//刷新频率参数设置
+	connect(ui.freqLineEdit, SIGNAL(m_keyPressed()), this, SLOT(setFreqLineEditKeyPressed()));//回车事件确定刷新频率的值
+	connect(ui.freqLineEdit, SIGNAL(m_doubleClicked(LineEdit*)), this, SLOT(setFreqLineEditDoubleClicked()));//双击事件，更改值
+	setFreqLineEditKeyPressed();//初始化一下控件状态和界面参数
+	//清空频率参数设置
+	connect(ui.clearLineEdit, SIGNAL(m_keyPressed()), this, SLOT(setClearLineEditKeyPressed()));//回车事件确定清空频率的值
+	connect(ui.clearLineEdit, SIGNAL(m_doubleClicked(LineEdit*)), this, SLOT(setClearLineEditDoubleClicked()));//双击事件，更改值
+	setClearLineEditKeyPressed();//初始化一下控件状态和界面参数
+
 	m_timer = new QTimer(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTime()));
 
@@ -741,6 +751,56 @@ void StackedWidget::setCloseReportActSlot()
 {
 	m_reportAct->setChecked(false);
 }
+/**
+* @brief 回车事件确定刷新频率的值
+*/
+void StackedWidget::setFreqLineEditKeyPressed()
+{
+	ui.freqLineEdit->setReadOnly(true);
+	ui.freqLineEdit->setStyleSheet(" #freqLineEdit{\
+								   	background-color: #a3a3a3; \
+										color: #6b6b6b; \
+											}");
 
+	//设置细胞刷新频率
+	int freq = ui.freqLineEdit->text().toInt();
+	if (freq>0)
+		bllDataCenter.setFreq(freq);
+	ui.freqLabel->setText(QString("刷新频率:%1个/次").arg(freq*8));
+}
+/**
+* @brief 双击事件，更改值
+*/
+void StackedWidget::setFreqLineEditDoubleClicked()
+{
+	ui.freqLineEdit->setReadOnly(false);
+	ui.freqLineEdit->setStyleSheet("");
+	ui.freqLineEdit->setFocus();
+}
+/**
+* @brief 回车事件确定清空频率的值
+*/
+void StackedWidget::setClearLineEditKeyPressed()
+{
+	ui.clearLineEdit->setReadOnly(true);
+	ui.clearLineEdit->setStyleSheet(" #clearLineEdit{\
+										background-color: #a3a3a3; \
+											color: #6b6b6b; \
+										}");
 
+	//设置细胞刷新频率
+	int clear = ui.clearLineEdit->text().toInt();
+	if (clear > 0)
+		bllDataCenter.setClear(clear);
+	ui.clearLabel->setText(QString("清空频率:%1个/次").arg(clear * 8));
+}
+/**
+* @brief 双击事件，更改值
+*/
+void StackedWidget::setClearLineEditDoubleClicked()
+{
+	ui.clearLineEdit->setReadOnly(false);
+	ui.clearLineEdit->setStyleSheet("");
+	ui.clearLineEdit->setFocus();
+}
 

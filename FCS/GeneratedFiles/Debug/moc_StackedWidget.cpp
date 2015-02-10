@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_StackedWidget_t {
-    QByteArrayData data[43];
-    char stringdata[685];
+    QByteArrayData data[47];
+    char stringdata[797];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -71,7 +71,11 @@ QT_MOC_LITERAL(38, 608, 3),
 QT_MOC_LITERAL(39, 612, 22),
 QT_MOC_LITERAL(40, 635, 20),
 QT_MOC_LITERAL(41, 656, 6),
-QT_MOC_LITERAL(42, 663, 21)
+QT_MOC_LITERAL(42, 663, 21),
+QT_MOC_LITERAL(43, 685, 25),
+QT_MOC_LITERAL(44, 711, 28),
+QT_MOC_LITERAL(45, 740, 26),
+QT_MOC_LITERAL(46, 767, 29)
     },
     "StackedWidget\0newExpSignal\0\0"
     "openExpFileSignal\0saveExpFileSignal\0"
@@ -92,7 +96,11 @@ QT_MOC_LITERAL(42, 663, 21)
     "focus\0updateTime\0createTreeFileDir\0"
     "onCustomContextMenuRequested\0pos\0"
     "on_openFileBtn_clicked\0oepnExpFileFromRight\0"
-    "enable\0setCloseReportActSlot"
+    "enable\0setCloseReportActSlot\0"
+    "setFreqLineEditKeyPressed\0"
+    "setFreqLineEditDoubleClicked\0"
+    "setClearLineEditKeyPressed\0"
+    "setClearLineEditDoubleClicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -102,7 +110,7 @@ static const uint qt_meta_data_StackedWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      35,   14, // methods
+      39,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -110,43 +118,47 @@ static const uint qt_meta_data_StackedWidget[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,  189,    2, 0x06 /* Public */,
-       3,    0,  190,    2, 0x06 /* Public */,
-       4,    0,  191,    2, 0x06 /* Public */,
+       1,    0,  209,    2, 0x06 /* Public */,
+       3,    0,  210,    2, 0x06 /* Public */,
+       4,    0,  211,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    1,  192,    2, 0x0a /* Public */,
-       7,    0,  195,    2, 0x0a /* Public */,
-       8,    0,  196,    2, 0x0a /* Public */,
-       9,    0,  197,    2, 0x0a /* Public */,
-      10,    0,  198,    2, 0x0a /* Public */,
-      11,    0,  199,    2, 0x0a /* Public */,
-      12,    0,  200,    2, 0x0a /* Public */,
-      13,    0,  201,    2, 0x0a /* Public */,
-      14,    0,  202,    2, 0x0a /* Public */,
-      15,    0,  203,    2, 0x0a /* Public */,
-      16,    1,  204,    2, 0x0a /* Public */,
-      18,    0,  207,    2, 0x0a /* Public */,
-      19,    0,  208,    2, 0x0a /* Public */,
-      20,    1,  209,    2, 0x0a /* Public */,
-      21,    0,  212,    2, 0x0a /* Public */,
-      22,    0,  213,    2, 0x0a /* Public */,
-      23,    0,  214,    2, 0x0a /* Public */,
-      24,    1,  215,    2, 0x0a /* Public */,
-      26,    1,  218,    2, 0x0a /* Public */,
-      27,    1,  221,    2, 0x0a /* Public */,
-      28,    0,  224,    2, 0x0a /* Public */,
-      29,    0,  225,    2, 0x0a /* Public */,
-      30,    0,  226,    2, 0x0a /* Public */,
-      31,    0,  227,    2, 0x0a /* Public */,
-      32,    0,  228,    2, 0x0a /* Public */,
-      33,    1,  229,    2, 0x0a /* Public */,
-      35,    0,  232,    2, 0x0a /* Public */,
-      36,    0,  233,    2, 0x0a /* Public */,
-      37,    1,  234,    2, 0x0a /* Public */,
-      39,    0,  237,    2, 0x0a /* Public */,
-      40,    1,  238,    2, 0x0a /* Public */,
-      42,    0,  241,    2, 0x0a /* Public */,
+       5,    1,  212,    2, 0x0a /* Public */,
+       7,    0,  215,    2, 0x0a /* Public */,
+       8,    0,  216,    2, 0x0a /* Public */,
+       9,    0,  217,    2, 0x0a /* Public */,
+      10,    0,  218,    2, 0x0a /* Public */,
+      11,    0,  219,    2, 0x0a /* Public */,
+      12,    0,  220,    2, 0x0a /* Public */,
+      13,    0,  221,    2, 0x0a /* Public */,
+      14,    0,  222,    2, 0x0a /* Public */,
+      15,    0,  223,    2, 0x0a /* Public */,
+      16,    1,  224,    2, 0x0a /* Public */,
+      18,    0,  227,    2, 0x0a /* Public */,
+      19,    0,  228,    2, 0x0a /* Public */,
+      20,    1,  229,    2, 0x0a /* Public */,
+      21,    0,  232,    2, 0x0a /* Public */,
+      22,    0,  233,    2, 0x0a /* Public */,
+      23,    0,  234,    2, 0x0a /* Public */,
+      24,    1,  235,    2, 0x0a /* Public */,
+      26,    1,  238,    2, 0x0a /* Public */,
+      27,    1,  241,    2, 0x0a /* Public */,
+      28,    0,  244,    2, 0x0a /* Public */,
+      29,    0,  245,    2, 0x0a /* Public */,
+      30,    0,  246,    2, 0x0a /* Public */,
+      31,    0,  247,    2, 0x0a /* Public */,
+      32,    0,  248,    2, 0x0a /* Public */,
+      33,    1,  249,    2, 0x0a /* Public */,
+      35,    0,  252,    2, 0x0a /* Public */,
+      36,    0,  253,    2, 0x0a /* Public */,
+      37,    1,  254,    2, 0x0a /* Public */,
+      39,    0,  257,    2, 0x0a /* Public */,
+      40,    1,  258,    2, 0x0a /* Public */,
+      42,    0,  261,    2, 0x0a /* Public */,
+      43,    0,  262,    2, 0x0a /* Public */,
+      44,    0,  263,    2, 0x0a /* Public */,
+      45,    0,  264,    2, 0x0a /* Public */,
+      46,    0,  265,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -185,6 +197,10 @@ static const uint qt_meta_data_StackedWidget[] = {
     QMetaType::Void, QMetaType::QPoint,   38,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Bool,   41,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -230,6 +246,10 @@ void StackedWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 32: _t->on_openFileBtn_clicked(); break;
         case 33: _t->oepnExpFileFromRight((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 34: _t->setCloseReportActSlot(); break;
+        case 35: _t->setFreqLineEditKeyPressed(); break;
+        case 36: _t->setFreqLineEditDoubleClicked(); break;
+        case 37: _t->setClearLineEditKeyPressed(); break;
+        case 38: _t->setClearLineEditDoubleClicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -281,13 +301,13 @@ int StackedWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 35)
+        if (_id < 39)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 35;
+        _id -= 39;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 35)
+        if (_id < 39)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 35;
+        _id -= 39;
     }
     return _id;
 }

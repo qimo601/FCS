@@ -39,6 +39,19 @@ public:
 	static bool saveTag;//保存文件标示符
 	static QString fileName;//细胞文件
 	static FILE *projectFile;//文件指针
+	/**
+	* @brief 设置刷新频率额
+	*/
+	static void setFreqSize(int freqSize);
+	//刷新频率
+	static int S_FREQ_SIZE;//每次刷新频率为S_STEP_SIZE*8个细胞
+
+	/**
+	* @brief 设置屏幕清空大小
+	*/
+	static void setClearqSize(int clearSize);
+	//刷新频率
+	static int S_CLEAR_SIZE;//清空频率为S_CLEAR_SIZE*8个细胞
 public slots:
 	/**
 	* @brief 开始循环读取环形缓冲区中细胞数据
@@ -98,6 +111,8 @@ private:
 	Operate m_opertaeEnum;//操作枚举值
 	//细胞数据接口
 	ICellStaticData* iCellStaticData;
+
+
 }; 
 
 #endif

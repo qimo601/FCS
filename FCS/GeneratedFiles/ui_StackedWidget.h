@@ -28,6 +28,7 @@
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <Ui/Library/LineEdit.h>
 #include <Ui/Library/ParamWidget.h>
 #include <Ui/Library/ViewWidget.h>
 
@@ -98,6 +99,16 @@ public:
     QCheckBox *flowCheckBox;
     QSpinBox *flowSpinBox;
     QLCDNumber *flowLCD;
+    QSpacerItem *horizontalSpacer_3;
+    QFrame *frame;
+    QFrame *paramFrame;
+    QVBoxLayout *verticalLayout_10;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *freqLabel;
+    LineEdit *freqLineEdit;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *clearLabel;
+    LineEdit *clearLineEdit;
     QSpacerItem *horizontalSpacer_2;
 
     void setupUi(QStackedWidget *StackedWidget)
@@ -105,6 +116,7 @@ public:
         if (StackedWidget->objectName().isEmpty())
             StackedWidget->setObjectName(QStringLiteral("StackedWidget"));
         StackedWidget->resize(1150, 700);
+        StackedWidget->setFocusPolicy(Qt::NoFocus);
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
         verticalLayout = new QVBoxLayout(page);
@@ -534,6 +546,69 @@ public:
 
         horizontalLayout_2->addLayout(verticalLayout_8);
 
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_3);
+
+        frame = new QFrame(bottomFrame);
+        frame->setObjectName(QStringLiteral("frame"));
+        frame->setFrameShape(QFrame::VLine);
+        frame->setFrameShadow(QFrame::Raised);
+
+        horizontalLayout_2->addWidget(frame);
+
+        paramFrame = new QFrame(bottomFrame);
+        paramFrame->setObjectName(QStringLiteral("paramFrame"));
+        paramFrame->setFocusPolicy(Qt::StrongFocus);
+        paramFrame->setFrameShape(QFrame::StyledPanel);
+        paramFrame->setFrameShadow(QFrame::Raised);
+        verticalLayout_10 = new QVBoxLayout(paramFrame);
+        verticalLayout_10->setSpacing(6);
+        verticalLayout_10->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_10->setObjectName(QStringLiteral("verticalLayout_10"));
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        freqLabel = new QLabel(paramFrame);
+        freqLabel->setObjectName(QStringLiteral("freqLabel"));
+        freqLabel->setMinimumSize(QSize(120, 0));
+        freqLabel->setMaximumSize(QSize(120, 16777215));
+
+        horizontalLayout_3->addWidget(freqLabel);
+
+        freqLineEdit = new LineEdit(paramFrame);
+        freqLineEdit->setObjectName(QStringLiteral("freqLineEdit"));
+        freqLineEdit->setMinimumSize(QSize(50, 30));
+        freqLineEdit->setMaximumSize(QSize(50, 30));
+
+        horizontalLayout_3->addWidget(freqLineEdit);
+
+
+        verticalLayout_10->addLayout(horizontalLayout_3);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        clearLabel = new QLabel(paramFrame);
+        clearLabel->setObjectName(QStringLiteral("clearLabel"));
+        clearLabel->setMinimumSize(QSize(120, 0));
+        clearLabel->setMaximumSize(QSize(120, 16777215));
+
+        horizontalLayout_4->addWidget(clearLabel);
+
+        clearLineEdit = new LineEdit(paramFrame);
+        clearLineEdit->setObjectName(QStringLiteral("clearLineEdit"));
+        clearLineEdit->setMinimumSize(QSize(50, 30));
+        clearLineEdit->setMaximumSize(QSize(50, 30));
+
+        horizontalLayout_4->addWidget(clearLineEdit);
+
+
+        verticalLayout_10->addLayout(horizontalLayout_4);
+
+
+        horizontalLayout_2->addWidget(paramFrame);
+
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer_2);
@@ -544,6 +619,10 @@ public:
         verticalLayout->setStretch(0, 7);
         verticalLayout->setStretch(1, 3);
         StackedWidget->addWidget(page);
+#ifndef QT_NO_SHORTCUT
+        freqLabel->setBuddy(freqLineEdit);
+        clearLabel->setBuddy(freqLineEdit);
+#endif // QT_NO_SHORTCUT
 
         retranslateUi(StackedWidget);
 
@@ -579,6 +658,12 @@ public:
         eventsSpinBox->setSuffix(QApplication::translate("StackedWidget", "\344\270\252", 0));
         flowCheckBox->setText(QApplication::translate("StackedWidget", "\346\265\201\351\207\217", 0));
         flowSpinBox->setSuffix(QApplication::translate("StackedWidget", "L", 0));
+        freqLabel->setText(QApplication::translate("StackedWidget", "\345\210\267\346\226\260\351\242\221\347\216\207\357\274\232", 0));
+        freqLineEdit->setInputMask(QApplication::translate("StackedWidget", "000", 0));
+        freqLineEdit->setText(QApplication::translate("StackedWidget", "8", 0));
+        clearLabel->setText(QApplication::translate("StackedWidget", "\346\270\205\347\251\272\351\242\221\347\216\207\357\274\232", 0));
+        clearLineEdit->setInputMask(QApplication::translate("StackedWidget", "000", 0));
+        clearLineEdit->setText(QApplication::translate("StackedWidget", "64", 0));
     } // retranslateUi
 
 };

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1221</width>
-    <height>876</height>
+    <width>601</width>
+    <height>485</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,46 +21,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QDockWidget" name="dockWidget_2">
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(198, 193, 255);</string>
-     </property>
-     <widget class="QWidget" name="dockWidgetContents_2"/>
-    </widget>
-   </item>
-   <item>
-    <widget class="QDockWidget" name="dockWidget">
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 194, 234);</string>
-     </property>
-     <widget class="QWidget" name="dockWidgetContents">
-      <widget class="QTreeWidget" name="treeWidget">
-       <property name="geometry">
-        <rect>
-         <x>270</x>
-         <y>80</y>
-         <width>256</width>
-         <height>192</height>
-        </rect>
-       </property>
-       <column>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>lie</string>
-        </property>
-       </column>
-       <item>
-        <property name="text">
-         <string>232</string>
-        </property>
-       </item>
-      </widget>
-     </widget>
-    </widget>
+    <widget class="LineEdit" name="lineEdit"/>
    </item>
   </layout>
   <action name="actionC">
@@ -80,6 +41,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">Ui/Library/LineEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

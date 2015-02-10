@@ -2,6 +2,7 @@
 #include "ReadCellThread.h"
 #include <QDebug>
 #include "Include/OscDataCenter.h"
+#include <QCoreApplication>
 ReadCellThread::ReadCellThread(QObject *parent) :QThread(parent)
 {  
 	stepValue = 0;
@@ -18,6 +19,8 @@ ReadCellThread::~ReadCellThread()
 bool ReadCellThread::saveTag = false;//默认为false
 QString ReadCellThread::fileName = "cellFile";
 FILE* ReadCellThread::projectFile = 0;
+int ReadCellThread::S_FREQ_SIZE = 8;//刷新频率
+int ReadCellThread::S_CLEAR_SIZE = 64;//清空频率
 void ReadCellThread::run()  
 { 
 	qDebug() << "【USB监听线程】启动ReadCellThread,线程Id" << QThread::currentThreadId();
@@ -88,28 +91,25 @@ void ReadCellThread::startReadCellDataFromCircleBuffer()
 
 
 			//先清空循环缓冲 ,等待64步骤的时候清空，试采样
-			if (clear&&step>=64)
+			//if (clear&&step>=64)
+			if (clear&&step >= S_CLEAR_SIZE)
 			{
-				////清空每个通道
-				//for (int i = 0; i < 8; i++)
-				//	iCellStaticData->clear(i);
-
+				//执行完所有qt信号事件，代表界面所有细胞都刷新完成后，再清空全局细胞数据
+				QCoreApplication::processEvents();//执行所有排队的事件
+				//清空全局细胞
 				clearCellStaticData();
 				step = 0;
 				emit cellReadySignal(clear);//clear = true,界面清空
 			}
 
 			//再读取USB至循环缓冲区
-				getCellData(clear);//clear = true,缓冲区清空
-		
-			//每4包，更新界面数据，降低新数据发送频率，减少界面卡死
-			if (step >= 4)
-			{
-			
-				emit cellReadySignal(false);//clear = false,更新数据，界面不清空
-			
-			}
+			getCellData(clear);//clear = true,缓冲区清空
 			step++;
+			//每4包，更新界面数据，降低新数据发送频率，减少界面卡死
+			if ((step% S_FREQ_SIZE) == 0)
+			{
+				emit cellReadySignal(false);//clear = false,更新数据，界面不清空
+			}
 			//qDebug() << "【ReadCellThread】step:" <<step;
 			//msleep(5);
 		}
@@ -510,4 +510,15 @@ void ReadCellThread::saveToFile(char* buffer, qint32 DataLength)
 	////关闭文件
 	//if (fclose(projectFile) != 0)
 	//	qDebug() << "【ReadCellThread】关闭文件失败，文件名：" << fileName;
+}
+void ReadCellThread::setFreqSize(int freqSize)
+{
+	S_FREQ_SIZE = freqSize;
+}
+/**
+* @brief 设置屏幕清空大小
+*/
+void ReadCellThread::setClearqSize(int clearSize)
+{
+	S_CLEAR_SIZE = clearSize;
 }

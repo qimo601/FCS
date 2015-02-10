@@ -181,3 +181,18 @@ void BllDataCenter::clearAllEvents()
 	for (int i = 0; i < 8; i++)
 		iCellStaticData->clear(i);
 }
+
+/**
+* @brief 设置屏幕刷新频率 freq * 8 
+*/
+void BllDataCenter::setFreq(int freq)
+{
+	ReadCellThread::setFreqSize(freq);
+}
+/**
+* @brief 设置屏幕清空频率 clear * 8
+*/
+void BllDataCenter::setClear(int clear)
+{
+	ReadCellThread::setClearqSize(clear);
+}

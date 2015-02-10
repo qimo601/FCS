@@ -173,6 +173,23 @@ public slots:
 	* @brief 设置报告按钮状态
 	*/
 	void setCloseReportActSlot();
+	/**
+	* @brief 回车事件确定刷新频率的值
+	*/
+	void setFreqLineEditKeyPressed();
+	/**
+	* @brief 双击事件，更改值
+	*/
+	void setFreqLineEditDoubleClicked();
+	/**
+	* @brief 回车事件确定清空频率的值
+	*/
+	void setClearLineEditKeyPressed();
+	/**
+	* @brief 双击事件，更改值
+	*/
+	void setClearLineEditDoubleClicked();
+
 
 signals:
 	void newExpSignal();

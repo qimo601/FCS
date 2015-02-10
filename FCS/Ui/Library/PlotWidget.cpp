@@ -1053,7 +1053,7 @@ void PlotWidget::updateSamples()
 		updateStaticsSamples();
 	}
 
-	setCellEvents(origialDataList->at(0)->at(0)->size());//设置细胞数据
+	setCellEvents(origialDataList->at(0)->at(0)->size());//设置细胞个数
 
 }
 

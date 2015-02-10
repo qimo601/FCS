@@ -14,6 +14,7 @@
 #include <QObject>
 #include "Include/Global.h"
 #include "Include/ICellStaticData.h"
+#include "Bll/DataCenter/ReadCellThread.h"
 class BllDataCenter : public QObject
 {
 	Q_OBJECT
@@ -53,6 +54,14 @@ public:
 	* @brief 清空源数据细胞总数
 	*/
 	void clearAllEvents();
+	/**
+	* @brief 设置屏幕刷新频率 freq * 8
+	*/
+	void setFreq(int freq);
+	/**
+	* @brief 设置屏幕清空频率 clear * 8
+	*/
+	void setClear(int clear);
 private:
 	double stepValue;
 	//细胞数据接口
