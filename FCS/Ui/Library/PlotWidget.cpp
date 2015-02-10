@@ -1095,6 +1095,10 @@ void PlotWidget::updateScatterSamples()
 		//}
 		d_plot->setRawSamples(vectorX->data(), vectorY->data(), vectorY->size());
 		//qDebug() << "PlotWidget," << this->objectName() << " " << origialDataList->at(3)->at(0)->size();
+		//更新设门的细胞颜色
+		updateGateColorSample(this);
+		
+		
 		d_plot->replot();
 	}
 }
@@ -1105,6 +1109,9 @@ void PlotWidget::updateStaticsSamples()
 {
 	if (ui.barChatStaticsCheckBox->isChecked())
 	{
+		//先清空父类的临时曲线
+		this->d_plot->clearTempCurve();
+
 		dataMutex.lock();
 		QVector<double> barChartDataVector;
 		QVector<double> xIndexVectorLog;//log值x轴坐标
@@ -1589,6 +1596,13 @@ void PlotWidget::addGate(GateStorage::GateType type)
 	gateStorage->setPlotWidget(d_plotWidgetGate);//设门新生成的窗口
 	gateStorage->setGatePointer(d_rectPicker);//当前设门指针
 	gateStorage->setGateName(QString("P%1").arg(ViewWidget::s_plotWidgetList.size() + 1));//设门名字
+	//先降qsrand(seed)随机,然后qrand()在程序运行的时候，才会每次都不一样
+	qsrand(QDateTime::currentDateTime().toTime_t());
+	QColor color(qrand() % 255, qrand() % 255, qrand() % 255);//设置设门的颜色名称
+	gateStorage->setGateColorName(color.name());
+
+
+
 	QString title;
 	PlotWidget* plotwidget = (PlotWidget*)gateStorage->getParentWidget();
 	if (gateStorage->getParentWidget() != 0)
@@ -1598,6 +1612,9 @@ void PlotWidget::addGate(GateStorage::GateType type)
 	//设置实验名
 	d_plotWidgetGate->setExperimentName(ViewWidget::s_experimentName);//设置实验名
 	d_plotWidgetGate->setCellEvents(d_plotWidgetGate->origialDataList->at(0)->at(0)->size());//设置细胞数据
+	//临时测试2015-02-11，更改当前新设门的颜色 宽度0，即用系统默认宽度
+	d_plotWidgetGate->d_plot->setScatterCurve(color.name(), 0, "");
+	
 	gateStorage->setGateType(type);//设门类型
 	m_gateStorageList.append(gateStorage);//添加设门
 
@@ -2623,4 +2640,99 @@ void PlotWidget::compensationSlot(int passageY, int passageX, double percent)
 	}
 	
 	updateSamples();//更新画布数据
+}
+
+
+
+/**
+* @brief 更新孩子散点图统计数据
+*/
+void PlotWidget::updateChildGateScatterSamples(PlotWidget* childPlotWidget,QString colorName)
+{
+	
+	QVector<double>* vectorX;
+	QVector<double>* vectorY;
+	//因为用log坐标轴，所以所有数据只需用原数据即可，不用判断Log了。
+	int m = ui.passageXCombox->currentData().toInt();
+	int n = ui.dataUnitXCombox->currentData().toInt();
+	vectorX = childPlotWidget->origialDataList->at(ui.passageXCombox->currentData().toInt())->at(ui.dataUnitXCombox->currentData().toInt());
+	vectorY = childPlotWidget->origialDataList->at(ui.passageYCombox->currentData().toInt())->at(ui.dataUnitYCombox->currentData().toInt());
+
+	QVector<double> vecX;
+	QVector<double> vecY;
+	for (int i = 0; i < vectorX->size(); i++)
+	{
+		vecX.append(vectorX->at(i));
+		vecY.append(vectorY->at(i));
+	}
+	
+
+	d_plot->addCurve(colorName, vecX, vecY);
+	d_plot->replot();
+}
+
+/**
+* @brief 更新当前窗口中所有设门的颜色
+*/
+void PlotWidget::updateGateColorSample(PlotWidget* parentWidget)
+{
+
+	//先清空父类的临时曲线
+	parentWidget->d_plot->clearTempCurve();
+
+	//绘画出各个设门的曲线
+	QList<GateStorage*> gateList = parentWidget->m_gateStorageList;
+	for (int i = 0; i < gateList.size(); i++)
+	{
+		GateStorage* gate = gateList.at(i);
+
+		PlotWidget* childPlotWidget = (PlotWidget*)gate->getPlotWidget();
+
+		//childPlotWidget->updateSamples();
+		//在父亲画布上，更新自己的儿子节点
+		parentWidget->updateChildGateScatterSamples(childPlotWidget, gate->getGateColorName());
+		//再更新儿子的后代节点
+		putColorAllChildren(parentWidget, childPlotWidget);
+		//最后在儿子画布上继续更新
+		updateGateColorSample(childPlotWidget);
+		////更新自己的子子孙孙。
+		//if (childPlotWidget->m_gateStorageList.size() != 0)
+		//{
+		//	//先把孙子们在根上绘图一下
+		//	for (int j = 0; j < childPlotWidget->m_gateStorageList.size(); j++)
+		//	{
+		//		GateStorage* childGate = childPlotWidget->m_gateStorageList.at(j);
+		//		PlotWidget* grandSonPlotWidget = (PlotWidget*)childGate->getPlotWidget();
+		//		
+		//		parentWidget->updateChildGateScatterSamples(grandSonPlotWidget, childGate->getGateColorName());
+		//	}
+
+		//	//再去儿子节点上递归，绘图
+		//	updateGateColorSample(childPlotWidget);
+		//}
+		//plotWidget->updateSamples();
+	}
+}
+
+/**
+* @brief 将parentWiget节点下所有儿子，孙子等等孩子，全绘制在rootWidget上。
+*/
+void PlotWidget::putColorAllChildren(PlotWidget* rootWidget, PlotWidget* parentWiget)
+{
+	//还有孩子
+	if (parentWiget->m_gateStorageList.size() != 0)
+	{
+		//先把孙子们在根上绘图一下
+		for (int j = 0; j < parentWiget->m_gateStorageList.size(); j++)
+		{
+			GateStorage* childGate = parentWiget->m_gateStorageList.at(j);
+			PlotWidget* childPlotWidget = (PlotWidget*)childGate->getPlotWidget();
+
+			rootWidget->updateChildGateScatterSamples(childPlotWidget, childGate->getGateColorName());
+
+			putColorAllChildren(rootWidget,childPlotWidget);
+		}
+
+	}
+	
 }

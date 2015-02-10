@@ -82,6 +82,8 @@ public:
 	QList<QPointF> crossPickerList;
 	//多边形
 	PolygonPicker* d_polygonPicker;
+
+	Plot *d_plot;
 public slots:
 	void startAcqTimer();
 	void stopAcqTimer();
@@ -398,6 +400,18 @@ public slots:
 	* @brief 测试补偿当前通道 Y-X*percent
 	*/
 	void compensationSlot(int passageY, int passageX, double percent);
+	/**
+	* @brief 更新孩子散点图统计数据
+	*/
+	void updateChildGateScatterSamples(PlotWidget* childPlotWidget, QString colorName);
+	/**
+	* @brief 更新当前窗口中所有设门的颜色
+	*/
+	void updateGateColorSample(PlotWidget* parentWidget);
+	/**
+	* @brief 将parentWiget节点下所有儿子，孙子等等孩子，全绘制在rootWidget上。
+	*/
+	void putColorAllChildren(PlotWidget* rootWidget, PlotWidget* parentWiget);
 signals:
 	void normalPlot();//正常显示信号
 	void addGateSignal(QWidget*);
@@ -417,9 +431,11 @@ protected:
 	*/
 	void mouseMoveEvent(QMouseEvent *event);
 
+
+	
 private:
 	Ui::PlotWidget ui;
-	Plot *d_plot;
+	//Plot *d_plot;
 	BllDataCenter bllDataCenter;
 
 	QVBoxLayout *vLayoutCellPlotFrame;//细胞绘图布局控件

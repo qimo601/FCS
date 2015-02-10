@@ -115,6 +115,12 @@ public slots:
 	* @brief 打开荧光补偿窗口
 	*/
 	void openCompensationWindow(bool on);
+	/**
+	* @brief 进行设门着色
+	*/
+	void putGateColor();
+
+
 signals:
 	void openExpSignal(QString,bool);//打开实验文件
 	void getCellDataFromFile();//读本地文件
@@ -128,6 +134,8 @@ signals:
 	* @brief 是否有选中的画布窗口
 	*/
 	void haveFocusPlotWidgetSignal(bool focus);
+	//请求激活主界面着色按钮
+	void putColorSignal();
 
 protected:
 	virtual void paintEvent(QPaintEvent *event);

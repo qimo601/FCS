@@ -49,6 +49,7 @@
         <file>Resources/Images/MainWindow/multiple.png</file>
         <file>Resources/Images/MainWindow/Compensation.png</file>
         <file>Resources/Images/MainWindow/CompensationWhite .png</file>
+        <file>Resources/Images/MainWindow/PutColor.png</file>
     </qresource>
     <qresource prefix="/Qss">
         <file>Resources/StyleSheet.qss</file>

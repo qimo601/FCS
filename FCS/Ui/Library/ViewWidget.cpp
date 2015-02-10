@@ -681,6 +681,7 @@ void ViewWidget::addGateSlot(QWidget* widget)
 	
 	addNewPlotFromGate((PlotWidget*)widget);//界面布局上新添加该窗口
 	reportTree->updateReport();//更新报告界面
+	emit putColorSignal();//请求激活主界面着色按钮
 }
 /**
 * @brief 显示指定的设门窗口
@@ -1056,4 +1057,14 @@ void ViewWidget::savePdfSlot()
 void ViewWidget::initExperimentName()
 {
 	s_experimentName = QString("[Experiment %1]").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz"));
+}
+/**
+* @brief 进行设门着色
+*/
+void ViewWidget::putGateColor()
+{
+	//手动更新两个根节点的设门着色
+	ui.plotWidget_1->updateGateColorSample(ui.plotWidget_1);
+	ui.plotWidget_2->updateGateColorSample(ui.plotWidget_2);
+
 }

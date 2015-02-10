@@ -654,12 +654,12 @@ d_curve(NULL)
 
 	//自定义曲线的颜色和宽度
 	m_scatterColorName = "DarkBlue";
-	int m_scatterWidth = 2;
-	QString m_scatterBrushColorName = "";
+	m_scatterWidth = 2;
+	m_scatterBrushColorName = "";
 
-	QString m_barChartColorName ="#325481";
-	int m_barChartWidth = 2;
-	QString m_barChartBrushColorName = "#DDE9FD";
+	m_barChartColorName ="#325481";
+	m_barChartWidth = 2;
+	m_barChartBrushColorName = "#DDE9FD";
 
 
 	
@@ -1128,13 +1128,14 @@ void Plot::setCanvasBackgroundColor(QString colorName)
 	setCanvas(canvas);
 }
 /**
-* @brief 设置散点图曲线颜色
+* @brief 设置散点图曲线颜色 width = 0,即不改变宽度，用系统默认的宽度
 */
 void Plot::setScatterCurve(QString colorName,int width,QString brushColorName)
 {
 	//设置颜色
 	m_scatterColorName = colorName;
-	m_scatterWidth = width;
+	if (width!=0)
+		m_scatterWidth = width;
 	m_scatterBrushColorName = brushColorName;
 	//散点模式
 	enableScatterMode();
@@ -1265,3 +1266,43 @@ void Plot::showContour(bool on)
 }
 
 
+/**
+* @brief 新添加curve
+*/
+void Plot::addCurve(QString colorName, const QVector< double > & xData, const QVector< double > & yData)
+{
+	// attach curve
+	QwtPlotCurve* l_curve = new QwtPlotCurve("Scattered Points");
+	l_curve->setLegendAttribute(QwtPlotCurve::LegendShowLine);//设置描述的样式
+	// when using QwtPlotCurve::ImageBuffer simple dots can be
+	// rendered in parallel on multicore systems.
+	l_curve->setRenderThreadCount(0); // 0: use QThread::idealThreadCount()
+
+	//设置统计曲线样式
+	QColor penColor(colorName);
+	l_curve->setPen(penColor, m_scatterWidth);
+	l_curve->setBrush(Qt::NoBrush);
+	l_curve->setStyle(QwtPlotCurve::Dots);
+	l_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
+
+	l_curve->attach(this);
+
+	l_curve->setSamples(xData, yData);
+
+
+	l_curveList.append(l_curve);//将临时曲线保存好
+	replot();
+
+}
+/**
+* @brief 清空临时曲线
+*/
+void Plot::clearTempCurve()
+{
+	for (int i = 0; i < l_curveList.size(); i++)
+	{
+		QwtPlotCurve* curve = l_curveList.at(i);
+		delete curve;
+	}
+	l_curveList.clear();
+}

@@ -484,6 +484,13 @@ void StackedWidget::showCompensationWidget(bool on)
 {
 	ui.celllViewWidget->openCompensationWindow(on);
 }
+/**
+* @brief 设门着色
+*/
+void StackedWidget::putGateColorSlot(bool on)
+{
+	ui.celllViewWidget->putGateColor();
+}
 
 /**
 * @brief 菜单Action
@@ -543,6 +550,15 @@ void StackedWidget::createActions()
 	m_compensationAct->setCheckable(true);//设置该按钮可选择
 	connect(m_compensationAct, SIGNAL(toggled(bool)), this, SLOT(showCompensationWidget(bool)));
 
+
+	m_putColorAct = new QAction(QIcon(":/MainWindow/Resources/Images/MainWindow/PutColor.png"), tr("&设门着色"), this);
+	m_putColorAct->setShortcut(QKeySequence(tr("Ctrl+P")));
+	m_putColorAct->setStatusTip(tr("设门着色"));
+	m_putColorAct->setCheckable(true);//设置该按钮可选择
+	connect(m_putColorAct, SIGNAL(toggled(bool)), this, SLOT(putGateColorSlot(bool)));
+	//窗口设门事件，激活这个着色按钮
+	connect(ui.celllViewWidget, SIGNAL(putColorSignal()), m_putColorAct, SLOT(toggle()));
+
 	m_delPlotAct->setEnabled(false);
 	//copyAct->setEnabled(false);
 	//connect(textEdit, SIGNAL(copyAvailable(bool)),
@@ -592,7 +608,7 @@ void StackedWidget::createToolBars()
 	m_fileToolBar->addAction(m_pdfAct);
 	m_fileToolBar->addAction(m_gridLayoutAct);
 	m_fileToolBar->addAction(m_compensationAct);
-	
+	m_fileToolBar->addAction(m_putColorAct);
 	ui.horizontalLayout_11->addWidget(m_fileToolBar);
 
 

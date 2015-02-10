@@ -65,6 +65,17 @@ public:
 	{
 		m_gateName = gateName;
 	}
+	//获取设门颜色名字
+	QString getGateColorName() const
+	{
+		return m_gateColorName;
+	}
+	//设定设门颜色名字
+	void setGateColorName(QString gateColorName)
+	{
+		m_gateColorName = gateColorName;
+	}
+	
 	//获取设门类型
 	GateType getGateType() const
 	{
@@ -145,6 +156,7 @@ private:
 
 	QString m_gateName;//设门名称
 	GateType m_gateType;//设门类型
+	QString m_gateColorName;//设门的颜色
 	double m_events;//细胞个数
 	double m_percentageParent;//%Parent:当前设门的细胞数目，占父类的百分比
 	double m_percentageTotal;//%Total:当前设门的细胞数目，占源数据细胞总数的百分比

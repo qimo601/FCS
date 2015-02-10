@@ -8,7 +8,7 @@ GateStorage::GateStorage(QObject *parent)
 	m_plotWidget = 0;//设门对应的新画布
 	m_gatePointer = 0;//设门指针
 
-
+	m_gateColorName = "#000000";//默认颜色
 
 	
 

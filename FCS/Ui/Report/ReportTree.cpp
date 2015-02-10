@@ -528,7 +528,8 @@ void ReportTree::insertChildReport(QTreeWidgetItem* parentItem, QTreeWidgetItem*
 	
 	currentItem = new QTreeWidgetItem(parentItem, leafStringList1);
 	QPixmap pixmap(10, 10);//新建一个Pixmap图
-	QColor color(qrand() % 255, qrand() % 255, qrand() % 255);
+	//QColor color(qrand() % 255, qrand() % 255, qrand() % 255);
+	QColor color(gateStorage->getGateColorName());//获取设门的颜色
 	pixmap.fill(color);
 	currentItem->setIcon(0, pixmap);
 }

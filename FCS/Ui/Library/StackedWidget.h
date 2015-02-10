@@ -190,7 +190,10 @@ public slots:
 	*/
 	void setClearLineEditDoubleClicked();
 
-
+	/**
+	* @brief 设门着色
+	*/
+	void putGateColorSlot(bool on);
 signals:
 	void newExpSignal();
 	void openExpFileSignal();
@@ -213,6 +216,7 @@ private:
 	QAction* m_pdfAct;//导出pdf
 	QAction* m_gridLayoutAct;//方格布局
 	QAction* m_compensationAct;//荧光补偿
+	QAction* m_putColorAct;//设门着色
 
 	QToolBar* m_fileToolBar;//菜单
 

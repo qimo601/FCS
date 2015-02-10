@@ -131,6 +131,14 @@ void setGridEnable(bool checked, bool barMode);
 	* @brief 更新密度图数据
 	*/
 	void updateSpectrogramData(QVector<double>* vectorX, QVector<double>* vectorY);
+	/**
+	* @brief 新添加curve
+	*/
+	void addCurve(QString colorName, const QVector< double > & xData, const QVector< double > & yData);
+	/**
+	* @brief 清空临时曲线
+	*/
+	void clearTempCurve();
 signals:
 	void selectedCrossPicker(QPointF);
 	void selectedRectPicker(QRectF);
@@ -159,13 +167,13 @@ private:
 
 
 	//自定义曲线的颜色和宽度
-	QString m_scatterColorName;
-	int m_scatterWidth;
-	QString m_scatterBrushColorName;
+	QString m_scatterColorName;//散点图颜色
+	int m_scatterWidth;//散点图粗细
+	QString m_scatterBrushColorName;//散点图刷子颜色
 
-	QString m_barChartColorName;
-	int m_barChartWidth;
-	QString m_barChartBrushColorName;
+	QString m_barChartColorName;//直方图颜色
+	int m_barChartWidth;//直方图粗细
+	QString m_barChartBrushColorName;//直方图刷子颜色
 
 
 	//密度图
@@ -173,6 +181,10 @@ private:
 	QwtPlotSpectrogram* d_spectrogram;
 	//光谱图数据源
 	SpectrogramData* d_spectrogramData;
+
+
+	//临时曲线，每次绘画之前都要清空
+	QList<QwtPlotCurve*> l_curveList;
 
 };
 
