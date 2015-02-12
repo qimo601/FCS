@@ -40,6 +40,15 @@ PlotWidget::PlotWidget(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	//设置还原后窗口伸展策略
+	QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+	sizePolicy.setHorizontalStretch(0);
+	sizePolicy.setVerticalStretch(0);
+	sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
+	this->setSizePolicy(sizePolicy);
+	this->setMinimumSize(QSize(425, 434));
+	this->setMaximumSize(QSize(425, 434));
+
 	//细胞绘图控件初始化
 	vLayoutCellPlotFrame = new QVBoxLayout(ui.cellPlotFrame);
 	vLayoutCellPlotFrame->setSpacing(0);
@@ -799,33 +808,59 @@ void PlotWidget::enableZoomMode(bool mode)
 /**
 * @brief 启用十字线设门
 */
+//void PlotWidget::enableCrossBtnMode(bool mode)
+//{
+//	//启用新设门
+//	if (mode)
+//	{
+//		//平行线设门
+//		d_crossPicker_1 = new CrossPicker(d_plot->canvas);
+//		connect(d_crossPicker_1, SIGNAL(selected(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
+//		//平行线设门
+//		d_crossPicker_2 = new CrossPicker(d_plot->canvas);
+//		d_crossPicker_2->setRubberBandPen(QPen(Qt::blue));
+//		connect(d_crossPicker_2, SIGNAL(selected(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
+//
+//		d_crossPicker_1->setEnabled(true);
+//		d_crossPicker_2->setEnabled(false);
+//		d_crossPicker_1->setTrackerMode(QwtPicker::ActiveOnly);
+//		d_crossPicker_2->setTrackerMode(QwtPicker::AlwaysOff);
+//
+//	}
+//	//停止旧设门
+//	else
+//	{
+//		//d_parallelLinePicker_1->setEnabled(false);
+//		//d_parallelLinePicker_2->setEnabled(false);
+//		//d_parallelLinePicker_1->reset();
+//		//d_parallelLinePicker_2->reset();
+//if (d_crossPicker_1 != 0)
+//{
+//	//停止使用，消失
+//	d_crossPicker_1->setEnabled(false);
+//	d_crossPicker_1->setTrackerMode(QwtPicker::AlwaysOff);
+//	//删除置0
+//	delete d_crossPicker_1;
+//	d_crossPicker_1 = 0;
+//
+//}
+//if (d_crossPd_crossPicker_2icker_1 != 0)
+//{
+//	d_crossPicker_2->setEnabled(false);
+//	d_crossPicker_2->setTrackerMode(QwtPicker::AlwaysOff);
+//	delete d_crossPicker_2;
+//	d_crossPicker_2 = 0;
+//}
+//
+//		//置假
+//		ui.crossBtn->setChecked(false);
+//	}
+//}
+/**
+* @brief 启用十字线设门
+*/
 void PlotWidget::enableCrossBtnMode(bool mode)
 {
-
-	////启用新设门
-	//if (mode)
-	//{
-	//	//十字线
-	//	d_crossPicker = new CrossPicker(d_plot->canvas);
-	//	//十字线设门-返回值
-	//	connect(d_crossPicker, SIGNAL(selected(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
-	//	d_crossPicker->setEnabled(mode);
-	//	d_crossPicker->setTrackerMode(QwtPicker::ActiveOnly);
-	//}
-	////停止旧设门
-	//else
-	//{
-
-	//	//d_rectPicker->setEnabled(false);
-	//	//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
-	//	//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
-	//	//d_rectPicker->remove();
-	//	//d_rectPicker->end(false);
-	//	d_crossPicker->setTrackerMode(QwtPicker::AlwaysOff);
-	//}
-
-
-
 
 	//启用新设门
 	if (mode)
@@ -833,15 +868,9 @@ void PlotWidget::enableCrossBtnMode(bool mode)
 		//平行线设门
 		d_crossPicker_1 = new CrossPicker(d_plot->canvas);
 		connect(d_crossPicker_1, SIGNAL(selected(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
-		//平行线设门
-		d_crossPicker_2 = new CrossPicker(d_plot->canvas);
-		d_crossPicker_2->setRubberBandPen(QPen(Qt::blue));
-		connect(d_crossPicker_2, SIGNAL(selected(QPointF)), this, SLOT(selectedCrossPickerSlot(QPointF)));
 
 		d_crossPicker_1->setEnabled(true);
-		d_crossPicker_2->setEnabled(false);
 		d_crossPicker_1->setTrackerMode(QwtPicker::ActiveOnly);
-		d_crossPicker_2->setTrackerMode(QwtPicker::AlwaysOff);
 
 	}
 	//停止旧设门
@@ -851,16 +880,15 @@ void PlotWidget::enableCrossBtnMode(bool mode)
 		//d_parallelLinePicker_2->setEnabled(false);
 		//d_parallelLinePicker_1->reset();
 		//d_parallelLinePicker_2->reset();
-		//停止使用，消失
-		d_crossPicker_1->setEnabled(false);
-		d_crossPicker_2->setEnabled(false);
-		d_crossPicker_1->setTrackerMode(QwtPicker::AlwaysOff);
-		d_crossPicker_2->setTrackerMode(QwtPicker::AlwaysOff);
-		//删除置0
-		delete d_crossPicker_1;
-		d_crossPicker_1 = 0;
-		delete d_crossPicker_2;
-		d_crossPicker_2 = 0;
+		if (d_crossPicker_1 != 0)
+		{
+			//停止使用，消失
+			d_crossPicker_1->setEnabled(false);
+			d_crossPicker_1->setTrackerMode(QwtPicker::AlwaysOff);
+			//删除置0
+			delete d_crossPicker_1;
+			d_crossPicker_1 = 0;
+		}
 
 		//置假
 		ui.crossBtn->setChecked(false);
@@ -903,16 +931,19 @@ void PlotWidget::enableEllipseBtn(bool mode)
 	//停止旧设门
 	else
 	{
-		//停止使用,消失
-		d_ellipsePicker->setEnabled(false);
-		//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
-		//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
-		//d_rectPicker->remove();
-		//d_rectPicker->end(false);
-		d_ellipsePicker->setTrackerMode(QwtPicker::AlwaysOff);
-		//删除置0
-		delete d_ellipsePicker;
-		d_ellipsePicker = 0;
+		if (d_ellipsePicker != 0)
+		{
+			//停止使用,消失
+			d_ellipsePicker->setEnabled(false);
+			//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
+			//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
+			//d_rectPicker->remove();
+			//d_rectPicker->end(false);
+			d_ellipsePicker->setTrackerMode(QwtPicker::AlwaysOff);
+			//删除置0
+			delete d_ellipsePicker;
+			d_ellipsePicker = 0;
+		}
 		//置假
 		ui.ellipseBtn->setChecked(false);
 	}
@@ -936,16 +967,19 @@ void PlotWidget::enablePolygonBtn(bool mode)
 	//停止旧设门
 	else
 	{
-		//停止使用，消失
-		d_polygonPicker->setEnabled(false);
-		//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
-		//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
-		//d_rectPicker->remove();
-		//d_rectPicker->end(false);
-		d_polygonPicker->setTrackerMode(QwtPicker::AlwaysOff);
-		//删除，置0
-		delete d_polygonPicker;
-		d_polygonPicker = 0;
+		if (d_polygonPicker != 0)
+		{
+			//停止使用，消失
+			d_polygonPicker->setEnabled(false);
+			//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
+			//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
+			//d_rectPicker->remove();
+			//d_rectPicker->end(false);
+			d_polygonPicker->setTrackerMode(QwtPicker::AlwaysOff);
+			//删除，置0
+			delete d_polygonPicker;
+			d_polygonPicker = 0;
+		}
 		//置假
 		ui.polygonBtn->setChecked(false);
 	}
@@ -971,16 +1005,19 @@ void PlotWidget::enableRectBtn(bool mode)
 	//停止旧设门
 	else
 	{
-		//停止使用，消失
-		d_rectPicker->setEnabled(false);
-		//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
-		//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
-		//d_rectPicker->remove();
-		//d_rectPicker->end(false);
-		d_rectPicker->setTrackerMode(QwtPicker::AlwaysOff);
-		//删除，置0
-		delete d_rectPicker;
-		d_rectPicker = 0;
+		if (d_rectPicker != 0)
+		{
+			//停止使用，消失
+			d_rectPicker->setEnabled(false);
+			//d_rectPicker->reset();//状态机清空reset the state machine and terminate ( end(false) ) the selection
+			//d_rectPicker->remove(); //remove the last point of the selection The removed() signal is emitted.
+			//d_rectPicker->remove();
+			//d_rectPicker->end(false);
+			d_rectPicker->setTrackerMode(QwtPicker::AlwaysOff);
+			//删除，置0
+			delete d_rectPicker;
+			d_rectPicker = 0;
+		}
 		//置假
 		ui.rectBtn->setChecked(false);
 	}
@@ -1014,19 +1051,24 @@ void PlotWidget::enableParallelLineBtn(bool mode)
 	//停止旧设门
 	else
 	{
-		//停止使用
-		d_parallelLinePicker_1->setEnabled(false);
-		d_parallelLinePicker_2->setEnabled(false);
-		//d_parallelLinePicker_1->reset();
-		//d_parallelLinePicker_2->reset();
-		d_parallelLinePicker_1->setTrackerMode(QwtPicker::AlwaysOff);
-		d_parallelLinePicker_2->setTrackerMode(QwtPicker::AlwaysOff);
-
-		//删除 置0
-		delete d_parallelLinePicker_1;
-		d_parallelLinePicker_1 = 0;
-		delete d_parallelLinePicker_2;
-		d_parallelLinePicker_2 = 0;
+		if (d_parallelLinePicker_1 != 0)
+		{
+			//停止使用
+			d_parallelLinePicker_1->setEnabled(false);
+			//d_parallelLinePicker_1->reset();
+			//d_parallelLinePicker_2->reset();
+			d_parallelLinePicker_1->setTrackerMode(QwtPicker::AlwaysOff);
+			//删除 置0
+			delete d_parallelLinePicker_1;
+			d_parallelLinePicker_1 = 0;
+		}
+		if (d_parallelLinePicker_2 != 0)
+		{
+			d_parallelLinePicker_2->setEnabled(false);
+			d_parallelLinePicker_2->setTrackerMode(QwtPicker::AlwaysOff);
+			delete d_parallelLinePicker_2;
+			d_parallelLinePicker_2 = 0;
+		}
 		parallelLineList.clear();//清空一次，才能保证两次同时用
 		//置假
 		ui.parallelLineBtn->setChecked(false);
@@ -1380,45 +1422,55 @@ void PlotWidget::clearPlotSamples()
 * @brief 选择的十字坐标
 *
 */
+//void PlotWidget::selectedCrossPickerSlot(QPointF pointf)
+//{
+//	//是否有存在的点
+//	for (int i = 0; i < crossPickerList.size(); i++)
+//	{
+//		if (pointf == crossPickerList.at(i))
+//		{
+//			return;
+//		}
+//		else
+//		{
+//			crossPickerList.append(pointf);
+//			break;
+//		}
+//	}
+//	//无点
+//	if (crossPickerList.size() == 0)
+//	{
+//		crossPickerList.append(pointf);
+//	}
+//	//已经有一个点
+//	if (crossPickerList.size() == 1)
+//	{
+//		//d_parallelLinePicker_1->setEnabled(false);
+//		d_crossPicker_1->setTrackerMode(QwtPicker::AlwaysOff);
+//
+//		d_crossPicker_2->setEnabled(true);
+//		d_crossPicker_2->setTrackerMode(QwtPicker::ActiveOnly);
+//	}
+//	//已经有2个点
+//	if (crossPickerList.size() >= 2)
+//	{
+//
+//		//emit selectedParallelLinePicker(parallelLineList);
+//		//修改处
+//		selectedCrossPickerSlot(crossPickerList);
+//	}
+//
+//	
+//}
+
+/**
+* @brief 选择的十字坐标 -单个点
+*
+*/
 void PlotWidget::selectedCrossPickerSlot(QPointF pointf)
 {
-	//是否有存在的点
-	for (int i = 0; i < crossPickerList.size(); i++)
-	{
-		if (pointf == crossPickerList.at(i))
-		{
-			return;
-		}
-		else
-		{
-			crossPickerList.append(pointf);
-			break;
-		}
-	}
-	//无点
-	if (crossPickerList.size() == 0)
-	{
-		crossPickerList.append(pointf);
-	}
-	//已经有一个点
-	if (crossPickerList.size() == 1)
-	{
-		//d_parallelLinePicker_1->setEnabled(false);
-		d_crossPicker_1->setTrackerMode(QwtPicker::AlwaysOff);
-
-		d_crossPicker_2->setEnabled(true);
-		d_crossPicker_2->setTrackerMode(QwtPicker::ActiveOnly);
-	}
-	//已经有2个点
-	if (crossPickerList.size() >= 2)
-	{
-
-		//emit selectedParallelLinePicker(parallelLineList);
-		//修改处
-		selectedCrossPickerSlot(crossPickerList);
-	}
-
 	
+	computeCrossPickerSlot(pointf);
 }
 /**
 * @brief 选择的十字坐标
@@ -1717,7 +1769,7 @@ void PlotWidget::computeRectPickerSlot(QRectF rectf)
 }
 
 /**
-* @brief 根据十字线筛选
+* @brief 根据十字线筛选-两个十字线交叉成矩形
 *
 */
 void PlotWidget::computeCrossPickerSlot(QList<QPointF> pointFList)
@@ -1766,80 +1818,85 @@ void PlotWidget::computeCrossPickerSlot(QList<QPointF> pointFList)
 	//enableRectBtn(false);
 
 	//置假
-	//ui.crossBtn->setChecked(false);//会自动调用槽函数enableCrossBtn(false);
+	//ui.crossBtn->setChecked(false);//会自动调用槽函数enableCrossBtnMode(false);
 }
-//void PlotWidget::computeCrossPickerSlot(QPointF pointF)
-//{
-//	//PlotWidget *plotWidgetRect = qobject_cast<PlotWidget *>(parent);
-//	double x = pointF.x();
-//	double y = pointF.y();//当前中心点的坐标
-//
-//	
-//
-//	int passageY = ui.passageYCombox->currentData().toInt();
-//	int dataUnitY = ui.dataUnitYCombox->currentData().toInt();
-//	int passageX = ui.passageXCombox->currentData().toInt();
-//	int dataUnitX = ui.dataUnitXCombox->currentData().toInt();
-//
-//	QVector<double>* vectorY = origialDataList->at(passageY)->at(dataUnitY);
-//	QVector<double>* vectorX = origialDataList->at(passageX)->at(dataUnitX);
-//
-//	QList<QVector<int>> indexVectorList;
-//	QVector<int> indexVector1;//四个象限
-//	QVector<int> indexVector2;
-//	QVector<int> indexVector3;
-//	QVector<int> indexVector4;
-//	//判断象限区间
-//	for (int i = 0; i < vectorY->size(); i++)
-//	{
-//		if (vectorX->at(i) < x)
-//		{
-//			if (vectorY->at(i) < y)
-//			{
-//				indexVector2.append(i);//第二象限
-//			}
-//			else if (vectorY->at(i) >= y)
-//			{
-//				indexVector1.append(i);//第一象限
-//			}
-//		}
-//		else if (vectorX->at(i) >= x)
-//		{
-//			if (vectorY->at(i) < y)
-//			{
-//				indexVector3.append(i);//第三象限
-//			}
-//			else if (vectorY->at(i) >= y)
-//			{
-//				indexVector4.append(i);//第四象限
-//			}
-//		}
-//
-//	}
-//	indexVectorList.append(indexVector1);
-//	indexVectorList.append(indexVector2);
-//	indexVectorList.append(indexVector3);
-//	indexVectorList.append(indexVector4);
-//
-//	for (int i = 0; i < 4; i++)
-//	{
-//		d_plotWidgetGate = new PlotWidget();//新plot窗口
-//		//复制数据至新窗口
-//		copyData(indexVectorList.at(i));
-//		//传递控件状态参数
-//		d_plotWidgetGate->setStatusControl(getStatusControl());
-//
-//		d_plotWidgetGate->show();
-//		d_plotWidgetGate->updateSamples();
-//
-//		//添加至设门数组
-//		addGate(GateStorage::CROSS);
-//	}
-//
-//	
-//	//置假
-//	ui.crossBtn->setChecked(false);//会自动调用槽函数enableCrossBtn(false);
-//}
+
+/**
+* @brief 根据十字线筛选 - 四个象限
+*
+*/
+void PlotWidget::computeCrossPickerSlot(QPointF pointF)
+{
+	//PlotWidget *plotWidgetRect = qobject_cast<PlotWidget *>(parent);
+	double x = pointF.x();
+	double y = pointF.y();//当前中心点的坐标
+
+	
+
+	int passageY = ui.passageYCombox->currentData().toInt();
+	int dataUnitY = ui.dataUnitYCombox->currentData().toInt();
+	int passageX = ui.passageXCombox->currentData().toInt();
+	int dataUnitX = ui.dataUnitXCombox->currentData().toInt();
+
+	QVector<double>* vectorY = origialDataList->at(passageY)->at(dataUnitY);
+	QVector<double>* vectorX = origialDataList->at(passageX)->at(dataUnitX);
+
+	QList<QVector<int>> indexVectorList;
+	QVector<int> indexVector1;//四个象限
+	QVector<int> indexVector2;
+	QVector<int> indexVector3;
+	QVector<int> indexVector4;
+	//判断象限区间
+	for (int i = 0; i < vectorY->size(); i++)
+	{
+		if (vectorX->at(i) < x)
+		{
+			if (vectorY->at(i) < y)
+			{
+				indexVector2.append(i);//第二象限
+			}
+			else if (vectorY->at(i) >= y)
+			{
+				indexVector1.append(i);//第一象限
+			}
+		}
+		else if (vectorX->at(i) >= x)
+		{
+			if (vectorY->at(i) < y)
+			{
+				indexVector3.append(i);//第三象限
+			}
+			else if (vectorY->at(i) >= y)
+			{
+				indexVector4.append(i);//第四象限
+			}
+		}
+
+	}
+	indexVectorList.append(indexVector1);
+	indexVectorList.append(indexVector2);
+	indexVectorList.append(indexVector3);
+	indexVectorList.append(indexVector4);
+
+	for (int i = 0; i < 4; i++)
+	{
+		d_plotWidgetGate = new PlotWidget();//新plot窗口
+		//复制数据至新窗口
+		copyData(indexVectorList.at(i));
+		//传递控件状态参数
+		d_plotWidgetGate->setStatusControl(getStatusControl());
+
+		d_plotWidgetGate->show();
+		d_plotWidgetGate->updateSamples();
+
+		//添加至设门数组
+		addGate(GateStorage::CROSS);
+	}
+
+	
+	//置假
+	//ui.crossBtn->setChecked(false);//会自动调用槽函数enableCrossBtnMode(false);
+}
 /**
 * @brief 根据多边形筛选
 *
@@ -2281,43 +2338,72 @@ void PlotWidget::statisticsHistogram(int passage,int dataUnit)
 void PlotWidget::unistall()
 {
 
-	if (d_rectPicker != 0)
+	/*if (d_rectPicker != 0)
 	{
-		delete d_rectPicker;
-		d_rectPicker = 0;
+	delete d_rectPicker;
+	d_rectPicker = 0;
 	}
 	if (d_parallelLinePicker_1 != 0)
 	{
-		delete d_parallelLinePicker_1;
-		d_parallelLinePicker_1 = 0;
+	delete d_parallelLinePicker_1;
+	d_parallelLinePicker_1 = 0;
 	}
 	if (d_parallelLinePicker_2 != 0)
 	{
-		delete d_parallelLinePicker_2;
-		d_parallelLinePicker_2 = 0;
+	delete d_parallelLinePicker_2;
+	d_parallelLinePicker_2 = 0;
 	}
 	parallelLineList.clear();
 	if (d_ellipsePicker != 0)
 	{
-		delete d_ellipsePicker;
-		d_ellipsePicker = 0;
+	delete d_ellipsePicker;
+	d_ellipsePicker = 0;
 	}
 	if (d_crossPicker_1 != 0)
 	{
-		delete d_crossPicker_1;
-		d_crossPicker_1 = 0;
+	delete d_crossPicker_1;
+	d_crossPicker_1 = 0;
 	}
 	if (d_crossPicker_2 != 0)
 	{
-		delete d_crossPicker_2;
-		d_crossPicker_2 = 0;
+	delete d_crossPicker_2;
+	d_crossPicker_2 = 0;
 	}
 	crossPickerList.clear();
 	if (d_polygonPicker != 0)
 	{
-		delete d_polygonPicker;
-		d_polygonPicker = 0;
+	delete d_polygonPicker;
+	d_polygonPicker = 0;
+	}*/
+	
+	if (d_rectPicker != 0)
+	{
+		enableRectBtn(false);//置原始状态
 	}
+	if (d_parallelLinePicker_1 != 0)
+	{
+		enableParallelLineBtn(false);
+	}
+	if (d_parallelLinePicker_2 != 0)
+	{
+		
+	}
+	if (d_ellipsePicker != 0)
+	{
+		enableEllipseBtn(false);
+	}
+	if (d_crossPicker_1 != 0)
+	{
+		enableCrossBtnMode(false);
+	}
+	if (d_crossPicker_2 != 0)
+	{
+	}
+	if (d_polygonPicker != 0)
+	{
+		enablePolygonBtn(false);
+	}
+
 	//清除设门窗口关系
 	m_gateStorageList.clear();
 	//清空画布数据，重新画图

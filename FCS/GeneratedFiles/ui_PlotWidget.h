@@ -78,21 +78,20 @@ public:
     {
         if (PlotWidget->objectName().isEmpty())
             PlotWidget->setObjectName(QStringLiteral("PlotWidget"));
-        PlotWidget->resize(429, 434);
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        PlotWidget->resize(446, 428);
+        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PlotWidget->sizePolicy().hasHeightForWidth());
         PlotWidget->setSizePolicy(sizePolicy);
-        PlotWidget->setMinimumSize(QSize(429, 434));
-        PlotWidget->setMaximumSize(QSize(446, 434));
+        PlotWidget->setMaximumSize(QSize(446, 16777215));
         PlotWidget->setFocusPolicy(Qt::StrongFocus);
         PlotWidget->setAcceptDrops(false);
         horizontalLayout_2 = new QHBoxLayout(PlotWidget);
         horizontalLayout_2->setSpacing(0);
         horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        horizontalLayout_2->setContentsMargins(1, 1, 1, 1);
+        horizontalLayout_2->setContentsMargins(1, 1, 1, 0);
         cellToolFrame = new QFrame(PlotWidget);
         cellToolFrame->setObjectName(QStringLiteral("cellToolFrame"));
         cellToolFrame->setFocusPolicy(Qt::NoFocus);
@@ -249,6 +248,7 @@ public:
         cellXFrame->setStyleSheet(QStringLiteral(""));
         cellXFrame->setFrameShape(QFrame::StyledPanel);
         cellXFrame->setFrameShadow(QFrame::Raised);
+        cellXFrame->setLineWidth(1);
         horizontalLayout = new QHBoxLayout(cellXFrame);
         horizontalLayout->setSpacing(0);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
@@ -359,8 +359,11 @@ public:
 
         cellPlotFrame = new QFrame(PlotWidget);
         cellPlotFrame->setObjectName(QStringLiteral("cellPlotFrame"));
-        sizePolicy.setHeightForWidth(cellPlotFrame->sizePolicy().hasHeightForWidth());
-        cellPlotFrame->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(cellPlotFrame->sizePolicy().hasHeightForWidth());
+        cellPlotFrame->setSizePolicy(sizePolicy1);
         cellPlotFrame->setFocusPolicy(Qt::NoFocus);
         cellPlotFrame->setFrameShape(QFrame::StyledPanel);
         cellPlotFrame->setFrameShadow(QFrame::Raised);

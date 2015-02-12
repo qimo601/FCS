@@ -233,12 +233,12 @@ public slots:
 	*/
 	void computeEllipsePickerSlot(QRectF rectf);
 	/**
-	* @brief 根据十字线筛选
+	* @brief 根据十字线筛选-四个象限
 	*
 	*/
-	//void computeCrossPickerSlot(QPointF pointF);
+	void computeCrossPickerSlot(QPointF pointF);
 	/**
-	* @brief 根据十字线筛选
+	* @brief 根据十字线筛选-两个十字线交叉成矩形
 	*
 	*/
 	void computeCrossPickerSlot(QList<QPointF> pointFList);

@@ -120,6 +120,7 @@ void ViewWidget::init()
 	ui.plotWidget_1->setTitle("All-1");
 	ui.plotWidget_1->setExperimentName(s_experimentName);//设置实验名
 	ui.plotWidget_1->setCellEvents(0);//设置细胞数据
+	
 	//配置第二个直方图用来实时显示直方图
 	ui.plotWidget_2->setBarStatisticsMode(true);
 	ui.plotWidget_2->setTitle("All-2");
@@ -391,8 +392,8 @@ void ViewWidget::relayoutPlotWidget()
 		sizePolicy.setVerticalStretch(0);
 		sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
 		plotWidget->setSizePolicy(sizePolicy);
-		plotWidget->setMinimumSize(QSize(400, 362));
-		plotWidget->setMaximumSize(QSize(400, 362));
+		plotWidget->setMinimumSize(QSize(425, 434));
+		plotWidget->setMaximumSize(QSize(425, 434));
 		plotWidget->setFocusPolicy(Qt::StrongFocus);
 		plotWidget->setAcceptDrops(false);
 		
@@ -450,8 +451,11 @@ void ViewWidget::uninstall()
 	initExperimentName();//重新初始化实验名
 	ui.plotWidget_1->setExperimentName(s_experimentName);//设置实验名
 	ui.plotWidget_1->setCellEvents(0);//设置细胞数据
+	ui.plotWidget_1->unistall();//卸载该窗口，包括置所有设门为空状态
+
 	ui.plotWidget_2->setExperimentName(s_experimentName);//设置实验名
 	ui.plotWidget_2->setCellEvents(0);//设置细胞数据
+	ui.plotWidget_2->unistall();//卸载该窗口，包括置所有设门为空状态
 	
 
 	//布局中，清除画布控件
